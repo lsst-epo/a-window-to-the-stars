@@ -25,7 +25,10 @@ class App extends Component {
         <ScatterPlot
           width={window.innerWidth}
           height={window.innerHeight}
+          padding={80}
           data={stars}
+          xAxisLabel="Temperature (K)"
+          yAxisLabel="Luminosity"
         />
       </main>
     );
