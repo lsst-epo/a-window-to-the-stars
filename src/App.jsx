@@ -13,9 +13,13 @@ class App extends Component {
   render() {
     return (
       <main>
-        <h1 style={{ position: 'absolute',
+        <h1
+          style={{
+            position: 'absolute',
             left: '10%',
-            top: '20px', }}>
+            top: '20px',
+          }}
+        >
           H-R Diagram
         </h1>
         <ScatterPlot

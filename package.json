@@ -6,12 +6,12 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
-    "format": "prettier --write 'packages/**/*.js'",
+    "format": "prettier --fix --write 'packages/**/*.js'",
     "test": "jest --watchAll --coverage"
   },
   "lint-staged": {
     "*.{js,jsx,css}": [
-      "prettier --write --single-quote",
+      "prettier --fix --write --single-quote",
       "eslint --fix",
       "stylelint --color --fix",
       "git add"

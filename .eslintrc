@@ -62,7 +62,7 @@
     "react/jsx-closing-bracket-location": ["warn", "tag-aligned"],
     "react/jsx-curly-spacing": ["warn", "never"],
     "react/jsx-filename-extension": ["warn", { "extensions": [".jsx"] }],
-    "react/jsx-first-prop-new-line": ["warn", "multiline"],
+    "react/jsx-first-prop-new-line": ["warn", "multiline-multiprop"],
     "react/jsx-handler-names": [
       "warn",
       {
