@@ -55,6 +55,8 @@
     "@hot-loader/react-dom": "^16.8.6",
     "babel-plugin-transform-react-pure-class-to-function": "1.0.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
+    "d3": "^5.9.2",
+    "d3-lasso": "^0.0.5",
     "lodash": "4.17.11",
     "prop-types": "15.7.2",
     "react": "16.8.6",
