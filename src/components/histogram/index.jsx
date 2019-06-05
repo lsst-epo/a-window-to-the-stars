@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
-class ScatterPlot extends React.Component {
+class Histogram extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      histogramData: this.histogramData(),
+    };
 
     this.svgEl = React.createRef();
     this.xAxisContainer = React.createRef();
@@ -12,70 +16,115 @@ class ScatterPlot extends React.Component {
   }
 
   componentDidMount() {
-    this.updateScatterPlot();
+    this.updateHistogram();
   }
 
   componentDidUpdate() {
-    this.updateScatterPlot();
+    this.updateHistogram();
   }
 
   // Update data point styles and attributes
-  updatePoints($selection, data, xScale, yScale) {
-    const { xValueAccessor, yValueAccessor } = this.props;
+  updateRects($selection, data, xScale, yScale) {
     $selection
       .selectAll('rect')
       .data(data)
       .attr('x', d => {
-        return xScale(d[xValueAccessor]);
+        return xScale(d.x0) + 1;
       })
-      .attr('y', d => {
-        return yScale(d[yValueAccessor]);
+      .attr('y', () => {
+        return yScale(0);
       })
+      .attr('width', xScale.bandwidth())
       .transition()
       .duration(1000)
       .ease(d3.easeCircle)
-      .attr('rx', 6)
       .attr('fill', 'yellow')
       .attr('stroke', 'black')
-      .attr('width', 12)
-      .attr('height', 12);
+      .attr('y', d => {
+        return yScale(d.length);
+      })
+      .attr('height', d => {
+        return yScale(0) - yScale(d.length);
+      });
   }
 
   // Update X Axis
   updateXAxis(xScale) {
-    const xAxis = d3.axisBottom(xScale);
-
+    const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('.1f'));
     d3.select(this.xAxisContainer.current).call(xAxis);
   }
 
   // Update Y Axis
   updateYAxis(yScale) {
-    const yAxis = d3.axisLeft(yScale).ticks(8);
+    const yAxis = d3.axisLeft(yScale);
 
     d3.select(this.yAxisContainer.current).call(yAxis);
   }
 
-  updateScatterPlot() {
-    const { width, height, padding, data } = this.props;
+  histogramData() {
+    const { data, valueAccessor } = this.props;
 
+    return d3
+      .histogram()
+      .value(d => {
+        return d[valueAccessor]; // eslint-disable-line dot-notation
+      })
+      .thresholds(d3.thresholdFreedmanDiaconis)(data)
+      .reduce((result, d) => {
+        if (d.length !== 0) {
+          result.push(d);
+        }
+        return result;
+      }, []);
+  }
+
+  updateHistogram() {
+    const { width, height, padding } = this.props;
+    const { histogramData } = this.state;
     const $selection = d3.select(this.svgEl.current);
 
+    // const xScale = d3
+    //   .scaleLinear()
+    //   .domain(
+    //     d3.extent(data, d => {
+    //       return d[valueAccessor]; // eslint-disable-line dot-notation
+    //     }),
+    //   )
+    //   .range([padding, width - padding]);
+    // const reduced = histogramData.reduce((result, d) => {
+    //     // console.log(d.length);
+    //   if (d.length !== 0) {
+    //     result.push(d.x1);
+    //   }
+    //   return result;
+    // }, []);
+    // console.log(reduced);
+
     const xScale = d3
-      .scaleLinear()
-      .domain([10000, 3000])
+      .scaleBand()
+      .domain(
+        histogramData.map(d => {
+          return d.x0;
+        }),
+      )
       .range([padding, width - padding]);
 
     const yScale = d3
-      .scaleLog()
-      .domain([0.001, 100000])
+      .scaleLinear()
+      .domain([
+        0,
+        d3.max(histogramData, d => {
+          return d.length;
+        }),
+      ])
       .range([height - padding, padding]);
 
-    this.updatePoints($selection, data, xScale, yScale);
+    this.updateRects($selection, histogramData, xScale, yScale);
     this.updateXAxis(xScale);
     this.updateYAxis(yScale);
   }
 
-  points(data) {
+  bars(data) {
     return data.map((d, i) => {
       const key = `rect-${i}`;
       return (
@@ -84,11 +133,9 @@ class ScatterPlot extends React.Component {
           key={key}
           x={0}
           y={0}
-          rx={0}
           height={0}
           width={0}
           strokeWidth={1}
-          transform="translate(-6, -6)"
           fill="transparent"
           stroke="transparent"
         />
@@ -97,17 +144,18 @@ class ScatterPlot extends React.Component {
   }
 
   render() {
-    const { data, width, height, padding, xAxisLabel, yAxisLabel } = this.props;
+    const { width, height, padding, xAxisLabel, yAxisLabel } = this.props;
+    const { histogramData } = this.state;
 
     return (
       <div>
         <svg
-          className="scatter-plot-container"
+          className="histogram-container"
           width={width}
           height={height}
           ref={this.svgEl}
         >
-          {this.points(data)}
+          <g className="bars">{this.bars(histogramData)}</g>
           <g
             className="x-axis axis"
             transform={`translate(0, ${height - padding})`}
@@ -138,15 +186,14 @@ class ScatterPlot extends React.Component {
   }
 }
 
-ScatterPlot.propTypes = {
+Histogram.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   padding: PropTypes.number,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
   data: PropTypes.any,
-  xValueAccessor: PropTypes.string,
-  yValueAccessor: PropTypes.string,
+  valueAccessor: PropTypes.string,
 };
 
-export default ScatterPlot;
+export default Histogram;
