@@ -125,8 +125,10 @@ class Histogram extends React.Component {
   }
 
   bars(data) {
+    const { valueAccessor } = this.props;
+
     return data.map((d, i) => {
-      const key = `rect-${i}`;
+      const key = `${valueAccessor}-rect-${i}`;
       return (
         <rect
           className="rect"
