@@ -1,0 +1,11 @@
+.data-point {
+  cursor: pointer;
+
+  // &.active {
+  //   opacity: 0.5;
+  // }
+
+  &:focus {
+    outline: none;
+  }
+}
