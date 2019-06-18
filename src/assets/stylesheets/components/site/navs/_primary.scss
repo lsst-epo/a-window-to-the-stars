@@ -1,0 +1,13 @@
+.nav-primary {
+  align-items: center;
+
+  ul {
+    @include listUnstyled;
+    display: flex;
+    align-items: center;
+
+    li {
+      padding-left: 20px;
+    }
+  }
+}

@@ -31,6 +31,7 @@
         "exports": "never",
         "functions": "ignore"
     }],
+    "prettier/prettier": "warn",
     "react/prefer-stateless-function": "warn",
     "react/self-closing-comp": [
       "warn",
