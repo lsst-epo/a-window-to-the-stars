@@ -79,7 +79,7 @@ class Tooltip extends React.PureComponent {
     const { pointData } = this.state;
 
     return (
-      <div ref={this.el} style={{ opacity: 0, }} className="tooltip">
+      <div ref={this.el} style={{ opacity: 0 }} className="tooltip">
         <div>
           <span>Temperature: </span>
           <span>{pointData ? pointData.teff : null}</span>

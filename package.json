@@ -11,11 +11,8 @@
     "deploy": "gh-pages -d build"
   },
   "lint-staged": {
-    "*.{js,jsx,css}": [
-      "eslint --fix",
-      "stylelint --color --fix",
-      "git add"
-    ]
+    "src/**/*.{js,jsx}": ["eslint --fix", "git add"],
+    "src/**/*.{css,scss}": ["stylelint --color --fix", "git add"]
   },
   "jest": {
     "testEnvironment": "jsdom",

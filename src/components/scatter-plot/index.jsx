@@ -235,10 +235,8 @@ class ScatterPlot extends React.Component {
     return (
       <div>
         {selectedPointData && (
-          <div style={{ position: 'relative', }}>
-            <div style={{ position: 'absolute',
-                top: '100px',
-                left: '100px', }}>
+          <div style={{ position: 'relative' }}>
+            <div style={{ position: 'absolute', top: '100px', left: '100px' }}>
               <h2>Selected Star</h2>
               <div>
                 <span>ID: </span>
@@ -280,7 +278,7 @@ class ScatterPlot extends React.Component {
           <text
             className="x-axis-label"
             transform={`translate(${width / 2}, ${height - padding / 3})`}
-            style={{ textAnchor: 'middle', }}
+            style={{ textAnchor: 'middle' }}
           >
             {xAxisLabel}
           </text>
@@ -292,7 +290,7 @@ class ScatterPlot extends React.Component {
           <text
             className="y-axis-label"
             transform={`translate(${padding / 3}, ${height / 2}) rotate(-90)`}
-            style={{ textAnchor: 'middle', }}
+            style={{ textAnchor: 'middle' }}
           >
             {yAxisLabel}
             <tspan baselineShift="sub">&#x2299;</tspan>

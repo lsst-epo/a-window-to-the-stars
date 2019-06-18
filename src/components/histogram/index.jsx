@@ -171,14 +171,14 @@ class Histogram extends React.Component {
           <text
             className="x-axis-label"
             transform={`translate(${width / 2}, ${height - padding / 3})`}
-            style={{ textAnchor: 'middle', }}
+            style={{ textAnchor: 'middle' }}
           >
             {xAxisLabel}
           </text>
           <text
             className="y-axis-label"
             transform={`translate(${padding / 3}, ${height / 2}) rotate(-90)`}
-            style={{ textAnchor: 'middle', }}
+            style={{ textAnchor: 'middle' }}
           >
             {yAxisLabel}
           </text>
