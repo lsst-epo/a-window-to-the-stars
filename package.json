@@ -12,7 +12,6 @@
   },
   "lint-staged": {
     "*.{js,jsx,css}": [
-      "prettier --fix --write --single-quote",
       "eslint --fix",
       "stylelint --color --fix",
       "git add"
@@ -62,7 +61,8 @@
     "prop-types": "15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-hot-loader": "4.8.7"
+    "react-hot-loader": "4.8.7",
+    "react-router-dom": "^5.0.1"
   },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
