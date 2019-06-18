@@ -105,7 +105,7 @@ class Histogram extends React.Component {
       .domain(
         histogramData.map(d => {
           return d.x0;
-        }),
+        })
       )
       .range([padding, width - padding]);
 

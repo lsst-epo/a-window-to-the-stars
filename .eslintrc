@@ -24,6 +24,13 @@
   "root": true,
   "rules": {
     "indent": ["error", 2],
+    "comma-dangle": ["warn", {
+        "arrays": "only-multiline",
+        "objects": "only-multiline",
+        "imports": "never",
+        "exports": "never",
+        "functions": "ignore"
+    }],
     "react/prefer-stateless-function": "warn",
     "react/self-closing-comp": [
       "warn",

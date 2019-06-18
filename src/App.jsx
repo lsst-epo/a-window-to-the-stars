@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader/root';
-// import HelloWorld from './components/hello-world';
 import ScatterPlot from './components/scatter-plot';
 import Histogram from './components/histogram';
 import stars from './assets/static-data/stars.json';
