@@ -1,9 +1,54 @@
 import React from 'react';
 import { Card, CardTitle, CardText as CardBody, Button } from 'react-md';
+import Select from 'components/site/forms/Select';
+
+// import ArrowDown from 'components/site/icons/ArrowDown';
 
 class StyleGuide extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  handleInput = e => {
+    const { value, name } = e.target;
+
+    this.setState(
+      prevState => ({
+        ...prevState,
+        [name]: value,
+      }),
+      () => console.log(this.state) // eslint-disable-line no-console
+    );
+  };
+
   render() {
+    const selectName = 'example-select';
+    const selectValue = this.state[selectName]; // eslint-disable-line react/destructuring-assignment
     const swatchStyles = { width: '15vw', height: '15vw', marginTop: '20px' };
+    const selectItems = [
+      {
+        label: 'Apples',
+        value: 'A',
+      },
+      {
+        label: 'Bananas',
+        value: 'B',
+      },
+      {
+        label: 'Cherries',
+        value: 'C',
+      },
+      {
+        label: 'Durian',
+        value: 'D',
+      },
+      {
+        label: 'Elderberry',
+        value: 'E',
+      },
+    ];
 
     return (
       <div>
@@ -93,6 +138,22 @@ class StyleGuide extends React.PureComponent {
                 Disabled Secondary Outlined
               </Button>
             </div>
+          </CardBody>
+        </Card>
+        <br />
+        <Card className="md-block-centered">
+          <CardTitle title="Form Elements" />
+          <CardBody>
+            {/* eslint-disable react/jsx-handler-names */}
+            <Select
+              options={selectItems}
+              label="Example Select"
+              name={selectName}
+              value={selectValue}
+              placeholder="Placeholder"
+              handleChange={this.handleInput}
+            />
+            {/* eslint-enable react/jsx-handler-names */}
           </CardBody>
         </Card>
       </div>
