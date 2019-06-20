@@ -30,11 +30,10 @@ html {
 
 body {
   // Set base font-family here
-  // @include font-body;
-  font-size: 1em;
-  font-weight: $regular;
-  line-height: $baseLineHeight;
-  // color: $something;
+  @include copyPrimary;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 // Typography
@@ -48,16 +47,17 @@ body {
 
 h1 {
   @extend %proto-heading;
-  // font-size: $alpha;
+  @include headingPrimary;
 }
 
 h2 {
   @extend %proto-heading;
-  // font-size: $beta;
+  @include headingSecondary;
 }
 
 h3 {
   @extend %proto-heading;
+  @include subheadingPrimary;
   // font-size: $gamma;
 }
 
@@ -77,6 +77,7 @@ h6 {
 }
 
 p {
+  @include copyPrimary;
   margin: 0;
 
   & + & {

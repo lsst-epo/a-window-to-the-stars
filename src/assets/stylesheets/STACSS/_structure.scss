@@ -9,3 +9,34 @@
 // NB: Containers that are modular regardless of context can use em units
 // Structure should not be dependent on typography styles but font-size CAN be used as a structural style if necessary
 // for scaling
+
+
+// Containers
+// --------------------------------------------------------
+
+.container-main {
+  display: block;
+  max-width: $containerMaxWidth;
+  padding: $minPadding;
+  margin: 0 auto;
+}
+
+.container-flex, .md-card.container-flex, .md-card-text.container-flex,  {
+  display: flex;
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+
+  &.spaced {
+    justify-content: space-between;
+  }
+
+  + .container-flex {
+    margin-top: $minPadding;
+  }
+
+  // .md-card + .md-card {
+  //   margin-left: $minPadding;
+  // }
+}

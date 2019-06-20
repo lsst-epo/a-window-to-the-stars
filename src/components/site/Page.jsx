@@ -7,7 +7,7 @@ class Page extends React.PureComponent {
     const { children, title, previous, next } = this.props;
 
     return (
-      <div className="page">
+      <div className="page-container">
         <header className="header-secondary">
           {title && <h2 className="header-title heading-secondary">{title}</h2>}
           {(previous || next) && (

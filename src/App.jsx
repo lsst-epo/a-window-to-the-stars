@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { Route, Link, HashRouter as Router } from 'react-router-dom';
+import stars from './assets/static-data/stars.json';
 
+import Page from './components/site/Page';
+import StyleGuide from './StyleGuide';
 import ScatterPlot from './components/scatter-plot';
 import Histogram from './components/histogram';
-import Page from './components/site/Page';
-import stars from './assets/static-data/stars.json';
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +23,9 @@ class App extends Component {
           </Link>
           <nav role="navigation" className="nav-primary">
             <span className="nav-item">
+              <Link to="/styles">Style Guide</Link>
+            </span>
+            <span className="nav-item">
               <Link to="/">H-R Diagram</Link>
             </span>
             <span className="nav-item">
@@ -32,7 +36,7 @@ class App extends Component {
             </span>
           </nav>
         </header>
-        <main>
+        <main className="container-main">
           <Route
             exact
             path="/"
@@ -92,6 +96,7 @@ class App extends Component {
               </Page>
             )}
           />
+          <Route exact path="/styles" component={StyleGuide} />
         </main>
       </Router>
     );

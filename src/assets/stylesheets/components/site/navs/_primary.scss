@@ -1,4 +1,5 @@
 .nav-primary {
+  @include navPrimary;
   display: flex;
   align-items: center;
 

@@ -1,9 +1,9 @@
 .nav-secondary {
+  @include navPrimary;
   display: flex;
   align-items: center;
 
   .nav-item {
     padding-left: 20px;
-    font-size: 14px;
   }
 }
