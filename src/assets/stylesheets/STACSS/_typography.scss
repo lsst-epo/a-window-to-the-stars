@@ -41,7 +41,6 @@
 
 // Subheadings
 // --------------------------------------------------------
-
 @mixin subheadingPrimary {
   font-family: 'Roboto';
   font-size: 16px;
@@ -57,7 +56,6 @@
 
 // Copy
 // --------------------------------------------------------
-
 @mixin copyPrimary {
   font-family: 'Roboto';
   font-size: 14px;
@@ -85,7 +83,6 @@
 
 // Labels
 // --------------------------------------------------------
-
 @mixin labelPrimary {
   font-family: 'Roboto';
   font-size: 12px;
@@ -98,9 +95,29 @@
   @include labelPrimary;
 }
 
+
 // Navigation
 // --------------------------------------------------------
-
 @mixin navPrimary {
   @include copySecondary;
+}
+
+
+// UI
+// --------------------------------------------------------
+@mixin uiPrimary {
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: $medium;
+  line-height: $baseLineHeight; // 20px
+  color: $neutral40;
+  text-transform: uppercase;
+}
+
+@mixin uiSecondary {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: $medium;
+  line-height: 1.5; // 24px
+  color: $neutral40;
 }

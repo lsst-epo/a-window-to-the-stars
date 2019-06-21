@@ -1,5 +1,11 @@
 import React from 'react';
-import { Card, CardTitle, CardText as CardBody, Button } from 'react-md';
+import {
+  Card,
+  CardTitle,
+  CardText as CardBody,
+  Button,
+  TextField as TextInput,
+} from 'react-md';
 import Select from 'components/site/forms/Select';
 
 // import ArrowDown from 'components/site/icons/ArrowDown';
@@ -144,16 +150,61 @@ class StyleGuide extends React.PureComponent {
         <Card className="md-block-centered">
           <CardTitle title="Form Elements" />
           <CardBody>
-            {/* eslint-disable react/jsx-handler-names */}
-            <Select
-              options={selectItems}
-              label="Example Select"
-              name={selectName}
-              value={selectValue}
-              placeholder="Placeholder"
-              handleChange={this.handleInput}
-            />
-            {/* eslint-enable react/jsx-handler-names */}
+            <div>
+              {/* eslint-disable react/jsx-handler-names */}
+              <Select
+                options={selectItems}
+                label="Example Select"
+                name={selectName}
+                value={selectValue}
+                placeholder="Select"
+                handleChange={this.handleInput}
+              />
+              {/* eslint-enable react/jsx-handler-names */}
+            </div>
+            <br />
+            <div>
+              <TextInput
+                id="block-text-input-1"
+                type="text"
+                label="Block Text Field"
+                lineDirection="center"
+                placeholder="Type Text Here"
+              />
+            </div>
+            <br />
+            <div>
+              <span style={{ marginRight: '20px' }} className="inline">
+                An Inline Text element with a right margin next to a text input
+                wrapped in an inline-block element
+              </span>
+              <span>
+                <TextInput
+                  id="inline-text-input-1"
+                  type="text"
+                  style={{ maxWidth: '200px' }}
+                  className="inline-block"
+                  label="Block Text Field"
+                  lineDirection="center"
+                  placeholder="Type Text Here"
+                />
+              </span>
+              <span style={{ marginLeft: '20px' }} className="inline">
+                Another Inlnine Text element with a left margin next to a text
+                input wrapped in an inline-block element
+              </span>
+            </div>
+            <div style={{ maxWidth: '50%' }}>
+              <TextInput
+                id="textarea-1"
+                type="text"
+                label="Text Area"
+                lineDirection="center"
+                placeholder="Type Multiple Lines here, Type Multiple Lines here, Type Multiple Lines here"
+                rows={3}
+                maxRows={8}
+              />
+            </div>
           </CardBody>
         </Card>
       </div>

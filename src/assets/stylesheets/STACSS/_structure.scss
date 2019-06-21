@@ -36,7 +36,19 @@
     margin-top: $minPadding;
   }
 
-  // .md-card + .md-card {
-  //   margin-left: $minPadding;
-  // }
+  .align-bottom {
+    align-self: flex-end;
+  }
 }
+
+
+// Utilities
+// --------------------------------------------------------
+.inline-block {
+  display: inline-block;
+}
+
+.inline {
+  display: inline;
+}
+

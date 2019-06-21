@@ -13,7 +13,8 @@ $md-btn-include-floating: false;
 
 // Material Design  Button Overrides
 .md-btn {
-  font-weight: $regular;
+  @include uiPrimary;
+  font-weight: $medium;
   line-height: $baseLineHeight;
 
   //  Flat Button Overrides

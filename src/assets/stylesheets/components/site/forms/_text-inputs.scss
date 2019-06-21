@@ -1,0 +1,22 @@
+$md-text-field-include-password: false;
+
+@include react-md-text-fields;
+
+.md-text-field-container--input, .md-text-field-container--multiline {
+  .md-text--secondary {
+    color: $neutral40;
+  }
+
+  .md-text {
+    color: $black;
+
+    &::placeholder {
+      color: $neutral40;
+    }
+  }
+
+  .md-divider {
+    margin-bottom: 0;
+    background: $neutral40;
+  }
+}
