@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-
+const DashboardPlugin = require("webpack-dashboard/plugin");
 const commonPaths = require('./paths');
 
 module.exports = {
@@ -30,31 +30,12 @@ module.exports = {
       },
     ],
   },
-  stats: {
-    colors: true,
-    entrypoints: true,
-    errors: true,
-    warnings: true,
-    chunkGroups: true,
-    modules: false,
-    chunks: true,
-    chunkModules: true,
-    chunkOrigins: true,
-    // depth: true,
-    env: true,
-    reasons: true,
-    // usedExports: true,
-    // providedExports: true,
-    // optimizationBailout: true,
-    errorDetails: true,
-    publicPath: true,
-    // exclude: false,
-    // maxModules: Infinity,
-  },
   devServer: {
     contentBase: commonPaths.outputPath,
     compress: true,
     hot: true,
+    // stats: 'verbose'
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [new webpack.HotModuleReplacementPlugin(), new DashboardPlugin()],
+  devtool: 'source-map',
 };

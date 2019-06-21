@@ -2,6 +2,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const commonPaths = require('./paths');
 
@@ -13,14 +14,24 @@ module.exports = {
     chunkFilename: `${commonPaths.jsFolder}/[name].[chunkhash].js`,
   },
   optimization: {
+    usedExports: true,
+    sideEffects: true,
+    concatenateModules: true,
     minimizer: [
       new TerserPlugin({
         // Use multi-process parallel running to improve the build speed
         // Default number of concurrent runs: os.cpus().length - 1
+        // test: /\.{js,jsx}(\?.*)?$/i,
         parallel: true,
         // Enable file caching
         cache: true,
-        sourceMap: true,
+        // sourceMap: true,
+        terserOptions: {
+          mangle: true,
+          output: {
+            comments: false,
+          },
+        }
       }),
       new OptimizeCSSAssetsPlugin(),
     ],
@@ -44,7 +55,7 @@ module.exports = {
     },
     // Keep the runtime chunk seperated to enable long term caching
     // https://twitter.com/wSokra/status/969679223278505985
-    runtimeChunk: true,
+    // runtimeChunk: true,
   },
 
   module: {
@@ -74,6 +85,10 @@ module.exports = {
       filename: `${commonPaths.cssFolder}/[name].[hash].css`,
       chunkFilename: `${commonPaths.cssFolder}/[name].[chunkhash].css`,
     }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+    }),
   ],
-  devtool: 'source-map',
+  devtool: 'none',
+  stats: 'verbose'
 };

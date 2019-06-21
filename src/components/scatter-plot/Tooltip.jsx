@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as d3 from 'd3';
+import { select as d3Select } from 'd3-selection';
+import 'd3-transition';
 
 class Tooltip extends React.PureComponent {
   constructor(props) {
@@ -18,7 +19,7 @@ class Tooltip extends React.PureComponent {
     const { pointData, posX, posY, show } = this.props;
     const { visible, pointData: pointDataState } = this.state;
 
-    const $tooltip = d3.select(this.el.current);
+    const $tooltip = d3Select(this.el.current);
 
     if (show && !visible) {
       this.showUpdate($tooltip, pointData, posX, posY, show);

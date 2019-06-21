@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as d3 from 'd3';
-
+import { select as d3Select, event as d3Event } from 'd3-selection';
+import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from 'd3-axis';
+import { easeCircle as d3EaseCircle } from 'd3-ease';
+import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
+import 'd3-transition';
 import Point from './Point.jsx';
 import Tooltip from './Tooltip.jsx';
 
@@ -48,7 +51,7 @@ class ScatterPlot extends React.Component {
       })
       .transition()
       .duration(1000)
-      .ease(d3.easeCircle)
+      .ease(d3EaseCircle)
       .attr('rx', 6)
       .attr('fill', 'yellow')
       .attr('stroke', 'black')
@@ -62,8 +65,8 @@ class ScatterPlot extends React.Component {
     this.setState(prevState => ({
       ...prevState,
       hoverPointData: d,
-      toolTipPosX: d3.event.pageX,
-      toolTipPosY: d3.event.pageY,
+      toolTipPosX: d3Event.pageX,
+      toolTipPosY: d3Event.pageY,
       showTooltip: true,
     }));
   };
@@ -99,16 +102,16 @@ class ScatterPlot extends React.Component {
       this.setState(prevState => ({
         ...prevState,
         selectedPointData: null,
-        toolTipPosX: d3.event.pageX,
-        toolTipPosY: d3.event.pageY,
+        toolTipPosX: d3Event.pageX,
+        toolTipPosY: d3Event.pageY,
       }));
       // add selected style on point
     } else {
       this.setState(prevState => ({
         ...prevState,
         selectedPointData: d,
-        toolTipPosX: d3.event.pageX,
-        toolTipPosY: d3.event.pageY,
+        toolTipPosX: d3Event.pageX,
+        toolTipPosY: d3Event.pageY,
         showTooltip: true,
       }));
     }
@@ -118,7 +121,7 @@ class ScatterPlot extends React.Component {
   addEventListeners($scatterplot, $allPoints) {
     $scatterplot.on('click', () => {
       // remove styles and selections when click on non-point
-      if (d3.event.target.classList[0] !== 'data-point') {
+      if (d3Event.target.classList[0] !== 'data-point') {
         this.setState(prevState => ({
           ...prevState,
           selectedPointData: null,
@@ -137,14 +140,14 @@ class ScatterPlot extends React.Component {
 
   // create X Axis
   createXAxis(xScale) {
-    const xAxis = d3.axisBottom(xScale);
-    d3.select(this.xAxisContainer.current).call(xAxis);
+    const xAxis = d3AxisBottom(xScale);
+    d3Select(this.xAxisContainer.current).call(xAxis);
   }
 
   // create Y Axis
   createYAxis(yScale) {
-    const yAxis = d3.axisLeft(yScale).ticks(8);
-    d3.select(this.yAxisContainer.current).call(yAxis);
+    const yAxis = d3AxisLeft(yScale).ticks(8);
+    d3Select(this.yAxisContainer.current).call(yAxis);
   }
 
   // render Point components
@@ -180,7 +183,7 @@ class ScatterPlot extends React.Component {
       })
       .transition()
       .duration(1000)
-      .ease(d3.easeCircle)
+      .ease(d3EaseCircle)
       .attr('rx', 6)
       .attr('fill', 'yellow')
       .attr('stroke', 'black')
@@ -191,19 +194,16 @@ class ScatterPlot extends React.Component {
   // bind data to elements and add styles and attributes
   createScatterPlot() {
     const { width, height, padding, data } = this.props;
-    const $scatterplot = d3.select(this.svgEl.current);
-    const $allPoints = d3
-      .select(this.svgEl.current)
+    const $scatterplot = d3Select(this.svgEl.current);
+    const $allPoints = d3Select(this.svgEl.current)
       .selectAll('rect')
       .data(data);
 
-    const xScale = d3
-      .scaleLinear()
+    const xScale = d3ScaleLinear()
       .domain([10000, 3000])
       .range([padding, width - padding]);
 
-    const yScale = d3
-      .scaleLog()
+    const yScale = d3ScaleLog()
       .domain([0.001, 100000])
       .range([height - padding, padding]);
 
@@ -217,7 +217,7 @@ class ScatterPlot extends React.Component {
   updateScatterPlot() {
     const { data } = this.props;
 
-    d3.select(this.svgEl.current)
+    d3Select(this.svgEl.current)
       .selectAll('rect')
       .data(data);
   }

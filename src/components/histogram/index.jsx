@@ -1,6 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as d3 from 'd3';
+import { select as d3Select } from 'd3-selection';
+import { easeCircle as d3EaseCircle } from 'd3-ease';
+import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from 'd3-axis';
+import { format as d3Format } from 'd3-format';
+import {
+  histogram as d3Histogram,
+  max as d3Max,
+  thresholdFreedmanDiaconis as d3ThresholdFreedmanDiaconis,
+} from 'd3-array';
+import {
+  scaleBand as d3ScaleBand,
+  scaleLinear as d3ScaleLinear,
+} from 'd3-scale';
+import 'd3-transition';
 
 class Histogram extends React.Component {
   constructor(props) {
@@ -37,7 +50,7 @@ class Histogram extends React.Component {
       .attr('width', xScale.bandwidth())
       .transition()
       .duration(1000)
-      .ease(d3.easeCircle)
+      .ease(d3EaseCircle)
       .attr('fill', 'yellow')
       .attr('stroke', 'black')
       .attr('y', d => {
@@ -50,26 +63,25 @@ class Histogram extends React.Component {
 
   // Update X Axis
   updateXAxis(xScale) {
-    const xAxis = d3.axisBottom(xScale).tickFormat(d3.format('.1f'));
-    d3.select(this.xAxisContainer.current).call(xAxis);
+    const xAxis = d3AxisBottom(xScale).tickFormat(d3Format('.1f'));
+    d3Select(this.xAxisContainer.current).call(xAxis);
   }
 
   // Update Y Axis
   updateYAxis(yScale) {
-    const yAxis = d3.axisLeft(yScale);
+    const yAxis = d3AxisLeft(yScale);
 
-    d3.select(this.yAxisContainer.current).call(yAxis);
+    d3Select(this.yAxisContainer.current).call(yAxis);
   }
 
   histogramData() {
     const { data, valueAccessor } = this.props;
 
-    return d3
-      .histogram()
+    return d3Histogram()
       .value(d => {
         return d[valueAccessor]; // eslint-disable-line dot-notation
       })
-      .thresholds(d3.thresholdFreedmanDiaconis)(data)
+      .thresholds(d3ThresholdFreedmanDiaconis)(data)
       .reduce((result, d) => {
         if (d.length !== 0) {
           result.push(d);
@@ -81,7 +93,7 @@ class Histogram extends React.Component {
   updateHistogram() {
     const { width, height, padding } = this.props;
     const { histogramData } = this.state;
-    const $selection = d3.select(this.svgEl.current);
+    const $selection = d3Select(this.svgEl.current);
 
     // const xScale = d3
     //   .scaleLinear()
@@ -100,8 +112,7 @@ class Histogram extends React.Component {
     // }, []);
     // console.log(reduced);
 
-    const xScale = d3
-      .scaleBand()
+    const xScale = d3ScaleBand()
       .domain(
         histogramData.map(d => {
           return d.x0;
@@ -109,11 +120,10 @@ class Histogram extends React.Component {
       )
       .range([padding, width - padding]);
 
-    const yScale = d3
-      .scaleLinear()
+    const yScale = d3ScaleLinear()
       .domain([
         0,
-        d3.max(histogramData, d => {
+        d3Max(histogramData, d => {
           return d.length;
         }),
       ])
