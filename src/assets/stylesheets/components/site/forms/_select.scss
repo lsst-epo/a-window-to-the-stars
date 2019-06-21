@@ -1,0 +1,62 @@
+// @include react-md-lists;
+// @include react-md-select-fields;
+// @include react-md-selection-controls;
+
+// Selects
+// --------------------------------------------------------
+.select {
+  @include uiSecondary;
+  position: relative;
+  display: inline-block;
+  min-width: 200px;
+
+  &::after {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    display: inline-block;
+    margin-top: -3px;
+    pointer-events: none;
+    content: '';
+    border-top: 6px solid $neutral40;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid transparent;
+  }
+
+  select {
+    display: inline-block;
+    width: 100%;
+    padding: 8px 36px 8px 16px;
+    margin: 0;
+    line-height: 1.5;
+    color: $neutral30;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    appearance: none;
+
+    &:focus,
+    &:hover {
+      + hr {
+        max-height: 2px;
+        background: $basePrimary;
+      }
+    }
+  }
+
+  hr {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    max-height: 1px;
+    margin: 0;
+    background: $neutral40;
+    border: 0;
+    transition: max-height $duration $timing, background $durationSlow $timing;
+  }
+}

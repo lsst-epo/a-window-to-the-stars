@@ -8,18 +8,19 @@ class Select extends React.PureComponent {
       label,
       name,
       value,
+      defaultValue,
       placeholder,
       handleChange,
     } = this.props;
 
     return (
       <div className="select">
-        <label htmlFor={name}> {label} </label>
         <select
           name={name}
-          value={value || ''}
-          onChange={handleChange}
+          value={value}
+          defaultValue={defaultValue || ''}
           onBlur={handleChange}
+          aria-label={label}
         >
           {placeholder && (
             <option key="placeholder-option" value="" disabled>
@@ -47,6 +48,7 @@ class Select extends React.PureComponent {
             );
           })}
         </select>
+        <hr />
       </div>
     );
   }
@@ -57,6 +59,7 @@ Select.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.any,
+  defaultValue: PropTypes.any,
   placeholder: PropTypes.string,
   handleChange: PropTypes.func,
 };
