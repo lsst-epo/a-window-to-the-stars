@@ -1,11 +1,10 @@
 import React from 'react';
-import {
-  Card,
-  CardTitle,
-  CardText as CardBody,
-  Button,
-  TextField as TextInput,
-} from 'react-md';
+// import { TextField } from 'react-md';
+import Card from 'react-md/lib/Cards/Card';
+import CardTitle from 'react-md/lib/Cards/CardTitle';
+import CardBody from 'react-md/lib/Cards/CardText';
+import Button from 'react-md/lib/Buttons/Button';
+import TextField from 'react-md/lib/TextFields/TextField';
 import Select from 'components/site/forms/Select';
 
 // import ArrowDown from 'components/site/icons/ArrowDown';
@@ -164,7 +163,7 @@ class StyleGuide extends React.PureComponent {
             </div>
             <br />
             <div>
-              <TextInput
+              <TextField
                 id="block-text-input-1"
                 type="text"
                 label="Block Text Field"
@@ -179,7 +178,7 @@ class StyleGuide extends React.PureComponent {
                 wrapped in an inline-block element
               </span>
               <span>
-                <TextInput
+                <TextField
                   id="inline-text-input-1"
                   type="text"
                   style={{ maxWidth: '200px' }}
@@ -195,7 +194,7 @@ class StyleGuide extends React.PureComponent {
               </span>
             </div>
             <div style={{ maxWidth: '50%' }}>
-              <TextInput
+              <TextField
                 id="textarea-1"
                 type="text"
                 label="Text Area"

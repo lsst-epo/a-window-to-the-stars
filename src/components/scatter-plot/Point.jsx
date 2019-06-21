@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as d3 from 'd3';
+import { select as d3Select } from 'd3-selection';
 
 class Point extends React.PureComponent {
   constructor(props) {
@@ -11,7 +11,7 @@ class Point extends React.PureComponent {
 
   componentDidUpdate() {
     const { selected, hovered } = this.props;
-    const $point = d3.select(this.el.current);
+    const $point = d3Select(this.el.current);
 
     if (selected) {
       this.selectStyle($point);
