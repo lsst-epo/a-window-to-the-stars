@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader/root';
-import { Route, Link, HashRouter as Router } from 'react-router-dom';
+import { Route, HashRouter as Router } from 'react-router-dom';
 import stars from './assets/static-data/stars.json';
-
+import SiteHeader from './components/site/SiteHeader';
 import Page from './components/site/Page';
 import StyleGuide from './StyleGuide';
 import ScatterPlot from './components/scatter-plot';
@@ -17,25 +17,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <header className="header-primary">
-          <Link to="/">
-            <h1 className="header-title heading-primary">Stellar Graphs</h1>
-          </Link>
-          <nav role="navigation" className="nav-primary">
-            <span className="nav-item">
-              <Link to="/styles">Style Guide</Link>
-            </span>
-            <span className="nav-item">
-              <Link to="/">H-R Diagram</Link>
-            </span>
-            <span className="nav-item">
-              <Link to="/temperature">Temperature Histogram</Link>
-            </span>
-            <span className="nav-item">
-              <Link to="/luminosity">Luminosity Histogram</Link>
-            </span>
-          </nav>
-        </header>
+        <SiteHeader />
         <main className="container-main">
           <Route
             exact

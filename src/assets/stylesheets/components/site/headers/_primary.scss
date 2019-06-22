@@ -1,10 +1,26 @@
-.header-primary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
+@include react-md-toolbars;
+@include react-md-menus;
+@include react-md-layovers;
+@include react-md-lists;
 
-  .header-title {
-    color: $basePrimary;
+.header-primary {
+  justify-content: space-between;
+
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
   }
+
+  .site-logo {
+    width: 96px;
+    margin-left: 20px;
+  }
+  // display: flex;
+  // align-items: center;
+  // justify-content: space-between;
+  // padding: 20px;
+
+  // .header-title {
+  //   color: $basePrimary;
+  // }
 }

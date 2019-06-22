@@ -39,6 +39,10 @@
   border: 0;
 }
 
+.screen-reader-only {
+  @include screenReaderText;
+}
+
 // Image replacement, for icons and things with hidden accessibility text
 @mixin imageReplacement {
   display: block;

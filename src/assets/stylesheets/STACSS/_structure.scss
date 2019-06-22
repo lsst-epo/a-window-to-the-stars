@@ -17,7 +17,7 @@
 .container-main {
   display: block;
   max-width: $containerMaxWidth;
-  padding: $minPadding;
+  padding: $siteHeaderHeight + $minPadding $minPadding $minPadding $minPadding;
   margin: 0 auto;
 }
 
