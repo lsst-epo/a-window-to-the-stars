@@ -7,8 +7,6 @@ import Button from 'react-md/lib/Buttons/Button';
 import TextField from 'react-md/lib/TextFields/TextField';
 import Select from 'components/site/forms/Select';
 
-// import ArrowDown from 'components/site/icons/ArrowDown';
-
 class StyleGuide extends React.PureComponent {
   constructor(props) {
     super(props);
