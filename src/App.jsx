@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from 'reactn';
 import { hot } from 'react-hot-loader/root';
+import ls from 'local-storage';
 import { Route, HashRouter as Router } from 'react-router-dom';
-// import stars from './assets/static-data/stars.json';
+import Button from 'react-md/lib/Buttons/Button';
 import SiteHeader from './components/site/SiteHeader';
 import Page from './components/site/Page';
 import StyleGuide from './StyleGuide';
@@ -13,6 +14,27 @@ class App extends Component {
     super(props);
     this.state = {};
   }
+
+  // componentDidMount() {
+  // }
+
+  handleStateTestClick = () => {
+    const { answers } = this.global;
+    this.setGlobal(
+      prevState => ({
+        ...prevState,
+        lastUpdated: Date.now().toString(),
+        answers: answers.concat([answers.length + 1]),
+      }),
+      () => {
+        ls('hrd', this.global);
+      }
+    );
+  };
+
+  handleClearLocalStorage = () => {
+    ls.remove('hrd');
+  };
 
   render() {
     const { stars } = this.state;
@@ -120,6 +142,51 @@ class App extends Component {
                   xAxisLabel="Luminosity"
                   yAxisLabel="Count"
                 />
+              </Page>
+            )}
+          />
+          <Route exact path="/styles" component={StyleGuide} />
+          <Route
+            exact
+            path="/statetest"
+            render={routeProps => (
+              <Page {...routeProps} title="Global State Test">
+                <div>
+                  Global State Object:
+                  <span> {JSON.stringify(this.global)}</span>
+                </div>
+                <br />
+                <div>
+                  Local Storage Object:
+                  <span> {JSON.stringify(ls('hrd'))}</span>
+                </div>
+                <br />
+                <div>
+                  <Button
+                    flat
+                    primary
+                    swapTheming
+                    onClick={this.handleStateTestClick}
+                  >
+                    Update Global State
+                  </Button>
+                  <p>Also updates localStorage</p>
+                </div>
+                <br />
+                <div>
+                  <Button
+                    flat
+                    secondary
+                    swapTheming
+                    onClick={this.handleClearLocalStorage}
+                  >
+                    Clear Local Storage
+                  </Button>
+                  <p>
+                    Does NOT touch Global State but on Refresh state WILL be
+                    gone
+                  </p>
+                </div>
               </Page>
             )}
           />
