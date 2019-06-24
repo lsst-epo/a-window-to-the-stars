@@ -1,0 +1,14 @@
+@include react-md-data-tables;
+
+table.md-data-table {
+  .md-table-row {
+    .md-table-column {
+      &.md-text--secondary, &.row-title {
+        @include copySecondary;
+        color: $neutral30;
+      }
+    }
+  }
+}
+
+// md-table-column md-text-left md-table-column--header md-text--secondary

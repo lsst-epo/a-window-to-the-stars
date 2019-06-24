@@ -1,5 +1,5 @@
 import React from 'react';
-import { SVGIcon } from 'react-md';
+import SVGIcon from 'react-md/lib/SVGIcons/SVGIcon';
 
 const ArrowDown = props => (
   <SVGIcon {...props} role="presentation">

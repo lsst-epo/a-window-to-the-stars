@@ -39,6 +39,14 @@
   .align-bottom {
     align-self: flex-end;
   }
+
+  .align-top {
+    align-self: flex-start;
+  }
+}
+
+.col-width-50 {
+  width: 50%;
 }
 
 
