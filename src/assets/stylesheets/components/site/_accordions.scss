@@ -1,0 +1,40 @@
+@include react-md-expansion-panels;
+
+.md-expansion-panel-list.unstyled {
+
+}
+
+.md-expansion-panel.unstyled {
+  display: inline-block;
+
+  &.md-paper,
+  &.md-paper--1 {
+    box-shadow: none;
+  }
+
+  .md-panel-header {
+    display: inline-block;
+    height: auto;
+    padding: 0;
+  }
+
+  .md-fake-btn {
+    text-decoration: underline;
+
+    svg.md-icon {
+      display: none;
+    }
+
+    .md-panel-column {
+      display: inline-block;
+
+      &:not(last-child) {
+        padding: 0;
+      }
+    }
+  }
+
+  .md-panel-content {
+    padding: 20px 0 0;
+  }
+}
