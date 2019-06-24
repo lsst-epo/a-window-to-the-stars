@@ -100,7 +100,7 @@ hr {
 
 // Inline elements
 // --------------------------
-a {
+a:not([type='button']) {
   // Do you want links to transition smoothly between states?
   @include link;
 }

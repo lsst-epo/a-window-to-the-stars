@@ -47,6 +47,20 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.json/,
+        type: 'javascript/auto',
+        exclude: /(node_modules)/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: commonPaths.dataFolder,
+            },
+          },
+        ],
+      },
     ],
   },
   serve: {

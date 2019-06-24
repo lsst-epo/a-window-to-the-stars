@@ -16,6 +16,7 @@ $md-btn-include-floating: false;
   @include uiPrimary;
   font-weight: $medium;
   line-height: $baseLineHeight;
+  text-align: center;
 
   //  Flat Button Overrides
   &.md-btn--flat {

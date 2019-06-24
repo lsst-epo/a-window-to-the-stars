@@ -14,13 +14,14 @@ import {
   scaleLinear as d3ScaleLinear,
 } from 'd3-scale';
 import 'd3-transition';
+import API from '../site/API';
 
 class Histogram extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      histogramData: this.histogramData(),
+      data: [],
     };
 
     this.svgEl = React.createRef();
@@ -29,7 +30,14 @@ class Histogram extends React.Component {
   }
 
   componentDidMount() {
-    this.updateHistogram();
+    const { dataPath } = this.props;
+
+    API.get(dataPath).then(res => {
+      this.setState(prevState => ({
+        ...prevState,
+        data: this.histogramData(res.data),
+      }));
+    });
   }
 
   componentDidUpdate() {
@@ -37,7 +45,9 @@ class Histogram extends React.Component {
   }
 
   // Update data point styles and attributes
-  updateRects($selection, data, xScale, yScale) {
+  updateRects($selection, xScale, yScale) {
+    const { data } = this.state;
+
     $selection
       .selectAll('rect')
       .data(data)
@@ -74,8 +84,8 @@ class Histogram extends React.Component {
     d3Select(this.yAxisContainer.current).call(yAxis);
   }
 
-  histogramData() {
-    const { data, valueAccessor } = this.props;
+  histogramData(data) {
+    const { valueAccessor } = this.props;
 
     return d3Histogram()
       .value(d => {
@@ -92,7 +102,7 @@ class Histogram extends React.Component {
 
   updateHistogram() {
     const { width, height, padding } = this.props;
-    const { histogramData } = this.state;
+    const { data } = this.state;
     const $selection = d3Select(this.svgEl.current);
 
     // const xScale = d3
@@ -114,7 +124,7 @@ class Histogram extends React.Component {
 
     const xScale = d3ScaleBand()
       .domain(
-        histogramData.map(d => {
+        data.map(d => {
           return d.x0;
         })
       )
@@ -123,19 +133,20 @@ class Histogram extends React.Component {
     const yScale = d3ScaleLinear()
       .domain([
         0,
-        d3Max(histogramData, d => {
+        d3Max(data, d => {
           return d.length;
         }),
       ])
       .range([height - padding, padding]);
 
-    this.updateRects($selection, histogramData, xScale, yScale);
+    this.updateRects($selection, xScale, yScale);
     this.updateXAxis(xScale);
     this.updateYAxis(yScale);
   }
 
-  bars(data) {
+  bars() {
     const { valueAccessor } = this.props;
+    const { data } = this.state;
 
     return data.map((d, i) => {
       const key = `${valueAccessor}-rect-${i}`;
@@ -157,7 +168,6 @@ class Histogram extends React.Component {
 
   render() {
     const { width, height, padding, xAxisLabel, yAxisLabel } = this.props;
-    const { histogramData } = this.state;
 
     return (
       <div>
@@ -167,7 +177,7 @@ class Histogram extends React.Component {
           height={height}
           ref={this.svgEl}
         >
-          <g className="bars">{this.bars(histogramData)}</g>
+          <g className="bars">{this.bars()}</g>
           <g
             className="x-axis axis"
             transform={`translate(0, ${height - padding})`}
@@ -199,12 +209,12 @@ class Histogram extends React.Component {
 }
 
 Histogram.propTypes = {
+  dataPath: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
   padding: PropTypes.number,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
-  data: PropTypes.any,
   valueAccessor: PropTypes.string,
 };
 
