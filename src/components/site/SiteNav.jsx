@@ -41,6 +41,13 @@ class SiteNav extends React.PureComponent {
           <Link to="/styles">Style Guide</Link>
         </ListItem>
         <ListItem
+          key="site-nav-item-test"
+          primaryText=""
+          className="site-nav-item"
+        >
+          <Link to="/statetest">Global State Test</Link>
+        </ListItem>
+        <ListItem
           key="site-nav-item-3"
           primaryText=""
           className="site-nav-item"
