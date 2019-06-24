@@ -18,6 +18,7 @@ class SiteNav extends React.PureComponent {
         onClose={handleClose}
         toggle={
           <Button flat onClick={handleClick} className="menu-toggle">
+            <span className="screen-reader-only">Toggle Main Nav</span>
             <More />
           </Button>
         }

@@ -102,21 +102,7 @@ hr {
 // --------------------------
 a {
   // Do you want links to transition smoothly between states?
-  // @include transition($duration color $timing);
-  text-decoration: none;
-  // color: $something;
-
-  &:hover {
-    // color: $something;
-  }
-
-  &:active {
-    // color: $something;
-  }
-
-  &:visited {
-    // color: $something;
-  }
+  @include link;
 }
 
 b,

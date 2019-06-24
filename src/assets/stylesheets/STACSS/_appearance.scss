@@ -58,3 +58,28 @@
     display: none;
   }
 }
+
+
+// Buttons/Links
+// --------------------------------------------------------
+// N.B. Most of the button styles are in their own partial
+@mixin link {
+  color: $baseSecondary;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color $duration $timing;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active, &:focus, &:visited {
+    color: $baseSecondaryDark;
+  }
+}
+
+.fake-link {
+  @include buttonUnstyled;
+  @include link;
+  text-decoration: underlined;
+}
