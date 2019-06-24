@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { Route, HashRouter as Router } from 'react-router-dom';
-import stars from './assets/static-data/stars.json';
+// import stars from './assets/static-data/stars.json';
 import SiteHeader from './components/site/SiteHeader';
 import Page from './components/site/Page';
 import StyleGuide from './StyleGuide';
@@ -15,6 +15,7 @@ class App extends Component {
   }
 
   render() {
+    const { stars } = this.state;
     return (
       <Router>
         <SiteHeader />
@@ -70,7 +71,7 @@ class App extends Component {
                   width={600}
                   height={600}
                   padding={80}
-                  data={stars}
+                  dataPath="data/stars.json"
                   xValueAccessor="teff"
                   yValueAccessor="luminosity"
                   xAxisLabel="Temperature (K)"
@@ -91,6 +92,7 @@ class App extends Component {
               >
                 <Histogram
                   {...routeProps}
+                  dataPath="data/stars.json"
                   width={window.innerWidth}
                   height={window.innerHeight - 100}
                   padding={80}
@@ -109,6 +111,7 @@ class App extends Component {
               <Page {...routeProps} title="H-R Diagram" previous="/temperature">
                 <Histogram
                   {...routeProps}
+                  dataPath="data/stars.json"
                   width={window.innerWidth}
                   height={window.innerHeight - 100}
                   padding={80}

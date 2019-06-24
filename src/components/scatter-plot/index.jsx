@@ -5,6 +5,7 @@ import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from 'd3-axis';
 import { easeCircle as d3EaseCircle } from 'd3-ease';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
+import API from '../site/API';
 import Point from './Point.jsx';
 import Tooltip from './Tooltip.jsx';
 
@@ -13,6 +14,7 @@ class ScatterPlot extends React.Component {
     super(props);
 
     this.state = {
+      data: [],
       selectedPointData: null,
       hoverPointData: null,
       toolTipPosX: 0,
@@ -27,16 +29,29 @@ class ScatterPlot extends React.Component {
   }
 
   componentDidMount() {
-    this.createScatterPlot();
+    const { dataPath } = this.props;
+
+    API.get(dataPath).then(res => {
+      this.setState(prevState => ({
+        ...prevState,
+        data: res.data,
+      }));
+    });
   }
 
-  componentDidUpdate() {
-    this.updateScatterPlot();
+  componentDidUpdate(prevProps, prevState) {
+    const { data } = this.state;
+    if (prevState.data !== data && prevState.data.length === 0) {
+      this.createScatterPlot();
+    } else {
+      this.updateScatterPlot();
+    }
   }
 
   // Update data point styles and attributes
-  updatePoints($selection, data, xScale, yScale) {
+  updatePoints($selection, xScale, yScale) {
     const { xValueAccessor, yValueAccessor } = this.props;
+    const { data } = this.state;
     const $allPoints = $selection.selectAll('rect').data(data);
 
     $allPoints
@@ -151,8 +166,8 @@ class ScatterPlot extends React.Component {
   }
 
   // render Point components
-  points(data) {
-    const { selectedPointData, hoverPointData } = this.state;
+  points() {
+    const { selectedPointData, hoverPointData, data } = this.state;
     return data.map((d, i) => {
       const key = `$hrd-rect-${i}`;
       return (
@@ -168,7 +183,7 @@ class ScatterPlot extends React.Component {
   }
 
   // add attributes to points
-  stylePoints($allPoints, data, xScale, yScale) {
+  stylePoints($allPoints, xScale, yScale) {
     const { xValueAccessor, yValueAccessor } = this.props;
 
     $allPoints
@@ -193,7 +208,8 @@ class ScatterPlot extends React.Component {
 
   // bind data to elements and add styles and attributes
   createScatterPlot() {
-    const { width, height, padding, data } = this.props;
+    const { width, height, padding } = this.props;
+    const { data } = this.state;
     const $scatterplot = d3Select(this.svgEl.current);
     const $allPoints = d3Select(this.svgEl.current)
       .selectAll('rect')
@@ -207,7 +223,7 @@ class ScatterPlot extends React.Component {
       .domain([0.001, 100000])
       .range([height - padding, padding]);
 
-    this.stylePoints($allPoints, data, xScale, yScale);
+    this.stylePoints($allPoints, xScale, yScale);
     this.createXAxis(xScale);
     this.createYAxis(yScale);
     this.addEventListeners($scatterplot, $allPoints);
@@ -215,7 +231,7 @@ class ScatterPlot extends React.Component {
 
   // re-bind data to elements
   updateScatterPlot() {
-    const { data } = this.props;
+    const { data } = this.state;
 
     d3Select(this.svgEl.current)
       .selectAll('rect')
@@ -230,7 +246,8 @@ class ScatterPlot extends React.Component {
       toolTipPosY,
       showTooltip,
     } = this.state;
-    const { data, width, height, padding, xAxisLabel, yAxisLabel } = this.props;
+
+    const { width, height, padding, xAxisLabel, yAxisLabel } = this.props;
 
     return (
       <div>
@@ -270,7 +287,7 @@ class ScatterPlot extends React.Component {
             viewBox={`0 0 ${width} ${height}`}
             ref={this.svgEl}
           >
-            <g className="rects">{this.points(data)}</g>
+            <g className="rects">{this.points()}</g>
             <g
               className="x-axis axis"
               transform={`translate(0, ${height - padding})`}
@@ -309,7 +326,7 @@ ScatterPlot.propTypes = {
   padding: PropTypes.number,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
-  data: PropTypes.any,
+  dataPath: PropTypes.string,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
 };

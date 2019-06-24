@@ -1,16 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Button from 'react-md/lib/Buttons/Button';
 
 class Page extends React.PureComponent {
-  // renderPagination(previous, next) {
-  //   if (previous || next) {
-  //     return (
-
-  //     );
-  //   }
-  // }
-
   render() {
     const {
       children,
@@ -24,7 +17,7 @@ class Page extends React.PureComponent {
     return (
       <div className="page-container">
         <header className="header-secondary">
-          {title && <h2 className="header-title heading-secondary">{title}</h2>}
+          {title && <h1 className="header-title heading-secondary">{title}</h1>}
         </header>
         {layout === 'two-col' && (
           <div className="container-flex">
@@ -40,14 +33,23 @@ class Page extends React.PureComponent {
                   {paginationLocation === i + 1 && (
                     <nav role="navigation" className="nav-secondary">
                       {previous && (
-                        <span className="nav-item">
-                          <Link to={previous}>Previous</Link>
-                        </span>
+                        <Button
+                          flat
+                          secondary
+                          swapTheming
+                          component={() => <Link to={previous}>Previous</Link>}
+                        />
                       )}
                       {next && (
-                        <span className="nav-item">
-                          <Link to={next}>Next</Link>
-                        </span>
+                        <Button
+                          flat
+                          secondary
+                          swapTheming
+                          to={next}
+                          component={Link}
+                        >
+                          Next
+                        </Button>
                       )}
                     </nav>
                   )}

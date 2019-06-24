@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import Card from 'react-md/lib/Cards/Card';
 import CardTitle from 'react-md/lib/Cards/CardTitle';
 import CardBody from 'react-md/lib/Cards/CardText';
@@ -176,6 +177,11 @@ class StyleGuide extends React.PureComponent {
               </Button>
               <Button flat secondary className="outlined" disabled>
                 Disabled Secondary Outlined
+              </Button>
+            </div>
+            <div className="container-flex wrap">
+              <Button flat secondary swapTheming to="#" component={Link}>
+                Button as Link
               </Button>
             </div>
           </CardBody>

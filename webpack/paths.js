@@ -9,4 +9,5 @@ module.exports = {
   fontsFolder: 'css/fonts',
   cssFolder: 'css',
   jsFolder: 'js',
+  dataFolder: 'data',
 };
