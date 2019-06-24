@@ -11,6 +11,7 @@ import TableRow from 'react-md/lib//DataTables/TableRow';
 import TableColumn from 'react-md/lib//DataTables/TableColumn';
 import ExpansionList from 'react-md/lib//ExpansionPanels/ExpansionList';
 import ExpansionPanel from 'react-md/lib//ExpansionPanels/ExpansionPanel';
+import DialogContainer from 'react-md/lib//Dialogs/DialogContainer';
 
 import Select from 'components/site/forms/Select';
 import CaretDown from 'components/site/icons/CaretDown';
@@ -19,7 +20,9 @@ class StyleGuide extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      showDialog: false,
+    };
   }
 
   handleInput = e => {
@@ -34,9 +37,30 @@ class StyleGuide extends React.PureComponent {
     );
   };
 
+  handleDialogClick = () => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        showDialog: !prevState.showDialog,
+      }),
+      () => console.log(this.state) // eslint-disable-line no-console
+    );
+  };
+
+  handleDialogHide = () => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        showDialog: false,
+      }),
+      () => console.log(this.state) // eslint-disable-line no-console
+    );
+  };
+
   render() {
     const selectName = 'example-select';
     const selectValue = this.state[selectName]; // eslint-disable-line react/destructuring-assignment
+    const dialogVisible = this.state.showDialog; // eslint-disable-line react/destructuring-assignment
     const swatchStyles = { width: '15vw', height: '15vw', marginTop: '20px' };
     const selectItems = [
       {
@@ -303,6 +327,38 @@ class StyleGuide extends React.PureComponent {
                 <p>...about all sorts of things!</p>
               </ExpansionPanel>
             </ExpansionList>
+          </CardBody>
+        </Card>
+        <br />
+        <Card className="md-block-centered">
+          <CardTitle title="Dialogs" />
+          <CardBody>
+            <Button flat secondary swapTheming onClick={this.handleDialogClick}>
+              Open Dialog
+            </Button>
+            <DialogContainer
+              id="dialog-example-1"
+              visible={dialogVisible}
+              title="Dialog Contents"
+              initialFocus=".initial-focus"
+              onHide={this.handleDialogHide}
+            >
+              <p className="initial-focus">
+                This is the contents of the dialog
+              </p>
+              <p>This is the contents of the dialog</p>
+              <p>This is the contents of the dialog</p>
+              <p>This is the contents of the dialog</p>
+            </DialogContainer>
+            <br />
+            <br />
+            <button
+              type="button"
+              className="fake-link"
+              onClick={this.handleDialogClick}
+            >
+              Link styled dialog opener
+            </button>
           </CardBody>
         </Card>
       </div>

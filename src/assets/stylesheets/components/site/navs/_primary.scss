@@ -43,6 +43,10 @@
           height: 100%;
           padding: $minPadding / 2 $minPadding + 12px;
           margin: 0 auto;
+
+          &:hover {
+            text-decoration: none;
+          }
         }
       }
     }

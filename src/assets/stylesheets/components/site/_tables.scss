@@ -5,7 +5,7 @@ table.md-data-table {
     .md-table-column {
       &.md-text--secondary, &.row-title {
         @include copySecondary;
-        color: $neutral30;
+        color: $neutral40;
       }
     }
   }
