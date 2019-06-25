@@ -44,24 +44,11 @@ module.exports = {
             loader: 'file-loader',
             options: {
               outputPath: commonPaths.fontsFolder,
+              publicPath: url => '../fonts/' + url
             },
           },
         ],
       },
-      // {
-      //   test: /\.json/,
-      //   type: 'javascript/auto',
-      //   exclude: /(node_modules)/,
-      //   use: [
-      //     {
-      //       loader: 'file-loader',
-      //       options: {
-      //         name: '[name].[ext]',
-      //         outputPath: commonPaths.dataFolder,
-      //       },
-      //     },
-      //   ],
-      // },
     ],
   },
   serve: {
