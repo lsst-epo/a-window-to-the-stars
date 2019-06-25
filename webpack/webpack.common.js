@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const AppManifestWebpackPlugin = require('app-manifest-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const commonPaths = require('./paths');
 
 module.exports = {
@@ -47,20 +48,20 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.json/,
-        type: 'javascript/auto',
-        exclude: /(node_modules)/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: commonPaths.dataFolder,
-            },
-          },
-        ],
-      },
+      // {
+      //   test: /\.json/,
+      //   type: 'javascript/auto',
+      //   exclude: /(node_modules)/,
+      //   use: [
+      //     {
+      //       loader: 'file-loader',
+      //       options: {
+      //         name: '[name].[ext]',
+      //         outputPath: commonPaths.dataFolder,
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   },
   serve: {
@@ -85,6 +86,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: commonPaths.templatePath,
     }),
+    new CopyPlugin([
+      {
+        from: 'static-data/**/*',
+        to: 'static-data/[name].[ext]',
+        test: /\.json/,
+      },
+    ]),
     new AppManifestWebpackPlugin({
       logo: './src/assets/images/lsst_logo_small.png',
       persistentCache: true,

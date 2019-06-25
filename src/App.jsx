@@ -93,7 +93,7 @@ class App extends Component {
                   width={600}
                   height={600}
                   padding={80}
-                  dataPath="data/stars.json"
+                  dataPath="static-data/stars.json"
                   xValueAccessor="teff"
                   yValueAccessor="luminosity"
                   xAxisLabel="Temperature (K)"
@@ -114,7 +114,7 @@ class App extends Component {
               >
                 <Histogram
                   {...routeProps}
-                  dataPath="data/stars.json"
+                  dataPath="static-data/stars.json"
                   width={window.innerWidth}
                   height={window.innerHeight - 100}
                   padding={80}
@@ -133,7 +133,7 @@ class App extends Component {
               <Page {...routeProps} title="H-R Diagram" previous="/temperature">
                 <Histogram
                   {...routeProps}
-                  dataPath="data/stars.json"
+                  dataPath="static-data/stars.json"
                   width={window.innerWidth}
                   height={window.innerHeight - 100}
                   padding={80}
