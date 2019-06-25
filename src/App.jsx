@@ -7,6 +7,7 @@ import SiteHeader from './components/site/SiteHeader';
 import Page from './components/site/Page';
 import StyleGuide from './StyleGuide';
 import ScatterPlot from './components/scatter-plot';
+import ScatterPlotLasso from './components/scatter-plot-lasso';
 import Histogram from './components/histogram';
 
 class App extends Component {
@@ -191,6 +192,24 @@ class App extends Component {
             )}
           />
           <Route exact path="/styles" component={StyleGuide} />
+          <Route
+            exact
+            path="/lassoable"
+            render={routeProps => (
+              <Page {...routeProps} title="Lassoable">
+                <ScatterPlotLasso
+                  width={600}
+                  height={600}
+                  padding={80}
+                  dataPath="static-data/stars.json"
+                  xValueAccessor="teff"
+                  yValueAccessor="luminosity"
+                  xAxisLabel="Temperature (K)"
+                  yAxisLabel="Luminosity"
+                />
+              </Page>
+            )}
+          />
         </main>
       </Router>
     );
