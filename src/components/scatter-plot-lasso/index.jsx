@@ -305,10 +305,6 @@ class ScatterPlot extends React.Component {
           });
         })
     );
-
-    // d3Select(this.draggablePath.current)
-    //   .curve(d3CurveCardinal)
-    //   .call(d3Drag().on('start', this.startHandler));
   }
 
   // re-bind data to elements

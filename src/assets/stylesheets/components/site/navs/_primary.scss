@@ -10,7 +10,7 @@
 .site-nav {
   display: flex;
 
-  .menu-toggle {
+  .menu-toggle, .menu-toggle.md-btn--text {
     min-width: 0;
     height: auto;
     padding-right: $minPadding;

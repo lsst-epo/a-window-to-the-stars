@@ -60,6 +60,10 @@ $md-btn-include-floating: false;
         border-color: $neutral30;
       }
     }
+
+    &.md-btn--text {
+      height: 36px;
+    }
   }
 
   + .md-btn {

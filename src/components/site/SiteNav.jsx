@@ -52,7 +52,7 @@ class SiteNav extends React.PureComponent {
           primaryText=""
           className="site-nav-item"
         >
-          <Link to="/">H-R Diagram</Link>
+          <Link to="/hrd">H-R Diagram</Link>
         </ListItem>
         <ListItem
           key="site-nav-item-4"

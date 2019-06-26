@@ -47,6 +47,10 @@
 
 .col-width-50 {
   width: 50%;
+
+  &.padded {
+    width: calc(50% - 2 * #{$minPadding});
+  }
 }
 
 
