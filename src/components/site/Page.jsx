@@ -2,11 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from 'react-md/lib/Buttons/Button';
+import ArrowLeft from './icons/ArrowLeft';
+import ArrowRight from './icons/ArrowRight';
 
 class Page extends React.PureComponent {
   static defaultProps = {
     previousText: 'Previous',
     nextText: 'Next',
+    scrollable: -1,
   };
 
   render() {
@@ -19,10 +22,11 @@ class Page extends React.PureComponent {
       nextText,
       layout,
       paginationLocation,
+      scrollable,
     } = this.props;
 
     return (
-      <div className="page-container">
+      <div className="container-page">
         {layout === 'two-col' && (
           <div className="container-flex spaced">
             {React.Children.map(children, (child, i) => {
@@ -32,8 +36,11 @@ class Page extends React.PureComponent {
                 <React.Fragment>
                   {dividers && i !== 0 && <div className="divider-vertical" />}
                   <div
-                    className={`col padded col-designation-${i +
-                      1} col-width-${colWidth}`}
+                    className={`
+                      col padded col-${i + 1}
+                      col-width-${colWidth}
+                      ${scrollable === i ? 'scrollable' : ''}
+                    `}
                   >
                     {child}
                     {paginationLocation === i + 1 && (
@@ -45,6 +52,8 @@ class Page extends React.PureComponent {
                             swapTheming
                             to={previous}
                             component={Link}
+                            iconEl={<ArrowLeft />}
+                            iconBefore={false}
                           >
                             {previousText}
                           </Button>
@@ -56,6 +65,8 @@ class Page extends React.PureComponent {
                             swapTheming
                             to={next}
                             component={Link}
+                            iconEl={<ArrowRight />}
+                            iconBefore={false}
                           >
                             {nextText}
                           </Button>
@@ -83,6 +94,7 @@ Page.propTypes = {
   nextText: PropTypes.string,
   layout: PropTypes.string,
   paginationLocation: PropTypes.number,
+  scrollable: PropTypes.number,
   // colClasses: PropTypes.string,
 };
 

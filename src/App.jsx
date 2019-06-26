@@ -5,12 +5,11 @@ import { Route, HashRouter as Router } from 'react-router-dom';
 import Button from 'react-md/lib/Buttons/Button';
 import SiteHeader from './components/site/SiteHeader';
 import Page from './components/site/Page';
+import Sections from './components/content/sections';
 import StyleGuide from './StyleGuide';
 import ScatterPlot from './components/scatter-plot';
 import ScatterPlotLasso from './components/scatter-plot-lasso';
 import Histogram from './components/histogram';
-import Introduction from './components/content/sections/Introduction';
-import placeholder from './assets/images/placeholder.jpg';
 
 class App extends Component {
   constructor(props) {
@@ -42,28 +41,7 @@ class App extends Component {
       <Router>
         <SiteHeader />
         <main className="container-main">
-          <Route
-            exact
-            path="/"
-            render={routeProps => (
-              <Page
-                {...routeProps}
-                title="H-R Diagram"
-                next="/1"
-                nextText="Continue"
-                layout="two-col"
-                dividers
-                paginationLocation={1}
-              >
-                <Introduction />
-                <img
-                  src={placeholder}
-                  alt="Star Field"
-                  className="hero-image"
-                />
-              </Page>
-            )}
-          />
+          <Route path="/" component={Sections} />
           <Route
             exact
             path="/hrd"

@@ -1,13 +1,36 @@
 section {
+  .section-title + * {
+    margin-top: $verticalSpace;
+  }
+
   + .nav-secondary {
-    margin-top: $minPadding;
+    margin-top: 2 * $minPadding;
   }
 
   p {
     @include copyPrimary;
+
+    + h3 {
+      margin-top: 2 * $verticalSpace;
+    }
   }
 
-  h2 + * {
-    margin-top: $verticalSpace;
+  .list-title {
+    font-weight: $medium;
+
+    + ul {
+      margin-top: $verticalSpace;
+    }
+  }
+
+  ul {
+    @include listUnstyled;
+    @include copySecondary;
+
+    li {
+      + li {
+        margin-top: 0.5 * $verticalSpace;
+      }
+    }
   }
 }

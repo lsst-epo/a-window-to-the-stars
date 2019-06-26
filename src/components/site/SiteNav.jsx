@@ -31,7 +31,7 @@ class SiteNav extends React.PureComponent {
           primaryText=""
           className="site-nav-item"
         >
-          <Link to="/">Home</Link>
+          <Link to="/">Investigation</Link>
         </ListItem>
         <ListItem
           key="site-nav-item-2"

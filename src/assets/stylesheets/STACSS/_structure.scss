@@ -43,13 +43,19 @@
   .align-top {
     align-self: flex-start;
   }
-}
 
-.col-width-50 {
-  width: 50%;
+  // .col {
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: space-between;
+  // }
 
-  &.padded {
-    width: calc(50% - 2 * #{$minPadding});
+  .col-width-50 {
+    width: 50%;
+
+    &.padded {
+      width: calc(50% - 2 * #{$minPadding});
+    }
   }
 }
 
