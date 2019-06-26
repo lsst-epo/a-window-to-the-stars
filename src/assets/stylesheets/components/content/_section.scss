@@ -1,0 +1,13 @@
+section {
+  + .nav-secondary {
+    margin-top: $minPadding;
+  }
+
+  p {
+    @include copyPrimary;
+  }
+
+  h2 + * {
+    margin-top: $verticalSpace;
+  }
+}

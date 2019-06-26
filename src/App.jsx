@@ -9,15 +9,14 @@ import StyleGuide from './StyleGuide';
 import ScatterPlot from './components/scatter-plot';
 import ScatterPlotLasso from './components/scatter-plot-lasso';
 import Histogram from './components/histogram';
+import Introduction from './components/content/sections/Introduction';
+import placeholder from './assets/images/placeholder.jpg';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
-  // componentDidMount() {
-  // }
 
   handleStateTestClick = () => {
     const { answers } = this.global;
@@ -46,6 +45,28 @@ class App extends Component {
           <Route
             exact
             path="/"
+            render={routeProps => (
+              <Page
+                {...routeProps}
+                title="H-R Diagram"
+                next="/1"
+                nextText="Continue"
+                layout="two-col"
+                dividers
+                paginationLocation={1}
+              >
+                <Introduction />
+                <img
+                  src={placeholder}
+                  alt="Star Field"
+                  className="hero-image"
+                />
+              </Page>
+            )}
+          />
+          <Route
+            exact
+            path="/hrd"
             render={routeProps => (
               <Page
                 {...routeProps}
