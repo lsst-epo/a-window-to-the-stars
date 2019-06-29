@@ -48,7 +48,7 @@ class Page extends React.PureComponent {
                         {previous && (
                           <Button
                             flat
-                            secondary
+                            primary
                             swapTheming
                             to={previous}
                             component={Link}
@@ -61,7 +61,7 @@ class Page extends React.PureComponent {
                         {next && (
                           <Button
                             flat
-                            secondary
+                            primary
                             swapTheming
                             to={next}
                             component={Link}

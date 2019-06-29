@@ -4,12 +4,28 @@
 
 }
 
+.md-expansion-panel.no-pointer {
+  .md-fake-btn {
+    cursor: default;
+  }
+}
+
 .md-expansion-panel.unstyled {
   display: inline-block;
+  background: transparent;
 
   &.md-paper,
   &.md-paper--1 {
+    margin-top: 0;
     box-shadow: none;
+  }
+
+  &.block {
+    .md-fake-btn {
+      .md-panel-column {
+        display: block;
+      }
+    }
   }
 
   .md-panel-header {
@@ -21,7 +37,7 @@
   .md-fake-btn {
     text-decoration: underline;
 
-    svg.md-icon {
+    svg.md-icon, i {
       display: none;
     }
 

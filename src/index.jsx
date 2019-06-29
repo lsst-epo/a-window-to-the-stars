@@ -7,8 +7,12 @@ import './assets/stylesheets/styles.scss';
 // Set an Initial global state
 const emptyState = {
   lastUpdated: Date.now().toString(),
-  answers: [],
+  questions: null,
+  answers: {},
+  activeId: null,
+  activeGraphData: null,
 };
+
 const existingState = ls('hrd') || emptyState;
 setGlobal(existingState);
 

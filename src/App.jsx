@@ -1,4 +1,5 @@
-import React, { Component } from 'reactn';
+import React, { Component } from 'react';
+import reactn from 'reactn';
 import { hot } from 'react-hot-loader/root';
 import ls from 'local-storage';
 import { Route, HashRouter as Router } from 'react-router-dom';
@@ -11,11 +12,12 @@ import ScatterPlot from './components/scatter-plot';
 import ScatterPlotLasso from './components/scatter-plot-lasso';
 import Histogram from './components/histogram';
 
+@reactn
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {};
+  // }
 
   handleStateTestClick = () => {
     const { answers } = this.global;
@@ -36,7 +38,6 @@ class App extends Component {
   };
 
   render() {
-    const { stars } = this.state;
     return (
       <Router>
         <SiteHeader />
@@ -118,7 +119,6 @@ class App extends Component {
                   width={window.innerWidth}
                   height={window.innerHeight - 100}
                   padding={80}
-                  data={stars}
                   valueAccessor="teff"
                   xAxisLabel="Temperature (K)"
                   yAxisLabel="Count"
@@ -137,7 +137,6 @@ class App extends Component {
                   width={window.innerWidth}
                   height={window.innerHeight - 100}
                   padding={80}
-                  data={stars}
                   valueAccessor="luminosity"
                   xAxisLabel="Luminosity"
                   yAxisLabel="Count"

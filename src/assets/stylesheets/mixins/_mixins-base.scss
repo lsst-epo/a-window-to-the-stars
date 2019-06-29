@@ -79,3 +79,10 @@
 // .icon {
 //   @include protoIcon;
 // }
+
+// Layout
+// --------------------------------------------------------
+@mixin hrUnstyled {
+  margin: $minPadding 0 0;
+  border: 0;
+}

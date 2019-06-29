@@ -64,6 +64,16 @@
 .divider-vertical {
   width: 2px;
   background: $neutral20;
+  border-radius: 1px;
+}
+
+.divider-horizontal {
+  @include hrUnstyled;
+  height: 2px;
+  margin: $minPadding 0;
+  background: $baseSecondary;
+  border-radius: 1px;
+  opacity: 0.5;
 }
 
 
