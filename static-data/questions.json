@@ -1,0 +1,50 @@
+{
+  "1": {
+    "id": 1,
+    "type": "accordion",
+    "label": "Select a main sequence star with a temperature of 3,000 K",
+    "placeholder": null,
+    "answerAccessor": "teff",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "2": {
+    "id": 2,
+    "type": "accordion",
+    "label": "Select a main sequence star with a temperature of 6,000 K",
+    "placeholder": null,
+    "answerAccessor": "teff",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "3": {
+    "id": 3,
+    "type": "accordion",
+    "label": "Select a main sequence star with a temperature of 10,000 K",
+    "placeholder": null,
+    "answerAccessor": "teff",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "4": {
+    "id": 4,
+    "type": "accordion",
+    "label": "Select the dimmest giant star (the giant star with lowest luminosity)",
+    "placeholder": null,
+    "answerAccessor": "luminosity",
+    "answerPre": "The selected star has a luminosity of "
+  },
+  "5": {
+    "id": 5,
+    "type": "accordion",
+    "label": "Select the brightest white dwarf star (the white dwarf star with highest luminosity)",
+    "placeholder": null,
+    "answerAccessor": "luminosity",
+    "answerPre": "The selected star has a luminosity of "
+  },
+  "6": {
+    "id": 6,
+    "type": "accordion",
+    "label": "Select the coldest white dwarf star (the white dwarf star with lowest temperature)",
+    "placeholder": null,
+    "answerAccessor": "teff",
+    "answerPre": "The selected star has a temperature of "
+  }
+}
