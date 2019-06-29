@@ -32,6 +32,10 @@
     justify-content: space-between;
   }
 
+  &.centered {
+    align-items: center;
+  }
+
   + .container-flex {
     margin-top: $minPadding;
   }
@@ -44,17 +48,19 @@
     align-self: flex-start;
   }
 
-  // .col {
-  //   display: flex;
-  //   flex-direction: column;
-  //   justify-content: space-between;
-  // }
-
   .col-width-50 {
     width: 50%;
 
     &.padded {
-      width: calc(50% - 2 * #{$minPadding});
+      width: calc(50% - #{$minPadding});
+    }
+
+    .col-graph {
+      margin-left: 11px;
+
+      h2 {
+        margin-bottom: calc(#{$verticalSpace} + 8px);
+      }
     }
   }
 }

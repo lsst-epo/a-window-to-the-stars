@@ -15,11 +15,11 @@ class ScatterPlot extends React.Component {
 
     this.state = {
       data: [],
-      selectedPointData: null,
       hoverPointData: null,
       toolTipPosX: 0,
       toolTipPosY: 0,
       showTooltip: false,
+      selectedData: null,
     };
 
     // refs to attach d3 events, transitions, data bindings, etc.
@@ -40,12 +40,33 @@ class ScatterPlot extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { data } = this.state;
+    const { data, selectedData, hoverPointData } = this.state;
+    const { dataSelectionCallback, clearOnChange } = this.props;
+    const differentSelectedData = selectedData !== prevState.selectedData;
+    const shouldCallback = dataSelectionCallback && differentSelectedData;
+
     if (prevState.data !== data && prevState.data.length === 0) {
       this.createScatterPlot();
     } else {
       this.updateScatterPlot();
     }
+
+    if (shouldCallback) {
+      dataSelectionCallback(selectedData);
+    }
+
+    /* eslint-disable react/no-did-update-set-state */
+    if (clearOnChange !== prevProps.clearOnChange && !hoverPointData) {
+      this.setState(currentState => ({
+        ...currentState,
+        hoverPointData: null,
+        toolTipPosX: 0,
+        toolTipPosY: 0,
+        showTooltip: false,
+        selectedData: null,
+      }));
+    }
+    /* eslint-enable react/no-did-update-set-state */
   }
 
   // Update data point styles and attributes
@@ -88,8 +109,8 @@ class ScatterPlot extends React.Component {
 
   // mouseout/blur handler for point
   mouseoutHandler = () => {
-    const { selectedPointData } = this.state;
-    const selectedPointId = selectedPointData ? selectedPointData.id : null;
+    const { selectedData } = this.state;
+    const selectedPointId = selectedData ? selectedData.id : null;
 
     // remove hover style on point but don't hide  tooltip
     if (selectedPointId) {
@@ -109,25 +130,25 @@ class ScatterPlot extends React.Component {
 
   // point click handler
   clickHandler = d => {
-    const { selectedPointData } = this.state;
-    const selectedPointId = selectedPointData ? selectedPointData.id : null;
+    const { selectedData } = this.state;
+    const selectedPointId = selectedData ? selectedData.id : null;
 
     // remove selected style on point
     if (d.id === selectedPointId) {
       this.setState(prevState => ({
         ...prevState,
-        selectedPointData: null,
         toolTipPosX: d3Event.pageX,
         toolTipPosY: d3Event.pageY,
+        selectedData: null,
       }));
       // add selected style on point
     } else {
       this.setState(prevState => ({
         ...prevState,
-        selectedPointData: d,
         toolTipPosX: d3Event.pageX,
         toolTipPosY: d3Event.pageY,
         showTooltip: true,
+        selectedData: d,
       }));
     }
   };
@@ -139,9 +160,9 @@ class ScatterPlot extends React.Component {
       if (d3Event.target.classList[0] !== 'data-point') {
         this.setState(prevState => ({
           ...prevState,
-          selectedPointData: null,
           hoverPointData: null,
           showTooltip: false,
+          selectedData: null,
         }));
       }
     });
@@ -162,19 +183,31 @@ class ScatterPlot extends React.Component {
   // create Y Axis
   createYAxis(yScale) {
     const yAxis = d3AxisLeft(yScale).ticks(8);
-    d3Select(this.yAxisContainer.current).call(yAxis);
+    const $yAxis = d3Select(this.yAxisContainer.current);
+    $yAxis
+      .call(yAxis)
+      .selectAll('.tick text')
+      .text(d => {
+        return Math.log10(d) === 0 ? 1 : 10;
+      })
+      .append('tspan')
+      .attr('baseline-shift', 'super')
+      .text(d => {
+        const exponent = Math.log10(d);
+        return exponent === 0 ? '' : exponent;
+      });
   }
 
   // render Point components
   points() {
-    const { selectedPointData, hoverPointData, data } = this.state;
+    const { hoverPointData, data, selectedData } = this.state;
     return data.map((d, i) => {
       const key = `$hrd-rect-${i}`;
       return (
         <Point
           key={key}
           data={d}
-          selected={d === selectedPointData}
+          selected={d === selectedData}
           hovered={d === hoverPointData}
           tabIndex="0"
         />
@@ -209,6 +242,7 @@ class ScatterPlot extends React.Component {
   // bind data to elements and add styles and attributes
   createScatterPlot() {
     const { width, height, padding } = this.props;
+    // const padding = 0;
     const { data } = this.state;
     const $scatterplot = d3Select(this.svgEl.current);
     const $allPoints = d3Select(this.svgEl.current)
@@ -217,11 +251,11 @@ class ScatterPlot extends React.Component {
 
     const xScale = d3ScaleLinear()
       .domain([10000, 3000])
-      .range([padding, width - padding]);
+      .range([padding, width]);
 
     const yScale = d3ScaleLog()
       .domain([0.001, 100000])
-      .range([height - padding, padding]);
+      .range([height - padding, 0]);
 
     this.stylePoints($allPoints, xScale, yScale);
     this.createXAxis(xScale);
@@ -240,41 +274,20 @@ class ScatterPlot extends React.Component {
 
   render() {
     const {
-      selectedPointData,
       hoverPointData,
       toolTipPosX,
       toolTipPosY,
       showTooltip,
+      selectedData,
     } = this.state;
 
     const { width, height, padding, xAxisLabel, yAxisLabel } = this.props;
 
     return (
       <div>
-        {selectedPointData && (
-          <div style={{ position: 'relative' }}>
-            <div style={{ position: 'absolute', top: '100px', left: '100px' }}>
-              <h2>Selected Star</h2>
-              <div>
-                <span>ID: </span>
-                <span>{selectedPointData.id}</span>
-              </div>
-              <div>
-                <span>Temperature: </span>
-                <span>{selectedPointData.teff}</span>
-                <span> K</span>
-              </div>
-              <div>
-                <span>Luminosity: </span>
-                <span>{selectedPointData.luminosity}</span>
-                <sub className="unit">&#8857;</sub>
-              </div>
-            </div>
-          </div>
-        )}
         <Tooltip
           key="tooltip"
-          pointData={selectedPointData || hoverPointData}
+          pointData={selectedData || hoverPointData}
           posX={toolTipPosX}
           posY={toolTipPosY}
           show={showTooltip}
@@ -295,7 +308,8 @@ class ScatterPlot extends React.Component {
             />
             <text
               className="x-axis-label"
-              transform={`translate(${width / 2}, ${height - padding / 3})`}
+              transform={`translate(${(width + padding) / 2},
+               ${height})`}
               style={{ textAnchor: 'middle' }}
             >
               {xAxisLabel}
@@ -307,7 +321,8 @@ class ScatterPlot extends React.Component {
             />
             <text
               className="y-axis-label"
-              transform={`translate(${padding / 3}, ${height / 2}) rotate(-90)`}
+              transform={`translate(0,
+               ${(height - padding) / 2}) rotate(-90)`}
               style={{ textAnchor: 'middle' }}
             >
               {yAxisLabel}
@@ -329,6 +344,8 @@ ScatterPlot.propTypes = {
   dataPath: PropTypes.string,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
+  dataSelectionCallback: PropTypes.func,
+  clearOnChange: PropTypes.bool,
 };
 
 export default ScatterPlot;

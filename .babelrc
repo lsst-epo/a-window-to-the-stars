@@ -16,10 +16,10 @@
     'transform-react-pure-class-to-function',
     '@babel/plugin-transform-runtime',
     'react-hot-loader/babel',
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
 
     // Stage 2 https://github.com/babel/babel/tree/master/packages/babel-preset-stage-2
-    // ['@babel/plugin-proposal-decorators', { legacy: true }],
     // '@babel/plugin-proposal-function-sent',
     // '@babel/plugin-proposal-export-namespace-from',
     // '@babel/plugin-proposal-numeric-separator',

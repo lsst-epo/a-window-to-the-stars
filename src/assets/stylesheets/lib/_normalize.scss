@@ -46,7 +46,7 @@ main,
 menu,
 nav,
 section {
-  display: block;  
+  display: block;
 }
 
 summary {
@@ -213,9 +213,9 @@ img {
  * Correct overflow displayed oddly in IE 9.
  */
 
-svg:not(:root) {
-  overflow: hidden;
-}
+// svg:not(:root) {
+//   overflow: hidden;
+// }
 
 /* Grouping content
    ========================================================================== */

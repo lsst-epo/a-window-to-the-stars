@@ -7,7 +7,7 @@ class Section extends React.PureComponent {
   static defaultProps = {
     id: '',
     layout: 'two-col',
-    dividers: true,
+    dividers: false,
     paginationLocation: 1,
   };
 

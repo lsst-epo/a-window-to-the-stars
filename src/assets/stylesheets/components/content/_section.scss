@@ -33,4 +33,16 @@ section {
       }
     }
   }
+
+  ol {
+    @include copySecondary;
+    padding-left: 15px;
+    margin: 0.5 * $verticalSpace 0;
+
+    li {
+      + li {
+        margin-top: 0.5 * $verticalSpace;
+      }
+    }
+  }
 }

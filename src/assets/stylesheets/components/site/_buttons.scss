@@ -64,6 +64,13 @@ $md-btn-include-floating: false;
     &.md-btn--text {
       height: 36px;
     }
+
+    &.mini {
+      height: 24px;
+      padding: 4px;
+      font-size: 12px;
+      line-height: 1;
+    }
   }
 
   + .md-btn {
