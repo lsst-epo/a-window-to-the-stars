@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Button from 'react-md/lib/Buttons/Button';
 import ArrowLeft from './icons/ArrowLeft';
 import ArrowRight from './icons/ArrowRight';
@@ -9,17 +10,51 @@ class Page extends React.PureComponent {
   static defaultProps = {
     previousText: 'Previous',
     nextText: 'Next',
-    scrollable: -1,
+    scrollable: 0,
   };
+
+  renderNav() {
+    const { previous, previousText, next, nextText, nextHandler } = this.props;
+
+    return (
+      <nav role="navigation" className="nav-secondary">
+        {previous && (
+          <Button
+            flat
+            primary
+            swapTheming
+            to={previous}
+            component={Link}
+            iconEl={<ArrowLeft />}
+            iconBefore={false}
+          >
+            {previousText}
+          </Button>
+        )}
+        {next && (
+          <Button
+            flat
+            primary
+            swapTheming
+            to={next}
+            component={Link}
+            iconEl={<ArrowRight />}
+            iconBefore={false}
+            onClick={nextHandler}
+          >
+            {nextText}
+          </Button>
+        )}
+      </nav>
+    );
+  }
 
   render() {
     const {
       children,
       dividers,
       previous,
-      previousText,
       next,
-      nextText,
       layout,
       paginationLocation,
       scrollable,
@@ -32,54 +67,32 @@ class Page extends React.PureComponent {
             {React.Children.map(children, (child, i) => {
               const length = React.Children.count(children);
               const colWidth = Math.floor(100 / length);
+              const colClasses = classnames(
+                `col padded col-${i + 1}`,
+                `col-width-${colWidth}`,
+                {
+                  scrollable: scrollable === i,
+                }
+              );
+
               return (
                 <React.Fragment>
                   {dividers && i !== 0 && <div className="divider-vertical" />}
-                  <div
-                    className={`
-                      col padded col-${i + 1}
-                      col-width-${colWidth}
-                      ${scrollable === i ? 'scrollable' : ''}
-                    `}
-                  >
+                  <div className={colClasses}>
                     {child}
-                    {paginationLocation === i + 1 && (
-                      <nav role="navigation" className="nav-secondary">
-                        {previous && (
-                          <Button
-                            flat
-                            primary
-                            swapTheming
-                            to={previous}
-                            component={Link}
-                            iconEl={<ArrowLeft />}
-                            iconBefore={false}
-                          >
-                            {previousText}
-                          </Button>
-                        )}
-                        {next && (
-                          <Button
-                            flat
-                            primary
-                            swapTheming
-                            to={next}
-                            component={Link}
-                            iconEl={<ArrowRight />}
-                            iconBefore={false}
-                          >
-                            {nextText}
-                          </Button>
-                        )}
-                      </nav>
-                    )}
+                    {paginationLocation === i + 1 && this.renderNav()}
                   </div>
                 </React.Fragment>
               );
             })}
           </div>
         )}
-        {!layout && children}
+        {!layout && (
+          <React.Fragment>
+            {children}
+            {(next || previous) && this.renderNav()}
+          </React.Fragment>
+        )}
       </div>
     );
   }
@@ -92,10 +105,10 @@ Page.propTypes = {
   previousText: PropTypes.string,
   next: PropTypes.string,
   nextText: PropTypes.string,
+  nextHandler: PropTypes.func,
   layout: PropTypes.string,
   paginationLocation: PropTypes.number,
   scrollable: PropTypes.number,
-  // colClasses: PropTypes.string,
 };
 
 export default Page;
