@@ -14,12 +14,7 @@ import Histogram from './components/histogram';
 
 @reactn
 class App extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {};
-  // }
-
-  handleStateTestClick = () => {
+  updateLocalStorage() {
     const { answers } = this.global;
     this.setGlobal(
       prevState => ({
@@ -31,6 +26,10 @@ class App extends Component {
         ls('hrd', this.global);
       }
     );
+  }
+
+  handleStateTestClick = () => {
+    this.updateLocalStorage();
   };
 
   handleClearLocalStorage = () => {

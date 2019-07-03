@@ -1,0 +1,22 @@
+.results {
+  @include listUnstyled;
+
+  .result {
+    + .result {
+      margin-top: $minPadding;
+    }
+
+    .question {
+      @include subheadingPrimary;
+      font-weight: $medium;
+    }
+
+    .answer {
+      margin-left: $minPadding;
+    }
+
+    .answer-content, .unit {
+      text-decoration: underline;
+    }
+  }
+}

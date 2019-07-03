@@ -57,7 +57,7 @@ class ExploringStarClusters extends React.PureComponent {
     const { answers: prevAnswers } = this.global;
     const prevAnswer = { ...prevAnswers[id] };
     const content = answerAccessor ? data[answerAccessor] : data;
-
+    console.log('globaling', this);
     this.setGlobal(prevGlobal => ({
       ...prevGlobal,
       answers: {
@@ -143,6 +143,11 @@ class ExploringStarClusters extends React.PureComponent {
             brightness—are the product of the star’s initial mass and this clash
             of forces, and these physical properties change during a star’s
             lifetime.
+          </p>
+          <p>
+            The main sequence forms a slightly s-shaped diagonal band across the
+            plot. To determine the approximate position of the main sequence
+            stars on an H-R Diagram, complete the following:
           </p>
           <hr className="divider-horizontal" />
           {questions && (

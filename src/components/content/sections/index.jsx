@@ -6,39 +6,37 @@ import range from 'lodash/range';
 import API from '../../site/API';
 import Introduction from './Introduction';
 import ExploringStarClusters from './ExploringStarClusters';
+import Results from './Results';
 
 @reactn
 class Sections extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
+  // }
 
-    this.state = {
-      loading: true,
-    };
-
-    API.get('static-data/questions.json').then(res => {
-      this.setGlobal(
-        prevGlobal => ({
+  componentDidMount() {
+    if (isEmpty(this.global.questions)) {
+      API.get('static-data/questions.json').then(res => {
+        this.setGlobal(prevGlobal => ({
           ...prevGlobal,
           questions: res.data,
-        }),
-        this.setState({
-          loading: false,
-        })
-      );
-    });
-  }
-
-  getQuestion(id) {
-    if (!isEmpty(this.global.questions)) {
-      return this.global.questions[id];
+        }));
+      });
     }
-
-    return null;
   }
+
+  onFinish = () => {
+    console.log('finishing');
+    this.dispatch.empty();
+  };
+
+  // onSectionChange = () => {
+  //   this.dispatch.updateLS();
+  // };
 
   getQuestions(questionsRange) {
     const { questions } = this.global;
+
     if (!isEmpty(questions)) {
       return questionsRange.map(questionId => {
         return questions[questionId.toString()];
@@ -49,19 +47,27 @@ class Sections extends React.PureComponent {
   }
 
   render() {
-    const { activeId } = this.global;
-    const { loading } = this.state;
+    const { activeId, questions, answers } = this.global;
+    const loading = isEmpty(questions);
 
     return (
       <React.Fragment>
         {!loading ? (
           <React.Fragment>
-            <Introduction />
+            <Introduction next="1" />
             <ExploringStarClusters
-              id={1}
+              id="1"
               questionsRange={range(1, 7)}
               questions={this.getQuestions(range(1, 7))}
               activeId={activeId}
+              next="100"
+              scrollable={0}
+            />
+            <Results
+              id="100"
+              questions={questions}
+              answers={answers}
+              handleFinish={this.onFinish}
             />
           </React.Fragment>
         ) : (

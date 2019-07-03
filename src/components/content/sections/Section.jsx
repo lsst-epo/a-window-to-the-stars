@@ -12,7 +12,16 @@ class Section extends React.PureComponent {
   };
 
   render() {
-    const { children, id, layout, dividers, paginationLocation } = this.props;
+    const {
+      children,
+      id,
+      layout,
+      dividers,
+      paginationLocation,
+      next,
+      nextHandler,
+    } = this.props;
+
     return (
       <Route
         exact
@@ -20,8 +29,9 @@ class Section extends React.PureComponent {
         render={routeProps => (
           <Page
             {...routeProps}
-            next={`/${id + 1}`}
+            next={next || `/${id + 1}`}
             nextText="Continue"
+            nextHandler={nextHandler}
             layout={layout}
             dividers={dividers}
             paginationLocation={paginationLocation}
@@ -40,6 +50,8 @@ Section.propTypes = {
   layout: PropTypes.string,
   dividers: PropTypes.bool,
   paginationLocation: PropTypes.number,
+  next: PropTypes.string,
+  nextHandler: PropTypes.func,
 };
 
 export default Section;

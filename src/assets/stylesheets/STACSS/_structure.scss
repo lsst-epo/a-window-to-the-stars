@@ -21,6 +21,15 @@
   margin: 0 auto;
 }
 
+.container-page {
+  .scrollable {
+    max-height: calc(100vh - 64px - 2 * #{$minPadding});
+    // This feels wroooong
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+}
+
 .container-flex, .md-card.container-flex, .md-card-text.container-flex,  {
   display: flex;
 
