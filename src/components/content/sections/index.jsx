@@ -26,7 +26,6 @@ class Sections extends React.PureComponent {
   }
 
   onFinish = () => {
-    console.log('finishing');
     this.dispatch.empty();
   };
 

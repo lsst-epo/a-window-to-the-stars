@@ -1,20 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from 'd3-axis';
-import { drag as d3Drag } from 'd3-drag';
 import { easeCircle as d3EaseCircle } from 'd3-ease';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import { select as d3Select, event as d3Event } from 'd3-selection';
-import {
-  line as d3Line,
-  curveCardinal as d3CurveCardinal,
-  curveCardinalClosed as d3CurveCardinalClosed,
-} from 'd3-shape';
 import 'd3-transition';
-import classifyPoint from 'robust-point-in-polygon';
+import includes from 'lodash/includes';
 import API from '../site/API';
 import Point from '../scatter-plot/Point.jsx';
 import Tooltip from '../scatter-plot/Tooltip.jsx';
+import Lasso from '../scatter-plot/Lasso.jsx';
 
 class ScatterPlot extends React.Component {
   constructor(props) {
@@ -24,6 +19,7 @@ class ScatterPlot extends React.Component {
       data: [],
       selectedPointData: null,
       hoverPointData: null,
+      lassoedPointsData: [],
       lassoed: null,
       toolTipPosX: 0,
       toolTipPosY: 0,
@@ -36,7 +32,6 @@ class ScatterPlot extends React.Component {
     this.svgEl = React.createRef();
     this.xAxisContainer = React.createRef();
     this.yAxisContainer = React.createRef();
-    // this.draggablePathEl = React.createRef();
   }
 
   componentDidMount() {
@@ -57,32 +52,6 @@ class ScatterPlot extends React.Component {
     } else {
       this.updateScatterPlot();
     }
-  }
-
-  // Update data point styles and attributes
-  updatePoints($selection, xScale, yScale) {
-    const { xValueAccessor, yValueAccessor } = this.props;
-    const { data } = this.state;
-    const $allPoints = $selection.selectAll('rect').data(data);
-
-    $allPoints
-      .attr('key', d => {
-        return `rect-${d.id}`;
-      })
-      .attr('x', d => {
-        return xScale(d[xValueAccessor]);
-      })
-      .attr('y', d => {
-        return yScale(d[yValueAccessor]);
-      })
-      .transition()
-      .duration(1000)
-      .ease(d3EaseCircle)
-      .attr('rx', 6)
-      .attr('fill', 'yellow')
-      .attr('stroke', 'black')
-      .attr('width', 12)
-      .attr('height', 12);
   }
 
   // mouseover/focus handler for point
@@ -143,6 +112,40 @@ class ScatterPlot extends React.Component {
     }
   };
 
+  onDragStart = () => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        selectedPointData: null,
+        hoverPointData: null,
+        lassoedPointsData: [],
+      }),
+      () => {
+        console.log('start');
+      }
+    );
+  };
+
+  // onDrag = d => {
+  // console.log('dragging', d);
+  // };
+
+  onDragEnd = d => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        selectedPointData: null,
+        hoverPointData: null,
+        lassoedPointsData: d,
+      }),
+      () => {
+        const { lassoedPointsData } = this.state;
+
+        console.log('end', lassoedPointsData);
+      }
+    );
+  };
+
   // add event listeners to Scatterplot and Points
   addEventListeners($scatterplot, $allPoints) {
     $scatterplot.on('click', () => {
@@ -178,15 +181,23 @@ class ScatterPlot extends React.Component {
 
   // render Point components
   points() {
-    const { selectedPointData, hoverPointData, data } = this.state;
+    const {
+      selectedPointData,
+      hoverPointData,
+      lassoedPointsData,
+      data,
+    } = this.state;
+
     return data.map((d, i) => {
-      const key = `$hrd-rect-${i}`;
+      const key = `$rect-${i}`;
+
       return (
         <Point
           key={key}
           data={d}
           selected={d === selectedPointData}
           hovered={d === hoverPointData}
+          lassoed={includes(lassoedPointsData, d)}
           tabIndex="0"
         />
       );
@@ -198,9 +209,6 @@ class ScatterPlot extends React.Component {
     const { xValueAccessor, yValueAccessor } = this.props;
 
     $allPoints
-      .attr('key', d => {
-        return `rect-${d.id}`;
-      })
       .attr('x', d => {
         return xScale(d[xValueAccessor]);
       })
@@ -216,10 +224,6 @@ class ScatterPlot extends React.Component {
       .attr('width', 12)
       .attr('height', 12);
   }
-
-  startHandler = () => {
-    console.log('start drag');
-  };
 
   // bind data to elements and add styles and attributes
   createScatterPlot() {
@@ -242,69 +246,6 @@ class ScatterPlot extends React.Component {
     this.createXAxis(xScale);
     this.createYAxis(yScale);
     this.addEventListeners($scatterplot, $allPoints);
-
-    const $dragLine = d3Line();
-    // const $draggablePath = d3Select(this.draggablePathEl.current);
-
-    $scatterplot.call(
-      d3Drag()
-        .container(function() {
-          return this;
-        })
-        .subject(function() {
-          const p = [d3Event.x, d3Event.y];
-          return [p, p];
-        })
-        .on('start', () => {
-          console.log('start drag');
-          const d = d3Event.subject;
-          $allPoints.attr('fill', 'yellow');
-          $scatterplot.select('.draggable-path').remove();
-          const $active = $scatterplot.append('path');
-          $active.classed('draggable-path', true);
-          $active.datum(d);
-          let x0 = d3Event.x;
-          let y0 = d3Event.y;
-
-          d3Event.on('drag', () => {
-            console.log('dragging');
-            const x1 = d3Event.x;
-            const y1 = d3Event.y;
-            const dx = x1 - x0;
-            const dy = y1 - y0;
-
-            if (dx * dx + dy * dy > 100) {
-              d.push([(x0 = x1), (y0 = y1)]);
-            } else {
-              d[d.length - 1] = [x1, y1];
-              $active.attr('d', $dragLine.curve(d3CurveCardinal));
-            }
-
-            d3Event.on('end', () => {
-              console.log('end drag');
-              const $filtered = $allPoints.filter((nodeData, i, nodes) => {
-                const nodePos = [
-                  Math.floor(d3Select(nodes[i]).attr('x')),
-                  Math.floor(d3Select(nodes[i]).attr('y')),
-                ];
-                const classification = classifyPoint(d, nodePos);
-                return classification === -1 || classification === 0;
-              });
-              $active.attr('d', $dragLine.curve(d3CurveCardinalClosed));
-              $filtered.attr('fill', 'green');
-              this.setState(
-                prevState => ({
-                  ...prevState,
-                  lassoed: $filtered.data(),
-                }),
-                () => {
-                  console.log(JSON.stringify(this.state.lassoed)); // eslint-disable-line react/destructuring-assignment
-                }
-              );
-            });
-          });
-        })
-    );
   }
 
   // re-bind data to elements
@@ -391,7 +332,13 @@ class ScatterPlot extends React.Component {
               {yAxisLabel}
               <tspan baselineShift="sub">&#x2299;</tspan>
             </text>
-            {/* <path ref={this.draggablePathEl} className="draggable-path" d="" /> */}
+            {/* <path ref={this.draggablePathEl} className="draggable-path" /> */}
+            <Lasso
+              lassoableEl={this.svgEl}
+              dragStartCallback={this.onDragStart}
+              dragCallback={this.onDrag}
+              dragEndCallback={this.onDragEnd}
+            />
           </svg>
         </div>
       </div>
