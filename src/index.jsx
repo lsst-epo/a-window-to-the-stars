@@ -28,7 +28,6 @@ addCallback(global => {
 // });
 
 addReducer('empty', prevGlobal => {
-  console.log('emptying');
   const global = {
     ...prevGlobal,
     answers: {},

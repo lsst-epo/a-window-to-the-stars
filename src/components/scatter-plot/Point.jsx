@@ -10,13 +10,15 @@ class Point extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { selected, hovered } = this.props;
+    const { selected, hovered, lassoed } = this.props;
     const $point = d3Select(this.el.current);
 
     if (selected) {
       this.selectStyle($point);
     } else if (hovered) {
       this.hoverStyle($point);
+    } else if (lassoed) {
+      this.lassoedStyle($point);
     } else {
       this.defaultStyle($point);
     }
@@ -43,6 +45,13 @@ class Point extends React.PureComponent {
       .attr('fill', 'red');
   }
 
+  lassoedStyle($point) {
+    $point
+      .transition()
+      .duration(200)
+      .attr('fill', 'green');
+  }
+
   render() {
     return (
       <rect
@@ -65,6 +74,7 @@ class Point extends React.PureComponent {
 Point.propTypes = {
   selected: PropTypes.bool,
   hovered: PropTypes.bool,
+  lassoed: PropTypes.bool,
 };
 
 export default Point;
