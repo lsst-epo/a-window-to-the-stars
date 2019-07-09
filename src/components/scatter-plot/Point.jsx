@@ -30,6 +30,7 @@ class Point extends React.PureComponent {
     $point
       .transition()
       .duration(200)
+      .attr('stroke', 'black')
       .attr('fill', 'yellow');
   }
 
@@ -37,6 +38,7 @@ class Point extends React.PureComponent {
     $point
       .transition()
       .duration(200)
+      .attr('stroke', 'black')
       .attr('fill', 'lightsteelblue');
   }
 
@@ -44,6 +46,7 @@ class Point extends React.PureComponent {
     $point
       .transition()
       .duration(200)
+      .attr('stroke', 'black')
       .attr('fill', 'red');
   }
 

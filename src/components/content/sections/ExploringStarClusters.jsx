@@ -2,6 +2,7 @@ import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import API from '../../site/API';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QuestionsAnswers from '../../questions/ExpansionList';
@@ -13,7 +14,17 @@ class ExploringStarClusters extends React.PureComponent {
 
     this.state = {
       clearGraphSelection: false,
+      clusterData: [],
     };
+  }
+
+  componentDidMount() {
+    API.get('static-data/stars.json').then(res => {
+      this.setState(prevState => ({
+        ...prevState,
+        clusterData: res.data,
+      }));
+    });
   }
 
   componentDidUpdate() {
@@ -120,6 +131,7 @@ class ExploringStarClusters extends React.PureComponent {
 
   render() {
     const { questions, activeId } = this.props;
+    const { clusterData } = this.state;
     const { answers } = this.global;
     const activeAnswer = answers[activeId] || {};
 
@@ -136,18 +148,27 @@ class ExploringStarClusters extends React.PureComponent {
             expressed as Solar luminosity, which is the ratio of a star’s energy
             output compared to the energy output of the Sun. For example, a star
             with a solar luminosity of 10 is giving off ten times more energy
-            than the Sun. Temperature (X axis) is commonly measured in Kelvin.
+            than the Sun. The temperature (X axis) is commonly measured in
+            Kelvin.
           </p>
           <p>
-            A star’s physical properties—its size, temperature, color, and
-            brightness—are the product of the star’s initial mass and this clash
-            of forces, and these physical properties change during a star’s
+            Notice that most data points occupy a region stretching diagonally
+            from the upper left to the lower right of the plot. This region is
+            called the main sequence. Stars in the main sequence are fusing
+            hydrogen. The fusion pressure force is balanced against the force of
+            gravity, which keeps the star in a stable state for most of its
             lifetime.
           </p>
           <p>
-            The main sequence forms a slightly s-shaped diagonal band across the
-            plot. To determine the approximate position of the main sequence
-            stars on an H-R Diagram, complete the following:
+            There are also groups of points above the main sequence representing
+            giant stars, and beneath the main sequence representing white dwarf
+            stars. Giant stars are stars in the late stages of their lifetimes.
+            They are powered by more than one type of nuclear fusion reaction.
+            White dwarfs are stellar remnants that are no longer powered by
+            fusion. White dwarfs are commonly referred to as dead stars. These
+            three areas (giant stars, main sequence, and white dwarfs) will
+            always appear on an H-R Diagram, even if you import the data from
+            thousands of stars.
           </p>
           <hr className="divider-horizontal" />
           {questions && (
@@ -165,10 +186,7 @@ class ExploringStarClusters extends React.PureComponent {
         <div className="col-graph">
           <h2>H-R Diagram</h2>
           <ScatterPlot
-            width={600}
-            height={600}
-            padding={50}
-            dataPath="static-data/stars.json"
+            data={clusterData}
             xValueAccessor="teff"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"

@@ -2,39 +2,51 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { select as d3Select } from 'd3-selection';
 import { axisBottom as d3AxisBottom } from 'd3-axis';
-import { scaleLinear as d3ScaleLinear } from 'd3-scale';
 
 class XAxis extends React.Component {
   constructor(props) {
     super(props);
+
     this.xAxisContainer = React.createRef();
   }
 
   componentDidMount() {
-    const { width, padding } = this.props;
-    const xScale = d3ScaleLinear()
-      .domain([10000, 3000])
-      .range([padding, width]);
-    const xAxis = d3AxisBottom(xScale);
-    d3Select(this.xAxisContainer.current).call(xAxis);
+    const { scale } = this.props;
+    const xAxis = d3AxisBottom(scale);
+    const $xAxis = d3Select(this.xAxisContainer.current);
+
+    $xAxis
+      .call(xAxis)
+      .selectAll('.tick text')
+      .style('text-anchor', 'end')
+      .attr('dx', '-0.8em')
+      .attr('dy', '-0.03em')
+      .attr('transform', 'rotate(-65)');
   }
 
   render() {
-    const { height, width, padding, label } = this.props;
+    const {
+      height,
+      width,
+      padding,
+      label,
+      offsetRight,
+      offsetTop,
+    } = this.props;
 
     return (
       <React.Fragment>
         <g
           key="x-axis"
           className="x-axis axis"
-          transform={`translate(0, ${height - padding})`}
+          transform={`translate(0, ${height - padding + offsetTop})`}
           ref={this.xAxisContainer}
         />
         <text
           key="x-axis-label"
           className="x-axis-label"
-          transform={`translate(${(width + padding) / 2},
-           ${height})`}
+          transform={`translate(${(width + padding + offsetRight) / 2},
+           ${height - padding * 0.08})`}
           style={{ textAnchor: 'middle' }}
         >
           {label}
@@ -49,6 +61,9 @@ XAxis.propTypes = {
   height: PropTypes.number,
   width: PropTypes.number,
   padding: PropTypes.number,
+  offsetTop: PropTypes.number,
+  offsetRight: PropTypes.number,
+  scale: PropTypes.any,
 };
 
 export default XAxis;

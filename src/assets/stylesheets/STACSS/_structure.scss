@@ -23,10 +23,20 @@
 
 .container-page {
   .scrollable {
-    max-height: calc(100vh - 64px - 2 * #{$minPadding});
-    // This feels wroooong
-    overflow-x: hidden;
-    overflow-y: scroll;
+    + .col  {
+      position: fixed;
+      top: $siteHeaderHeight + $minPadding;
+      height: 100%;
+      max-height: calc(100vh - #{$siteHeaderHeight} - 2 * #{$minPadding});
+
+      &.col-width-50 {
+        left: 50%;
+      }
+
+      .tooltip {
+        position: fixed;
+      }
+    }
   }
 }
 
@@ -65,7 +75,8 @@
     }
 
     .col-graph {
-      margin-left: 11px;
+      padding-right: 11px;
+      padding-left: 11px;
 
       h2 {
         margin-bottom: calc(#{$verticalSpace} + 8px);

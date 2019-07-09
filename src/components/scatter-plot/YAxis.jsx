@@ -2,20 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { select as d3Select } from 'd3-selection';
 import { axisLeft as d3AxisLeft } from 'd3-axis';
-import { scaleLog as d3ScaleLog } from 'd3-scale';
 
 class YAxis extends React.Component {
   constructor(props) {
     super(props);
+
     this.yAxisContainer = React.createRef();
   }
 
   componentDidMount() {
-    const { height, padding } = this.props;
-    const yScale = d3ScaleLog()
-      .domain([0.001, 100000])
-      .range([height - padding, 0]);
-    const yAxis = d3AxisLeft(yScale).ticks(8);
+    const { scale } = this.props;
+    const yAxis = d3AxisLeft(scale).ticks(8);
     const $yAxis = d3Select(this.yAxisContainer.current);
 
     $yAxis
@@ -33,21 +30,21 @@ class YAxis extends React.Component {
   }
 
   render() {
-    const { height, padding, label } = this.props;
+    const { height, padding, label, offsetTop } = this.props;
 
     return (
       <React.Fragment>
         <g
           key="y-axis"
           className="y-axis axis"
-          transform={`translate(${padding}, 0)`}
+          transform={`translate(${padding}, ${offsetTop})`}
           ref={this.yAxisContainer}
         />
         <text
           key="y-axis-label"
           className="y-axis-label"
-          transform={`translate(0,
-           ${(height - padding) / 2}) rotate(-90)`}
+          transform={`translate(${padding * 0.33},
+           ${(height - padding + offsetTop) / 2}) rotate(-90)`}
           style={{ textAnchor: 'middle' }}
         >
           {label}
@@ -62,6 +59,8 @@ YAxis.propTypes = {
   label: PropTypes.string,
   height: PropTypes.number,
   padding: PropTypes.number,
+  offsetTop: PropTypes.number,
+  scale: PropTypes.any,
 };
 
 export default YAxis;
