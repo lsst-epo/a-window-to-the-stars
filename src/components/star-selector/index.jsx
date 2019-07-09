@@ -3,21 +3,16 @@ import PropTypes from 'prop-types';
 import includes from 'lodash/includes';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { easeCircle as d3EaseCircle } from 'd3-ease';
-import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
+import { scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
-import Point from './Point.jsx';
-import XAxis from './XAxis.jsx';
-import YAxis from './YAxis.jsx';
-import Tooltip from './Tooltip.jsx';
-import Lasso from './Lasso.jsx';
+import Point from '../scatter-plot/Point.jsx';
+import Lasso from '../scatter-plot/Lasso.jsx';
 
-class ScatterPlot extends React.Component {
+class StarSelector extends React.Component {
   static defaultProps = {
     width: 600,
     height: 600,
-    padding: 70,
-    offsetTop: 7,
-    offsetRight: 7,
+    padding: 0,
   };
 
   constructor(props) {
@@ -29,15 +24,12 @@ class ScatterPlot extends React.Component {
       showLasso: false,
       dragLine: [],
       dragLoop: [],
-      toolTipPosX: 0,
-      toolTipPosY: 0,
-      showTooltip: false,
       xScale: d3ScaleLinear()
-        .domain([10000, 3000])
-        .range([props.padding, props.width - props.offsetRight]),
-      yScale: d3ScaleLog()
-        .domain([0.001, 100000])
-        .range([props.height - props.padding, props.offsetTop]),
+        .domain([200, 0])
+        .range([props.padding, props.width]),
+      yScale: d3ScaleLinear()
+        .domain([0, 200])
+        .range([props.height - props.padding, 0]),
     };
 
     this.svgEl = React.createRef();
@@ -54,11 +46,11 @@ class ScatterPlot extends React.Component {
     const differentSelectedData = selectedData !== prevState.selectedData;
     const shouldCallback = dataSelectionCallback && differentSelectedData;
 
-    console.log('component did update');
     if (prevProps.data !== data) {
       this.updateScatterPlot();
     }
-    // else {
+    //  else {
+    //   console.log('updating');
     //   this.updatePoints();
     // }
 
@@ -71,9 +63,6 @@ class ScatterPlot extends React.Component {
       this.setState(currentState => ({
         ...currentState,
         hoverPointData: null,
-        toolTipPosX: 0,
-        toolTipPosY: 0,
-        showTooltip: false,
         selectedData: null,
       }));
     }
@@ -82,13 +71,10 @@ class ScatterPlot extends React.Component {
 
   // mouseover/focus handler for point
   onMouseOver = d => {
-    // add hover style on point and show tooltip
+    // add hover style on point
     this.setState(prevState => ({
       ...prevState,
       hoverPointData: d,
-      toolTipPosX: d3Event.pageX,
-      toolTipPosY: d3Event.pageY,
-      showTooltip: true,
     }));
   };
 
@@ -98,18 +84,17 @@ class ScatterPlot extends React.Component {
     const selectedPointId =
       selectedData && !Array.isArray(selectedData) ? selectedData.id : null;
 
-    // remove hover style on point but don't hide tooltip
+    // remove hover style on point
     if (selectedPointId) {
       this.setState(prevState => ({
         ...prevState,
         hoverPointData: null,
       }));
-      // remove hover style on point and hide tooltip
+      // remove hover style on poin
     } else {
       this.setState(prevState => ({
         ...prevState,
         hoverPointData: null,
-        showTooltip: false,
       }));
     }
   };
@@ -124,8 +109,6 @@ class ScatterPlot extends React.Component {
     if (d.id === selectedPointId) {
       this.setState(prevState => ({
         ...prevState,
-        toolTipPosX: d3Event.pageX,
-        toolTipPosY: d3Event.pageY,
         selectedData: null,
         showLasso: false,
       }));
@@ -133,9 +116,6 @@ class ScatterPlot extends React.Component {
     } else {
       this.setState(prevState => ({
         ...prevState,
-        toolTipPosX: d3Event.pageX,
-        toolTipPosY: d3Event.pageY,
-        showTooltip: true,
         selectedData: d,
         showLasso: false,
       }));
@@ -159,7 +139,6 @@ class ScatterPlot extends React.Component {
     this.setState(
       prevState => ({
         ...prevState,
-        showTooltip: false,
         showLasso: true,
       }),
       () => {
@@ -174,7 +153,6 @@ class ScatterPlot extends React.Component {
     this.setState(
       prevState => ({
         ...prevState,
-        showTooltip: false,
         selectedData: d,
       }),
       () => {
@@ -197,7 +175,6 @@ class ScatterPlot extends React.Component {
         this.setState(prevState => ({
           ...prevState,
           hoverPointData: null,
-          showTooltip: false,
           selectedData: null,
         }));
       }
@@ -244,6 +221,7 @@ class ScatterPlot extends React.Component {
   updatePoints() {
     const { data, xValueAccessor, yValueAccessor } = this.props;
     const { xScale, yScale } = this.state;
+
     if (!data) {
       return;
     }
@@ -262,12 +240,10 @@ class ScatterPlot extends React.Component {
       .transition()
       .duration(1000)
       .ease(d3EaseCircle)
-      .attr('rx', 6)
-      .attr('stroke', 'black')
+      .attr('rx', 1)
       .attr('fill', 'yellow')
-      .attr('width', 12)
-      .attr('height', 12);
-    console.log('updating points');
+      .attr('width', 2)
+      .attr('height', 2);
   }
 
   // bind data to elements and add styles and attributes
@@ -277,71 +253,30 @@ class ScatterPlot extends React.Component {
   }
 
   render() {
-    const {
-      width,
-      height,
-      padding,
-      offsetTop,
-      offsetRight,
-      xAxisLabel,
-      yAxisLabel,
-      useLasso,
-    } = this.props;
-
-    const {
-      hoverPointData,
-      toolTipPosX,
-      toolTipPosY,
-      showTooltip,
-      selectedData,
-      showLasso,
-      xScale,
-      yScale,
-    } = this.state;
+    const { showLasso } = this.state;
+    const { width, height, backgroundImage } = this.props;
 
     return (
       <div>
-        <Tooltip
-          key="tooltip"
-          pointData={selectedData || hoverPointData}
-          posX={toolTipPosX}
-          posY={toolTipPosY}
-          show={showTooltip}
-        />
-        <div className="svg-container">
+        <div className="svg-container star-selector-container">
           <svg
             key="scatter-plot"
-            className="scatter-plot-svg"
+            className="scatter-plot-svg star-selector"
             preserveAspectRatio="xMidYMid meet"
             viewBox={`0 0 ${width} ${height}`}
             ref={this.svgEl}
+            style={{
+              backgroundImage: `url(${backgroundImage})`,
+            }}
           >
             <g className="rects">{this.points()}</g>
-            <XAxis
-              label={xAxisLabel}
-              height={height}
-              width={width}
-              padding={padding}
-              offsetTop={offsetTop}
-              offsetRight={offsetRight}
-              scale={xScale}
+            <Lasso
+              active={showLasso}
+              lassoableEl={this.svgEl}
+              dragCallback={this.onDrag}
+              dragStartCallback={this.onDragStart}
+              dragEndCallback={this.onDragEnd}
             />
-            <YAxis
-              label={yAxisLabel}
-              height={height}
-              padding={padding}
-              offsetTop={offsetTop}
-              scale={yScale}
-            />
-            {useLasso && (
-              <Lasso
-                active={showLasso}
-                lassoableEl={this.svgEl}
-                dragCallback={this.onDrag}
-                dragStartCallback={this.onDragStart}
-                dragEndCallback={this.onDragEnd}
-              />
-            )}
           </svg>
         </div>
       </div>
@@ -349,21 +284,17 @@ class ScatterPlot extends React.Component {
   }
 }
 
-ScatterPlot.propTypes = {
+StarSelector.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
+  padding: PropTypes.number,
   data: PropTypes.array,
-  xAxisLabel: PropTypes.string,
-  yAxisLabel: PropTypes.string,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
-  padding: PropTypes.number,
-  offsetTop: PropTypes.number,
-  offsetRight: PropTypes.number,
-  useLasso: PropTypes.bool,
   dataLassoCallback: PropTypes.func,
   dataSelectionCallback: PropTypes.func,
   clearOnChange: PropTypes.bool,
+  backgroundImage: PropTypes.any,
 };
 
-export default ScatterPlot;
+export default StarSelector;

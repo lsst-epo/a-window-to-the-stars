@@ -60,10 +60,10 @@ class Sections extends React.PureComponent {
               questionsRange={range(1, 7)}
               questions={this.getQuestions(range(1, 7))}
               activeId={activeId}
-              next="100"
+              next="2"
               scrollable={0}
             />
-            <MakingHRD id="2" />
+            <MakingHRD id="2" next="100" scrollable={0} />
             <Results
               id="100"
               questions={questions}
