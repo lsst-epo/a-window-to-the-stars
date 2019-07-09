@@ -6,6 +6,7 @@ import range from 'lodash/range';
 import API from '../../site/API';
 import Introduction from './Introduction';
 import ExploringStarClusters from './ExploringStarClusters';
+import MakingHRD from './MakingHRD';
 import Results from './Results';
 
 @reactn
@@ -62,6 +63,7 @@ class Sections extends React.PureComponent {
               next="100"
               scrollable={0}
             />
+            <MakingHRD id="2" />
             <Results
               id="100"
               questions={questions}
