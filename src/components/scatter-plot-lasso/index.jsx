@@ -131,6 +131,7 @@ class ScatterPlot extends React.Component {
   // };
 
   onDragEnd = d => {
+    const { dataLassoCallback } = this.props;
     this.setState(
       prevState => ({
         ...prevState,
@@ -142,6 +143,7 @@ class ScatterPlot extends React.Component {
         const { lassoedPointsData } = this.state;
 
         console.log('end', lassoedPointsData);
+        dataLassoCallback(lassoedPointsData);
       }
     );
   };
@@ -332,11 +334,9 @@ class ScatterPlot extends React.Component {
               {yAxisLabel}
               <tspan baselineShift="sub">&#x2299;</tspan>
             </text>
-            {/* <path ref={this.draggablePathEl} className="draggable-path" /> */}
             <Lasso
               lassoableEl={this.svgEl}
               dragStartCallback={this.onDragStart}
-              dragCallback={this.onDrag}
               dragEndCallback={this.onDragEnd}
             />
           </svg>
@@ -355,6 +355,7 @@ ScatterPlot.propTypes = {
   dataPath: PropTypes.string,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
+  dataLassoCallback: PropTypes.func,
 };
 
 export default ScatterPlot;

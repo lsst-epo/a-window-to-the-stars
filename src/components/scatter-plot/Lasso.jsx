@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { drag as d3Drag } from 'd3-drag';
 import {
@@ -37,6 +38,7 @@ class Lasso extends React.Component {
           return [p, p];
         })
         .on('start', () => {
+          // d3Event.sourceEvent.stopPropagation();
           const d = d3Event.subject;
           const $active = d3Select(this.draggablePathEl.current);
 
@@ -44,9 +46,12 @@ class Lasso extends React.Component {
           let x0 = d3Event.x;
           let y0 = d3Event.y;
 
-          dragStartCallback(d);
+          if (dragStartCallback) {
+            dragStartCallback(d);
+          }
 
           d3Event.on('drag', () => {
+            // d3Event.sourceEvent.stopPropagation();
             const x1 = d3Event.x;
             const y1 = d3Event.y;
             const dx = x1 - x0;
@@ -59,7 +64,9 @@ class Lasso extends React.Component {
               $active.attr('d', $dragLine.curve(d3CurveCardinal));
             }
 
-            dragCallback(d);
+            if (dragCallback) {
+              dragCallback(d);
+            }
 
             d3Event.on('end', () => {
               const $filtered = $allPoints.filter((nodeData, i, nodes) => {
@@ -78,7 +85,9 @@ class Lasso extends React.Component {
                   lassoed: $filtered.data(),
                 }),
                 () => {
-                  dragEndCallback($filtered.data());
+                  if (dragEndCallback) {
+                    dragEndCallback($filtered.data());
+                  }
                 }
               );
             });
@@ -88,12 +97,15 @@ class Lasso extends React.Component {
   }
 
   render() {
-    return <path ref={this.draggablePathEl} className="draggable-path" />;
+    const { active } = this.props;
+    const lassoClasses = classnames('draggable-path', { active });
+    return <path ref={this.draggablePathEl} className={lassoClasses} />;
   }
 }
 
 Lasso.propTypes = {
   lassoableEl: PropTypes.node,
+  active: PropTypes.bool,
   dragStartCallback: PropTypes.func,
   dragCallback: PropTypes.func,
   dragEndCallback: PropTypes.func,

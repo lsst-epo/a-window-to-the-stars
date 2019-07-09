@@ -1,55 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import includes from 'lodash/includes';
 import { select as d3Select, event as d3Event } from 'd3-selection';
-import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from 'd3-axis';
 import { easeCircle as d3EaseCircle } from 'd3-ease';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
-import API from '../site/API';
 import Point from './Point.jsx';
+import XAxis from './XAxis.jsx';
+import YAxis from './YAxis.jsx';
 import Tooltip from './Tooltip.jsx';
+import Lasso from './Lasso.jsx';
 
 class ScatterPlot extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: [],
+      selectedData: null,
       hoverPointData: null,
+      showLasso: false,
+      dragLine: [],
+      dragLoop: [],
       toolTipPosX: 0,
       toolTipPosY: 0,
       showTooltip: false,
-      selectedData: null,
     };
 
     // refs to attach d3 events, transitions, data bindings, etc.
     this.svgEl = React.createRef();
-    this.xAxisContainer = React.createRef();
-    this.yAxisContainer = React.createRef();
-  }
-
-  componentDidMount() {
-    const { dataPath } = this.props;
-
-    API.get(dataPath).then(res => {
-      this.setState(prevState => ({
-        ...prevState,
-        data: res.data,
-      }));
-    });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { data, selectedData, hoverPointData } = this.state;
-    const { dataSelectionCallback, clearOnChange } = this.props;
+    const { selectedData, hoverPointData } = this.state;
+    const { data, dataSelectionCallback, clearOnChange } = this.props;
     const differentSelectedData = selectedData !== prevState.selectedData;
     const shouldCallback = dataSelectionCallback && differentSelectedData;
 
-    if (prevState.data !== data && prevState.data.length === 0) {
+    if (prevProps.data !== data) {
       this.createScatterPlot();
-    } else {
-      this.updateScatterPlot();
     }
+    //  else {
+    //   console.log('updating');
+    //   this.updateScatterPlot();
+    // }
 
     if (shouldCallback) {
       dataSelectionCallback(selectedData);
@@ -69,34 +62,8 @@ class ScatterPlot extends React.Component {
     /* eslint-enable react/no-did-update-set-state */
   }
 
-  // Update data point styles and attributes
-  updatePoints($selection, xScale, yScale) {
-    const { xValueAccessor, yValueAccessor } = this.props;
-    const { data } = this.state;
-    const $allPoints = $selection.selectAll('rect').data(data);
-
-    $allPoints
-      .attr('key', d => {
-        return `rect-${d.id}`;
-      })
-      .attr('x', d => {
-        return xScale(d[xValueAccessor]);
-      })
-      .attr('y', d => {
-        return yScale(d[yValueAccessor]);
-      })
-      .transition()
-      .duration(1000)
-      .ease(d3EaseCircle)
-      .attr('rx', 6)
-      .attr('fill', 'yellow')
-      .attr('stroke', 'black')
-      .attr('width', 12)
-      .attr('height', 12);
-  }
-
   // mouseover/focus handler for point
-  mouseoverHandler = d => {
+  onMouseOver = d => {
     // add hover style on point and show tooltip
     this.setState(prevState => ({
       ...prevState,
@@ -108,11 +75,12 @@ class ScatterPlot extends React.Component {
   };
 
   // mouseout/blur handler for point
-  mouseoutHandler = () => {
+  onMouseOut = () => {
     const { selectedData } = this.state;
-    const selectedPointId = selectedData ? selectedData.id : null;
+    const selectedPointId =
+      selectedData && !Array.isArray(selectedData) ? selectedData.id : null;
 
-    // remove hover style on point but don't hide  tooltip
+    // remove hover style on point but don't hide tooltip
     if (selectedPointId) {
       this.setState(prevState => ({
         ...prevState,
@@ -129,9 +97,10 @@ class ScatterPlot extends React.Component {
   };
 
   // point click handler
-  clickHandler = d => {
+  onClick = d => {
     const { selectedData } = this.state;
-    const selectedPointId = selectedData ? selectedData.id : null;
+    const selectedPointId =
+      selectedData && !Array.isArray(selectedData) ? selectedData.id : null;
 
     // remove selected style on point
     if (d.id === selectedPointId) {
@@ -140,6 +109,7 @@ class ScatterPlot extends React.Component {
         toolTipPosX: d3Event.pageX,
         toolTipPosY: d3Event.pageY,
         selectedData: null,
+        showLasso: false,
       }));
       // add selected style on point
     } else {
@@ -149,12 +119,60 @@ class ScatterPlot extends React.Component {
         toolTipPosY: d3Event.pageY,
         showTooltip: true,
         selectedData: d,
+        showLasso: false,
       }));
     }
   };
 
+  onDragStart = () => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        selectedData: [],
+        showLasso: false,
+      }),
+      () => {
+        console.log('start');
+      }
+    );
+  };
+
+  onDrag = () => {
+    this.setState(
+      prevState => ({
+        ...prevState,
+        showTooltip: false,
+        showLasso: true,
+      }),
+      () => {
+        // console.log('dragging');
+      }
+    );
+  };
+
+  onDragEnd = d => {
+    const { dataLassoCallback } = this.props;
+
+    this.setState(
+      prevState => ({
+        ...prevState,
+        showTooltip: false,
+        selectedData: d,
+      }),
+      () => {
+        const { selectedData } = this.state;
+
+        console.log('end');
+        dataLassoCallback(selectedData);
+      }
+    );
+  };
+
   // add event listeners to Scatterplot and Points
-  addEventListeners($scatterplot, $allPoints) {
+  addEventListeners() {
+    const $scatterplot = d3Select(this.svgEl.current);
+    const $allPoints = d3Select(this.svgEl.current).selectAll('rect');
+
     $scatterplot.on('click', () => {
       // remove styles and selections when click on non-point
       if (d3Event.target.classList[0] !== 'data-point') {
@@ -169,46 +187,35 @@ class ScatterPlot extends React.Component {
 
     // add event listeners to points
     $allPoints
-      .on('mouseover focus', this.mouseoverHandler)
-      .on('mouseout blur', this.mouseoutHandler)
-      .on('click', this.clickHandler);
-  }
-
-  // create X Axis
-  createXAxis(xScale) {
-    const xAxis = d3AxisBottom(xScale);
-    d3Select(this.xAxisContainer.current).call(xAxis);
-  }
-
-  // create Y Axis
-  createYAxis(yScale) {
-    const yAxis = d3AxisLeft(yScale).ticks(8);
-    const $yAxis = d3Select(this.yAxisContainer.current);
-    $yAxis
-      .call(yAxis)
-      .selectAll('.tick text')
-      .text(d => {
-        return Math.log10(d) === 0 ? 1 : 10;
-      })
-      .append('tspan')
-      .attr('baseline-shift', 'super')
-      .text(d => {
-        const exponent = Math.log10(d);
-        return exponent === 0 ? '' : exponent;
-      });
+      .on('mouseover focus', this.onMouseOver)
+      .on('mouseout blur', this.onMouseOut)
+      .on('click', this.onClick);
   }
 
   // render Point components
   points() {
-    const { hoverPointData, data, selectedData } = this.state;
+    const { selectedData, hoverPointData } = this.state;
+    let { data } = this.props;
+
+    if (!data) {
+      return null;
+    }
+
+    if (!Array.isArray(data)) {
+      data = [data];
+    }
+
     return data.map((d, i) => {
-      const key = `$hrd-rect-${i}`;
+      const key = `$rect-${i}`;
+      const selected = d === selectedData || includes(selectedData, d);
+      const hovered = d === hoverPointData;
+
       return (
         <Point
           key={key}
           data={d}
-          selected={d === selectedData}
-          hovered={d === hoverPointData}
+          selected={selected}
+          hovered={hovered}
           tabIndex="0"
         />
       );
@@ -216,13 +223,13 @@ class ScatterPlot extends React.Component {
   }
 
   // add attributes to points
-  stylePoints($allPoints, xScale, yScale) {
-    const { xValueAccessor, yValueAccessor } = this.props;
+  updatePoints(xScale, yScale) {
+    const { data, xValueAccessor, yValueAccessor } = this.props;
+    const $allPoints = d3Select(this.svgEl.current)
+      .selectAll('rect')
+      .data(data);
 
     $allPoints
-      .attr('key', d => {
-        return `rect-${d.id}`;
-      })
       .attr('x', d => {
         return xScale(d[xValueAccessor]);
       })
@@ -241,13 +248,7 @@ class ScatterPlot extends React.Component {
 
   // bind data to elements and add styles and attributes
   createScatterPlot() {
-    const { width, height, padding } = this.props;
-    // const padding = 0;
-    const { data } = this.state;
-    const $scatterplot = d3Select(this.svgEl.current);
-    const $allPoints = d3Select(this.svgEl.current)
-      .selectAll('rect')
-      .data(data);
+    const { data, width, height, padding } = this.props;
 
     const xScale = d3ScaleLinear()
       .domain([10000, 3000])
@@ -257,15 +258,17 @@ class ScatterPlot extends React.Component {
       .domain([0.001, 100000])
       .range([height - padding, 0]);
 
-    this.stylePoints($allPoints, xScale, yScale);
-    this.createXAxis(xScale);
-    this.createYAxis(yScale);
-    this.addEventListeners($scatterplot, $allPoints);
+    // this.createXAxis(xScale);
+    // this.createYAxis(yScale);
+    if (data) {
+      this.updatePoints(xScale, yScale);
+    }
+    this.addEventListeners();
   }
 
   // re-bind data to elements
   updateScatterPlot() {
-    const { data } = this.state;
+    const { data } = this.props;
 
     d3Select(this.svgEl.current)
       .selectAll('rect')
@@ -279,9 +282,17 @@ class ScatterPlot extends React.Component {
       toolTipPosY,
       showTooltip,
       selectedData,
+      showLasso,
     } = this.state;
 
-    const { width, height, padding, xAxisLabel, yAxisLabel } = this.props;
+    const {
+      width,
+      height,
+      padding,
+      xAxisLabel,
+      yAxisLabel,
+      useLasso,
+    } = this.props;
 
     return (
       <div>
@@ -301,33 +312,22 @@ class ScatterPlot extends React.Component {
             ref={this.svgEl}
           >
             <g className="rects">{this.points()}</g>
-            <g
-              className="x-axis axis"
-              transform={`translate(0, ${height - padding})`}
-              ref={this.xAxisContainer}
+            <XAxis
+              label={xAxisLabel}
+              height={height}
+              width={width}
+              padding={padding}
             />
-            <text
-              className="x-axis-label"
-              transform={`translate(${(width + padding) / 2},
-               ${height})`}
-              style={{ textAnchor: 'middle' }}
-            >
-              {xAxisLabel}
-            </text>
-            <g
-              className="y-axis axis"
-              transform={`translate(${padding}, 0)`}
-              ref={this.yAxisContainer}
-            />
-            <text
-              className="y-axis-label"
-              transform={`translate(0,
-               ${(height - padding) / 2}) rotate(-90)`}
-              style={{ textAnchor: 'middle' }}
-            >
-              {yAxisLabel}
-              <tspan baselineShift="sub">&#x2299;</tspan>
-            </text>
+            <YAxis label={yAxisLabel} height={height} padding={padding} />
+            {useLasso && (
+              <Lasso
+                active={showLasso}
+                lassoableEl={this.svgEl}
+                dragCallback={this.onDrag}
+                dragStartCallback={this.onDragStart}
+                dragEndCallback={this.onDragEnd}
+              />
+            )}
           </svg>
         </div>
       </div>
@@ -341,9 +341,11 @@ ScatterPlot.propTypes = {
   padding: PropTypes.number,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
-  dataPath: PropTypes.string,
+  data: PropTypes.array,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
+  useLasso: PropTypes.bool,
+  dataLassoCallback: PropTypes.func,
   dataSelectionCallback: PropTypes.func,
   clearOnChange: PropTypes.bool,
 };
