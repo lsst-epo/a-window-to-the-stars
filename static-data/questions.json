@@ -2,31 +2,31 @@
   "1": {
     "id": "1",
     "type": "accordion",
-    "label": "Select a main sequence star with a temperature of 3,000 K",
+    "label": "Select the brightest Main Sequence Star whose temperature is around 3,000 K",
     "placeholder": null,
-    "answerAccessor": "teff",
-    "answerPre": "The selected star has a temperature of "
+    "answerAccessor": "luminosity",
+    "answerPre": "The selected star has a luminosity of "
   },
   "2": {
     "id": "2",
     "type": "accordion",
-    "label": "Select a main sequence star with a temperature of 6,000 K",
+    "label": "Select the dimmest Main Sequence Star whose temperature is around 3,000 K",
     "placeholder": null,
-    "answerAccessor": "teff",
-    "answerPre": "The selected star has a temperature of "
+    "answerAccessor": "luminosity",
+    "answerPre": "The selected star has a luminosity of "
   },
   "3": {
     "id": "3",
     "type": "accordion",
-    "label": "Select a main sequence star with a temperature of 10,000 K",
+    "label": "Select the brightest Main Sequence Star whose temperature is around 6,000 K",
     "placeholder": null,
-    "answerAccessor": "teff",
-    "answerPre": "The selected star has a temperature of "
+    "answerAccessor": "luminosity",
+    "answerPre": "The selected star has a luminosity of "
   },
   "4": {
     "id": "4",
     "type": "accordion",
-    "label": "Select the dimmest giant star (the giant star with lowest luminosity)",
+    "label": "Select the dimmest Main Sequence Star whose temperature is around 6,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -34,7 +34,7 @@
   "5": {
     "id": "5",
     "type": "accordion",
-    "label": "Select the brightest white dwarf star (the white dwarf star with highest luminosity)",
+    "label": "Select the dimmest Main Sequence Star whose temperature is around 10,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -42,9 +42,65 @@
   "6": {
     "id": "6",
     "type": "accordion",
-    "label": "Select the coldest white dwarf star (the white dwarf star with lowest temperature)",
+    "label": "Select the dimmest Main Sequence Star whose temperature is around 10,000 K",
     "placeholder": null,
-    "answerAccessor": "teff",
+    "answerAccessor": "luminosity",
+    "answerPre": "The selected star has a luminosity of "
+  },
+  "7": {
+    "id": "7",
+    "type": "accordion",
+    "label": "Select the dimmest Giant Star",
+    "placeholder": null,
+    "answerAccessor": "luminosity",
+    "answerPre": "The selected star has a luminosity of "
+  },
+  "8": {
+    "id": "8",
+    "type": "accordion",
+    "label": "Select the brightest White Dwarf Star",
+    "placeholder": null,
+    "answerAccessor": "luminosity",
+    "answerPre": "The selected star has a luminosity of "
+  },
+  "9": {
+    "id": "9",
+    "type": "accordion",
+    "label": "Select the coldest White Dwarf Star",
+    "placeholder": null,
+    "answerAccessor": "temperature",
     "answerPre": "The selected star has a temperature of "
+  },
+  "10": {
+    "id": "10",
+    "type": "accordion",
+    "label": "Select the hottest Main Sequence Star",
+    "placeholder": null,
+    "answerAccessor": "temperature",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "11": {
+    "id": "11",
+    "type": "accordion",
+    "label": "Select the coldest Main Sequence Star",
+    "placeholder": null,
+    "answerAccessor": "temperature",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "12": {
+    "id": "12",
+    "type": "accordion",
+    "label": "Draw a circle around all of the Giant Stars",
+    "placeholder": null,
+    "answerAccessor": "count",
+    "answerPre": null
+  },
+  "13": {
+    "id": "13",
+    "type": "accordion",
+    "label": "Draw a circle around all of the White Dwarf Stars",
+    "placeholder": null,
+    "answerAccessor": "count",
+    "answerPre": null
   }
 }
