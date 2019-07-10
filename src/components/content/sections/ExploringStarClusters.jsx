@@ -19,10 +19,10 @@ class ExploringStarClusters extends React.PureComponent {
   }
 
   componentDidMount() {
-    API.get('static-data/stars.json').then(res => {
+    API.get('static-data/NGC_188_data.json').then(res => {
       this.setState(prevState => ({
         ...prevState,
-        clusterData: res.data,
+        clusterData: res.data.stars,
       }));
     });
   }
@@ -68,7 +68,7 @@ class ExploringStarClusters extends React.PureComponent {
     const { answers: prevAnswers } = this.global;
     const prevAnswer = { ...prevAnswers[id] };
     const content = answerAccessor ? data[answerAccessor] : data;
-    console.log('globaling', this);
+
     this.setGlobal(prevGlobal => ({
       ...prevGlobal,
       answers: {
@@ -187,7 +187,7 @@ class ExploringStarClusters extends React.PureComponent {
           <h2>H-R Diagram</h2>
           <ScatterPlot
             data={clusterData}
-            xValueAccessor="teff"
+            xValueAccessor="temperature"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"

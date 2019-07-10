@@ -5,6 +5,7 @@ import { select as d3Select, event as d3Event } from 'd3-selection';
 import { easeCircle as d3EaseCircle } from 'd3-ease';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
+// import { extent as d3Extent } from 'd3-array';
 import Point from './Point.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
@@ -33,10 +34,10 @@ class ScatterPlot extends React.Component {
       toolTipPosY: 0,
       showTooltip: false,
       xScale: d3ScaleLinear()
-        .domain([10000, 3000])
+        .domain([14000, 3000])
         .range([props.padding, props.width - props.offsetRight]),
       yScale: d3ScaleLog()
-        .domain([0.001, 100000])
+        .domain([0.01, 10000])
         .range([props.height - props.padding, props.offsetTop]),
     };
 
@@ -189,7 +190,7 @@ class ScatterPlot extends React.Component {
   // add event listeners to Scatterplot and Points
   addEventListeners() {
     const $scatterplot = d3Select(this.svgEl.current);
-    const $allPoints = d3Select(this.svgEl.current).selectAll('rect');
+    const $allPoints = d3Select(this.svgEl.current).selectAll('.data-point');
 
     $scatterplot.on('click', () => {
       // remove styles and selections when click on non-point
@@ -224,7 +225,7 @@ class ScatterPlot extends React.Component {
     }
 
     return data.map((d, i) => {
-      const key = `$rect-${i}`;
+      const key = `point-${i}`;
       const selected = d === selectedData || includes(selectedData, d);
       const hovered = d === hoverPointData;
 
@@ -249,24 +250,24 @@ class ScatterPlot extends React.Component {
     }
 
     const $allPoints = d3Select(this.svgEl.current)
-      .selectAll('rect')
+      .selectAll('.data-point')
       .data(data);
 
     $allPoints
-      .attr('x', d => {
+      .attr('cx', d => {
         return xScale(d[xValueAccessor]);
       })
-      .attr('y', d => {
+      .attr('cy', d => {
         return yScale(d[yValueAccessor]);
       })
       .transition()
       .duration(1000)
       .ease(d3EaseCircle)
-      .attr('rx', 6)
+      .attr('r', 6)
       .attr('stroke', 'black')
-      .attr('fill', 'yellow')
-      .attr('width', 12)
-      .attr('height', 12);
+      .attr('fill', function(d) {
+        return d.is_member ? 'yellow' : 'blue';
+      });
     console.log('updating points');
   }
 
@@ -316,7 +317,16 @@ class ScatterPlot extends React.Component {
             viewBox={`0 0 ${width} ${height}`}
             ref={this.svgEl}
           >
-            <g className="rects">{this.points()}</g>
+            <defs>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <g className="data-points">{this.points()}</g>
             <XAxis
               label={xAxisLabel}
               height={height}
@@ -364,6 +374,7 @@ ScatterPlot.propTypes = {
   dataLassoCallback: PropTypes.func,
   dataSelectionCallback: PropTypes.func,
   clearOnChange: PropTypes.bool,
+  // filterBy: PropTypes.string,
 };
 
 export default ScatterPlot;

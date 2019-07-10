@@ -5,11 +5,13 @@ import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'react-md/lib/Buttons/Button';
 import Page from '../../site/Page';
+import ArrowLeft from '../../site/icons/ArrowLeft';
 
 class Results extends React.PureComponent {
   static defaultProps = {
-    next: '',
+    next: '1',
     nextText: 'Finish',
+    previousText: 'Back',
     order: range(1, 6),
   };
 
@@ -27,7 +29,7 @@ class Results extends React.PureComponent {
           <p className="answer">
             {pre && <span className="answer-pre">{pre} </span>}
             <span className="answer-content">{answer.content}</span>
-            {accessor === 'teff' && <span className="unit"> K</span>}
+            {accessor === 'temperature' && <span className="unit"> K</span>}
             {accessor === 'luminosity' && <sub className="unit">&#8857;</sub>}
           </p>
         ) : (
@@ -76,6 +78,8 @@ class Results extends React.PureComponent {
   render() {
     const {
       id,
+      previous,
+      previousText,
       next,
       nextText,
       questions = {},
@@ -101,6 +105,17 @@ class Results extends React.PureComponent {
                 flat
                 primary
                 swapTheming
+                to={previous || `/${parseInt(id, 10) - 1}`}
+                component={Link}
+                iconEl={<ArrowLeft />}
+                iconBefore
+              >
+                {previousText}
+              </Button>
+              <Button
+                flat
+                primary
+                swapTheming
                 to={next}
                 component={Link}
                 onClick={handleFinish}
@@ -121,6 +136,8 @@ Results.propTypes = {
   answers: PropTypes.object,
   next: PropTypes.string,
   nextText: PropTypes.string,
+  previous: PropTypes.string,
+  previousText: PropTypes.string,
   order: PropTypes.array,
   handleFinish: PropTypes.func,
 };

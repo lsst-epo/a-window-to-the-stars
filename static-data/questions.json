@@ -48,27 +48,59 @@
     "answerPre": "The selected star has a luminosity of "
   },
   "7": {
-    "id": "4",
+    "id": "7",
     "type": "accordion",
-    "label": "Select the dimmest giant star",
+    "label": "Select the dimmest Giant Star",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
   },
   "8": {
-    "id": "5",
+    "id": "8",
     "type": "accordion",
-    "label": "Select the brightest white dwarf star",
+    "label": "Select the brightest White Dwarf Star",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
   },
   "9": {
-    "id": "6",
+    "id": "9",
     "type": "accordion",
-    "label": "Select the coldest white dwarf star",
+    "label": "Select the coldest White Dwarf Star",
     "placeholder": null,
-    "answerAccessor": "teff",
+    "answerAccessor": "temperature",
     "answerPre": "The selected star has a temperature of "
+  },
+  "10": {
+    "id": "10",
+    "type": "accordion",
+    "label": "Select the hottest Main Sequence Star",
+    "placeholder": null,
+    "answerAccessor": "temperature",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "11": {
+    "id": "11",
+    "type": "accordion",
+    "label": "Select the coldest Main Sequence Star",
+    "placeholder": null,
+    "answerAccessor": "temperature",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "12": {
+    "id": "12",
+    "type": "accordion",
+    "label": "Draw a circle around all of the Giant Stars",
+    "placeholder": null,
+    "answerAccessor": "count",
+    "answerPre": null
+  },
+  "13": {
+    "id": "13",
+    "type": "accordion",
+    "label": "Draw a circle around all of the White Dwarf Stars",
+    "placeholder": null,
+    "answerAccessor": "count",
+    "answerPre": null
   }
 }

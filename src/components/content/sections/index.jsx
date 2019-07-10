@@ -7,6 +7,8 @@ import API from '../../site/API';
 import Introduction from './Introduction';
 import ExploringStarClusters from './ExploringStarClusters';
 import MakingHRD from './MakingHRD';
+import ComparingHRD from './ComparingHRD';
+// import HRDObservations from './HRDObservations';
 import Results from './Results';
 
 @reactn
@@ -57,15 +59,23 @@ class Sections extends React.PureComponent {
             <Introduction next="1" />
             <ExploringStarClusters
               id="1"
-              questionsRange={range(1, 7)}
-              questions={this.getQuestions(range(1, 7))}
-              activeId={activeId}
-              next="2"
               scrollable={0}
+              questionsRange={range(1, 10)}
+              questions={this.getQuestions(range(1, 10))}
+              activeId={activeId}
+              back="1"
             />
-            <MakingHRD id="2" next="100" scrollable={0} />
+            <MakingHRD id="2" scrollable={0} />
+            <ComparingHRD id="3" scrollable={-1} />
+            {/*            <HRDObservations
+              id="4"
+              scrollable={0}
+              questionsRange={range(10, 14)}
+              questions={this.getQuestions(range(10, 14))}
+              activeId={activeId}
+            /> */}
             <Results
-              id="100"
+              id="5"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}

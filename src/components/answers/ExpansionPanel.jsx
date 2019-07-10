@@ -28,7 +28,7 @@ class AnswerExpansionPanel extends React.PureComponent {
         <p id={`answer-content-${id}`}>
           {pre && <span className="answer-pre">{pre} </span>}
           <span className="answer-content">{content}</span>
-          {accessor === 'teff' && <span className="unit"> K</span>}
+          {accessor === 'temperature' && <span className="unit"> K</span>}
           {accessor === 'luminosity' && <sub className="unit">&#8857;</sub>}
         </p>
       </div>

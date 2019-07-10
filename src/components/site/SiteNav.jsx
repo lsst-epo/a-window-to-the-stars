@@ -68,13 +68,6 @@ class SiteNav extends React.PureComponent {
         >
           <Link to="/luminosity">Luminosity Histogram</Link>
         </ListItem>
-        <ListItem
-          key="site-nav-item-6"
-          primaryText=""
-          className="site-nav-item"
-        >
-          <Link to="/lassoable">Lassoable Scatter Plot</Link>
-        </ListItem>
       </Menu>
     );
   }
