@@ -63,10 +63,23 @@ class Sections extends React.PureComponent {
               questionsRange={range(1, 10)}
               questions={this.getQuestions(range(1, 10))}
               activeId={activeId}
-              back="1"
+              previous="/"
+              dataPath="static-data/NGC_188_data.json"
             />
-            <MakingHRD id="2" scrollable={0} />
-            <ComparingHRD id="3" scrollable={-1} />
+            <MakingHRD
+              id="2"
+              scrollable={0}
+              dataPath="static-data/NGC_188_data.json"
+              activeId="14"
+              questionsRange={[14]}
+              questions={this.getQuestions([14])}
+            />
+            <ComparingHRD
+              id="3"
+              scrollable={-1}
+              dataPath="static-data/NGC_188_data.json"
+              activeId="14"
+            />
             {/*            <HRDObservations
               id="4"
               scrollable={0}
@@ -75,10 +88,11 @@ class Sections extends React.PureComponent {
               activeId={activeId}
             /> */}
             <Results
-              id="5"
+              id="4"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}
+              order={[1, 2, 3, 4, 5, 6, 7, 8, 9, 14]}
             />
           </React.Fragment>
         ) : (

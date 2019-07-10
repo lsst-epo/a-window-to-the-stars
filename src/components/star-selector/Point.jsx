@@ -15,12 +15,10 @@ class Point extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { selected, hovered } = this.props;
+    const { selected } = this.props;
     const $point = d3Select(this.el.current);
     if (selected) {
       this.selectStyle($point);
-    } else if (hovered) {
-      this.hoverStyle($point);
     } else {
       this.defaultStyle($point);
     }
@@ -30,20 +28,15 @@ class Point extends React.PureComponent {
     $point
       .transition()
       .duration(200)
-      .attr('fill', 'yellow');
+      .attr('r', 1)
+      .attr('fill', 'transparent');
   }
 
   selectStyle($point) {
     $point
       .transition()
       .duration(200)
-      .attr('fill', 'lightsteelblue');
-  }
-
-  hoverStyle($point) {
-    $point
-      .transition()
-      .duration(200)
+      .attr('r', 2)
       .attr('fill', 'red');
   }
 
@@ -56,9 +49,7 @@ class Point extends React.PureComponent {
         r={0}
         height={0}
         width={0}
-        strokeWidth={1}
         fill="transparent"
-        stroke="transparent"
         ref={this.el}
       />
     );
@@ -67,7 +58,6 @@ class Point extends React.PureComponent {
 
 Point.propTypes = {
   selected: PropTypes.bool,
-  hovered: PropTypes.bool,
 };
 
 export default Point;

@@ -13,6 +13,10 @@
 
     .answer {
       margin-left: $minPadding;
+
+      &.graph {
+        max-width: 320px;
+      }
     }
 
     .answer-content, .unit {

@@ -1,24 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import includes from 'lodash/includes';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { easeCircle as d3EaseCircle } from 'd3-ease';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
 // import { extent as d3Extent } from 'd3-array';
-import Point from './Point.jsx';
+import Points from './Points.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
 import Tooltip from './Tooltip.jsx';
 import Lasso from './Lasso.jsx';
 
-class ScatterPlot extends React.Component {
+class ScatterPlot extends React.PureComponent {
   static defaultProps = {
     width: 600,
     height: 600,
     padding: 70,
     offsetTop: 7,
     offsetRight: 7,
+    xDomain: [14000, 3000],
+    yDomain: [0.01, 10000],
   };
 
   constructor(props) {
@@ -34,10 +35,10 @@ class ScatterPlot extends React.Component {
       toolTipPosY: 0,
       showTooltip: false,
       xScale: d3ScaleLinear()
-        .domain([14000, 3000])
+        .domain(props.xDomain)
         .range([props.padding, props.width - props.offsetRight]),
       yScale: d3ScaleLog()
-        .domain([0.01, 10000])
+        .domain(props.yDomain)
         .range([props.height - props.padding, props.offsetTop]),
     };
 
@@ -46,7 +47,7 @@ class ScatterPlot extends React.Component {
 
   componentDidMount() {
     this.updateScatterPlot();
-    console.log('component did mount');
+    // console.log('component did mount');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,7 +56,7 @@ class ScatterPlot extends React.Component {
     const differentSelectedData = selectedData !== prevState.selectedData;
     const shouldCallback = dataSelectionCallback && differentSelectedData;
 
-    console.log('component did update');
+    // console.log('component did update');
     if (prevProps.data !== data) {
       this.updateScatterPlot();
     }
@@ -211,47 +212,21 @@ class ScatterPlot extends React.Component {
       .on('click', this.onClick);
   }
 
-  // render Point components
-  points() {
-    const { selectedData, hoverPointData } = this.state;
-    let { data } = this.props;
-
-    if (!data) {
-      return null;
-    }
-
-    if (!Array.isArray(data)) {
-      data = [data];
-    }
-
-    return data.map((d, i) => {
-      const key = `point-${i}`;
-      const selected = d === selectedData || includes(selectedData, d);
-      const hovered = d === hoverPointData;
-
-      return (
-        <Point
-          key={key}
-          data={d}
-          selected={selected}
-          hovered={hovered}
-          tabIndex="0"
-        />
-      );
-    });
-  }
-
   // add attributes to points
   updatePoints() {
-    const { data, xValueAccessor, yValueAccessor } = this.props;
+    const { data, xValueAccessor, yValueAccessor, filterBy } = this.props;
     const { xScale, yScale } = this.state;
+
     if (!data) {
       return;
     }
 
     const $allPoints = d3Select(this.svgEl.current)
       .selectAll('.data-point')
-      .data(data);
+      .data(data)
+      .filter(nodeData => {
+        return filterBy ? nodeData[filterBy] : true;
+      });
 
     $allPoints
       .attr('cx', d => {
@@ -265,10 +240,7 @@ class ScatterPlot extends React.Component {
       .ease(d3EaseCircle)
       .attr('r', 6)
       .attr('stroke', 'black')
-      .attr('fill', function(d) {
-        return d.is_member ? 'yellow' : 'blue';
-      });
-    console.log('updating points');
+      .attr('fill', 'yellow');
   }
 
   // bind data to elements and add styles and attributes
@@ -279,6 +251,7 @@ class ScatterPlot extends React.Component {
 
   render() {
     const {
+      data,
       width,
       height,
       padding,
@@ -287,6 +260,7 @@ class ScatterPlot extends React.Component {
       xAxisLabel,
       yAxisLabel,
       useLasso,
+      filterBy,
     } = this.props;
 
     const {
@@ -317,16 +291,12 @@ class ScatterPlot extends React.Component {
             viewBox={`0 0 ${width} ${height}`}
             ref={this.svgEl}
           >
-            <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <g className="data-points">{this.points()}</g>
+            <Points
+              data={data}
+              selectedData={selectedData}
+              hoveredData={hoverPointData}
+              filterBy={filterBy}
+            />
             <XAxis
               label={xAxisLabel}
               height={height}
@@ -367,6 +337,8 @@ ScatterPlot.propTypes = {
   yAxisLabel: PropTypes.string,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
+  xDomain: PropTypes.array,
+  yDomain: PropTypes.array,
   padding: PropTypes.number,
   offsetTop: PropTypes.number,
   offsetRight: PropTypes.number,
@@ -374,7 +346,7 @@ ScatterPlot.propTypes = {
   dataLassoCallback: PropTypes.func,
   dataSelectionCallback: PropTypes.func,
   clearOnChange: PropTypes.bool,
-  // filterBy: PropTypes.string,
+  filterBy: PropTypes.string,
 };
 
 export default ScatterPlot;

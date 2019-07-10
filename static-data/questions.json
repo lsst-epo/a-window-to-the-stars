@@ -102,5 +102,13 @@
     "placeholder": null,
     "answerAccessor": "count",
     "answerPre": null
+  },
+  "14": {
+    "id": "14",
+    "type": "prompt",
+    "label": "Draw a circle around a group of stars to plot them on the H-R Diagram",
+    "placeholder": null,
+    "answerAccessor": "data",
+    "answerPre": "H-R Diagram created from user selected star cluster"
   }
 }

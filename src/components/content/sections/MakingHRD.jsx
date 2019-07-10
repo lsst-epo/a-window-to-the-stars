@@ -5,7 +5,8 @@ import API from '../../site/API';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
-import ClusterImage from '../../../assets/images/star-clusters.jpg';
+import QuestionPrompts from '../../questions/prompts';
+import ClusterImage from '../../../assets/images/ngc188_FINAL.jpg';
 
 @reactn
 class MakingHRD extends React.PureComponent {
@@ -13,13 +14,14 @@ class MakingHRD extends React.PureComponent {
     super(props);
 
     this.state = {
-      selection: [],
       clusterData: [],
     };
   }
 
   componentDidMount() {
-    API.get('static-data/NGC_188_data.json').then(res => {
+    const { dataPath } = this.props;
+
+    API.get(dataPath).then(res => {
       this.setState(prevState => ({
         ...prevState,
         clusterData: res.data.stars,
@@ -27,27 +29,50 @@ class MakingHRD extends React.PureComponent {
     });
   }
 
-  onGraphLasso = selectedData => {
-    this.setState(prevState => ({
-      ...prevState,
-      selection: selectedData,
+  updateAnswer(id, data) {
+    const { answers: prevAnswers } = this.global;
+    const prevAnswer = { ...prevAnswers[id] };
+
+    this.setGlobal(prevGlobal => ({
+      ...prevGlobal,
+      answers: {
+        ...prevAnswers,
+        [id]: {
+          ...prevAnswer,
+          id,
+          data,
+        },
+      },
     }));
+  }
+
+  // componentDidUpdate() {
+  //   console.log(this.state.selection);
+  // }
+
+  onGraphLasso = selectedData => {
+    const { activeId } = this.props;
+
+    this.updateAnswer(activeId, selectedData);
   };
 
-  onGraphSelection = selectedData => {
-    this.setState(prevState => ({
-      ...prevState,
-      selection: selectedData,
-    }));
-  };
+  // onGraphSelection = selectedData => {
+  //   const { activeId } = this.props;
+  //   this.setGlobal(prevGlobal => ({
+  //     ...prevGlobal,
+  //     [activeId]: selectedData,
+  //   }));
+  // };
 
   render() {
     const { clusterData } = this.state;
-    let { selection } = this.state;
-
-    if (selection && !Array.isArray(selection)) {
-      selection = [selection];
-    }
+    const { activeId, questions } = this.props;
+    const answer = this.global.answers[activeId];
+    const selection = answer ? answer.data : [];
+    console.log(selection);
+    // if (selection && !Array.isArray(selection)) {
+    //   selection = [selection];
+    // }
 
     return (
       <Section {...this.props}>
@@ -86,20 +111,19 @@ class MakingHRD extends React.PureComponent {
             H-R Diagram for your cluster.
           </p>  */}
           <hr className="divider-horizontal" />
-          <p>
-            Draw circles around different groups of stars to plot them on the
-            H-R Diagram.
-          </p>
+          <QuestionPrompts questions={questions} />
           <br />
           <StarSelector
             width={600}
             height={600}
             data={clusterData}
-            xValueAccessor="Dec"
-            yValueAccessor="RA"
+            xValueAccessor="RA"
+            yValueAccessor="Dec"
+            xDomain={[16.160474211844242, 9.616988842401822]}
+            yDomain={[84.99507547492594, 85.53437634262413]}
             dataLassoCallback={this.onGraphLasso}
-            dataSelectionCallback={this.onGraphSelection}
             backgroundImage={ClusterImage}
+            selection={selection}
           />
         </section>
         <div className="col-graph">
@@ -125,6 +149,7 @@ MakingHRD.propTypes = {
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
   activeId: PropTypes.string,
+  dataPath: PropTypes.string,
 };
 
 export default MakingHRD;
