@@ -5,7 +5,7 @@ import Page from '../../site/Page';
 
 class Section extends React.PureComponent {
   static defaultProps = {
-    id: '',
+    id: '0',
     layout: 'two-col',
     dividers: false,
     paginationLocation: 1,
@@ -27,7 +27,7 @@ class Section extends React.PureComponent {
     return (
       <Route
         exact
-        path={`/${id}`}
+        path={id === '0' ? '/' : `/${id}`}
         render={routeProps => (
           <Page
             {...routeProps}

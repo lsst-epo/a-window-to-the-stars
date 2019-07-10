@@ -5,14 +5,15 @@ import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'react-md/lib/Buttons/Button';
 import Page from '../../site/Page';
+import ScatterPlot from '../../scatter-plot';
 import ArrowLeft from '../../site/icons/ArrowLeft';
 
 class Results extends React.PureComponent {
   static defaultProps = {
-    next: '1',
+    next: '/',
     nextText: 'Finish',
     previousText: 'Back',
-    order: range(1, 6),
+    order: range(1, 14),
   };
 
   renderAccordionQA(index, question, answer) {
@@ -39,6 +40,34 @@ class Results extends React.PureComponent {
     );
   }
 
+  renderPromptQA(index, question, answer) {
+    const { answerPre: pre } = question;
+    const count = index + 1;
+
+    return (
+      <div className="qa">
+        <div className="question">
+          <span>{count}. </span>
+          {pre}
+        </div>
+        {!isEmpty(answer) ? (
+          <div className="answer graph">
+            <ScatterPlot
+              data={answer.data}
+              xValueAccessor="temperature"
+              yValueAccessor="luminosity"
+              xAxisLabel="Temperature (K)"
+              yAxisLabel="Solar Luminosity"
+              preSelected
+            />
+          </div>
+        ) : (
+          <p className="answer">No answer provided</p>
+        )}
+      </div>
+    );
+  }
+
   renderQA(index, question, answer) {
     const { type } = question;
 
@@ -46,9 +75,13 @@ class Results extends React.PureComponent {
       return this.renderAccordionQA(index, question, answer);
     }
 
+    if (type === 'prompt') {
+      return this.renderPromptQA(index, question, answer);
+    }
+
     return (
       <div className="qa">
-        <div className="question">{JSON.strigify(question)}</div>
+        <div className="question">{JSON.stringify(question)}</div>
         {!isEmpty(answer) ? (
           <p className="answer">{JSON.stringify(answer)}</p>
         ) : (

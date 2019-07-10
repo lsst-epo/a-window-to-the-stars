@@ -5,49 +5,34 @@ import API from '../../site/API';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
-import ClusterImage from '../../../assets/images/star-clusters.jpg';
+import ClusterImage from '../../../assets/images/ngc188_FINAL.jpg';
 
 @reactn
-class MakingHRD extends React.PureComponent {
+class ComparingHRD extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      selection: [],
       clusterData: [],
     };
   }
 
   componentDidMount() {
-    API.get('static-data/stars.json').then(res => {
+    const { dataPath } = this.props;
+
+    API.get(dataPath).then(res => {
       this.setState(prevState => ({
         ...prevState,
-        clusterData: res.data,
+        clusterData: res.data.stars,
       }));
     });
   }
 
-  onGraphLasso = selectedData => {
-    this.setState(prevState => ({
-      ...prevState,
-      selection: selectedData,
-    }));
-  };
-
-  onGraphSelection = selectedData => {
-    this.setState(prevState => ({
-      ...prevState,
-      selection: selectedData,
-    }));
-  };
-
   render() {
     const { clusterData } = this.state;
-    let { selection } = this.state;
-
-    if (selection && !Array.isArray(selection)) {
-      selection = [selection];
-    }
+    const { activeId } = this.props;
+    const answer = this.global.answers[activeId];
+    const selection = answer ? answer.data : [];
 
     return (
       <Section {...this.props}>
@@ -57,12 +42,15 @@ class MakingHRD extends React.PureComponent {
           <StarSelector
             width={600}
             height={600}
-            data={clusterData}
-            xValueAccessor="temperature"
-            yValueAccessor="luminosity"
+            data={selection}
+            xValueAccessor="RA"
+            yValueAccessor="Dec"
+            xDomain={[16.160474211844242, 9.616988842401822]}
+            yDomain={[84.99507547492594, 85.53437634262413]}
             dataLassoCallback={this.onGraphLasso}
             dataSelectionCallback={this.onGraphSelection}
             backgroundImage={ClusterImage}
+            preSelected
           />
           <br />
           <h2>Your H-R Diagram</h2>
@@ -72,6 +60,7 @@ class MakingHRD extends React.PureComponent {
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
+            preSelected
           />
         </div>
         <div>
@@ -81,20 +70,26 @@ class MakingHRD extends React.PureComponent {
             width={600}
             height={600}
             data={clusterData}
-            xValueAccessor="temperature"
-            yValueAccessor="luminosity"
+            xValueAccessor="RA"
+            yValueAccessor="Dec"
+            xDomain={[16.160474211844242, 9.616988842401822]}
+            yDomain={[84.99507547492594, 85.53437634262413]}
             dataLassoCallback={this.onGraphLasso}
             dataSelectionCallback={this.onGraphSelection}
             backgroundImage={ClusterImage}
+            filterBy="is_member"
+            preSelected
           />
           <br />
           <h2>Astronomer&apos;s H-R Diagram</h2>
           <ScatterPlot
-            data={selection}
+            data={clusterData}
             xValueAccessor="temperature"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
+            filterBy="is_member"
+            preSelected
           />
         </div>
       </Section>
@@ -102,7 +97,7 @@ class MakingHRD extends React.PureComponent {
   }
 }
 
-MakingHRD.propTypes = {
+ComparingHRD.propTypes = {
   id: PropTypes.number,
   layout: PropTypes.string,
   dividers: PropTypes.bool,
@@ -110,6 +105,7 @@ MakingHRD.propTypes = {
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
   activeId: PropTypes.string,
+  dataPath: PropTypes.string,
 };
 
-export default MakingHRD;
+export default ComparingHRD;

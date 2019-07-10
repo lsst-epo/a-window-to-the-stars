@@ -19,7 +19,9 @@ class ExploringStarClusters extends React.PureComponent {
   }
 
   componentDidMount() {
-    API.get('static-data/NGC_188_data.json').then(res => {
+    const { dataPath } = this.props;
+
+    API.get(dataPath).then(res => {
       this.setState(prevState => ({
         ...prevState,
         clusterData: res.data.stars,
@@ -193,6 +195,7 @@ class ExploringStarClusters extends React.PureComponent {
             yAxisLabel="Solar Luminosity"
             dataSelectionCallback={this.onGraphSelection}
             clearOnChange={isEmpty(activeAnswer)}
+            filterBy="is_member"
           />
         </div>
       </Section>
@@ -208,6 +211,7 @@ ExploringStarClusters.propTypes = {
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
   activeId: PropTypes.string,
+  dataPath: PropTypes.string,
 };
 
 export default ExploringStarClusters;

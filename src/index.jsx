@@ -11,8 +11,11 @@ const emptyState = {
   answers: {},
   activeId: null,
   activeGraphData: null,
+  clusterA: [],
+  clusterB: [],
 };
 
+// const existingState = emptyState;
 const existingState = ls('hrd') || emptyState;
 
 setGlobal(existingState);

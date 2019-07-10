@@ -25,7 +25,8 @@ class Lasso extends React.Component {
       dragEndCallback,
     } = this.props;
     const $scatterplot = d3Select(lassoableEl.current);
-    const $allPoints = d3Select(lassoableEl.current).selectAll('rect');
+    const $allPoints = d3Select(lassoableEl.current).selectAll('.data-point');
+
     const $dragLine = d3Line();
 
     $scatterplot.call(
@@ -71,12 +72,14 @@ class Lasso extends React.Component {
             d3Event.on('end', () => {
               const $filtered = $allPoints.filter((nodeData, i, nodes) => {
                 const nodePos = [
-                  Math.floor(d3Select(nodes[i]).attr('x')),
-                  Math.floor(d3Select(nodes[i]).attr('y')),
+                  Math.floor(d3Select(nodes[i]).attr('cx')),
+                  Math.floor(d3Select(nodes[i]).attr('cy')),
                 ];
                 const classification = classifyPoint(d, nodePos);
+
                 return classification === -1 || classification === 0;
               });
+
               $active.attr('d', $dragLine.curve(d3CurveCardinalClosed));
 
               this.setState(
