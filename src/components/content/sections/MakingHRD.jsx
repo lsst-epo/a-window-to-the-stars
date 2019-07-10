@@ -19,10 +19,10 @@ class MakingHRD extends React.PureComponent {
   }
 
   componentDidMount() {
-    API.get('static-data/stars.json').then(res => {
+    API.get('static-data/NGC_188_data.json').then(res => {
       this.setState(prevState => ({
         ...prevState,
-        clusterData: res.data,
+        clusterData: res.data.stars,
       }));
     });
   }
@@ -95,8 +95,8 @@ class MakingHRD extends React.PureComponent {
             width={600}
             height={600}
             data={clusterData}
-            xValueAccessor="teff"
-            yValueAccessor="luminosity"
+            xValueAccessor="Dec"
+            yValueAccessor="RA"
             dataLassoCallback={this.onGraphLasso}
             dataSelectionCallback={this.onGraphSelection}
             backgroundImage={ClusterImage}
@@ -106,7 +106,7 @@ class MakingHRD extends React.PureComponent {
           <h2>H-R Diagram</h2>
           <ScatterPlot
             data={selection}
-            xValueAccessor="teff"
+            xValueAccessor="temperature"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"

@@ -10,7 +10,7 @@ class Page extends React.PureComponent {
   static defaultProps = {
     previousText: 'Previous',
     nextText: 'Next',
-    scrollable: 0,
+    scrollable: -1,
   };
 
   renderNav() {
@@ -26,7 +26,7 @@ class Page extends React.PureComponent {
             to={previous}
             component={Link}
             iconEl={<ArrowLeft />}
-            iconBefore={false}
+            iconBefore
           >
             {previousText}
           </Button>

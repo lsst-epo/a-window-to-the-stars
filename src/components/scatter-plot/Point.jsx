@@ -52,7 +52,7 @@ class Point extends React.PureComponent {
 
   render() {
     return (
-      <rect
+      <circle
         className="data-point"
         x={0}
         y={0}
@@ -60,7 +60,6 @@ class Point extends React.PureComponent {
         height={0}
         width={0}
         strokeWidth={1}
-        transform="translate(-6, -6)"
         fill="transparent"
         stroke="transparent"
         ref={this.el}

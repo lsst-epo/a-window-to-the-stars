@@ -24,7 +24,7 @@ class QuestionExpansionList extends React.PureComponent {
           return (
             <QuestionAnswer
               {...this.props}
-              key={`${question.type}-qa-${id}`}
+              key={`qa-${id}`}
               question={question}
               answer={answer}
               active={activeId === id}

@@ -12,7 +12,7 @@ class YAxis extends React.Component {
 
   componentDidMount() {
     const { scale } = this.props;
-    const yAxis = d3AxisLeft(scale).ticks(8);
+    const yAxis = d3AxisLeft(scale).ticks(6);
     const $yAxis = d3Select(this.yAxisContainer.current);
 
     $yAxis

@@ -167,7 +167,7 @@ class StarSelector extends React.Component {
   // add event listeners to Scatterplot and Points
   addEventListeners() {
     const $scatterplot = d3Select(this.svgEl.current);
-    const $allPoints = d3Select(this.svgEl.current).selectAll('rect');
+    const $allPoints = d3Select(this.svgEl.current).selectAll('.data-point');
 
     $scatterplot.on('click', () => {
       // remove styles and selections when click on non-point
@@ -201,7 +201,7 @@ class StarSelector extends React.Component {
     }
 
     return data.map((d, i) => {
-      const key = `$rect-${i}`;
+      const key = `point-${i}`;
       const selected = d === selectedData || includes(selectedData, d);
       const hovered = d === hoverPointData;
 
@@ -227,23 +227,21 @@ class StarSelector extends React.Component {
     }
 
     const $allPoints = d3Select(this.svgEl.current)
-      .selectAll('rect')
+      .selectAll('.data-point')
       .data(data);
 
     $allPoints
-      .attr('x', d => {
+      .attr('cx', d => {
         return xScale(d[xValueAccessor]);
       })
-      .attr('y', d => {
+      .attr('cy', d => {
         return yScale(d[yValueAccessor]);
       })
       .transition()
       .duration(1000)
       .ease(d3EaseCircle)
-      .attr('rx', 1)
-      .attr('fill', 'yellow')
-      .attr('width', 2)
-      .attr('height', 2);
+      .attr('r', 4)
+      .attr('fill', 'yellow');
   }
 
   // bind data to elements and add styles and attributes
@@ -269,7 +267,7 @@ class StarSelector extends React.Component {
               backgroundImage: `url(${backgroundImage})`,
             }}
           >
-            <g className="rects">{this.points()}</g>
+            <g className="data-points">{this.points()}</g>
             <Lasso
               active={showLasso}
               lassoableEl={this.svgEl}
