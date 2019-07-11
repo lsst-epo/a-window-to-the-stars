@@ -1,11 +1,28 @@
 .data-point {
   cursor: pointer;
-
-  // &.active {
-  //   opacity: 0.5;
-  // }
+  fill: yellow;
+  transition: fill $durationSlow $timing;
 
   &:focus {
     outline: none;
+  }
+
+  &.hovered {
+    fill: red;
+  }
+
+  &.selected {
+    fill: blue;
+  }
+}
+
+.star-selector {
+  .data-point {
+    cursor: pointer;
+    fill: transparent;
+
+    &.selected {
+      fill: red;
+    }
   }
 }

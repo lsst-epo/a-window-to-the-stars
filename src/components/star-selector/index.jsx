@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { select as d3Select, event as d3Event } from 'd3-selection';
-import { easeCircle as d3EaseCircle } from 'd3-ease';
 import { scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
 import Points from './Points.jsx';
@@ -43,10 +42,6 @@ class StarSelector extends React.Component {
     if (prevProps.data !== data) {
       this.updateScatterPlot();
     }
-    //  else {
-    //   console.log('updating');
-    //   this.updatePoints();
-    // }
 
     /* eslint-disable react/no-did-update-set-state */
     if (clearOnChange !== prevProps.clearOnChange) {
@@ -97,12 +92,7 @@ class StarSelector extends React.Component {
 
   // add event listeners to Scatterplot and Points
   addEventListeners() {
-    const $scatterplot = d3Select(this.svgEl.current);
-    // const $allPoints = d3Select(this.svgEl.current).selectAll('.data-point');
-
-    $scatterplot.on('click', () => {
-      // console.log('click');
-      // remove styles and selections when click on non-point
+    d3Select(this.svgEl.current).on('click', () => {
       if (d3Event.target.classList[0] !== 'data-point') {
         const { dataLassoCallback } = this.props;
 
@@ -115,42 +105,18 @@ class StarSelector extends React.Component {
 
   // add attributes to points
   updatePoints() {
-    const {
-      data,
-      xValueAccessor,
-      yValueAccessor,
-      filterBy,
-      preSelected,
-    } = this.props;
-    const { xScale, yScale } = this.state;
+    const { data, filterBy } = this.props;
 
     if (!data) {
       return;
     }
 
-    const $allPoints = d3Select(this.svgEl.current)
+    d3Select(this.svgEl.current)
       .selectAll('.data-point')
       .data(data)
       .filter(nodeData => {
         return filterBy ? nodeData[filterBy] : true;
       });
-
-    // console.log($allPoints.data());
-
-    $allPoints
-      .attr('cx', d => {
-        return xScale(d[xValueAccessor]);
-      })
-      .attr('cy', d => {
-        return yScale(d[yValueAccessor]);
-      })
-      .transition()
-      .duration(1000)
-      .ease(d3EaseCircle)
-      .attr('r', preSelected ? 2 : 1)
-      .attr('fill', preSelected ? 'red' : 'transparent');
-
-    // console.log('updating points');
   }
 
   // bind data to elements and add styles and attributes
@@ -165,7 +131,7 @@ class StarSelector extends React.Component {
   }
 
   render() {
-    const { showLasso } = this.state;
+    const { showLasso, xScale, yScale } = this.state;
     const {
       data,
       width,
@@ -174,6 +140,8 @@ class StarSelector extends React.Component {
       filterBy,
       preSelected,
       selection,
+      xValueAccessor,
+      yValueAccessor,
     } = this.props;
 
     return (
@@ -189,7 +157,17 @@ class StarSelector extends React.Component {
               backgroundImage: `url(${backgroundImage})`,
             }}
           >
-            <Points data={data} selectedData={selection} filterBy={filterBy} />
+            {data && (
+              <Points
+                data={data}
+                selectedData={preSelected ? data : selection}
+                filterBy={filterBy}
+                xScale={xScale}
+                yScale={yScale}
+                xValueAccessor={xValueAccessor}
+                yValueAccessor={yValueAccessor}
+              />
+            )}
             {!preSelected && (
               <Lasso
                 active={showLasso}
