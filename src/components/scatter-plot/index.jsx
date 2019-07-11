@@ -88,8 +88,8 @@ class ScatterPlot extends React.PureComponent {
     this.setState(prevState => ({
       ...prevState,
       hoverPointData: d,
-      toolTipPosX: d3Event.pageX,
-      toolTipPosY: d3Event.pageY,
+      toolTipPosX: d3Event.clientX,
+      toolTipPosY: d3Event.clientY,
       showTooltip: true,
     }));
   };
@@ -122,26 +122,23 @@ class ScatterPlot extends React.PureComponent {
     const selectedPointId =
       selectedData && !Array.isArray(selectedData) ? selectedData.id : null;
 
-    // remove selected style on point
+    const newState = {
+      toolTipPosX: d3Event.clientX,
+      toolTipPosY: d3Event.clientY,
+      showLasso: false,
+      showTooltip: true,
+      selectedData: d,
+    };
+
     if (d.id === selectedPointId) {
-      this.setState(prevState => ({
-        ...prevState,
-        toolTipPosX: d3Event.pageX,
-        toolTipPosY: d3Event.pageY,
-        selectedData: null,
-        showLasso: false,
-      }));
-      // add selected style on point
-    } else {
-      this.setState(prevState => ({
-        ...prevState,
-        toolTipPosX: d3Event.pageX,
-        toolTipPosY: d3Event.pageY,
-        showTooltip: true,
-        selectedData: d,
-        showLasso: false,
-      }));
+      newState.selectedData = null;
+      newState.showTooltip = false;
     }
+
+    this.setState(prevState => ({
+      ...prevState,
+      ...newState,
+    }));
   };
 
   onDragStart = () => {
@@ -152,7 +149,7 @@ class ScatterPlot extends React.PureComponent {
         showLasso: false,
       }),
       () => {
-        console.log('start');
+        // console.log('start');
       }
     );
   };
@@ -182,7 +179,7 @@ class ScatterPlot extends React.PureComponent {
       () => {
         const { selectedData } = this.state;
 
-        console.log('end');
+        // console.log('end');
         dataLassoCallback(selectedData);
       }
     );
@@ -207,8 +204,8 @@ class ScatterPlot extends React.PureComponent {
 
     // add event listeners to points
     $allPoints
-      .on('mouseover focus', this.onMouseOver)
-      .on('mouseout blur', this.onMouseOut)
+      .on('mouseover', this.onMouseOver)
+      .on('mouseout', this.onMouseOut)
       .on('click', this.onClick);
   }
 

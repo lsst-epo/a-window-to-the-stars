@@ -40,8 +40,8 @@ class ComparingHRD extends React.PureComponent {
           <h2 className="section-title">Your Star Cluster</h2>
           <br />
           <StarSelector
-            width={600}
-            height={600}
+            width={1200}
+            height={1185}
             data={selection}
             xValueAccessor="RA"
             yValueAccessor="Dec"
@@ -67,8 +67,8 @@ class ComparingHRD extends React.PureComponent {
           <h2 className="section-title">Astronomer&apos;s Star Cluster</h2>
           <br />
           <StarSelector
-            width={600}
-            height={600}
+            width={1200}
+            height={1185}
             data={clusterData}
             xValueAccessor="RA"
             yValueAccessor="Dec"

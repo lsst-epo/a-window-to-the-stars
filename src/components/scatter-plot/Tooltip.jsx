@@ -76,6 +76,10 @@ class Tooltip extends React.PureComponent {
       });
   }
 
+  formatValue(number, decimalPlaces) {
+    return Number.parseFloat(number).toFixed(decimalPlaces);
+  }
+
   render() {
     const { pointData } = this.state;
 
@@ -88,7 +92,9 @@ class Tooltip extends React.PureComponent {
         </div>
         <div>
           <span>Luminosity: </span>
-          <span>{pointData ? pointData.luminosity : null}</span>
+          <span>
+            {pointData ? this.formatValue(pointData.luminosity, 4) : null}
+          </span>
           <sub className="unit">&#8857;</sub>
         </div>
       </div>
