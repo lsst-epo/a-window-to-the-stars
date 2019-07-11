@@ -101,6 +101,7 @@ class StarSelector extends React.Component {
     // const $allPoints = d3Select(this.svgEl.current).selectAll('.data-point');
 
     $scatterplot.on('click', () => {
+      // console.log('click');
       // remove styles and selections when click on non-point
       if (d3Event.target.classList[0] !== 'data-point') {
         const { dataLassoCallback } = this.props;
@@ -148,6 +149,8 @@ class StarSelector extends React.Component {
       .ease(d3EaseCircle)
       .attr('r', preSelected ? 2 : 1)
       .attr('fill', preSelected ? 'red' : 'transparent');
+
+    // console.log('updating points');
   }
 
   // bind data to elements and add styles and attributes
@@ -156,6 +159,7 @@ class StarSelector extends React.Component {
     this.updatePoints();
 
     if (!preSelected) {
+      // console.log('adding event listeners');
       this.addEventListeners();
     }
   }

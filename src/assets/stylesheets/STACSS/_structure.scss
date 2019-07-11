@@ -26,6 +26,7 @@
     + .col  {
       position: fixed;
       top: $siteHeaderHeight + $minPadding;
+      max-width: ($containerMaxWidth - 2 * $minPadding) / 2;
       height: 100%;
       max-height: calc(100vh - #{$siteHeaderHeight} - 2 * #{$minPadding});
 

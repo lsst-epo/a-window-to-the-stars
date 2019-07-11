@@ -50,7 +50,7 @@ class Lasso extends React.Component {
           if (dragStartCallback) {
             dragStartCallback(d);
           }
-
+          console.log('start');
           d3Event.on('drag', () => {
             // d3Event.sourceEvent.stopPropagation();
             const x1 = d3Event.x;
@@ -68,6 +68,7 @@ class Lasso extends React.Component {
             if (dragCallback) {
               dragCallback(d);
             }
+            console.log('dragging');
 
             d3Event.on('end', () => {
               const $filtered = $allPoints.filter((nodeData, i, nodes) => {
@@ -93,6 +94,7 @@ class Lasso extends React.Component {
                   }
                 }
               );
+              console.log('end');
             });
           });
         })

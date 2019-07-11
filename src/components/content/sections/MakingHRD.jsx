@@ -56,27 +56,15 @@ class MakingHRD extends React.PureComponent {
     this.updateAnswer(activeId, selectedData);
   };
 
-  // onGraphSelection = selectedData => {
-  //   const { activeId } = this.props;
-  //   this.setGlobal(prevGlobal => ({
-  //     ...prevGlobal,
-  //     [activeId]: selectedData,
-  //   }));
-  // };
-
   render() {
     const { clusterData } = this.state;
     const { activeId, questions } = this.props;
     const answer = this.global.answers[activeId];
     const selection = answer ? answer.data : [];
-    console.log(selection);
-    // if (selection && !Array.isArray(selection)) {
-    //   selection = [selection];
-    // }
 
     return (
       <Section {...this.props}>
-        <section className="col-graph">
+        <section>
           <h2 className="section-title">
             Making H-R Diagrams of Star Clusters
           </h2>
@@ -114,8 +102,8 @@ class MakingHRD extends React.PureComponent {
           <QuestionPrompts questions={questions} />
           <br />
           <StarSelector
-            width={600}
-            height={600}
+            width={1200}
+            height={1185}
             data={clusterData}
             xValueAccessor="RA"
             yValueAccessor="Dec"
