@@ -87,7 +87,9 @@ class Tooltip extends React.PureComponent {
       <div ref={this.el} style={{ opacity: 0 }} className="tooltip">
         <div>
           <span>Temperature: </span>
-          <span>{pointData ? pointData.temperature : null}</span>
+          <span>
+            {pointData ? this.formatValue(pointData.temperature, 0) : null}
+          </span>
           <span className="unit">K</span>
         </div>
         <div>

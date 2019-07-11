@@ -28,7 +28,6 @@ class Lasso extends React.Component {
     const $allPoints = d3Select(lassoableEl.current).selectAll('.data-point');
 
     const $dragLine = d3Line();
-
     $scatterplot.call(
       d3Drag()
         .container(function containerSpecifier() {
@@ -50,7 +49,7 @@ class Lasso extends React.Component {
           if (dragStartCallback) {
             dragStartCallback(d);
           }
-          console.log('start');
+          // console.log('start');
           d3Event.on('drag', () => {
             // d3Event.sourceEvent.stopPropagation();
             const x1 = d3Event.x;
@@ -68,7 +67,7 @@ class Lasso extends React.Component {
             if (dragCallback) {
               dragCallback(d);
             }
-            console.log('dragging');
+            // console.log('dragging');
 
             d3Event.on('end', () => {
               const $filtered = $allPoints.filter((nodeData, i, nodes) => {
@@ -94,11 +93,12 @@ class Lasso extends React.Component {
                   }
                 }
               );
-              console.log('end');
+              // console.log('end');
             });
           });
         })
     );
+    // console.log(d3Event);
   }
 
   render() {

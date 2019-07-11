@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { select as d3Select, event as d3Event } from 'd3-selection';
-import { easeCircle as d3EaseCircle } from 'd3-ease';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
 // import { extent as d3Extent } from 'd3-array';
@@ -20,6 +19,7 @@ class ScatterPlot extends React.PureComponent {
     offsetRight: 7,
     xDomain: [14000, 3000],
     yDomain: [0.01, 10000],
+    useLasso: false,
   };
 
   constructor(props) {
@@ -82,6 +82,12 @@ class ScatterPlot extends React.PureComponent {
     /* eslint-enable react/no-did-update-set-state */
   }
 
+  getSelectedId(selectedData) {
+    return selectedData && !Array.isArray(selectedData)
+      ? selectedData.source_id
+      : null;
+  }
+
   // mouseover/focus handler for point
   onMouseOver = d => {
     // add hover style on point and show tooltip
@@ -97,8 +103,7 @@ class ScatterPlot extends React.PureComponent {
   // mouseout/blur handler for point
   onMouseOut = () => {
     const { selectedData } = this.state;
-    const selectedPointId =
-      selectedData && !Array.isArray(selectedData) ? selectedData.id : null;
+    const selectedPointId = this.getSelectedId(selectedData);
 
     // remove hover style on point but don't hide tooltip
     if (selectedPointId) {
@@ -119,8 +124,7 @@ class ScatterPlot extends React.PureComponent {
   // point click handler
   onClick = d => {
     const { selectedData } = this.state;
-    const selectedPointId =
-      selectedData && !Array.isArray(selectedData) ? selectedData.id : null;
+    const selectedPointId = this.getSelectedId(selectedData);
 
     const newState = {
       toolTipPosX: d3Event.clientX,
@@ -130,7 +134,8 @@ class ScatterPlot extends React.PureComponent {
       selectedData: d,
     };
 
-    if (d.id === selectedPointId) {
+    if (d.source_id === selectedPointId) {
+      // console.log('on click reset');
       newState.selectedData = null;
       newState.showTooltip = false;
     }
@@ -211,39 +216,26 @@ class ScatterPlot extends React.PureComponent {
 
   // add attributes to points
   updatePoints() {
-    const { data, xValueAccessor, yValueAccessor, filterBy } = this.props;
-    const { xScale, yScale } = this.state;
+    const { data, filterBy } = this.props;
 
     if (!data) {
       return;
     }
 
-    const $allPoints = d3Select(this.svgEl.current)
+    d3Select(this.svgEl.current)
       .selectAll('.data-point')
       .data(data)
       .filter(nodeData => {
         return filterBy ? nodeData[filterBy] : true;
       });
-
-    $allPoints
-      .attr('cx', d => {
-        return xScale(d[xValueAccessor]);
-      })
-      .attr('cy', d => {
-        return yScale(d[yValueAccessor]);
-      })
-      .transition()
-      .duration(1000)
-      .ease(d3EaseCircle)
-      .attr('r', 6)
-      .attr('stroke', 'black')
-      .attr('fill', 'yellow');
   }
 
   // bind data to elements and add styles and attributes
   updateScatterPlot() {
+    const { preSelected } = this.props;
     this.updatePoints();
-    this.addEventListeners();
+
+    if (!preSelected) this.addEventListeners();
   }
 
   render() {
@@ -258,6 +250,8 @@ class ScatterPlot extends React.PureComponent {
       yAxisLabel,
       useLasso,
       filterBy,
+      xValueAccessor,
+      yValueAccessor,
     } = this.props;
 
     const {
@@ -288,12 +282,18 @@ class ScatterPlot extends React.PureComponent {
             viewBox={`0 0 ${width} ${height}`}
             ref={this.svgEl}
           >
-            <Points
-              data={data}
-              selectedData={selectedData}
-              hoveredData={hoverPointData}
-              filterBy={filterBy}
-            />
+            {data && (
+              <Points
+                data={data}
+                selectedData={selectedData}
+                hoveredData={hoverPointData}
+                filterBy={filterBy}
+                xScale={xScale}
+                yScale={yScale}
+                xValueAccessor={xValueAccessor}
+                yValueAccessor={yValueAccessor}
+              />
+            )}
             <XAxis
               label={xAxisLabel}
               height={height}
@@ -344,6 +344,7 @@ ScatterPlot.propTypes = {
   dataSelectionCallback: PropTypes.func,
   clearOnChange: PropTypes.bool,
   filterBy: PropTypes.string,
+  preSelected: PropTypes.bool,
 };
 
 export default ScatterPlot;

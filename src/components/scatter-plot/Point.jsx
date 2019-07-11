@@ -1,65 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { select as d3Select } from 'd3-selection';
+import classnames from 'classnames';
 
 class Point extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.el = React.createRef();
-  }
-
-  componentDidMount() {
-    const $point = d3Select(this.el.current);
-    this.defaultStyle($point);
-  }
-
-  componentDidUpdate() {
-    const { selected, hovered } = this.props;
-    const $point = d3Select(this.el.current);
-    if (selected) {
-      this.selectStyle($point);
-    } else if (hovered) {
-      this.hoverStyle($point);
-    } else {
-      this.defaultStyle($point);
-    }
-  }
-
-  defaultStyle($point) {
-    $point
-      .transition()
-      .duration(200)
-      .attr('fill', 'yellow');
-  }
-
-  selectStyle($point) {
-    $point
-      .transition()
-      .duration(200)
-      .attr('fill', 'lightsteelblue');
-  }
-
-  hoverStyle($point) {
-    $point
-      .transition()
-      .duration(200)
-      .attr('fill', 'red');
-  }
+  // componentDidUpdate() {
+  //   console.log('point did update', this.fill(this.props.selected, this.props.hovered));
+  // }
 
   render() {
+    const { x, y, selected, hovered } = this.props;
+    const pointClasses = classnames('data-point', {
+      selected,
+      hovered,
+    });
+
     return (
       <circle
-        className="data-point"
-        x={0}
-        y={0}
-        r={0}
-        height={0}
-        width={0}
+        className={pointClasses}
+        cx={x}
+        cy={y}
+        r={6}
         strokeWidth={1}
         fill="transparent"
-        stroke="transparent"
-        ref={this.el}
+        stroke="black"
       />
     );
   }
@@ -68,6 +31,8 @@ class Point extends React.PureComponent {
 Point.propTypes = {
   selected: PropTypes.bool,
   hovered: PropTypes.bool,
+  x: PropTypes.number,
+  y: PropTypes.number,
 };
 
 export default Point;

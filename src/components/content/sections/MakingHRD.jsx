@@ -46,10 +46,6 @@ class MakingHRD extends React.PureComponent {
     }));
   }
 
-  // componentDidUpdate() {
-  //   console.log(this.state.selection);
-  // }
-
   onGraphLasso = selectedData => {
     const { activeId } = this.props;
 
