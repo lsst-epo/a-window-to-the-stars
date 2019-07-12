@@ -6,6 +6,7 @@ import API from '../../site/API';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QuestionsAnswers from '../../questions/ExpansionList';
+import Table from '../../site/forms/Table';
 
 @reactn
 class HRDObservations extends React.PureComponent {
@@ -13,30 +14,27 @@ class HRDObservations extends React.PureComponent {
     super(props);
 
     this.state = {
-      clearGraphSelection: false,
       clusterData: [],
+      activeId: null,
     };
   }
 
   componentDidMount() {
-    API.get('static-data/stars.json').then(res => {
+    const { dataPath, getActiveId, questionsRange } = this.props;
+
+    API.get(dataPath).then(res => {
+      const clusterData = res.data.stars.filter(datum => {
+        return !!datum.is_member;
+      });
+
       this.setState(prevState => ({
         ...prevState,
-        clusterData: res.data,
+        clusterData,
       }));
     });
-  }
 
-  componentDidUpdate() {
-    const { questions } = this.props;
-    const { answers, activeId } = this.global;
-
-    if (questions && !activeId && !answers[questions[0].id]) {
-      this.setGlobal(prevGlobal => ({
-        ...prevGlobal,
-        activeId: questions[0].id,
-      }));
-    }
+    const activeId = getActiveId(questionsRange);
+    this.setActiveQuestion(activeId);
   }
 
   indexFromId(id) {
@@ -54,11 +52,6 @@ class HRDObservations extends React.PureComponent {
         [id]: {},
       },
     }));
-
-    this.setState(prevState => ({
-      ...prevState,
-      clearGraphSelection: true,
-    }));
   }
 
   updateAnswer(id, data) {
@@ -67,8 +60,17 @@ class HRDObservations extends React.PureComponent {
     const { answerAccessor } = questions[activeIndex];
     const { answers: prevAnswers } = this.global;
     const prevAnswer = { ...prevAnswers[id] };
-    const content = answerAccessor ? data[answerAccessor] : data;
-    console.log('globaling', this);
+    let content = data;
+
+    if (
+      data &&
+      (answerAccessor === 'temperature' || answerAccessor === 'luminosity')
+    ) {
+      content = data[0][answerAccessor];
+    } else if (answerAccessor === 'count') {
+      content = data.length;
+    }
+
     this.setGlobal(prevGlobal => ({
       ...prevGlobal,
       answers: {
@@ -82,35 +84,61 @@ class HRDObservations extends React.PureComponent {
     }));
   }
 
+  handleAnswer(data, id) {
+    if (data && id) {
+      this.updateAnswer(id, data);
+    } else {
+      this.clearAnswer(id);
+    }
+  }
+
+  formatValue(number, decimalPlaces) {
+    return Number.parseFloat(number).toFixed(decimalPlaces);
+  }
+
+  tableValues(answers) {
+    let tempRange = '';
+    let giants = '';
+    let dwarves = '';
+
+    if (!isEmpty(answers['10']) && !isEmpty(answers['11'])) {
+      tempRange = `${this.formatValue(
+        answers['10'].content,
+        0
+      )} K  -  ${this.formatValue(answers['11'].content, 0)} K`;
+    }
+
+    if (!isEmpty(answers['12'])) {
+      giants = answers['12'].content;
+    }
+
+    if (!isEmpty(answers['13'])) {
+      dwarves = answers['13'].content;
+    }
+
+    return [
+      ['main Sequence Tmperature Range', tempRange],
+      ['Total Giant Stars', giants],
+      ['Total White Dwarf Stars', dwarves],
+    ];
+  }
+
   setActiveQuestion(id) {
-    this.setGlobal(prevGlobal => ({
-      ...prevGlobal,
+    this.setState(prevState => ({
+      ...prevState,
       activeId: id,
     }));
   }
 
-  advanceActiveQuestion(id) {
-    const { questionsRange } = this.props;
-    const lastIndex = questionsRange.length - 1;
-    const currentIndex = this.indexFromId(id);
-    const nextIndex = currentIndex + 1;
-    let nextId = null;
-
-    if (nextIndex <= lastIndex) {
-      nextId = questionsRange[nextIndex].toString();
-    }
-
+  advanceActiveQuestion() {
+    const { getActiveId, questionsRange } = this.props;
+    const nextId = getActiveId(questionsRange);
     this.setActiveQuestion(nextId);
   }
 
   onGraphSelection = selectedData => {
-    const { activeId } = this.props;
-
-    if (selectedData) {
-      this.updateAnswer(activeId, selectedData);
-    } else {
-      this.clearAnswer(activeId);
-    }
+    const { activeId } = this.state;
+    this.handleAnswer(selectedData, activeId);
   };
 
   onQAToggle = () => {
@@ -130,16 +158,15 @@ class HRDObservations extends React.PureComponent {
   };
 
   render() {
-    const { questions, activeId } = this.props;
-    const { clusterData } = this.state;
+    const { questions } = this.props;
+    const { clusterData, activeId } = this.state;
     const { answers } = this.global;
-    const activeAnswer = answers[activeId] || {};
 
     return (
       <Section {...this.props}>
         <section>
           <h2 className="section-title">Exploring Star Cluster 1</h2>
-          <p>Use the H-R Diagram to complete </p>
+          <p>Use the H-R Diagram to complete the following</p>
           <hr className="divider-horizontal" />
           {questions && (
             <QuestionsAnswers
@@ -152,17 +179,25 @@ class HRDObservations extends React.PureComponent {
               editHandler={this.onEdit}
             />
           )}
+          <hr className="divider-horizontal" />
+          <Table
+            colTitles={['Star Cluster 1', 'Values']}
+            rowTitles
+            rows={this.tableValues(answers)}
+          />
         </section>
         <div className="col-graph">
           <h2>H-R Diagram: Star Cluster 1</h2>
           <ScatterPlot
+            activeId={activeId}
             data={clusterData}
             xValueAccessor="temperature"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
             dataSelectionCallback={this.onGraphSelection}
-            clearOnChange={isEmpty(activeAnswer)}
+            filterBy="is_member"
+            useLasso
           />
         </div>
       </Section>
@@ -177,7 +212,8 @@ HRDObservations.propTypes = {
   paginationLocation: PropTypes.number,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
-  activeId: PropTypes.string,
+  getActiveId: PropTypes.func,
+  dataPath: PropTypes.string,
 };
 
 export default HRDObservations;

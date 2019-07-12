@@ -8,7 +8,7 @@ import Introduction from './Introduction';
 import ExploringStarClusters from './ExploringStarClusters';
 import MakingHRD from './MakingHRD';
 import ComparingHRD from './ComparingHRD';
-// import HRDObservations from './HRDObservations';
+import HRDObservations from './HRDObservations';
 import Results from './Results';
 
 @reactn
@@ -36,6 +36,25 @@ class Sections extends React.PureComponent {
   //   this.dispatch.updateLS();
   // };
 
+  getActiveId = questionsRange => {
+    const { answers } = this.global;
+    let activeId = null;
+    let i = 0;
+
+    while (i < questionsRange.length) {
+      const id = questionsRange[i];
+
+      if (isEmpty(answers[id])) {
+        activeId = id.toString();
+        i = questionsRange.length;
+      }
+
+      i += 1;
+    }
+
+    return activeId;
+  };
+
   getQuestions(questionsRange) {
     const { questions } = this.global;
 
@@ -62,7 +81,7 @@ class Sections extends React.PureComponent {
               scrollable={0}
               questionsRange={range(1, 10)}
               questions={this.getQuestions(range(1, 10))}
-              activeId={activeId}
+              getActiveId={this.getActiveId}
               previous="/"
               dataPath="static-data/NGC_188_data.json"
             />
@@ -70,7 +89,7 @@ class Sections extends React.PureComponent {
               id="2"
               scrollable={0}
               dataPath="static-data/NGC_188_data.json"
-              activeId="14"
+              activeId={activeId}
               questionsRange={[14]}
               questions={this.getQuestions([14])}
             />
@@ -78,17 +97,18 @@ class Sections extends React.PureComponent {
               id="3"
               scrollable={-1}
               dataPath="static-data/NGC_188_data.json"
-              activeId="14"
+              activeId={activeId}
             />
-            {/*            <HRDObservations
+            <HRDObservations
               id="4"
               scrollable={0}
+              dataPath="static-data/NGC_188_data.json"
               questionsRange={range(10, 14)}
               questions={this.getQuestions(range(10, 14))}
-              activeId={activeId}
-            /> */}
+              getActiveId={this.getActiveId}
+            />
             <Results
-              id="4"
+              id="5"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}

@@ -2,6 +2,7 @@ import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+// import includes from 'lodash/includes';
 import API from '../../site/API';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
@@ -15,30 +16,26 @@ class ExploringStarClusters extends React.PureComponent {
     this.state = {
       clearGraphSelection: false,
       clusterData: [],
+      activeId: null,
     };
   }
 
   componentDidMount() {
-    const { dataPath } = this.props;
+    const { dataPath, getActiveId, questionsRange } = this.props;
 
     API.get(dataPath).then(res => {
+      const clusterData = res.data.stars.filter(datum => {
+        return !!datum.is_member;
+      });
+
       this.setState(prevState => ({
         ...prevState,
-        clusterData: res.data.stars,
+        clusterData,
       }));
     });
-  }
 
-  componentDidUpdate() {
-    const { questions } = this.props;
-    const { answers, activeId } = this.global;
-
-    if (questions && !activeId && !answers[questions[0].id]) {
-      this.setGlobal(prevGlobal => ({
-        ...prevGlobal,
-        activeId: questions[0].id,
-      }));
-    }
+    const activeId = getActiveId(questionsRange);
+    this.setActiveQuestion(activeId);
   }
 
   indexFromId(id) {
@@ -85,30 +82,23 @@ class ExploringStarClusters extends React.PureComponent {
   }
 
   setActiveQuestion(id) {
-    this.setGlobal(prevGlobal => ({
-      ...prevGlobal,
+    this.setState(prevState => ({
+      ...prevState,
       activeId: id,
     }));
   }
 
-  advanceActiveQuestion(id) {
-    const { questionsRange } = this.props;
-    const lastIndex = questionsRange.length - 1;
-    const currentIndex = this.indexFromId(id);
-    const nextIndex = currentIndex + 1;
-    let nextId = null;
-
-    if (nextIndex <= lastIndex) {
-      nextId = questionsRange[nextIndex].toString();
-    }
-
+  advanceActiveQuestion() {
+    console.log('on save');
+    const { getActiveId, questionsRange } = this.props;
+    const nextId = getActiveId(questionsRange);
     this.setActiveQuestion(nextId);
   }
 
   onGraphSelection = selectedData => {
-    const { activeId } = this.props;
+    const { activeId } = this.state;
 
-    if (selectedData) {
+    if (selectedData && activeId) {
       this.updateAnswer(activeId, selectedData);
     } else {
       this.clearAnswer(activeId);
@@ -123,8 +113,8 @@ class ExploringStarClusters extends React.PureComponent {
     this.clearAnswer(id);
   };
 
-  onAnswerSave = id => {
-    this.advanceActiveQuestion(id);
+  onAnswerSave = () => {
+    this.advanceActiveQuestion();
   };
 
   onEdit = id => {
@@ -132,8 +122,8 @@ class ExploringStarClusters extends React.PureComponent {
   };
 
   render() {
-    const { questions, activeId } = this.props;
-    const { clusterData } = this.state;
+    const { questions } = this.props;
+    const { clusterData, activeId } = this.state;
     const { answers } = this.global;
     const activeAnswer = answers[activeId] || {};
 
@@ -210,7 +200,7 @@ ExploringStarClusters.propTypes = {
   paginationLocation: PropTypes.number,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
-  activeId: PropTypes.string,
+  getActiveId: PropTypes.func,
   dataPath: PropTypes.string,
 };
 

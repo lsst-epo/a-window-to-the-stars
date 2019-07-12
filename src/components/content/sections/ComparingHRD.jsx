@@ -21,9 +21,13 @@ class ComparingHRD extends React.PureComponent {
     const { dataPath } = this.props;
 
     API.get(dataPath).then(res => {
+      const clusterData = res.data.stars.filter(datum => {
+        return !!datum.is_member;
+      });
+
       this.setState(prevState => ({
         ...prevState,
-        clusterData: res.data.stars,
+        clusterData,
       }));
     });
   }

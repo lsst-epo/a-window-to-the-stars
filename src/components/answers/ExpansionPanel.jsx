@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import Button from 'react-md/lib/Buttons/Button';
 
 class AnswerExpansionPanel extends React.PureComponent {
+  formatValue(number, decimalPlaces) {
+    return Number.parseFloat(number).toFixed(decimalPlaces);
+  }
+
   render() {
     const {
       id,
@@ -27,9 +31,28 @@ class AnswerExpansionPanel extends React.PureComponent {
         )}
         <p id={`answer-content-${id}`}>
           {pre && <span className="answer-pre">{pre} </span>}
-          <span className="answer-content">{content}</span>
-          {accessor === 'temperature' && <span className="unit"> K</span>}
-          {accessor === 'luminosity' && <sub className="unit">&#8857;</sub>}
+          {accessor === 'temperature' && (
+            <React.Fragment>
+              <span className="answer-content">
+                {this.formatValue(content, 0)}
+              </span>
+              <span className="unit"> K</span>
+            </React.Fragment>
+          )}
+          {accessor === 'luminosity' && (
+            <React.Fragment>
+              <span className="answer-content">
+                {this.formatValue(content, 4)}
+              </span>
+              <sub className="unit">&#8857;</sub>
+            </React.Fragment>
+          )}
+          {accessor === 'count' && (
+            <React.Fragment>
+              <span className="answer-content">{content}</span>
+              <span className="unit"> stars</span>
+            </React.Fragment>
+          )}
         </p>
       </div>
     );

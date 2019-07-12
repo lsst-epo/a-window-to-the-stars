@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
-// import { extent as d3Extent } from 'd3-array';
 import Points from './Points.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
@@ -47,45 +47,69 @@ class ScatterPlot extends React.PureComponent {
 
   componentDidMount() {
     this.updateScatterPlot();
-    // console.log('component did mount');
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { selectedData, hoverPointData } = this.state;
-    const { data, dataSelectionCallback, clearOnChange } = this.props;
+    const { selectedData } = this.state;
+    const { data, dataSelectionCallback, activeId } = this.props;
     const differentSelectedData = selectedData !== prevState.selectedData;
     const shouldCallback = dataSelectionCallback && differentSelectedData;
 
-    // console.log('component did update');
     if (prevProps.data !== data) {
       this.updateScatterPlot();
     }
-    // else {
-    //   this.updatePoints();
-    // }
+
+    if (prevProps.activeId !== activeId) {
+      this.clearGraph();
+    }
 
     if (shouldCallback) {
       dataSelectionCallback(selectedData);
     }
+  }
 
-    /* eslint-disable react/no-did-update-set-state */
-    if (clearOnChange !== prevProps.clearOnChange && !hoverPointData) {
-      this.setState(currentState => ({
-        ...currentState,
-        hoverPointData: null,
-        toolTipPosX: 0,
-        toolTipPosY: 0,
-        showTooltip: false,
-        selectedData: null,
-      }));
-    }
-    /* eslint-enable react/no-did-update-set-state */
+  arrayify(data) {
+    return isEmpty(data) ? null : [].concat(data);
   }
 
   getSelectedId(selectedData) {
-    return selectedData && !Array.isArray(selectedData)
-      ? selectedData.source_id
-      : null;
+    if (!selectedData) return null;
+    if (selectedData.length === 1) return selectedData.source_id;
+
+    return null;
+  }
+
+  clearGraph() {
+    this.setState(prevState => ({
+      ...prevState,
+      hoverPointData: null,
+      showTooltip: false,
+      selectedData: null,
+      showLasso: false,
+    }));
+  }
+
+  toggleSelection(d) {
+    const { selectedData } = this.state;
+    const selectedPointId = this.getSelectedId(selectedData);
+
+    const newState = {
+      toolTipPosX: d3Event.clientX,
+      toolTipPosY: d3Event.clientY,
+      showLasso: false,
+      showTooltip: true,
+      selectedData: this.arrayify(d),
+    };
+
+    if (d.source_id === selectedPointId) {
+      newState.selectedData = null;
+      newState.showTooltip = false;
+    }
+
+    this.setState(prevState => ({
+      ...prevState,
+      ...newState,
+    }));
   }
 
   // mouseover/focus handler for point
@@ -93,7 +117,7 @@ class ScatterPlot extends React.PureComponent {
     // add hover style on point and show tooltip
     this.setState(prevState => ({
       ...prevState,
-      hoverPointData: d,
+      hoverPointData: this.arrayify(d),
       toolTipPosX: d3Event.clientX,
       toolTipPosY: d3Event.clientY,
       showTooltip: true,
@@ -103,91 +127,36 @@ class ScatterPlot extends React.PureComponent {
   // mouseout/blur handler for point
   onMouseOut = () => {
     const { selectedData } = this.state;
-    const selectedPointId = this.getSelectedId(selectedData);
 
     // remove hover style on point but don't hide tooltip
-    if (selectedPointId) {
-      this.setState(prevState => ({
-        ...prevState,
-        hoverPointData: null,
-      }));
-      // remove hover style on point and hide tooltip
-    } else {
-      this.setState(prevState => ({
-        ...prevState,
-        hoverPointData: null,
-        showTooltip: false,
-      }));
-    }
-  };
-
-  // point click handler
-  onClick = d => {
-    const { selectedData } = this.state;
-    const selectedPointId = this.getSelectedId(selectedData);
-
-    const newState = {
-      toolTipPosX: d3Event.clientX,
-      toolTipPosY: d3Event.clientY,
-      showLasso: false,
-      showTooltip: true,
-      selectedData: d,
-    };
-
-    if (d.source_id === selectedPointId) {
-      // console.log('on click reset');
-      newState.selectedData = null;
-      newState.showTooltip = false;
-    }
-
     this.setState(prevState => ({
       ...prevState,
-      ...newState,
+      hoverPointData: null,
+      showTooltip: !!selectedData,
     }));
   };
 
   onDragStart = () => {
-    this.setState(
-      prevState => ({
-        ...prevState,
-        selectedData: [],
-        showLasso: false,
-      }),
-      () => {
-        // console.log('start');
-      }
-    );
+    // console.log('start');
   };
 
   onDrag = () => {
-    this.setState(
-      prevState => ({
-        ...prevState,
-        showTooltip: false,
-        showLasso: true,
-      }),
-      () => {
-        // console.log('dragging');
-      }
-    );
+    // console.log('dragging');
+    this.setState(prevState => ({
+      ...prevState,
+      selectedData: null,
+      showTooltip: false,
+      showLasso: true,
+    }));
   };
 
   onDragEnd = d => {
-    const { dataLassoCallback } = this.props;
-
-    this.setState(
-      prevState => ({
-        ...prevState,
-        showTooltip: false,
-        selectedData: d,
-      }),
-      () => {
-        const { selectedData } = this.state;
-
-        // console.log('end');
-        dataLassoCallback(selectedData);
-      }
-    );
+    // console.log('end');
+    this.setState(prevState => ({
+      ...prevState,
+      showTooltip: false,
+      selectedData: this.arrayify(d),
+    }));
   };
 
   // add event listeners to Scatterplot and Points
@@ -197,21 +166,27 @@ class ScatterPlot extends React.PureComponent {
 
     $scatterplot.on('click', () => {
       // remove styles and selections when click on non-point
-      if (d3Event.target.classList[0] !== 'data-point') {
-        this.setState(prevState => ({
-          ...prevState,
-          hoverPointData: null,
-          showTooltip: false,
-          selectedData: null,
-        }));
+      const pointData = d3Select(d3Event.target).datum();
+      if (pointData) {
+        this.toggleSelection(pointData);
+      } else {
+        this.clearGraph();
       }
     });
-
     // add event listeners to points
     $allPoints
       .on('mouseover', this.onMouseOver)
-      .on('mouseout', this.onMouseOut)
-      .on('click', this.onClick);
+      .on('mouseout', this.onMouseOut);
+  }
+
+  getPointsData(data, filterBy) {
+    if (filterBy) {
+      return data.filter(datum => {
+        return !!datum[filterBy];
+      });
+    }
+
+    return data;
   }
 
   // add attributes to points
@@ -284,7 +259,7 @@ class ScatterPlot extends React.PureComponent {
           >
             {data && (
               <Points
-                data={data}
+                data={this.getPointsData(data, filterBy)}
                 selectedData={selectedData}
                 hoveredData={hoverPointData}
                 filterBy={filterBy}
@@ -327,9 +302,10 @@ class ScatterPlot extends React.PureComponent {
 }
 
 ScatterPlot.propTypes = {
+  data: PropTypes.array,
+  activeId: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
-  data: PropTypes.array,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
   xValueAccessor: PropTypes.string,
@@ -340,9 +316,7 @@ ScatterPlot.propTypes = {
   offsetTop: PropTypes.number,
   offsetRight: PropTypes.number,
   useLasso: PropTypes.bool,
-  dataLassoCallback: PropTypes.func,
   dataSelectionCallback: PropTypes.func,
-  clearOnChange: PropTypes.bool,
   filterBy: PropTypes.string,
   preSelected: PropTypes.bool,
 };
