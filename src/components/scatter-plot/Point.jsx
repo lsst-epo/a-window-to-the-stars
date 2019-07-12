@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 class Point extends React.PureComponent {
-  // componentDidUpdate() {
-  //   console.log('point did update', this.fill(this.props.selected, this.props.hovered));
-  // }
-
   render() {
-    const { x, y, selected, hovered } = this.props;
-    const pointClasses = classnames('data-point', {
+    const { x, y, selected, hovered, sourceId } = this.props;
+    const pointClasses = classnames(`data-point-${sourceId} data-point`, {
       selected,
       hovered,
     });
@@ -31,6 +27,7 @@ class Point extends React.PureComponent {
 Point.propTypes = {
   selected: PropTypes.bool,
   hovered: PropTypes.bool,
+  sourceId: PropTypes.string,
   x: PropTypes.number,
   y: PropTypes.number,
 };

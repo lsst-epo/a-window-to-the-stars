@@ -24,7 +24,7 @@ class QuestionExpansionPanel extends React.PureComponent {
     const isExpanded = active || answered;
     const showFooter = !answered || (!active && answered) ? null : undefined;
 
-    const questionClasses = classnames('qa no-pointer', {
+    const questionClasses = classnames(`qa qa-${qId} no-pointer`, {
       active,
       answered,
       unstyled: !active,

@@ -88,14 +88,14 @@ class Tooltip extends React.PureComponent {
         <div>
           <span>Temperature: </span>
           <span>
-            {pointData ? this.formatValue(pointData.temperature, 0) : null}
+            {pointData ? this.formatValue(pointData[0].temperature, 0) : null}
           </span>
           <span className="unit">K</span>
         </div>
         <div>
           <span>Luminosity: </span>
           <span>
-            {pointData ? this.formatValue(pointData.luminosity, 4) : null}
+            {pointData ? this.formatValue(pointData[0].luminosity, 4) : null}
           </span>
           <sub className="unit">&#8857;</sub>
         </div>
