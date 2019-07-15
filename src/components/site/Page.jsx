@@ -87,7 +87,7 @@ class Page extends React.PureComponent {
             })}
           </div>
         )}
-        {!layout && (
+        {(!layout || layout === '') && (
           <React.Fragment>
             {children}
             {(next || previous) && this.renderNav()}

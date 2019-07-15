@@ -97,27 +97,33 @@ class HRDObservations extends React.PureComponent {
   }
 
   tableValues(answers) {
+    const { questionsRange } = this.props;
     let tempRange = '';
     let giants = '';
     let dwarves = '';
 
-    if (!isEmpty(answers['10']) && !isEmpty(answers['11'])) {
+    const q1 = questionsRange[0];
+    const q2 = questionsRange[1];
+    const q3 = questionsRange[2];
+    const q4 = questionsRange[3];
+
+    if (!isEmpty(answers[q1]) && !isEmpty(answers[q2])) {
       tempRange = `${this.formatValue(
-        answers['10'].content,
+        answers[q1].content,
         0
-      )} K  -  ${this.formatValue(answers['11'].content, 0)} K`;
+      )} K  -  ${this.formatValue(answers[q2].content, 0)} K`;
     }
 
-    if (!isEmpty(answers['12'])) {
-      giants = answers['12'].content;
+    if (!isEmpty(answers[q3])) {
+      giants = answers[q3].content;
     }
 
-    if (!isEmpty(answers['13'])) {
-      dwarves = answers['13'].content;
+    if (!isEmpty(answers[q4])) {
+      dwarves = answers[q4].content;
     }
 
     return [
-      ['main Sequence Tmperature Range', tempRange],
+      ['Main Sequence Temperature Range', tempRange],
       ['Total Giant Stars', giants],
       ['Total White Dwarf Stars', dwarves],
     ];
@@ -158,15 +164,15 @@ class HRDObservations extends React.PureComponent {
   };
 
   render() {
-    const { questions } = this.props;
+    const { questions, introduction, clusterName, id } = this.props;
     const { clusterData, activeId } = this.state;
     const { answers } = this.global;
 
     return (
       <Section {...this.props}>
         <section>
-          <h2 className="section-title">Exploring Star Cluster 1</h2>
-          <p>Use the H-R Diagram to complete the following</p>
+          <h2 className="section-title">Exploring Star {clusterName}</h2>
+          <p>{introduction}</p>
           <hr className="divider-horizontal" />
           {questions && (
             <QuestionsAnswers
@@ -181,14 +187,15 @@ class HRDObservations extends React.PureComponent {
           )}
           <hr className="divider-horizontal" />
           <Table
-            colTitles={['Star Cluster 1', 'Values']}
+            colTitles={[`Star ${clusterName}`, 'Values']}
             rowTitles
             rows={this.tableValues(answers)}
           />
         </section>
         <div className="col-graph">
-          <h2>H-R Diagram: Star Cluster 1</h2>
+          <h2>H-R Diagram: Star {clusterName}</h2>
           <ScatterPlot
+            id={id}
             activeId={activeId}
             data={clusterData}
             xValueAccessor="temperature"
@@ -214,6 +221,8 @@ HRDObservations.propTypes = {
   questions: PropTypes.array,
   getActiveId: PropTypes.func,
   dataPath: PropTypes.string,
+  introduction: PropTypes.string,
+  clusterName: PropTypes.string,
 };
 
 export default HRDObservations;

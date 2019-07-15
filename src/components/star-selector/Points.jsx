@@ -33,12 +33,12 @@ class Points extends React.PureComponent {
 
     return (
       <g className="data-points">
-        {data.map(d => {
+        {data.map((d, i) => {
           if (filterBy && !d[filterBy]) {
             return null;
           }
           const { source_id: id } = d;
-          const key = `point-${id}`;
+          const key = `point-${id}-${i}`;
           const selected = this.checkId(selectedData, id);
 
           return (
