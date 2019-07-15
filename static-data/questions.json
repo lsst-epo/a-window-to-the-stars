@@ -124,5 +124,50 @@
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
+  },
+  "15": {
+    "id": "15",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Select the hottest Main Sequence Star",
+    "placeholder": null,
+    "answerAccessor": "temperature",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "16": {
+    "id": "16",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Select the coldest Main Sequence Star",
+    "placeholder": null,
+    "answerAccessor": "temperature",
+    "answerPre": "The selected star has a temperature of "
+  },
+  "17": {
+    "id": "17",
+    "type": "accordion",
+    "tool": "lasso",
+    "label": "Draw a circle around all of the Giant Stars",
+    "placeholder": null,
+    "answerAccessor": "count",
+    "answerPre": null
+  },
+  "18": {
+    "id": "18",
+    "type": "accordion",
+    "tool": "lasso",
+    "label": "Draw a circle around all of the White Dwarf Stars",
+    "placeholder": null,
+    "answerAccessor": "count",
+    "answerPre": null
+  },
+  "19": {
+    "id": "19",
+    "type": "prompt",
+    "tool": "lasso",
+    "label": "Draw a circle around a group of stars to plot them on the H-R Diagram",
+    "placeholder": null,
+    "answerAccessor": "data",
+    "answerPre": "H-R Diagram created from user selected star cluster"
   }
 }

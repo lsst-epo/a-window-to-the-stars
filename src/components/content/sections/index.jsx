@@ -10,13 +10,11 @@ import MakingHRD from './MakingHRD';
 import ComparingHRD from './ComparingHRD';
 import HRDObservations from './HRDObservations';
 import Results from './Results';
+import clusterA from '../../../assets/images/ngc188_FINAL.jpg';
+import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
 
 @reactn
 class Sections extends React.PureComponent {
-  // constructor(props) {
-  //   super(props);
-  // }
-
   componentDidMount() {
     if (isEmpty(this.global.questions)) {
       API.get('static-data/questions.json').then(res => {
@@ -31,10 +29,6 @@ class Sections extends React.PureComponent {
   onFinish = () => {
     this.dispatch.empty();
   };
-
-  // onSectionChange = () => {
-  //   this.dispatch.updateLS();
-  // };
 
   getActiveId = questionsRange => {
     const { answers } = this.global;
@@ -68,7 +62,7 @@ class Sections extends React.PureComponent {
   }
 
   render() {
-    const { activeId, questions, answers } = this.global;
+    const { questions, answers } = this.global;
     const loading = isEmpty(questions);
 
     return (
@@ -88,31 +82,99 @@ class Sections extends React.PureComponent {
             <MakingHRD
               id="2"
               scrollable={0}
+              clusterName="Cluster A"
+              clusterImage={clusterA}
+              clusterWidth={1200}
+              clusterHeight={1185}
+              clusterXDomain={[16.160474211844242, 9.616988842401822]}
+              clusterYDomain={[84.99507547492594, 85.53437634262413]}
+              scatterXDomain={[14000, 3000]}
+              scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_188_data.json"
-              activeId={activeId}
+              introduction="Locate the star cluster in this image. Not all the stars you see in the image are actually stars in the cluster—some are much closer to Earth than the stars in the cluster, and some are farther away. Because of their different distances, these stars can provide inaccurate information on an H-R Diagram if plotted with the stars in the cluster."
+              activeId={14}
               questionsRange={[14]}
               questions={this.getQuestions([14])}
             />
             <ComparingHRD
               id="3"
               scrollable={-1}
+              clusterName="Cluster A"
+              clusterImage={clusterA}
+              clusterWidth={1200}
+              clusterHeight={1185}
+              clusterXDomain={[16.160474211844242, 9.616988842401822]}
+              clusterYDomain={[84.99507547492594, 85.53437634262413]}
+              scatterXDomain={[14000, 3000]}
+              scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_188_data.json"
-              activeId={activeId}
+              activeId={14}
             />
             <HRDObservations
               id="4"
               scrollable={0}
+              scatterXDomain={[14000, 3000]}
+              scatterYDomain={[0.001, 10000]}
               dataPath="static-data/NGC_188_data.json"
               questionsRange={range(10, 14)}
               questions={this.getQuestions(range(10, 14))}
               getActiveId={this.getActiveId}
+              clusterName="Cluster A"
+              introduction="Use the H-R Diagram to complete the table of observations"
+            />
+            <MakingHRD
+              id="5"
+              scrollable={0}
+              clusterImage={clusterB}
+              clusterWidth={1200}
+              clusterHeight={1202}
+              clusterXDomain={[92.65523303612241, 91.7350869784027]}
+              clusterYDomain={[23.974853989692477, 24.809571724642513]}
+              scatterXDomain={[15500, 3000]}
+              scatterYDomain={[0.001, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+              activeId={19}
+              questionsRange={[19]}
+              questions={this.getQuestions([19])}
+              clusterName="Cluster B"
+              introduction="Try creating an H-R Diagram for a different Star Cluster. Locate the star cluster in this image. Not all the stars you see in the image are actually stars in the cluster—some are much closer to Earth than the stars in the cluster, and some are farther away. Because of their different distances, these stars can provide inaccurate information on an H-R Diagram if plotted with the stars in the cluster."
+            />
+            <ComparingHRD
+              id="6"
+              scrollable={-1}
+              clusterName="Cluster B"
+              clusterImage={clusterB}
+              clusterWidth={1200}
+              clusterHeight={1202}
+              clusterXDomain={[92.65523303612241, 91.7350869784027]}
+              clusterYDomain={[23.974853989692477, 24.809571724642513]}
+              scatterXDomain={[15500, 3000]}
+              scatterYDomain={[0.001, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+              activeId={19}
+            />
+            <HRDObservations
+              id="7"
+              scrollable={0}
+              scatterXDomain={[15000, 3000]}
+              scatterYDomain={[0.001, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+              questionsRange={range(15, 19)}
+              questions={this.getQuestions(range(15, 19))}
+              getActiveId={this.getActiveId}
+              clusterName="Cluster B"
+              introduction="Use the H-R Diagram to complete the table of observations"
             />
             <Results
-              id="5"
+              id="8"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}
-              order={[1, 2, 3, 4, 5, 6, 7, 8, 9, 14]}
+              order={range(1, 10)
+                .concat([14])
+                .concat(range(10, 13))
+                .concat([19])
+                .concat(range(15, 19))}
             />
           </React.Fragment>
         ) : (
