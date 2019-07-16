@@ -44,6 +44,10 @@
 .container-flex, .md-card.container-flex, .md-card-text.container-flex,  {
   display: flex;
 
+  &.direction-column {
+    flex-direction: column;
+  }
+
   &.wrap {
     flex-wrap: wrap;
   }

@@ -24,6 +24,16 @@
     border-left: 6px solid transparent;
   }
 
+  &.cluster-selector {
+    padding-top: 0;
+    margin-left: 70px;
+    font-size: 20px;
+
+    @include respond($break100) {
+      margin-left: 11.7%;
+    }
+  }
+
   select {
     display: inline-block;
     width: 100%;

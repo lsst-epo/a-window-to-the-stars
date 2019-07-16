@@ -32,8 +32,6 @@ class MakingHRD extends React.PureComponent {
     const { answers: prevAnswers } = this.global;
     const prevAnswer = { ...prevAnswers[id] };
 
-    console.log(prevAnswer, data);
-
     this.setGlobal(prevGlobal => ({
       ...prevGlobal,
       answers: {

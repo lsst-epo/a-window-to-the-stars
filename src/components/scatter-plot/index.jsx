@@ -224,7 +224,6 @@ class ScatterPlot extends React.PureComponent {
       xAxisLabel,
       yAxisLabel,
       useLasso,
-      filterBy,
       xValueAccessor,
       yValueAccessor,
     } = this.props;
@@ -259,10 +258,9 @@ class ScatterPlot extends React.PureComponent {
           >
             {data && (
               <Points
-                data={this.getPointsData(data, filterBy)}
+                data={data}
                 selectedData={selectedData}
                 hoveredData={hoverPointData}
-                filterBy={filterBy}
                 xScale={xScale}
                 yScale={yScale}
                 xValueAccessor={xValueAccessor}
