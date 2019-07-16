@@ -169,5 +169,35 @@
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
+  },
+  "20": {
+    "id": "20",
+    "type": "text",
+    "label": "What color of main sequence star is not present in Cluster A?",
+    "placeholder": "Enter Color",
+    "answerAccessor": "text",
+    "answerPost": " main sequence stars are not present in Cluster A"
+  },
+  "21": {
+    "id": "21",
+    "type": "text",
+    "label": "What color of main sequence star is not present in Cluster B?",
+    "placeholder": "Enter Color",
+    "answerAccessor": "text",
+    "answerPost": " main sequence stars are not present in Cluster B"
+  },
+  "22": {
+    "id": "22",
+    "type": "textArea",
+    "label": "Think about what you have learned about giant stars and white dwarf stars. Which star cluster do you think is older? Explain your answer.",
+    "placeholder": "",
+    "answerAccessor": "text"
+  },
+  "23": {
+    "id": "23",
+    "type": "textArea",
+    "label": "Explain what happened to the missing main sequence stars?",
+    "placeholder": "",
+    "answerAccessor": "text"
   }
 }
