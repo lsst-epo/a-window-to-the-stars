@@ -9,6 +9,7 @@ import ExploringStarClusters from './ExploringStarClusters';
 import MakingHRD from './MakingHRD';
 import ComparingHRD from './ComparingHRD';
 import HRDObservations from './HRDObservations';
+import ComparingHRDObservations from './ComparingHRDObservations';
 import Results from './Results';
 import clusterA from '../../../assets/images/ngc188_FINAL.jpg';
 import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
@@ -165,8 +166,32 @@ class Sections extends React.PureComponent {
               clusterName="Cluster B"
               introduction="Use the H-R Diagram to complete the table of observations"
             />
-            <Results
+            <ComparingHRDObservations
               id="8"
+              scrollable={0}
+              clusters={[
+                {
+                  name: 'Cluster A',
+                  key: 'clusterAData',
+                  path: 'static-data/NGC_188_data.json',
+                  xDomain: [14000, 3000],
+                  yDomain: [0.001, 10000],
+                },
+                {
+                  name: 'Cluster B',
+                  key: 'clusterBData',
+                  path: 'static-data/NGC_2168_data.json',
+                  xDomain: [15000, 3000],
+                  yDomain: [0.001, 10000],
+                },
+              ]}
+              tableAnswersRanges={[range(10, 14), range(15, 19)]}
+              questionsRange={range(20, 24)}
+              questions={this.getQuestions(range(20, 24))}
+              getActiveId={this.getActiveId}
+            />
+            <Results
+              id="9"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}
@@ -174,7 +199,8 @@ class Sections extends React.PureComponent {
                 .concat([14])
                 .concat(range(10, 13))
                 .concat([19])
-                .concat(range(15, 19))}
+                .concat(range(15, 19))
+                .concat(range(20, 24))}
             />
           </React.Fragment>
         ) : (

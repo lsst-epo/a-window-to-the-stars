@@ -97,36 +97,36 @@ class HRDObservations extends React.PureComponent {
   }
 
   tableValues(answers) {
-    const { questionsRange } = this.props;
-    let tempRange = '';
-    let giants = '';
-    let dwarves = '';
-
-    const q1 = questionsRange[0];
-    const q2 = questionsRange[1];
-    const q3 = questionsRange[2];
-    const q4 = questionsRange[3];
-
-    if (!isEmpty(answers[q1]) && !isEmpty(answers[q2])) {
-      tempRange = `${this.formatValue(
-        answers[q1].content,
-        0
-      )} K  -  ${this.formatValue(answers[q2].content, 0)} K`;
-    }
-
-    if (!isEmpty(answers[q3])) {
-      giants = answers[q3].content;
-    }
-
-    if (!isEmpty(answers[q4])) {
-      dwarves = answers[q4].content;
-    }
-
-    return [
-      ['Main Sequence Temperature Range', tempRange],
-      ['Total Giant Stars', giants],
-      ['Total White Dwarf Stars', dwarves],
+    const cells = [
+      ['Main Sequence Temperature Range'],
+      ['Total Giant Stars'],
+      ['Total White Dwarf Stars'],
     ];
+
+    const { questionsRange } = this.props;
+    const a1 = questionsRange[0];
+    const a2 = questionsRange[1];
+    const a3 = questionsRange[2];
+    const a4 = questionsRange[3];
+
+    if (!isEmpty(answers[a1]) && !isEmpty(answers[a2])) {
+      cells[0].push(
+        `${this.formatValue(answers[a1].content, 0)} K  -  ${this.formatValue(
+          answers[a2].content,
+          0
+        )} K`
+      );
+    }
+
+    if (!isEmpty(answers[a3])) {
+      cells[1].push(answers[a3].content);
+    }
+
+    if (!isEmpty(answers[a4])) {
+      cells[2].push(answers[a4].content);
+    }
+
+    return cells;
   }
 
   setActiveQuestion(id) {
@@ -203,7 +203,6 @@ class HRDObservations extends React.PureComponent {
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
             dataSelectionCallback={this.onGraphSelection}
-            filterBy="is_member"
             useLasso
           />
         </div>

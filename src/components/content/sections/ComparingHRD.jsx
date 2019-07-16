@@ -111,7 +111,6 @@ class ComparingHRD extends React.PureComponent {
               dataLassoCallback={this.onGraphLasso}
               dataSelectionCallback={this.onGraphSelection}
               backgroundImage={clusterImage}
-              filterBy="is_member"
               preSelected
             />
             <br />
@@ -124,7 +123,6 @@ class ComparingHRD extends React.PureComponent {
               yValueAccessor="luminosity"
               xAxisLabel="Temperature (K)"
               yAxisLabel="Solar Luminosity"
-              filterBy="is_member"
               preSelected
             />
           </div>

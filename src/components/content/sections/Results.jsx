@@ -32,6 +32,11 @@ class Results extends React.PureComponent {
             <span className="answer-content">{answer.content}</span>
             {accessor === 'temperature' && <span className="unit"> K</span>}
             {accessor === 'luminosity' && <sub className="unit">&#8857;</sub>}
+            {accessor === 'count' && (
+              <span className="unit">
+                {parseInt(answer.content, 10) > 1 ? 'stars' : 'star'}
+              </span>
+            )}
           </p>
         ) : (
           <p className="answer">No answer provided</p>
@@ -68,6 +73,25 @@ class Results extends React.PureComponent {
     );
   }
 
+  renderTextQA(index, question, answer) {
+    const { label } = question;
+    const count = index + 1;
+
+    return (
+      <div className="qa">
+        <div className="question">
+          <span>{count}. </span>
+          {label}
+        </div>
+        {!isEmpty(answer) ? (
+          <div className="answer">{answer.content}</div>
+        ) : (
+          <p className="answer">No answer provided</p>
+        )}
+      </div>
+    );
+  }
+
   renderQA(index, question, answer) {
     const { type } = question;
 
@@ -77,6 +101,10 @@ class Results extends React.PureComponent {
 
     if (type === 'prompt') {
       return this.renderPromptQA(index, question, answer);
+    }
+
+    if (type === 'text' || type === 'textArea') {
+      return this.renderTextQA(index, question, answer);
     }
 
     return (

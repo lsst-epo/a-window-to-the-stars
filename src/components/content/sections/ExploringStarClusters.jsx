@@ -1,8 +1,6 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-// import includes from 'lodash/includes';
 import API from '../../site/API';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
@@ -88,13 +86,6 @@ class ExploringStarClusters extends React.PureComponent {
     }));
   }
 
-  advanceActiveQuestion() {
-    console.log('on save');
-    const { getActiveId, questionsRange } = this.props;
-    const nextId = getActiveId(questionsRange);
-    this.setActiveQuestion(nextId);
-  }
-
   onGraphSelection = selectedData => {
     const { activeId } = this.state;
 
@@ -114,7 +105,10 @@ class ExploringStarClusters extends React.PureComponent {
   };
 
   onAnswerSave = () => {
-    this.advanceActiveQuestion();
+    // console.log('on save');
+    const { getActiveId, questionsRange } = this.props;
+    const nextId = getActiveId(questionsRange);
+    this.setActiveQuestion(nextId);
   };
 
   onEdit = id => {
@@ -125,7 +119,6 @@ class ExploringStarClusters extends React.PureComponent {
     const { questions } = this.props;
     const { clusterData, activeId } = this.state;
     const { answers } = this.global;
-    const activeAnswer = answers[activeId] || {};
 
     return (
       <Section {...this.props}>
@@ -184,8 +177,6 @@ class ExploringStarClusters extends React.PureComponent {
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
             dataSelectionCallback={this.onGraphSelection}
-            clearOnChange={isEmpty(activeAnswer)}
-            filterBy="is_member"
           />
         </div>
       </Section>
@@ -194,14 +185,10 @@ class ExploringStarClusters extends React.PureComponent {
 }
 
 ExploringStarClusters.propTypes = {
-  id: PropTypes.number,
-  layout: PropTypes.string,
-  dividers: PropTypes.bool,
-  paginationLocation: PropTypes.number,
+  dataPath: PropTypes.string,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
   getActiveId: PropTypes.func,
-  dataPath: PropTypes.string,
 };
 
 export default ExploringStarClusters;
