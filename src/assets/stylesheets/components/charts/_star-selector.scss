@@ -15,5 +15,13 @@
     &.selected {
       fill: red;
     }
+
+    &.user {
+      fill: yellow;
+    }
+
+    &.astronomer {
+      fill: red;
+    }
   }
 }

@@ -39,7 +39,7 @@
     "id": "5",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the dimmest Main Sequence Star whose temperature is around 10,000 K",
+    "label": "Select the brightest Main Sequence Star whose temperature is around 10,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "

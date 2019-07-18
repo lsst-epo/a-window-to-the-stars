@@ -13,6 +13,7 @@ class Points extends React.PureComponent {
       yScale,
       xValueAccessor,
       yValueAccessor,
+      pointClasses,
     } = this.props;
 
     return (
@@ -27,6 +28,7 @@ class Points extends React.PureComponent {
             <Point
               key={key}
               sourceId={id}
+              classes={pointClasses}
               x={xScale(d[xValueAccessor])}
               y={yScale(d[yValueAccessor])}
               selected={selected}
@@ -48,6 +50,7 @@ Points.propTypes = {
   yValueAccessor: PropTypes.string,
   xScale: PropTypes.string,
   yScale: PropTypes.string,
+  pointClasses: PropTypes.string,
 };
 
 export default Points;

@@ -4,8 +4,8 @@ import classnames from 'classnames';
 
 class Point extends React.PureComponent {
   render() {
-    const { selected, x, y } = this.props;
-    const pointClasses = classnames('data-point', {
+    const { selected, x, y, classes } = this.props;
+    const pointClasses = classnames(`data-point ${classes}`, {
       selected,
     });
 
@@ -25,6 +25,7 @@ Point.propTypes = {
   selected: PropTypes.bool,
   x: PropTypes.number,
   y: PropTypes.number,
+  classes: PropTypes.string,
 };
 
 export default Point;

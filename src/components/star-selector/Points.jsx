@@ -23,27 +23,24 @@ class Points extends React.PureComponent {
   render() {
     const {
       selectedData,
-      filterBy,
       data,
       xScale,
       yScale,
       xValueAccessor,
       yValueAccessor,
+      pointClasses,
     } = this.props;
 
     return (
-      <g className="data-points">
+      <g className={`data-points ${pointClasses}`}>
         {data.map((d, i) => {
-          if (filterBy && !d[filterBy]) {
-            return null;
-          }
           const { source_id: id } = d;
           const key = `point-${id}-${i}`;
           const selected = this.checkId(selectedData, id);
-
           return (
             <Point
               key={key}
+              classes={pointClasses}
               x={xScale(d[xValueAccessor])}
               y={yScale(d[yValueAccessor])}
               selected={selected}
@@ -59,11 +56,11 @@ class Points extends React.PureComponent {
 Points.propTypes = {
   data: PropTypes.array,
   selectedData: PropTypes.bool,
-  filterBy: PropTypes.string,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
   xScale: PropTypes.string,
   yScale: PropTypes.string,
+  pointClasses: PropTypes.string,
 };
 
 export default Points;

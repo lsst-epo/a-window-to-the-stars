@@ -4,11 +4,14 @@ import classnames from 'classnames';
 
 class Point extends React.PureComponent {
   render() {
-    const { x, y, selected, hovered, sourceId } = this.props;
-    const pointClasses = classnames(`data-point-${sourceId} data-point`, {
-      selected,
-      hovered,
-    });
+    const { x, y, selected, hovered, sourceId, classes } = this.props;
+    const pointClasses = classnames(
+      `data-point-${sourceId} data-point ${classes}`,
+      {
+        selected,
+        hovered,
+      }
+    );
 
     return (
       <circle
@@ -30,6 +33,7 @@ Point.propTypes = {
   sourceId: PropTypes.string,
   x: PropTypes.number,
   y: PropTypes.number,
+  classes: PropTypes.string,
 };
 
 export default Point;
