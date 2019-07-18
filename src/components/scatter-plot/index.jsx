@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
+import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import Points from './Points.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
@@ -34,6 +36,7 @@ class ScatterPlot extends React.PureComponent {
       toolTipPosX: 0,
       toolTipPosY: 0,
       showTooltip: false,
+      loading: true,
       xScale: d3ScaleLinear()
         .domain(props.xDomain)
         .range([props.padding, props.width - props.offsetRight]),
@@ -51,16 +54,12 @@ class ScatterPlot extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { selectedData } = this.state;
-    const { data, dataSelectionCallback, activeId } = this.props;
+    const { data, dataSelectionCallback } = this.props;
     const differentSelectedData = selectedData !== prevState.selectedData;
     const shouldCallback = dataSelectionCallback && differentSelectedData;
 
     if (prevProps.data !== data) {
       this.updateScatterPlot();
-    }
-
-    if (prevProps.activeId !== activeId) {
-      this.clearGraph();
     }
 
     if (shouldCallback) {
@@ -179,30 +178,38 @@ class ScatterPlot extends React.PureComponent {
       .on('mouseout', this.onMouseOut);
   }
 
-  getPointsData(data, filterBy) {
-    if (filterBy) {
-      return data.filter(datum => {
-        return !!datum[filterBy];
-      });
-    }
-
-    return data;
-  }
-
-  // add attributes to points
+  // bind data to points
   updatePoints() {
-    const { data, filterBy } = this.props;
+    const { data, filterBy, preSelected } = this.props;
+    const { loading } = this.state;
 
     if (!data) {
       return;
     }
 
-    d3Select(this.svgEl.current)
-      .selectAll('.data-point')
-      .data(data)
-      .filter(nodeData => {
-        return filterBy ? nodeData[filterBy] : true;
-      });
+    if (isEmpty(data) && preSelected && loading) {
+      this.setState(prevState => ({
+        ...prevState,
+        loading: false,
+      }));
+    } else {
+      d3Select(this.svgEl.current)
+        .selectAll('.data-point')
+        .data(data)
+        .transition()
+        .filter(nodeData => {
+          return filterBy ? nodeData[filterBy] : true;
+        })
+        .end()
+        .then(() => {
+          if (loading) {
+            this.setState(prevState => ({
+              ...prevState,
+              loading: false,
+            }));
+          }
+        });
+    }
   }
 
   // bind data to elements and add styles and attributes
@@ -237,10 +244,23 @@ class ScatterPlot extends React.PureComponent {
       showLasso,
       xScale,
       yScale,
+      loading,
     } = this.state;
 
+    const svgClasses = classnames('hrd svg-chart scatter-plot', {
+      loading,
+      loaded: !loading,
+    });
+
     return (
-      <div>
+      <div className="svg-container">
+        {loading && (
+          <CircularProgress
+            className="chart-loader"
+            scale={3}
+            value={loading}
+          />
+        )}
         <Tooltip
           key="tooltip"
           pointData={selectedData || hoverPointData}
@@ -248,52 +268,51 @@ class ScatterPlot extends React.PureComponent {
           posY={toolTipPosY}
           show={showTooltip}
         />
-        <div className="svg-container">
-          <svg
-            key="scatter-plot"
-            className="scatter-plot-svg"
-            preserveAspectRatio="xMidYMid meet"
-            viewBox={`0 0 ${width} ${height}`}
-            ref={this.svgEl}
-          >
-            {data && (
-              <Points
-                data={data}
-                selectedData={selectedData}
-                hoveredData={hoverPointData}
-                xScale={xScale}
-                yScale={yScale}
-                xValueAccessor={xValueAccessor}
-                yValueAccessor={yValueAccessor}
-              />
-            )}
-            <XAxis
-              label={xAxisLabel}
-              height={height}
-              width={width}
-              padding={padding}
-              offsetTop={offsetTop}
-              offsetRight={offsetRight}
-              scale={xScale}
+        <svg
+          key="scatter-plot"
+          className={svgClasses}
+          preserveAspectRatio="xMidYMid meet"
+          viewBox={`0 0 ${width} ${height}`}
+          ref={this.svgEl}
+          style={{ opacity: 0 }}
+        >
+          {data && (
+            <Points
+              data={data}
+              selectedData={selectedData}
+              hoveredData={hoverPointData}
+              xScale={xScale}
+              yScale={yScale}
+              xValueAccessor={xValueAccessor}
+              yValueAccessor={yValueAccessor}
             />
-            <YAxis
-              label={yAxisLabel}
-              height={height}
-              padding={padding}
-              offsetTop={offsetTop}
-              scale={yScale}
+          )}
+          <XAxis
+            label={xAxisLabel}
+            height={height}
+            width={width}
+            padding={padding}
+            offsetTop={offsetTop}
+            offsetRight={offsetRight}
+            scale={xScale}
+          />
+          <YAxis
+            label={yAxisLabel}
+            height={height}
+            padding={padding}
+            offsetTop={offsetTop}
+            scale={yScale}
+          />
+          {useLasso && (
+            <Lasso
+              active={showLasso}
+              lassoableEl={this.svgEl}
+              dragCallback={this.onDrag}
+              dragStartCallback={this.onDragStart}
+              dragEndCallback={this.onDragEnd}
             />
-            {useLasso && (
-              <Lasso
-                active={showLasso}
-                lassoableEl={this.svgEl}
-                dragCallback={this.onDrag}
-                dragStartCallback={this.onDragStart}
-                dragEndCallback={this.onDragEnd}
-              />
-            )}
-          </svg>
-        </div>
+          )}
+        </svg>
       </div>
     );
   }
@@ -301,7 +320,6 @@ class ScatterPlot extends React.PureComponent {
 
 ScatterPlot.propTypes = {
   data: PropTypes.array,
-  activeId: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
   xAxisLabel: PropTypes.string,

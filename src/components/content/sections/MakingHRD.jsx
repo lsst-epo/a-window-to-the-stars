@@ -1,7 +1,7 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import API from '../../site/API';
+import { withData } from '../containers/WithData';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
@@ -9,25 +9,6 @@ import QuestionPrompts from '../../questions/prompts';
 
 @reactn
 class MakingHRD extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      clusterData: [],
-    };
-  }
-
-  componentDidMount() {
-    const { dataPath } = this.props;
-
-    API.get(dataPath).then(res => {
-      this.setState(prevState => ({
-        ...prevState,
-        clusterData: res.data.stars,
-      }));
-    });
-  }
-
   updateAnswer(id, data) {
     const { answers: prevAnswers } = this.global;
     const prevAnswer = { ...prevAnswers[id] };
@@ -51,12 +32,12 @@ class MakingHRD extends React.PureComponent {
   };
 
   render() {
-    const { clusterData } = this.state;
     const {
-      activeId,
+      answer,
       questions,
       clusterImage,
       introduction,
+      clusterData,
       clusterName,
       clusterWidth,
       clusterHeight,
@@ -65,7 +46,7 @@ class MakingHRD extends React.PureComponent {
       scatterXDomain,
       scatterYDomain,
     } = this.props;
-    const answer = this.global.answers[activeId];
+
     const selection = answer ? answer.data : [];
 
     return (
@@ -99,6 +80,7 @@ class MakingHRD extends React.PureComponent {
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
+            preSelected
           />
         </div>
       </Section>
@@ -113,8 +95,10 @@ MakingHRD.propTypes = {
   paginationLocation: PropTypes.number,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
+  answer: PropTypes.object,
   activeId: PropTypes.string,
   dataPath: PropTypes.string,
+  clusterData: PropTypes.array,
   clusterImage: PropTypes.node,
   clusterName: PropTypes.string,
   clusterWidth: PropTypes.number,
@@ -126,4 +110,4 @@ MakingHRD.propTypes = {
   introduction: PropTypes.string,
 };
 
-export default MakingHRD;
+export default withData(MakingHRD);

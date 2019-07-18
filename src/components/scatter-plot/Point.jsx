@@ -18,7 +18,7 @@ class Point extends React.PureComponent {
         r={6}
         strokeWidth={1}
         fill="transparent"
-        stroke="black"
+        stroke="transparent"
       />
     );
   }

@@ -1,5 +1,6 @@
 import React from 'react';
 import reactn from 'reactn';
+import { Switch, Route } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
@@ -64,25 +65,36 @@ class Sections extends React.PureComponent {
 
   render() {
     const { questions, answers } = this.global;
-    const loading = isEmpty(questions);
 
     return (
-      <React.Fragment>
-        {!loading ? (
-          <React.Fragment>
-            <Introduction next="1" />
+      <Switch>
+        <Route path="/" exact render={() => <Introduction next="1" />} />
+        <Route
+          path="/1"
+          render={() => (
             <ExploringStarClusters
               id="1"
-              scrollable={0}
+              dataPath="static-data/NGC_188_data.json"
               questionsRange={range(1, 10)}
               questions={this.getQuestions(range(1, 10))}
+              answers={answers}
+              scrollable={0}
               getActiveId={this.getActiveId}
               previous="/"
-              dataPath="static-data/NGC_188_data.json"
             />
+          )}
+        />
+        <Route
+          path="/2"
+          render={() => (
             <MakingHRD
               id="2"
+              dataPath="static-data/NGC_188_data.json"
+              questionsRange={[14]}
+              questions={this.getQuestions([14])}
               scrollable={0}
+              activeId={14}
+              answer={answers[14]}
               clusterName="Cluster A"
               clusterImage={clusterA}
               clusterWidth={1200}
@@ -91,12 +103,13 @@ class Sections extends React.PureComponent {
               clusterYDomain={[84.99507547492594, 85.53437634262413]}
               scatterXDomain={[14000, 3000]}
               scatterYDomain={[0.01, 10000]}
-              dataPath="static-data/NGC_188_data.json"
               introduction="Locate the star cluster in this image. Not all the stars you see in the image are actually stars in the cluster—some are much closer to Earth than the stars in the cluster, and some are farther away. Because of their different distances, these stars can provide inaccurate information on an H-R Diagram if plotted with the stars in the cluster."
-              activeId={14}
-              questionsRange={[14]}
-              questions={this.getQuestions([14])}
             />
+          )}
+        />
+        <Route
+          path="/3"
+          render={() => (
             <ComparingHRD
               id="3"
               scrollable={-1}
@@ -109,20 +122,31 @@ class Sections extends React.PureComponent {
               scatterXDomain={[14000, 3000]}
               scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_188_data.json"
-              activeId={14}
+              answer={answers[14]}
             />
+          )}
+        />
+        <Route
+          path="/4"
+          render={() => (
             <HRDObservations
               id="4"
-              scrollable={0}
-              scatterXDomain={[14000, 3000]}
-              scatterYDomain={[0.001, 10000]}
               dataPath="static-data/NGC_188_data.json"
               questionsRange={range(10, 14)}
               questions={this.getQuestions(range(10, 14))}
+              answers={answers}
               getActiveId={this.getActiveId}
+              scatterXDomain={[14000, 3000]}
+              scatterYDomain={[0.001, 10000]}
               clusterName="Cluster A"
               introduction="Use the H-R Diagram to complete the table of observations"
+              scrollable={0}
             />
+          )}
+        />
+        <Route
+          path="/5"
+          render={() => (
             <MakingHRD
               id="5"
               scrollable={0}
@@ -135,11 +159,17 @@ class Sections extends React.PureComponent {
               scatterYDomain={[0.001, 10000]}
               dataPath="static-data/NGC_2168_data.json"
               activeId={19}
+              answer={answers[19]}
               questionsRange={[19]}
               questions={this.getQuestions([19])}
               clusterName="Cluster B"
               introduction="Try creating an H-R Diagram for a different Star Cluster. Locate the star cluster in this image. Not all the stars you see in the image are actually stars in the cluster—some are much closer to Earth than the stars in the cluster, and some are farther away. Because of their different distances, these stars can provide inaccurate information on an H-R Diagram if plotted with the stars in the cluster."
             />
+          )}
+        />
+        <Route
+          path="/6"
+          render={() => (
             <ComparingHRD
               id="6"
               scrollable={-1}
@@ -152,8 +182,13 @@ class Sections extends React.PureComponent {
               scatterXDomain={[15500, 3000]}
               scatterYDomain={[0.001, 10000]}
               dataPath="static-data/NGC_2168_data.json"
-              activeId={19}
+              answer={answers[19]}
             />
+          )}
+        />
+        <Route
+          path="/7"
+          render={() => (
             <HRDObservations
               id="7"
               scrollable={0}
@@ -162,10 +197,16 @@ class Sections extends React.PureComponent {
               dataPath="static-data/NGC_2168_data.json"
               questionsRange={range(15, 19)}
               questions={this.getQuestions(range(15, 19))}
+              answers={answers}
               getActiveId={this.getActiveId}
               clusterName="Cluster B"
               introduction="Use the H-R Diagram to complete the table of observations"
             />
+          )}
+        />
+        <Route
+          path="/8"
+          render={() => (
             <ComparingHRDObservations
               id="8"
               scrollable={0}
@@ -190,6 +231,11 @@ class Sections extends React.PureComponent {
               questions={this.getQuestions(range(20, 24))}
               getActiveId={this.getActiveId}
             />
+          )}
+        />
+        <Route
+          path="/9"
+          render={() => (
             <Results
               id="9"
               questions={questions}
@@ -202,11 +248,9 @@ class Sections extends React.PureComponent {
                 .concat(range(15, 19))
                 .concat(range(20, 24))}
             />
-          </React.Fragment>
-        ) : (
-          <div>loading data</div>
-        )}
-      </React.Fragment>
+          )}
+        />
+      </Switch>
     );
   }
 }
