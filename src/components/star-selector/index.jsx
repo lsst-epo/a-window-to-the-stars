@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
+import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import Points from './Points.jsx';
 import Lasso from '../scatter-plot/Lasso.jsx';
 
@@ -20,6 +23,7 @@ class StarSelector extends React.Component {
       showLasso: false,
       dragLine: [],
       dragLoop: [],
+      loading: true,
       xScale: d3ScaleLinear()
         .domain(props.xDomain)
         .range([props.padding, props.width]),
@@ -33,7 +37,6 @@ class StarSelector extends React.Component {
 
   componentDidMount() {
     this.updateScatterPlot();
-    // console.log('component did mount');
   }
 
   componentDidUpdate(prevProps) {
@@ -43,7 +46,6 @@ class StarSelector extends React.Component {
       this.updateScatterPlot();
     }
 
-    /* eslint-disable react/no-did-update-set-state */
     if (clearOnChange !== prevProps.clearOnChange) {
       const { dataLassoCallback } = this.props;
 
@@ -51,7 +53,6 @@ class StarSelector extends React.Component {
         dataLassoCallback([]);
       }
     }
-    /* eslint-enable react/no-did-update-set-state */
   }
 
   onDragStart = () => {
@@ -103,20 +104,37 @@ class StarSelector extends React.Component {
     });
   }
 
-  // add attributes to points
   updatePoints() {
-    const { data, filterBy } = this.props;
+    const { data, filterBy, preSelected } = this.props;
+    const { loading } = this.state;
 
     if (!data) {
       return;
     }
 
-    d3Select(this.svgEl.current)
-      .selectAll('.data-point')
-      .data(data)
-      .filter(nodeData => {
-        return filterBy ? nodeData[filterBy] : true;
-      });
+    if (isEmpty(data) && preSelected && loading) {
+      this.setState(prevState => ({
+        ...prevState,
+        loading: false,
+      }));
+    } else {
+      d3Select(this.svgEl.current)
+        .selectAll('.data-point')
+        .data(data)
+        .transition()
+        .filter(nodeData => {
+          return filterBy ? nodeData[filterBy] : true;
+        })
+        .end()
+        .then(() => {
+          if (loading) {
+            this.setState(prevState => ({
+              ...prevState,
+              loading: false,
+            }));
+          }
+        });
+    }
   }
 
   // bind data to elements and add styles and attributes
@@ -131,7 +149,7 @@ class StarSelector extends React.Component {
   }
 
   render() {
-    const { showLasso, xScale, yScale } = this.state;
+    const { showLasso, xScale, yScale, loading } = this.state;
     const {
       data,
       width,
@@ -144,41 +162,52 @@ class StarSelector extends React.Component {
       yValueAccessor,
     } = this.props;
 
+    const svgClasses = classnames('svg-chart star-selector', {
+      loading,
+      loaded: !loading,
+    });
+
     return (
-      <div>
-        <div className="svg-container star-selector-container">
-          <svg
-            key="scatter-plot"
-            className="scatter-plot-svg star-selector"
-            preserveAspectRatio="xMidYMid meet"
-            viewBox={`0 0 ${width} ${height}`}
-            ref={this.svgEl}
-            style={{
-              backgroundImage: `url(${backgroundImage})`,
-            }}
-          >
-            {data && (
-              <Points
-                data={data}
-                selectedData={preSelected ? data : selection}
-                filterBy={filterBy}
-                xScale={xScale}
-                yScale={yScale}
-                xValueAccessor={xValueAccessor}
-                yValueAccessor={yValueAccessor}
-              />
-            )}
-            {!preSelected && (
-              <Lasso
-                active={showLasso}
-                lassoableEl={this.svgEl}
-                dragCallback={this.onDrag}
-                dragStartCallback={this.onDragStart}
-                dragEndCallback={this.onDragEnd}
-              />
-            )}
-          </svg>
-        </div>
+      <div className="svg-container star-selector-container">
+        {loading && (
+          <CircularProgress
+            className="chart-loader"
+            scale={3}
+            value={loading}
+          />
+        )}
+        <svg
+          key="scatter-plot svg-chart"
+          className={svgClasses}
+          preserveAspectRatio="xMidYMid meet"
+          viewBox={`0 0 ${width} ${height}`}
+          ref={this.svgEl}
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            opacity: 0,
+          }}
+        >
+          {data && (
+            <Points
+              data={data}
+              selectedData={preSelected ? data : selection}
+              filterBy={filterBy}
+              xScale={xScale}
+              yScale={yScale}
+              xValueAccessor={xValueAccessor}
+              yValueAccessor={yValueAccessor}
+            />
+          )}
+          {!preSelected && (
+            <Lasso
+              active={showLasso}
+              lassoableEl={this.svgEl}
+              dragCallback={this.onDrag}
+              dragStartCallback={this.onDragStart}
+              dragEndCallback={this.onDragEnd}
+            />
+          )}
+        </svg>
       </div>
     );
   }

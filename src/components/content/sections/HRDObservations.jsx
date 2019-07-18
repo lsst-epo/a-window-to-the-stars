@@ -1,109 +1,41 @@
 import React from 'react';
-import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import API from '../../site/API';
+import { withData } from '../containers/WithData';
+import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QuestionsAnswers from '../../questions/ExpansionList';
 import Table from '../../site/forms/Table';
 
-@reactn
 class HRDObservations extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      clusterData: [],
       activeId: null,
     };
   }
 
   componentDidMount() {
-    const { dataPath, getActiveId, questionsRange } = this.props;
-
-    API.get(dataPath).then(res => {
-      const clusterData = res.data.stars.filter(datum => {
-        return !!datum.is_member;
-      });
-
-      this.setState(prevState => ({
-        ...prevState,
-        clusterData,
-      }));
-    });
+    const { getActiveId, questionsRange } = this.props;
 
     const activeId = getActiveId(questionsRange);
     this.setActiveQuestion(activeId);
-  }
-
-  indexFromId(id) {
-    const { questionsRange } = this.props;
-    return questionsRange.indexOf(parseInt(id, 10));
-  }
-
-  clearAnswer(id) {
-    const { answers: prevAnswers } = this.global;
-
-    this.setGlobal(prevGlobal => ({
-      ...prevGlobal,
-      answers: {
-        ...prevAnswers,
-        [id]: {},
-      },
-    }));
-  }
-
-  updateAnswer(id, data) {
-    const { questions } = this.props;
-    const activeIndex = this.indexFromId(id);
-    const { answerAccessor } = questions[activeIndex];
-    const { answers: prevAnswers } = this.global;
-    const prevAnswer = { ...prevAnswers[id] };
-    let content = data;
-
-    if (
-      data &&
-      (answerAccessor === 'temperature' || answerAccessor === 'luminosity')
-    ) {
-      content = data[0][answerAccessor];
-    } else if (answerAccessor === 'count') {
-      content = data.length;
-    }
-
-    this.setGlobal(prevGlobal => ({
-      ...prevGlobal,
-      answers: {
-        ...prevAnswers,
-        [id]: {
-          ...prevAnswer,
-          id,
-          content,
-        },
-      },
-    }));
-  }
-
-  handleAnswer(data, id) {
-    if (data && id) {
-      this.updateAnswer(id, data);
-    } else {
-      this.clearAnswer(id);
-    }
   }
 
   formatValue(number, decimalPlaces) {
     return Number.parseFloat(number).toFixed(decimalPlaces);
   }
 
-  tableValues(answers) {
+  tableValues() {
     const cells = [
       ['Main Sequence Temperature Range'],
       ['Total Giant Stars'],
       ['Total White Dwarf Stars'],
     ];
 
-    const { questionsRange } = this.props;
+    const { questionsRange, answers } = this.props;
     const a1 = questionsRange[0];
     const a2 = questionsRange[1];
     const a3 = questionsRange[2];
@@ -116,14 +48,20 @@ class HRDObservations extends React.PureComponent {
           0
         )} K`
       );
+    } else {
+      cells[0].push('');
     }
 
     if (!isEmpty(answers[a3])) {
       cells[1].push(answers[a3].content);
+    } else {
+      cells[1].push('');
     }
 
     if (!isEmpty(answers[a4])) {
       cells[2].push(answers[a4].content);
+    } else {
+      cells[2].push('');
     }
 
     return cells;
@@ -143,8 +81,10 @@ class HRDObservations extends React.PureComponent {
   }
 
   onGraphSelection = selectedData => {
+    const { answerHandler } = this.props;
     const { activeId } = this.state;
-    this.handleAnswer(selectedData, activeId);
+
+    answerHandler(activeId, selectedData);
   };
 
   onQAToggle = () => {
@@ -152,7 +92,9 @@ class HRDObservations extends React.PureComponent {
   };
 
   onAnswerCancel = id => {
-    this.clearAnswer(id);
+    const { answerHandler } = this.props;
+
+    answerHandler(id);
   };
 
   onAnswerSave = id => {
@@ -164,9 +106,15 @@ class HRDObservations extends React.PureComponent {
   };
 
   render() {
-    const { questions, introduction, clusterName, id } = this.props;
-    const { clusterData, activeId } = this.state;
-    const { answers } = this.global;
+    const {
+      clusterData,
+      questions,
+      answers,
+      introduction,
+      clusterName,
+      id,
+    } = this.props;
+    const { activeId } = this.state;
 
     return (
       <Section {...this.props}>
@@ -189,7 +137,7 @@ class HRDObservations extends React.PureComponent {
           <Table
             colTitles={[`Star ${clusterName}`, 'Values']}
             rowTitles
-            rows={this.tableValues(answers)}
+            rows={this.tableValues()}
           />
         </section>
         <div className="col-graph">
@@ -213,15 +161,17 @@ class HRDObservations extends React.PureComponent {
 
 HRDObservations.propTypes = {
   id: PropTypes.number,
+  clusterData: PropTypes.array,
+  questionsRange: PropTypes.array,
+  questions: PropTypes.array,
+  answers: PropTypes.object,
+  answerHandler: PropTypes.func,
+  getActiveId: PropTypes.func,
   layout: PropTypes.string,
   dividers: PropTypes.bool,
   paginationLocation: PropTypes.number,
-  questionsRange: PropTypes.array,
-  questions: PropTypes.array,
-  getActiveId: PropTypes.func,
-  dataPath: PropTypes.string,
   introduction: PropTypes.string,
   clusterName: PropTypes.string,
 };
 
-export default HRDObservations;
+export default withAnswerHandlers(withData(HRDObservations, 'is_member'));

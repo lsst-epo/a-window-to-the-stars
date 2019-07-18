@@ -1,40 +1,14 @@
 import React from 'react';
-import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import API from '../../site/API';
+import { withData } from '../containers/WithData';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
 
-@reactn
 class ComparingHRD extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      clusterData: [],
-    };
-  }
-
-  componentDidMount() {
-    const { dataPath } = this.props;
-
-    API.get(dataPath).then(res => {
-      const clusterData = res.data.stars.filter(datum => {
-        return !!datum.is_member;
-      });
-
-      this.setState(prevState => ({
-        ...prevState,
-        clusterData,
-      }));
-    });
-  }
-
   render() {
-    const { clusterData } = this.state;
     const {
-      activeId,
+      clusterData,
       clusterImage,
       clusterName,
       clusterWidth,
@@ -43,10 +17,11 @@ class ComparingHRD extends React.PureComponent {
       clusterYDomain,
       scatterXDomain,
       scatterYDomain,
+      answer,
     } = this.props;
-    const answer = this.global.answers[activeId];
-    const selection = answer ? answer.data : [];
 
+    const selection = answer ? answer.data : [];
+    // console.log(selection);
     return (
       <Section {...this.props} layout="">
         <section>
@@ -139,8 +114,7 @@ ComparingHRD.propTypes = {
   paginationLocation: PropTypes.number,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
-  activeId: PropTypes.string,
-  dataPath: PropTypes.string,
+  clusterData: PropTypes.array,
   clusterName: PropTypes.string,
   clusterImage: PropTypes.node,
   clusterWidth: PropTypes.number,
@@ -149,6 +123,7 @@ ComparingHRD.propTypes = {
   clusterYDomain: PropTypes.array,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
+  answer: PropTypes.object,
 };
 
-export default ComparingHRD;
+export default withData(ComparingHRD, 'is_member');

@@ -26,7 +26,6 @@ class ComparingHRDObservations extends React.PureComponent {
 
     clusters.forEach(cluster => {
       const { path, key } = cluster;
-
       API.get(path).then(res => {
         const clusterData = res.data.stars.filter(datum => {
           return !!datum.is_member;

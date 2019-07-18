@@ -1,0 +1,22 @@
+.scatter-plot {
+  width: 100%;
+  height: auto;
+
+  path.draggable-path {
+    stroke: $black;
+  }
+
+  .data-point {
+    fill: yellow;
+    stroke: $black;
+
+    &.hovered {
+      fill: red;
+    }
+
+    &.selected {
+      fill: blue;
+    }
+  }
+}
+

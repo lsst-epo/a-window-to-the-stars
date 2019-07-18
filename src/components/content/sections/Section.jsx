@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Page from '../../site/Page';
 
@@ -25,26 +24,19 @@ class Section extends React.PureComponent {
     } = this.props;
 
     return (
-      <Route
-        exact
-        path={id === '0' ? '/' : `/${id}`}
-        render={routeProps => (
-          <Page
-            {...routeProps}
-            next={next || `/${parseInt(id, 10) + 1}`}
-            previous={previous || `/${parseInt(id, 10) - 1}`}
-            previousText="Back"
-            nextText="Continue"
-            nextHandler={nextHandler}
-            layout={layout}
-            dividers={dividers}
-            paginationLocation={paginationLocation}
-            scrollable={scrollable}
-          >
-            {children}
-          </Page>
-        )}
-      />
+      <Page
+        next={next || `/${parseInt(id, 10) + 1}`}
+        previous={previous || `/${parseInt(id, 10) - 1}`}
+        previousText="Back"
+        nextText="Continue"
+        nextHandler={nextHandler}
+        layout={layout}
+        dividers={dividers}
+        paginationLocation={paginationLocation}
+        scrollable={scrollable}
+      >
+        {children}
+      </Page>
     );
   }
 }

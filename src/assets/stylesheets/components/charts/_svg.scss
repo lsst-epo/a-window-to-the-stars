@@ -1,5 +1,16 @@
-.scatter-plot-svg {
-  width: 100%;
-  height: auto;
-  // overflow: visible;
+.svg-container {
+  position: relative;
+}
+
+.svg-chart {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity $timing $durationSuperSlow;
+
+  &.loaded {
+    visibility: visible;
+    /* stylelint-disable-next-line declaration-no-important */
+    opacity: 1 !important;
+  }
 }

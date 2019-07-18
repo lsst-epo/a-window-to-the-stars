@@ -39,6 +39,7 @@ class QuestionExpansionPanel extends React.PureComponent {
         contentClassName="answer"
         expanded={isExpanded}
         onExpandToggle={() => toggleHandler(qId)}
+        cancelLabel="Clear"
         onCancel={() => cancelHandler(qId)}
         onSave={() => saveHandler(qId)}
         closeOnCancel={false}

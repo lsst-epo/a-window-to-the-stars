@@ -1,8 +1,19 @@
 .star-selector {
+  width: 100%;
+  height: auto;
   background-repeat: no-repeat;
   background-size: contain;
 
   path.draggable-path {
     stroke: $white;
+  }
+
+  .data-point {
+    cursor: pointer;
+    fill: transparent;
+
+    &.selected {
+      fill: red;
+    }
   }
 }
