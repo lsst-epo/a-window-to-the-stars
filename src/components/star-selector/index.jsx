@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
+import Card from 'react-md/lib/Cards/Card';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import Points from './Points.jsx';
 import Lasso from '../scatter-plot/Lasso.jsx';
@@ -40,18 +41,10 @@ class StarSelector extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { data, clearOnChange } = this.props;
+    const { data } = this.props;
 
     if (prevProps.data !== data) {
       this.updateScatterPlot();
-    }
-
-    if (clearOnChange !== prevProps.clearOnChange) {
-      const { dataLassoCallback } = this.props;
-
-      if (dataLassoCallback) {
-        dataLassoCallback([]);
-      }
     }
   }
 
@@ -105,7 +98,7 @@ class StarSelector extends React.Component {
   }
 
   updatePoints() {
-    const { data, filterBy, preSelected } = this.props;
+    const { data, preSelected, multiple } = this.props;
     const { loading } = this.state;
 
     if (!data) {
@@ -117,14 +110,35 @@ class StarSelector extends React.Component {
         ...prevState,
         loading: false,
       }));
+    } else if (multiple) {
+      data.forEach((selection, i) => {
+        if (i === data.length - 1) {
+          d3Select(this.svgEl.current)
+            .selectAll(`.data-point.${selection.className}`)
+            .data(selection.data)
+            .transition()
+            .end()
+            .then(() => {
+              if (loading) {
+                this.setState(prevState => ({
+                  ...prevState,
+                  loading: false,
+                }));
+                console.log('end', selection.className);
+              }
+            });
+        } else {
+          d3Select(this.svgEl.current)
+            .selectAll(`.data-point${selection.className}`)
+            .data(selection.data);
+          console.log('first', selection.className);
+        }
+      });
     } else {
       d3Select(this.svgEl.current)
         .selectAll('.data-point')
         .data(data)
         .transition()
-        .filter(nodeData => {
-          return filterBy ? nodeData[filterBy] : true;
-        })
         .end()
         .then(() => {
           if (loading) {
@@ -155,8 +169,8 @@ class StarSelector extends React.Component {
       width,
       height,
       backgroundImage,
-      filterBy,
       preSelected,
+      multiple,
       selection,
       xValueAccessor,
       yValueAccessor,
@@ -176,6 +190,20 @@ class StarSelector extends React.Component {
             value={loading}
           />
         )}
+        {data && multiple && (
+          <Card className="legend">
+            {data.map((cluster, i) => {
+              const key = `legend-${cluster.className}-${i}`;
+
+              return (
+                <div key={key} className="container-flex spaced">
+                  <div className="set-name">{cluster.className}</div>
+                  <div className={`data-point ${cluster.className}`} />
+                </div>
+              );
+            })}
+          </Card>
+        )}
         <svg
           key="scatter-plot svg-chart"
           className={svgClasses}
@@ -187,11 +215,27 @@ class StarSelector extends React.Component {
             opacity: 0,
           }}
         >
-          {data && (
+          {data &&
+            multiple &&
+            data.map((cluster, i) => {
+              const key = `points-${cluster.className}-${i}`;
+              return (
+                <Points
+                  key={key}
+                  pointClasses={cluster.className}
+                  data={cluster.data}
+                  selectedData={preSelected ? cluster.data : selection}
+                  xScale={xScale}
+                  yScale={yScale}
+                  xValueAccessor={xValueAccessor}
+                  yValueAccessor={yValueAccessor}
+                />
+              );
+            })}
+          {data && !multiple && (
             <Points
               data={data}
               selectedData={preSelected ? data : selection}
-              filterBy={filterBy}
               xScale={xScale}
               yScale={yScale}
               xValueAccessor={xValueAccessor}
@@ -218,16 +262,15 @@ StarSelector.propTypes = {
   height: PropTypes.number,
   padding: PropTypes.number,
   data: PropTypes.array,
+  selection: PropTypes.array,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
   xDomain: PropTypes.array,
   yDomain: PropTypes.array,
   dataLassoCallback: PropTypes.func,
-  clearOnChange: PropTypes.bool,
   backgroundImage: PropTypes.any,
-  filterBy: PropTypes.string,
   preSelected: PropTypes.bool,
-  selection: PropTypes.array,
+  multiple: PropTypes.bool,
 };
 
 export default StarSelector;

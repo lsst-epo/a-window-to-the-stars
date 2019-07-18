@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
+import Card from 'react-md/lib/Cards/Card';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import Points from './Points.jsx';
 import XAxis from './XAxis.jsx';
@@ -180,26 +181,45 @@ class ScatterPlot extends React.PureComponent {
 
   // bind data to points
   updatePoints() {
-    const { data, filterBy, preSelected } = this.props;
+    const { data, preSelected, multiple } = this.props;
     const { loading } = this.state;
 
-    if (!data) {
-      return;
-    }
+    // if (!data) {
+    //   return;
+    // }
 
     if (isEmpty(data) && preSelected && loading) {
       this.setState(prevState => ({
         ...prevState,
         loading: false,
       }));
+    } else if (multiple) {
+      data.forEach((selection, i) => {
+        if (i === data.length - 1) {
+          d3Select(this.svgEl.current)
+            .selectAll(`.data-point.${selection.className}`)
+            .data(selection.data)
+            .transition()
+            .end()
+            .then(() => {
+              if (loading) {
+                this.setState(prevState => ({
+                  ...prevState,
+                  loading: false,
+                }));
+              }
+            });
+        } else {
+          d3Select(this.svgEl.current)
+            .selectAll(`.data-point${selection.className}`)
+            .data(selection.data);
+        }
+      });
     } else {
       d3Select(this.svgEl.current)
         .selectAll('.data-point')
         .data(data)
         .transition()
-        .filter(nodeData => {
-          return filterBy ? nodeData[filterBy] : true;
-        })
         .end()
         .then(() => {
           if (loading) {
@@ -233,6 +253,7 @@ class ScatterPlot extends React.PureComponent {
       useLasso,
       xValueAccessor,
       yValueAccessor,
+      multiple,
     } = this.props;
 
     const {
@@ -253,13 +274,27 @@ class ScatterPlot extends React.PureComponent {
     });
 
     return (
-      <div className="svg-container">
+      <div className="svg-container scatter-plot-container">
         {loading && (
           <CircularProgress
             className="chart-loader"
             scale={3}
             value={loading}
           />
+        )}
+        {data && multiple && (
+          <Card className="legend">
+            {data.map((cluster, i) => {
+              const key = `legend-${cluster.className}-${i}`;
+
+              return (
+                <div key={key} className="container-flex spaced">
+                  <div className="set-name">{cluster.className}</div>
+                  <div className={`data-point ${cluster.className}`} />
+                </div>
+              );
+            })}
+          </Card>
         )}
         <Tooltip
           key="tooltip"
@@ -276,7 +311,26 @@ class ScatterPlot extends React.PureComponent {
           ref={this.svgEl}
           style={{ opacity: 0 }}
         >
-          {data && (
+          {data &&
+            multiple &&
+            data.map((selection, i) => {
+              const key = `${selection.className}-${i}`;
+
+              return (
+                <Points
+                  key={key}
+                  pointClasses={selection.className}
+                  data={selection.data}
+                  selectedData={selectedData}
+                  hoveredData={hoverPointData}
+                  xScale={xScale}
+                  yScale={yScale}
+                  xValueAccessor={xValueAccessor}
+                  yValueAccessor={yValueAccessor}
+                />
+              );
+            })}
+          {data && !multiple && (
             <Points
               data={data}
               selectedData={selectedData}
@@ -333,8 +387,8 @@ ScatterPlot.propTypes = {
   offsetRight: PropTypes.number,
   useLasso: PropTypes.bool,
   dataSelectionCallback: PropTypes.func,
-  filterBy: PropTypes.string,
   preSelected: PropTypes.bool,
+  multiple: PropTypes.bool,
 };
 
 export default ScatterPlot;
