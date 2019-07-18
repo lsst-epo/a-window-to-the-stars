@@ -8,7 +8,7 @@ import API from '../../site/API';
 import Introduction from './Introduction';
 import ExploringStarClusters from './ExploringStarClusters';
 import MakingHRD from './MakingHRD';
-import ComparingHRD from './ComparingHRD';
+// import ComparingHRD from './ComparingHRD';
 import ComparingHRDNew from './ComparingHRDNew';
 import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
@@ -69,7 +69,11 @@ class Sections extends React.PureComponent {
 
     return (
       <Switch>
-        <Route path="/" exact render={() => <Introduction next="1" />} />
+        <Route
+          path="/"
+          exact
+          render={() => <Introduction next="1" scrollable={0} />}
+        />
         <Route
           path="/1"
           render={() => (
@@ -171,7 +175,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/6"
           render={() => (
-            <ComparingHRD
+            <ComparingHRDNew
               id="6"
               scrollable={-1}
               clusterName="Cluster B"

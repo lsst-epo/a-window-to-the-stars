@@ -124,14 +124,12 @@ class StarSelector extends React.Component {
                   ...prevState,
                   loading: false,
                 }));
-                console.log('end', selection.className);
               }
             });
         } else {
           d3Select(this.svgEl.current)
             .selectAll(`.data-point${selection.className}`)
             .data(selection.data);
-          console.log('first', selection.className);
         }
       });
     } else {
@@ -190,7 +188,7 @@ class StarSelector extends React.Component {
             value={loading}
           />
         )}
-        {data && multiple && (
+        {data && multiple && !loading && (
           <Card className="legend">
             {data.map((cluster, i) => {
               const key = `legend-${cluster.className}-${i}`;
