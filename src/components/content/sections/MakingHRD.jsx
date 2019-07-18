@@ -50,39 +50,44 @@ class MakingHRD extends React.PureComponent {
     const selection = answer ? answer.data : [];
 
     return (
-      <Section {...this.props}>
+      <Section {...this.props} layout="">
         <section>
           <h2 className="section-title">Making H-R Diagrams: {clusterName}</h2>
           <p>{introduction}</p>
-          <hr className="divider-horizontal" />
-          <QuestionPrompts questions={questions} />
-          <br />
-          <StarSelector
-            width={clusterWidth}
-            height={clusterHeight}
-            data={clusterData}
-            xValueAccessor="RA"
-            yValueAccessor="Dec"
-            xDomain={clusterXDomain}
-            yDomain={clusterYDomain}
-            dataLassoCallback={this.onGraphLasso}
-            backgroundImage={clusterImage}
-            selection={selection}
-          />
         </section>
-        <div className="col-graph">
-          <h2>H-R Diagram</h2>
-          <ScatterPlot
-            data={selection}
-            xDomain={scatterXDomain}
-            yDomain={scatterYDomain}
-            xValueAccessor="temperature"
-            yValueAccessor="luminosity"
-            xAxisLabel="Temperature (K)"
-            yAxisLabel="Solar Luminosity"
-            preSelected
-          />
+        <hr className="divider-horizontal" />
+        <div className="container-flex spaced">
+          <div className="col padded col-width-50">
+            <QuestionPrompts questions={questions} />
+            <br />
+            <StarSelector
+              width={clusterWidth}
+              height={clusterHeight}
+              data={clusterData}
+              xValueAccessor="RA"
+              yValueAccessor="Dec"
+              xDomain={clusterXDomain}
+              yDomain={clusterYDomain}
+              dataLassoCallback={this.onGraphLasso}
+              backgroundImage={clusterImage}
+              selection={selection}
+            />
+          </div>
+          <div className="col padded col-width-50">
+            <h2>H-R Diagram</h2>
+            <ScatterPlot
+              data={selection}
+              xDomain={scatterXDomain}
+              yDomain={scatterYDomain}
+              xValueAccessor="temperature"
+              yValueAccessor="luminosity"
+              xAxisLabel="Temperature (K)"
+              yAxisLabel="Solar Luminosity"
+              preSelected
+            />
+          </div>
         </div>
+        <br />
       </Section>
     );
   }

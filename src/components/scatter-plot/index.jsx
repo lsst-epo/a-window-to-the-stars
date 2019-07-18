@@ -282,7 +282,7 @@ class ScatterPlot extends React.PureComponent {
             value={loading}
           />
         )}
-        {data && multiple && (
+        {data && multiple && !loading && (
           <Card className="legend">
             {data.map((cluster, i) => {
               const key = `legend-${cluster.className}-${i}`;

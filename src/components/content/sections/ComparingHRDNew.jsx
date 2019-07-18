@@ -45,7 +45,7 @@ class ComparingHRD extends React.PureComponent {
             shortly.
           </p>
         </section>
-        <br />
+        <hr className="divider-horizontal" />
         <div className="container-flex spaced">
           <div className="col padded col-width-50">
             <StarSelector
