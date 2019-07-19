@@ -10,8 +10,8 @@ import ScatterPlot from '../../scatter-plot';
 
 class CombiningHRD extends React.PureComponent {
   static defaultProps = {
-    previousText: 'Previous',
-    nextText: 'Next',
+    previousText: 'Back',
+    nextText: 'Continue',
   };
 
   constructor(props) {
@@ -66,8 +66,8 @@ class CombiningHRD extends React.PureComponent {
       nextText,
     } = this.props;
 
-    const fixedColClasses = classnames(
-      `col col-fixed padded col-width-50 revealable`,
+    const absColClasses = classnames(
+      `col col-absolute padded col-width-50 revealable`,
       {
         combined,
       }
@@ -103,7 +103,7 @@ class CombiningHRD extends React.PureComponent {
         </section>
         <hr className="divider-horizontal" />
         <div className="container-flex spaced">
-          <div className={fixedColClasses}>
+          <div className={absColClasses}>
             <p>
               As you can see in your combined H-R diagram, stars are not equally
               distributed in temperature or in luminosity. Some values are more

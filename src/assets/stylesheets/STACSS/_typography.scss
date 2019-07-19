@@ -16,7 +16,7 @@
 // --------------------------------------------------------
 @mixin headingPrimary {
   font-family: 'Roboto';
-  font-size: 24px;
+  font-size: 26px;
   font-weight: $regular;
   line-height: 1.333; // 32px
   color: $black;
@@ -28,7 +28,7 @@
 
 @mixin headingSecondary {
   font-family: 'Roboto';
-  font-size: 20px;
+  font-size: 22px;
   font-weight: $medium;
   line-height: $baseLineHeight; // 28px
   color: $black;
@@ -43,7 +43,7 @@
 // --------------------------------------------------------
 @mixin subheadingPrimary {
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 18px;
   font-weight: $regular;
   line-height: 1.5; // 24px
   color: $black;
@@ -58,9 +58,9 @@
 // --------------------------------------------------------
 @mixin copyPrimary {
   font-family: 'Roboto';
-  font-size: 14px;
+  font-size: 16px;
   font-weight: $regular;
-  line-height: $baseLineHeight; // 20px
+  line-height: $baseLineHeight;
   color: $black;
 }
 
@@ -70,9 +70,9 @@
 
 @mixin copySecondary {
   font-family: 'Roboto';
-  font-size: 14px;
+  font-size: 16px;
   font-weight: $medium;
-  line-height: 1.7; // 24px
+  line-height: 1.7;
   color: $black;
 }
 
@@ -85,9 +85,9 @@
 // --------------------------------------------------------
 @mixin labelPrimary {
   font-family: 'Roboto';
-  font-size: 12px;
+  font-size: 14px;
   font-weight: $regular;
-  line-height: 1.333; // 16px
+  line-height: 1.333;
   color: $black;
 }
 

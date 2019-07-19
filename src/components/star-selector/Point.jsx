@@ -14,8 +14,10 @@ class Point extends React.PureComponent {
         className={pointClasses}
         cx={x}
         cy={y}
-        r={selected ? 2 : 1}
+        r={selected ? 4 : 1}
         fill="transparent"
+        stroke="transparent"
+        strokeWidth={0}
       />
     );
   }

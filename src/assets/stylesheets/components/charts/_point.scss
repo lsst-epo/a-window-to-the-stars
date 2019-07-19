@@ -1,6 +1,6 @@
 .data-point {
   cursor: pointer;
-  transition: fill $durationSlow $timing, stroke $durationSlow $timing;
+  transition: fill $durationSlow $timing, stroke $durationSlow $timing, stroke-width $durationSlow $timing;
 
   &:focus {
     outline: none;

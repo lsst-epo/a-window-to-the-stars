@@ -21,21 +21,36 @@
 }
 
 .container-page {
-  .scrollable {
-    + .col {
-      position: fixed;
-      top: $siteHeaderHeight + $minPadding;
-      max-width: ($containerMaxWidth - 2 * $minPadding) / 2;
-      height: 100%;
+  .col-fixed {
+    position: fixed;
+    top: $siteHeaderHeight + $minPadding;
+    display: flex;
+    flex-direction: column;
+    max-width: ($containerMaxWidth - 2 * $minPadding) / 2;
+    height: 100%;
+    max-height: calc(100vh - #{$siteHeaderHeight} - 2 * #{$minPadding});
+    overflow-y: auto;
+
+    > .hero-image {
+      align-self: center;
+      justify-self: flex-start;
+      width: auto;
+      max-width: 100%;
       max-height: calc(100vh - #{$siteHeaderHeight} - 2 * #{$minPadding});
+    }
 
-      &.col-width-50 {
-        left: 50%;
-      }
+    // > .inner-column .svg-container {
+    //   width: auto;
+    //   max-width: 100%;
+    //   max-height: calc(100vh - #{$siteHeaderHeight} - 2 * #{$minPadding});
+    // }
 
-      .tooltip {
-        position: fixed;
-      }
+    &.col-width-50 {
+      left: 50%;
+    }
+
+    .tooltip {
+      position: fixed;
     }
   }
 }
@@ -94,7 +109,7 @@
     align-self: flex-start;
   }
 
-  .col-fixed {
+  .col-absolute {
     position: absolute;
     top: 0;
     left: 0;
@@ -105,6 +120,10 @@
 
     &.combined {
       animation: reveal 2s $timing 2s forwards;
+    }
+
+    > * {
+      max-height: calc(100vh - $siteHeaderHeight - 2 * $minPadding);
     }
   }
 
@@ -121,7 +140,6 @@
           animation: mergeRight 4s $timing forwards;
         }
       }
-
     }
 
     .col-graph {

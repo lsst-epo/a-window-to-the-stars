@@ -107,7 +107,7 @@ class ExploringStarClusters extends React.PureComponent {
             />
           )}
         </section>
-        <div>
+        <div className="inner-column">
           <h2>H-R Diagram</h2>
           <ScatterPlot
             data={clusterData}

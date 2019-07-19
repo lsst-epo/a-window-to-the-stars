@@ -72,6 +72,7 @@ class Page extends React.PureComponent {
                 `col-width-${colWidth}`,
                 {
                   scrollable: scrollable === i,
+                  'col-fixed': scrollable >= 0 && scrollable !== i,
                 }
               );
 

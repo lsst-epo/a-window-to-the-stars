@@ -42,7 +42,7 @@ class AnswerExpansionPanel extends React.PureComponent {
           {accessor === 'luminosity' && (
             <React.Fragment>
               <span className="answer-content">
-                {this.formatValue(content, 4)}
+                {this.formatValue(content, 2)}
               </span>
               <sub className="unit">&#8857;</sub>
             </React.Fragment>

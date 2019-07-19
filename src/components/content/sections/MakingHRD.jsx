@@ -59,7 +59,14 @@ class MakingHRD extends React.PureComponent {
         <div className="container-flex spaced">
           <div className="col padded col-width-50">
             <QuestionPrompts questions={questions} />
-            <br />
+          </div>
+          <div className="col padded col-width-50">
+            <h2>H-R Diagram</h2>
+          </div>
+        </div>
+        <br />
+        <div className="container-flex spaced">
+          <div className="col padded col-width-50">
             <StarSelector
               width={clusterWidth}
               height={clusterHeight}
@@ -74,7 +81,6 @@ class MakingHRD extends React.PureComponent {
             />
           </div>
           <div className="col padded col-width-50">
-            <h2>H-R Diagram</h2>
             <ScatterPlot
               data={selection}
               xDomain={scatterXDomain}

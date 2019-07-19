@@ -16,6 +16,10 @@ class Results extends React.PureComponent {
     order: range(1, 14),
   };
 
+  formatValue(number, decimalPlaces) {
+    return Number.parseFloat(number).toFixed(decimalPlaces);
+  }
+
   renderAccordionQA(index, question, answer) {
     const { answerPre: pre, answerAccessor: accessor, label } = question;
     const count = index + 1;
@@ -29,9 +33,23 @@ class Results extends React.PureComponent {
         {!isEmpty(answer) ? (
           <p className="answer">
             {pre && <span className="answer-pre">{pre} </span>}
-            <span className="answer-content">{answer.content}</span>
-            {accessor === 'temperature' && <span className="unit"> K</span>}
-            {accessor === 'luminosity' && <sub className="unit">&#8857;</sub>}
+
+            {accessor === 'temperature' && (
+              <React.Fragment>
+                <span className="answer-content">
+                  {this.formatValue(answer.content, 0)}
+                </span>
+                <span className="unit"> K</span>
+              </React.Fragment>
+            )}
+            {accessor === 'luminosity' && (
+              <React.Fragment>
+                <span className="answer-content">
+                  {this.formatValue(answer.content, 3)}
+                </span>
+                <sub className="unit">&#8857;</sub>
+              </React.Fragment>
+            )}
             {accessor === 'count' && (
               <span className="unit">
                 {parseInt(answer.content, 10) > 1 ? 'stars' : 'star'}

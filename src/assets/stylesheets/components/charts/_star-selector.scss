@@ -13,15 +13,18 @@
     fill: transparent;
 
     &.selected {
-      fill: yellow;
+      stroke: yellow;
+      stroke-width: 2;
     }
 
     &.user {
-      fill: yellow;
+      stroke: yellow;
+      stroke-width: 2;
     }
 
     &.astronomer {
-      fill: red;
+      stroke: red;
+      stroke-width: 2;
     }
   }
 }
