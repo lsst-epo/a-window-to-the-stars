@@ -12,6 +12,7 @@ import MakingHRD from './MakingHRD';
 import ComparingHRDNew from './ComparingHRDNew';
 import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
+import CombiningHRD from './CombiningHRD';
 import Results from './Results';
 import clusterA from '../../../assets/images/ngc188_FINAL.jpg';
 import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
@@ -197,7 +198,7 @@ class Sections extends React.PureComponent {
             <HRDObservations
               id="7"
               scrollable={0}
-              scatterXDomain={[15000, 3000]}
+              scatterXDomain={[15500, 3000]}
               scatterYDomain={[0.001, 10000]}
               dataPath="static-data/NGC_2168_data.json"
               questionsRange={range(15, 19)}
@@ -220,15 +221,11 @@ class Sections extends React.PureComponent {
                   name: 'Cluster A',
                   key: 'clusterAData',
                   path: 'static-data/NGC_188_data.json',
-                  xDomain: [14000, 3000],
-                  yDomain: [0.001, 10000],
                 },
                 {
                   name: 'Cluster B',
                   key: 'clusterBData',
                   path: 'static-data/NGC_2168_data.json',
-                  xDomain: [15000, 3000],
-                  yDomain: [0.001, 10000],
                 },
               ]}
               tableAnswersRanges={[range(10, 14), range(15, 19)]}
@@ -241,8 +238,36 @@ class Sections extends React.PureComponent {
         <Route
           path="/9"
           render={() => (
-            <Results
+            <CombiningHRD
               id="9"
+              scrollable={-1}
+              clusters={[
+                {
+                  name: 'Cluster A',
+                  key: 'clusterAData',
+                  path: 'static-data/NGC_188_data.json',
+                  xDomain: [14000, 3000],
+                  yDomain: [0.001, 10000],
+                },
+                {
+                  name: 'Cluster B',
+                  key: 'clusterBData',
+                  path: 'static-data/NGC_2168_data.json',
+                  xDomain: [15000, 3000],
+                  yDomain: [0.001, 10000],
+                },
+              ]}
+              scatterXDomain={[15500, 3000]}
+              scatterYDomain={[0.001, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+            />
+          )}
+        />
+        <Route
+          path="/10"
+          render={() => (
+            <Results
+              id="10"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}

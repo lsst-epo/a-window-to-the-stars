@@ -28,3 +28,18 @@
   }
 }
 
+.cluster-name {
+  @keyframes hide {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  &.combined {
+    animation: hide 2s $timing 2s forwards;
+  }
+}

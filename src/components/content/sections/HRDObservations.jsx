@@ -140,7 +140,7 @@ class HRDObservations extends React.PureComponent {
             rows={this.tableValues()}
           />
         </section>
-        <div className="col-graph">
+        <div>
           <h2>H-R Diagram: Star {clusterName}</h2>
           <ScatterPlot
             id={id}
