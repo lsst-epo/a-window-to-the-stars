@@ -10,7 +10,6 @@
 // Structure should not be dependent on typography styles but font-size CAN be used as a structural style if necessary
 // for scaling
 
-
 // Containers
 // --------------------------------------------------------
 
@@ -23,7 +22,7 @@
 
 .container-page {
   .scrollable {
-    + .col  {
+    + .col {
       position: fixed;
       top: $siteHeaderHeight + $minPadding;
       max-width: ($containerMaxWidth - 2 * $minPadding) / 2;
@@ -41,8 +40,31 @@
   }
 }
 
-.container-flex, .md-card.container-flex, .md-card-text.container-flex,  {
+.container-flex,
+.md-card.container-flex,
+.md-card-text.container-flex {
+  position: relative;
   display: flex;
+
+  @keyframes reveal {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes mergeRight {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(calc(100% + 2 * #{$minPadding}));
+    }
+  }
 
   &.direction-column {
     flex-direction: column;
@@ -72,11 +94,34 @@
     align-self: flex-start;
   }
 
+  .col-fixed {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    &.revealable {
+      opacity: 0;
+    }
+
+    &.combined {
+      animation: reveal 2s $timing 2s forwards;
+    }
+  }
+
   .col-width-50 {
     width: 50%;
 
     &.padded {
       width: calc(50% - #{$minPadding});
+
+      &.mergable {
+        z-index: 1;
+
+        &.combined {
+          animation: mergeRight 4s $timing forwards;
+        }
+      }
+
     }
 
     .col-graph {
@@ -90,7 +135,6 @@
   }
 }
 
-
 // Utilities
 // --------------------------------------------------------
 .inline-block {
@@ -100,4 +144,3 @@
 .inline {
   display: inline;
 }
-
