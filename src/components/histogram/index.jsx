@@ -1,147 +1,121 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import classnames from 'classnames';
 import { select as d3Select } from 'd3-selection';
-import { easeCircle as d3EaseCircle } from 'd3-ease';
-import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from 'd3-axis';
-import { format as d3Format } from 'd3-format';
 import {
   histogram as d3Histogram,
   max as d3Max,
-  thresholdFreedmanDiaconis as d3ThresholdFreedmanDiaconis,
+  thresholdSturges as d3ThresholdSturges,
 } from 'd3-array';
 import {
   scaleBand as d3ScaleBand,
   scaleLinear as d3ScaleLinear,
 } from 'd3-scale';
 import 'd3-transition';
-import API from '../site/API';
+import CircularProgress from 'react-md/lib//Progress/CircularProgress';
+import XAxis from './XAxis.jsx';
+import YAxis from './YAxis.jsx';
+import Bars from './Bars.jsx';
 
 class Histogram extends React.Component {
+  static defaultProps = {
+    width: 600,
+    height: 600,
+    padding: 70,
+    offsetTop: 7,
+    offsetRight: 7,
+    yAxisLabel: 'Count',
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
       data: [],
+      xScale: undefined,
+      yScale: undefined,
+      loading: true,
     };
 
     this.svgEl = React.createRef();
-    this.xAxisContainer = React.createRef();
-    this.yAxisContainer = React.createRef();
   }
 
-  componentDidMount() {
-    const { dataPath } = this.props;
+  componentDidUpdate(prevProps) {
+    const {
+      data,
+      valueAccessor,
+      width,
+      height,
+      padding,
+      offsetTop,
+      offsetRight,
+    } = this.props;
 
-    API.get(dataPath).then(res => {
-      this.setState(prevState => ({
-        ...prevState,
-        data: this.histogramData(res.data),
-      }));
-    });
+    if (prevProps.data !== data && !isEmpty(data)) {
+      const histData = this.histogramData(data, valueAccessor);
+      const xScale = this.getXScale(histData, width, padding, offsetRight);
+      const yScale = this.getYScale(histData, height, padding, offsetTop);
+      /* eslint-disable react/no-did-update-set-state */
+      this.setState(
+        prevState => ({
+          ...prevState,
+          data: histData,
+          xScale,
+          yScale,
+        }),
+        this.updateHistogram
+      );
+      /* eslint-disable react/no-did-update-set-state */
+    }
   }
 
-  componentDidUpdate() {
-    this.updateHistogram();
-  }
-
-  // Update data point styles and attributes
-  updateRects($selection, xScale, yScale) {
-    const { data } = this.state;
-
-    $selection
-      .selectAll('rect')
-      .data(data)
-      .attr('x', d => {
-        return xScale(d.x0) + 1;
-      })
-      .attr('y', () => {
-        return yScale(0);
-      })
-      .attr('width', xScale.bandwidth())
-      .transition()
-      .duration(1000)
-      .ease(d3EaseCircle)
-      .attr('fill', 'yellow')
-      .attr('stroke', 'black')
-      .attr('y', d => {
-        return yScale(d.length);
-      })
-      .attr('height', d => {
-        return yScale(0) - yScale(d.length);
-      });
-  }
-
-  // Update X Axis
-  updateXAxis(xScale) {
-    const xAxis = d3AxisBottom(xScale).tickFormat(d3Format('.1f'));
-    d3Select(this.xAxisContainer.current).call(xAxis);
-  }
-
-  // Update Y Axis
-  updateYAxis(yScale) {
-    const yAxis = d3AxisLeft(yScale);
-
-    d3Select(this.yAxisContainer.current).call(yAxis);
-  }
-
-  histogramData(data) {
-    const { valueAccessor } = this.props;
-
-    return d3Histogram()
-      .value(d => {
-        return d[valueAccessor]; // eslint-disable-line dot-notation
-      })
-      .thresholds(d3ThresholdFreedmanDiaconis)(data)
-      .reduce((result, d) => {
-        if (d.length !== 0) {
-          result.push(d);
-        }
-        return result;
-      }, []);
-  }
-
-  updateHistogram() {
-    const { width, height, padding } = this.props;
-    const { data } = this.state;
-    const $selection = d3Select(this.svgEl.current);
-
-    // const xScale = d3
-    //   .scaleLinear()
-    //   .domain(
-    //     d3.extent(data, d => {
-    //       return d[valueAccessor]; // eslint-disable-line dot-notation
-    //     }),
-    //   )
-    //   .range([padding, width - padding]);
-    // const reduced = histogramData.reduce((result, d) => {
-    //     // console.log(d.length);
-    //   if (d.length !== 0) {
-    //     result.push(d.x1);
-    //   }
-    //   return result;
-    // }, []);
-    // console.log(reduced);
-
-    const xScale = d3ScaleBand()
+  getXScale(data, width, padding, offsetRight) {
+    return d3ScaleBand()
       .domain(
         data.map(d => {
           return d.x0;
         })
       )
-      .range([padding, width - padding]);
+      .range([padding, width - offsetRight]);
+  }
 
-    const yScale = d3ScaleLinear()
+  getYScale(data, height, padding, offsetTop) {
+    return d3ScaleLinear()
       .domain([
         0,
         d3Max(data, d => {
           return d.length;
         }),
       ])
-      .range([height - padding, padding]);
+      .range([height - padding, offsetTop]);
+  }
 
-    this.updateRects($selection, xScale, yScale);
-    this.updateXAxis(xScale);
-    this.updateYAxis(yScale);
+  histogramData(data, valueAccessor) {
+    return d3Histogram()
+      .value(d => {
+        return d[valueAccessor]; // eslint-disable-line dot-notation
+      })
+      .thresholds(d3ThresholdSturges)(data);
+  }
+
+  updateHistogram() {
+    const { data, loading } = this.state;
+    const $histogram = d3Select(this.svgEl.current);
+
+    $histogram
+      .selectAll('.data-bar')
+      .data(data)
+      .transition()
+      .end()
+      .then(() => {
+        if (loading) {
+          this.setState(prevState => ({
+            ...prevState,
+            loading: false,
+          }));
+        }
+      });
   }
 
   bars() {
@@ -152,7 +126,7 @@ class Histogram extends React.Component {
       const key = `${valueAccessor}-rect-${i}`;
       return (
         <rect
-          className="rect"
+          className="rect data-bar"
           key={key}
           x={0}
           y={0}
@@ -167,41 +141,68 @@ class Histogram extends React.Component {
   }
 
   render() {
-    const { width, height, padding, xAxisLabel, yAxisLabel } = this.props;
+    const {
+      width,
+      height,
+      padding,
+      xAxisLabel,
+      yAxisLabel,
+      offsetTop,
+      offsetRight,
+      valueAccessor,
+    } = this.props;
+
+    const { data, xScale, yScale, loading } = this.state;
+
+    const svgClasses = classnames('histogram svg-chart', {
+      loading,
+      loaded: !loading,
+    });
 
     return (
-      <div>
+      <div className="svg-container histogram-container">
+        {loading && (
+          <CircularProgress
+            className="chart-loader"
+            scale={3}
+            value={loading}
+          />
+        )}
         <svg
-          className="histogram-container"
-          width={width}
-          height={height}
+          key={valueAccessor}
+          className={svgClasses}
+          preserveAspectRatio="xMidYMid meet"
+          viewBox={`0 0 ${width} ${height}`}
           ref={this.svgEl}
         >
-          <g className="bars">{this.bars()}</g>
-          <g
-            className="x-axis axis"
-            transform={`translate(0, ${height - padding})`}
-            ref={this.xAxisContainer}
-          />
-          <g
-            className="y-axis axis"
-            transform={`translate(${padding}, 0)`}
-            ref={this.yAxisContainer}
-          />
-          <text
-            className="x-axis-label"
-            transform={`translate(${width / 2}, ${height - padding / 3})`}
-            style={{ textAnchor: 'middle' }}
-          >
-            {xAxisLabel}
-          </text>
-          <text
-            className="y-axis-label"
-            transform={`translate(${padding / 3}, ${height / 2}) rotate(-90)`}
-            style={{ textAnchor: 'middle' }}
-          >
-            {yAxisLabel}
-          </text>
+          {xScale && yScale && (
+            <Bars
+              data={data}
+              offsetTop={offsetTop}
+              xScale={xScale}
+              yScale={yScale}
+            />
+          )}
+          {xScale && (
+            <XAxis
+              label={xAxisLabel}
+              height={height}
+              width={width}
+              padding={padding}
+              offsetTop={offsetTop}
+              offsetRight={offsetRight}
+              scale={xScale}
+            />
+          )}
+          {yScale && (
+            <YAxis
+              label={yAxisLabel}
+              height={height}
+              padding={padding}
+              offsetTop={offsetTop}
+              scale={yScale}
+            />
+          )}
         </svg>
       </div>
     );
@@ -209,10 +210,12 @@ class Histogram extends React.Component {
 }
 
 Histogram.propTypes = {
-  dataPath: PropTypes.string,
+  data: PropTypes.array,
   width: PropTypes.number,
   height: PropTypes.number,
   padding: PropTypes.number,
+  offsetRight: PropTypes.number,
+  offsetTop: PropTypes.number,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
   valueAccessor: PropTypes.string,

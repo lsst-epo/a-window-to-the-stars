@@ -28,6 +28,16 @@ class ScatterPlot extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    const {
+      xDomain,
+      yDomain,
+      width,
+      height,
+      padding,
+      offsetRight,
+      offsetTop,
+    } = props;
+
     this.state = {
       selectedData: null,
       hoverPointData: null,
@@ -38,12 +48,8 @@ class ScatterPlot extends React.PureComponent {
       toolTipPosY: 0,
       showTooltip: false,
       loading: true,
-      xScale: d3ScaleLinear()
-        .domain(props.xDomain)
-        .range([props.padding, props.width - props.offsetRight]),
-      yScale: d3ScaleLog()
-        .domain(props.yDomain)
-        .range([props.height - props.padding, props.offsetTop]),
+      xScale: this.getXScale(xDomain, width, padding, offsetRight),
+      yScale: this.getYScale(yDomain, height, padding, offsetTop),
     };
 
     this.svgEl = React.createRef();
@@ -70,6 +76,18 @@ class ScatterPlot extends React.PureComponent {
 
   arrayify(data) {
     return isEmpty(data) ? null : [].concat(data);
+  }
+
+  getXScale(domain, width, padding, offsetRight) {
+    return d3ScaleLinear()
+      .domain(domain)
+      .range([padding, width - offsetRight]);
+  }
+
+  getYScale(domain, height, padding, offsetTop) {
+    return d3ScaleLog()
+      .domain(domain)
+      .range([height - padding, offsetTop]);
   }
 
   getSelectedId(selectedData) {

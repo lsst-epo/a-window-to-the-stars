@@ -190,14 +190,43 @@
     "id": "22",
     "type": "textArea",
     "label": "Think about what you have learned about giant stars and white dwarf stars. Which star cluster do you think is older? Explain your answer.",
-    "placeholder": "",
     "answerAccessor": "text"
   },
   "23": {
     "id": "23",
     "type": "textArea",
     "label": "Explain what happened to the missing main sequence stars?",
-    "placeholder": "",
     "answerAccessor": "text"
+  },
+  "24": {
+    "id": "24",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the H-R Diagram, select the star with lowest temperature",
+    "answerAccessor": "temperature",
+    "answerPre": "The lowest temperature is"
+  },
+  "25": {
+    "id": "25",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the H-R Diagram, select the star with highest temperature",
+    "answerAccessor": "temperature",
+    "answerPre": "The highest temperature is"
+  },
+  "26": {
+    "id": "26",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Temperature Histogram, select the most common temperature range for stars. (Hint: which bar is the highest in the histogram?)",
+    "answerAccessor": "temperature range",
+    "answerPre": "The most common temperature range for stars is"
+  },
+  "27": {
+    "id": "27",
+    "type": "select",
+    "label": "What color are the stars with the most common temperature range, select the most common temperature range for stars. (Hint: which bar is the highest in the histogram?)",
+    "answerAccessor": "temperature range",
+    "answerPre": "The most common temperature range for stars is"
   }
 }

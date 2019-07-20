@@ -165,7 +165,6 @@ class ComparingHRDObservations extends React.PureComponent {
             options={this.selectItems(clusters)}
             label="Cluster Selector"
             name="Cluster Selector"
-            Value={0}
             handleChange={this.onClusterSelect}
           />
           {clusters.map((cluster, i) => {

@@ -13,6 +13,7 @@ import ComparingHRDNew from './ComparingHRDNew';
 import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
+import ComparingStarProperties from './ComparingStarProperties';
 import Results from './Results';
 import clusterA from '../../../assets/images/ngc188_FINAL.jpg';
 import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
@@ -259,15 +260,29 @@ class Sections extends React.PureComponent {
               ]}
               scatterXDomain={[15500, 3000]}
               scatterYDomain={[0.001, 10000]}
-              dataPath="static-data/NGC_2168_data.json"
             />
           )}
         />
         <Route
           path="/10"
           render={() => (
-            <Results
+            <ComparingStarProperties
               id="10"
+              scrollable={0}
+              scatterXDomain={[15500, 3000]}
+              scatterYDomain={[0.001, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+              questionsRange={range(24, 28)}
+              questions={this.getQuestions(range(24, 28))}
+              getActiveId={this.getActiveId}
+            />
+          )}
+        />
+        <Route
+          path="/11"
+          render={() => (
+            <Results
+              id="11"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}
@@ -276,7 +291,8 @@ class Sections extends React.PureComponent {
                 .concat(range(10, 13))
                 .concat([19])
                 .concat(range(15, 19))
-                .concat(range(20, 24))}
+                .concat(range(20, 24))
+                .concat(range(24, 28))}
             />
           )}
         />
