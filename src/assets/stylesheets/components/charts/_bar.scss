@@ -1,0 +1,7 @@
+.data-bar {
+  transition: fill $durationSlow $timing;
+
+  &:focus {
+    outline: none;
+  }
+}
