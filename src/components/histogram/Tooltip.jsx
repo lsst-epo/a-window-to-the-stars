@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { select as d3Select } from 'd3-selection';
 import 'd3-transition';
-import { formatValue } from '../../lib/utilities.js';
+import { formatValue, extentFromSet } from '../../lib/utilities.js';
 
 class Tooltip extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      pointData: props.pointData,
+      barData: props.barData,
       visible: props.show,
     };
 
@@ -17,21 +17,21 @@ class Tooltip extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { pointData, posX, posY, show } = this.props;
-    const { visible, pointData: pointDataState } = this.state;
+    const { barData, posX, posY, show } = this.props;
+    const { visible, barData: barDataState } = this.state;
 
     const $tooltip = d3Select(this.el.current);
 
     if (show && !visible) {
-      this.showUpdate($tooltip, pointData, posX, posY, show);
-    } else if (show && visible && pointData !== pointDataState) {
-      this.moveUpdate($tooltip, pointData, posX, posY, show);
+      this.showUpdate($tooltip, barData, posX, posY, show);
+    } else if (show && visible && barData !== barDataState) {
+      this.moveUpdate($tooltip, barData, posX, posY, show);
     } else if (!show) {
       this.hide($tooltip, show);
     }
   }
 
-  showUpdate($tooltip, pointData, posX, posY, show) {
+  showUpdate($tooltip, barData, posX, posY, show) {
     $tooltip
       .transition()
       .duration(10)
@@ -40,7 +40,7 @@ class Tooltip extends React.PureComponent {
       .on('end', () => {
         this.setState(prevState => ({
           ...prevState,
-          pointData,
+          barData,
           visible: show,
         }));
       })
@@ -49,7 +49,7 @@ class Tooltip extends React.PureComponent {
       .style('opacity', 1);
   }
 
-  moveUpdate($tooltip, pointData, posX, posY) {
+  moveUpdate($tooltip, barData, posX, posY) {
     $tooltip
       .style('opacity', 1)
       .transition()
@@ -59,7 +59,7 @@ class Tooltip extends React.PureComponent {
       .on('end', () => {
         this.setState(prevState => ({
           ...prevState,
-          pointData,
+          barData,
         }));
       });
   }
@@ -77,29 +77,36 @@ class Tooltip extends React.PureComponent {
       });
   }
 
-  // formatValue(number, decimalPlaces) {
-  //   return Number.parseFloat(number).toFixed(decimalPlaces);
-  // }
-
   render() {
-    const { pointData } = this.state;
+    const { barData } = this.state;
+    const { valueAccessor } = this.props;
+
+    const formattedData = barData
+      ? extentFromSet(barData, valueAccessor)
+      : null;
 
     return (
       <div ref={this.el} style={{ opacity: 0 }} className="tooltip">
-        <div>
-          <span>Temperature: </span>
-          <span>
-            {pointData ? formatValue(pointData[0].temperature, 0) : null}
-          </span>
-          <span className="unit">K</span>
-        </div>
-        <div>
-          <span>Luminosity: </span>
-          <span>
-            {pointData ? formatValue(pointData[0].luminosity, 4) : null}
-          </span>
-          <sub className="unit">&#8857;</sub>
-        </div>
+        {barData && (
+          <div>
+            <div>{barData.length} stars</div>
+            <div>
+              {valueAccessor === 'temperature' && (
+                <React.Fragment>
+                  <span>{formatValue(formattedData[0], 0)}</span>
+                  <span className="unit">K</span>
+                </React.Fragment>
+              )}
+              {` – `}
+              {valueAccessor === 'temperature' && (
+                <React.Fragment>
+                  <span>{formatValue(formattedData[1], 0)}</span>
+                  <span className="unit">K</span>
+                </React.Fragment>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -107,10 +114,11 @@ class Tooltip extends React.PureComponent {
 
 Tooltip.propTypes = {
   innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  pointData: PropTypes.object,
+  barData: PropTypes.object,
   posX: PropTypes.number,
   posY: PropTypes.number,
   show: PropTypes.bool,
+  valueAccessor: PropTypes.string,
 };
 
 export default Tooltip;

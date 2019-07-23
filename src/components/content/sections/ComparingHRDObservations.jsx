@@ -2,6 +2,7 @@ import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import { formatValue } from '../../../lib/utilities.js';
 import API from '../../site/API';
 import Section from './Section';
 import Table from '../../site/forms/Table';
@@ -39,10 +40,6 @@ class ComparingHRDObservations extends React.PureComponent {
     });
   }
 
-  formatValue(number, decimalPlaces) {
-    return Number.parseFloat(number).toFixed(decimalPlaces);
-  }
-
   tableHeaders(clusters) {
     const cells = [''];
 
@@ -67,7 +64,7 @@ class ComparingHRDObservations extends React.PureComponent {
 
       if (!isEmpty(answers[a1]) && !isEmpty(answers[a2])) {
         cells[0].push(
-          `${this.formatValue(answers[a1].content, 0)} K  -  ${this.formatValue(
+          `${formatValue(answers[a1].content, 0)} K  -  ${formatValue(
             answers[a2].content,
             0
           )} K`

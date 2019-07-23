@@ -2,11 +2,13 @@ import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import { withData } from '../containers/WithData';
+import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
-import QuestionsAnswers from '../../questions/TextInputs';
+import QuestionsAnswerSelections from '../../questions/ExpansionList';
+import QuestionsAnswerTextInputs from '../../questions/TextInputs';
 
 @reactn
 class ComparingStarProperties extends React.PureComponent {
@@ -15,12 +17,18 @@ class ComparingStarProperties extends React.PureComponent {
 
     this.state = {
       activeGraph: 0,
+      activeId: null,
+      selectedHistogramData: null,
+      selectedScatterplotData: null,
     };
   }
 
-  // componentDidUpdate() {
-  //   console.log(this.props.clusterData[0]);
-  // }
+  componentDidMount() {
+    const { getActiveId, questionsRange } = this.props;
+
+    const activeId = getActiveId(questionsRange);
+    this.setActiveQuestion(activeId);
+  }
 
   selectItems(clusters) {
     return clusters.map((cluster, i) => {
@@ -55,10 +63,50 @@ class ComparingStarProperties extends React.PureComponent {
     }));
   };
 
+  setActiveQuestion(id) {
+    this.setState(prevState => ({
+      ...prevState,
+      activeId: id,
+    }));
+  }
+
+  advanceActiveQuestion() {
+    const { getActiveId, questionsRange } = this.props;
+    const nextId = getActiveId(questionsRange);
+    this.setActiveQuestion(nextId);
+  }
+
+  onGraphSelection = selectedData => {
+    const { answerHandler } = this.props;
+    const { activeId } = this.state;
+
+    answerHandler(activeId, selectedData);
+  };
+
+  onQAToggle = () => {
+    return null;
+  };
+
+  onAnswerCancel = id => {
+    const { answerHandler } = this.props;
+
+    answerHandler(id);
+  };
+
+  onAnswerSave = id => {
+    this.advanceActiveQuestion(id);
+  };
+
+  onEdit = id => {
+    this.setActiveQuestion(id);
+  };
+
   render() {
     const { clusterData, questions, xDomain, yDomain } = this.props;
-    const { activeGraph } = this.state;
+    const { activeGraph, activeId } = this.state;
     const { answers } = this.global;
+    const activeAnswer = answers[activeId];
+    const activeData = activeAnswer ? activeAnswer.data : null;
 
     return (
       <Section {...this.props}>
@@ -74,8 +122,19 @@ class ComparingStarProperties extends React.PureComponent {
           </p>
           <hr className="divider-horizontal" />
           {questions && (
-            <QuestionsAnswers
-              questions={questions}
+            <QuestionsAnswerSelections
+              questions={questions.slice(0, 3)}
+              answers={answers}
+              activeId={activeId}
+              toggleHandler={this.onQAToggle}
+              cancelHandler={this.onAnswerCancel}
+              saveHandler={this.onAnswerSave}
+              editHandler={this.onEdit}
+            />
+          )}
+          {questions && (
+            <QuestionsAnswerTextInputs
+              questions={questions.slice(3, 5)}
               answers={answers}
               handleChange={this.updateAnswer}
             />
@@ -102,13 +161,16 @@ class ComparingStarProperties extends React.PureComponent {
                 yValueAccessor="luminosity"
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
+                dataSelectionCallback={this.onGraphSelection}
               />
             )}
             {activeGraph === 1 && (
               <Histogram
                 data={clusterData}
+                selectedData={activeData}
                 valueAccessor="temperature"
                 xAxisLabel="Temperature (K)"
+                dataSelectionCallback={this.onGraphSelection}
               />
             )}
           </div>
@@ -122,9 +184,12 @@ ComparingStarProperties.propTypes = {
   clusterData: PropTypes.array,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
+  answerHandler: PropTypes.func,
   getActiveId: PropTypes.func,
   xDomain: PropTypes.array,
   yDomain: PropTypes.array,
 };
 
-export default withData(ComparingStarProperties, 'is_member');
+export default withAnswerHandlers(
+  withData(ComparingStarProperties, 'is_member')
+);

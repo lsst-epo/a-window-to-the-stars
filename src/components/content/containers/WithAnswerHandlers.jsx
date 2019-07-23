@@ -1,5 +1,6 @@
 import React from 'reactn';
 import PropTypes from 'prop-types';
+import { extentFromSet } from '../../../lib/utilities.js';
 
 export const withAnswerHandlers = ComposedComponent => {
   class WrappedComponent extends React.PureComponent {
@@ -30,6 +31,8 @@ export const withAnswerHandlers = ComposedComponent => {
         content = data[0][answerAccessor];
       } else if (answerAccessor === 'count') {
         content = data.length;
+      } else if (answerAccessor === 'temperature range') {
+        content = extentFromSet(data, 'temperature');
       }
 
       this.setGlobal(prevGlobal => ({

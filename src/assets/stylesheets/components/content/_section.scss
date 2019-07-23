@@ -32,6 +32,11 @@ section {
         margin-top: 0.5 * $verticalSpace;
       }
     }
+
+    &.list-bulleted {
+      margin-left: 1.2em;
+      list-style-type: disc;
+    }
   }
 
   ol {

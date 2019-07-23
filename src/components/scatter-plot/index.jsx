@@ -7,6 +7,7 @@ import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
 import Card from 'react-md/lib/Cards/Card';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
+import { arrayify } from '../../lib/utilities.js';
 import Points from './Points.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
@@ -44,8 +45,8 @@ class ScatterPlot extends React.PureComponent {
       showLasso: false,
       dragLine: [],
       dragLoop: [],
-      toolTipPosX: 0,
-      toolTipPosY: 0,
+      tooltipPosX: 0,
+      tooltipPosY: 0,
       showTooltip: false,
       loading: true,
       xScale: this.getXScale(xDomain, width, padding, offsetRight),
@@ -72,10 +73,6 @@ class ScatterPlot extends React.PureComponent {
     if (shouldCallback) {
       dataSelectionCallback(selectedData);
     }
-  }
-
-  arrayify(data) {
-    return isEmpty(data) ? null : [].concat(data);
   }
 
   getXScale(domain, width, padding, offsetRight) {
@@ -112,11 +109,11 @@ class ScatterPlot extends React.PureComponent {
     const selectedPointId = this.getSelectedId(selectedData);
 
     const newState = {
-      toolTipPosX: d3Event.clientX,
-      toolTipPosY: d3Event.clientY,
+      tooltipPosX: d3Event.clientX,
+      tooltipPosY: d3Event.clientY,
       showLasso: false,
       showTooltip: true,
-      selectedData: this.arrayify(d),
+      selectedData: arrayify(d),
     };
 
     if (d.source_id === selectedPointId) {
@@ -135,9 +132,9 @@ class ScatterPlot extends React.PureComponent {
     // add hover style on point and show tooltip
     this.setState(prevState => ({
       ...prevState,
-      hoverPointData: this.arrayify(d),
-      toolTipPosX: d3Event.clientX,
-      toolTipPosY: d3Event.clientY,
+      hoverPointData: arrayify(d),
+      tooltipPosX: d3Event.clientX,
+      tooltipPosY: d3Event.clientY,
       showTooltip: true,
     }));
   };
@@ -173,7 +170,7 @@ class ScatterPlot extends React.PureComponent {
     this.setState(prevState => ({
       ...prevState,
       showTooltip: false,
-      selectedData: this.arrayify(d),
+      selectedData: arrayify(d),
     }));
   };
 
@@ -185,6 +182,7 @@ class ScatterPlot extends React.PureComponent {
     $scatterplot.on('click', () => {
       // remove styles and selections when click on non-point
       const pointData = d3Select(d3Event.target).datum();
+
       if (pointData) {
         this.toggleSelection(pointData);
       } else {
@@ -201,6 +199,7 @@ class ScatterPlot extends React.PureComponent {
   updatePoints() {
     const { data, preSelected, multiple } = this.props;
     const { loading } = this.state;
+    const $scatterplot = d3Select(this.svgEl.current);
 
     // if (!data) {
     //   return;
@@ -214,7 +213,7 @@ class ScatterPlot extends React.PureComponent {
     } else if (multiple) {
       data.forEach((selection, i) => {
         if (i === data.length - 1) {
-          d3Select(this.svgEl.current)
+          $scatterplot
             .selectAll(`.data-point.${selection.className}`)
             .data(selection.data)
             .transition()
@@ -228,13 +227,13 @@ class ScatterPlot extends React.PureComponent {
               }
             });
         } else {
-          d3Select(this.svgEl.current)
+          $scatterplot
             .selectAll(`.data-point${selection.className}`)
             .data(selection.data);
         }
       });
     } else {
-      d3Select(this.svgEl.current)
+      $scatterplot
         .selectAll('.data-point')
         .data(data)
         .transition()
@@ -276,8 +275,8 @@ class ScatterPlot extends React.PureComponent {
 
     const {
       hoverPointData,
-      toolTipPosX,
-      toolTipPosY,
+      tooltipPosX,
+      tooltipPosY,
       showTooltip,
       selectedData,
       showLasso,
@@ -317,8 +316,8 @@ class ScatterPlot extends React.PureComponent {
         <Tooltip
           key="tooltip"
           pointData={selectedData || hoverPointData}
-          posX={toolTipPosX}
-          posY={toolTipPosY}
+          posX={tooltipPosX}
+          posY={tooltipPosY}
           show={showTooltip}
         />
         <svg

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import { formatValue } from '../../../lib/utilities.js';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
@@ -24,10 +25,6 @@ class HRDObservations extends React.PureComponent {
     this.setActiveQuestion(activeId);
   }
 
-  formatValue(number, decimalPlaces) {
-    return Number.parseFloat(number).toFixed(decimalPlaces);
-  }
-
   tableValues() {
     const cells = [
       ['Main Sequence Temperature Range'],
@@ -43,7 +40,7 @@ class HRDObservations extends React.PureComponent {
 
     if (!isEmpty(answers[a1]) && !isEmpty(answers[a2])) {
       cells[0].push(
-        `${this.formatValue(answers[a1].content, 0)} K  -  ${this.formatValue(
+        `${formatValue(answers[a1].content, 0)} K  -  ${formatValue(
           answers[a2].content,
           0
         )} K`

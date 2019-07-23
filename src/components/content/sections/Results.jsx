@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'react-md/lib/Buttons/Button';
+import { formatValue } from '../../../lib/utilities.js';
 import Page from '../../site/Page';
 import ScatterPlot from '../../scatter-plot';
 import ArrowLeft from '../../site/icons/ArrowLeft';
@@ -15,10 +16,6 @@ class Results extends React.PureComponent {
     previousText: 'Back',
     order: range(1, 14),
   };
-
-  formatValue(number, decimalPlaces) {
-    return Number.parseFloat(number).toFixed(decimalPlaces);
-  }
 
   renderAccordionQA(index, question, answer) {
     const { answerPre: pre, answerAccessor: accessor, label } = question;
@@ -37,7 +34,7 @@ class Results extends React.PureComponent {
             {accessor === 'temperature' && (
               <React.Fragment>
                 <span className="answer-content">
-                  {this.formatValue(answer.content, 0)}
+                  {formatValue(answer.content, 0)}
                 </span>
                 <span className="unit"> K</span>
               </React.Fragment>
@@ -45,7 +42,7 @@ class Results extends React.PureComponent {
             {accessor === 'luminosity' && (
               <React.Fragment>
                 <span className="answer-content">
-                  {this.formatValue(answer.content, 3)}
+                  {formatValue(answer.content, 3)}
                 </span>
                 <sub className="unit">&#8857;</sub>
               </React.Fragment>

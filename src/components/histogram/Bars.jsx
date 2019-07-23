@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import includes from 'lodash/includes';
 import Bar from './Bar.jsx';
 
 class Bars extends React.PureComponent {
@@ -19,15 +18,15 @@ class Bars extends React.PureComponent {
       <g className="data-bars">
         {data.map((d, i) => {
           const key = `bar-${i}`;
-          const selected = includes(selectedData, d);
-          const hovered = includes(hoveredData, d);
+          const selected = selectedData === d;
+          const hovered = hoveredData === d;
 
           return (
             <Bar
               key={key}
               x={xScale(d.x0)}
               y={yScale(d.length) + offsetTop}
-              width={xScale.bandwidth()}
+              width={xScale(d.x1) - xScale(d.x0)}
               height={yScale(0) - yScale(d.length)}
               classes={barClasses}
               selected={selected}

@@ -2,5 +2,21 @@
   .data-bar {
     fill: yellow;
     stroke: $black;
+
+    &.user {
+      fill: yellow;
+    }
+
+    &.astronomer {
+      fill: red;
+    }
+
+    &.hovered {
+      fill: red;
+    }
+
+    &.selected {
+      fill: blue;
+    }
   }
 }

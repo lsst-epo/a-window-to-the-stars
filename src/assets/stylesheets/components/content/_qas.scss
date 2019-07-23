@@ -14,13 +14,18 @@
       }
 
       .md-fake-btn .md-text {
+        min-width: 0 !important;
         color: $neutral20;
+
+        &.md-panel-column:not(:last-child) {
+          padding-right: 0;
+        }
       }
 
       &.active {
         .md-panel-header {
-          padding-right: $minPadding;
-          padding-left: $minPadding;
+          height: auto;
+          padding: $minPadding;
         }
 
         .answer {
@@ -55,7 +60,7 @@
         }
 
         + footer {
-          padding: 0 $minPadding $minPadding;
+          padding: $minPadding;
           border: 0;
         }
       }
