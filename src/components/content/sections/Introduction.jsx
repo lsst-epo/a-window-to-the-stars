@@ -47,7 +47,7 @@ class Introduction extends React.PureComponent {
             where stars are in their journey from birth to death.
           </p>
           <h3 className="list-title">Essential Questions</h3>
-          <ol>
+          <ul className="list-bulleted">
             <li>
               How can an H-R Diagram be used to estimate the ranges of star
               properties (temperatures, sizes, masses, lifetimes, and energy
@@ -60,7 +60,7 @@ class Introduction extends React.PureComponent {
             <li>
               Is the Sun an average star? Is it the most common kind of star?
             </li>
-          </ol>
+          </ul>
         </section>
         <img src={placeholder} alt="Star Field" className="hero-image" />
       </Section>

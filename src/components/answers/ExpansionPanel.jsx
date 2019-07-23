@@ -1,12 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-md/lib/Buttons/Button';
+import { formatValue } from '../../lib/utilities.js';
 
 class AnswerExpansionPanel extends React.PureComponent {
-  formatValue(number, decimalPlaces) {
-    return Number.parseFloat(number).toFixed(decimalPlaces);
-  }
-
   render() {
     const {
       id,
@@ -31,19 +28,26 @@ class AnswerExpansionPanel extends React.PureComponent {
         )}
         <p id={`answer-content-${id}`}>
           {pre && <span className="answer-pre">{pre} </span>}
-          {accessor === 'temperature' && (
+          {accessor === 'temperature range' && (
             <React.Fragment>
               <span className="answer-content">
-                {this.formatValue(content, 0)}
+                <span>{formatValue(content[0], 0)}</span>
+                <span className="unit">K</span>
+                {` – `}
+                <span>{formatValue(content[1], 0)}</span>
+                <span className="unit">K</span>
               </span>
+            </React.Fragment>
+          )}
+          {accessor === 'temperature' && (
+            <React.Fragment>
+              <span className="answer-content">{formatValue(content, 0)}</span>
               <span className="unit"> K</span>
             </React.Fragment>
           )}
           {accessor === 'luminosity' && (
             <React.Fragment>
-              <span className="answer-content">
-                {this.formatValue(content, 2)}
-              </span>
+              <span className="answer-content">{formatValue(content, 2)}</span>
               <sub className="unit">&#8857;</sub>
             </React.Fragment>
           )}
