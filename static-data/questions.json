@@ -120,7 +120,7 @@
     "id": "14",
     "type": "prompt",
     "tool": "lasso",
-    "label": "Draw a circle around a group of stars to plot them on the H-R Diagram",
+    "label": "Draw a circle around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.",
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
@@ -165,7 +165,7 @@
     "id": "19",
     "type": "prompt",
     "tool": "lasso",
-    "label": "Draw a circle around a group of stars to plot them on the H-R Diagram",
+    "label": "Draw a circle around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.",
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
@@ -190,14 +190,51 @@
     "id": "22",
     "type": "textArea",
     "label": "Think about what you have learned about giant stars and white dwarf stars. Which star cluster do you think is older? Explain your answer.",
-    "placeholder": "",
     "answerAccessor": "text"
   },
   "23": {
     "id": "23",
     "type": "textArea",
     "label": "Explain what happened to the missing main sequence stars?",
-    "placeholder": "",
     "answerAccessor": "text"
+  },
+  "24": {
+    "id": "24",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the H-R Diagram, select the star with lowest temperature",
+    "answerAccessor": "temperature",
+    "answerPre": "The lowest temperature is"
+  },
+  "25": {
+    "id": "25",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the H-R Diagram, select the star with highest temperature",
+    "answerAccessor": "temperature",
+    "answerPre": "The highest temperature is"
+  },
+  "26": {
+    "id": "26",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Temperature Histogram, select the most common temperature range for stars. (Hint: which bar is the highest in the histogram?)",
+    "answerAccessor": "temperature range",
+    "answerPre": "The most common temperature range for stars is"
+  },
+  "27": {
+    "id": "27",
+    "type": "select",
+    "label": "What color are the stars in the most common temperature range?",
+    "answerAccessor": "select",
+    "placeholder": "Select a color",
+    "options": [
+      {"label": "Blue", "value": "Blue"},
+      {"label": "White", "value": "White"},
+      {"label": "Yellow", "value": "Yellow"},
+      {"label": "Orange", "value": "Orange"},
+      {"label": "Red", "value": "Red"}
+    ],
+    "answerPre": "The most common color for stars in this temperature is"
   }
 }
