@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 class Select extends React.PureComponent {
   render() {
     const {
+      id,
       options,
       label,
       name,
@@ -13,51 +14,59 @@ class Select extends React.PureComponent {
       handleChange,
       handleBlur,
       className,
+      disabled,
+      showLabel,
     } = this.props;
 
     return (
       <div className={`select ${className}`}>
-        <select
-          name={name}
-          value={value}
-          defaultValue={defaultValue || ''}
-          onBlur={handleBlur}
-          onChange={handleChange}
-          aria-label={label}
-        >
-          {placeholder && (
-            <option key="placeholder-option" value="" disabled>
-              {placeholder}
-            </option>
-          )}
-          {options.map((option, i) => {
-            const type = typeof option;
-            if (type === 'object') {
+        {showLabel && <label htmlFor={`select-${id}`}>{label}</label>}
+        <div className="select-wrapper">
+          <select
+            id={`select-${id}`}
+            name={name}
+            value={value}
+            defaultValue={defaultValue || ''}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            aria-label={label}
+            disabled={disabled || false}
+          >
+            {placeholder && (
+              <option key="placeholder-option" value="" disabled>
+                {placeholder}
+              </option>
+            )}
+            {options.map((option, i) => {
+              const type = typeof option;
+              if (type === 'object') {
+                return (
+                  <option
+                    key={option.id || `option-${i}`}
+                    value={option.value}
+                    label={option.label}
+                  >
+                    {option.label}
+                  </option>
+                );
+              }
+
               return (
-                <option
-                  key={option.id || `option-${i}`}
-                  value={option.value}
-                  label={option.label}
-                >
-                  {option.label}
+                <option key={option} value={option} label={option}>
+                  {option}
                 </option>
               );
-            }
-
-            return (
-              <option key={option} value={option} label={option}>
-                {option}
-              </option>
-            );
-          })}
-        </select>
-        <hr />
+            })}
+          </select>
+          <hr />
+        </div>
       </div>
     );
   }
 }
 
 Select.propTypes = {
+  id: PropTypes.string,
   options: PropTypes.array,
   label: PropTypes.string,
   name: PropTypes.string,
@@ -67,6 +76,8 @@ Select.propTypes = {
   handleChange: PropTypes.func,
   handleBlur: PropTypes.func,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
+  showLabel: PropTypes.bool,
 };
 
 export default Select;

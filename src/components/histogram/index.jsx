@@ -193,7 +193,6 @@ class Histogram extends React.Component {
 
   updateBars() {
     const { data, loading } = this.state;
-    const { preselected, multiple } = this.props;
     const $histogram = d3Select(this.svgEl.current);
 
     $histogram
@@ -309,9 +308,8 @@ class Histogram extends React.Component {
 
 Histogram.propTypes = {
   data: PropTypes.array,
-  selectedData: PropTypes.array,
+  // selectedData: PropTypes.array,
   dataSelectionCallback: PropTypes.func,
-  stateKey: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
   padding: PropTypes.number,
@@ -321,7 +319,7 @@ Histogram.propTypes = {
   yAxisLabel: PropTypes.string,
   valueAccessor: PropTypes.string,
   preSelected: PropTypes.bool,
-  multiple: PropTypes.bool,
+  // multiple: PropTypes.bool,
 };
 
 export default Histogram;

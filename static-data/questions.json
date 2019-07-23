@@ -225,8 +225,16 @@
   "27": {
     "id": "27",
     "type": "select",
-    "label": "What color are the stars with the most common temperature range?",
-    "answerAccessor": "temperature range",
-    "answerPre": "The most common temperature range for stars is"
+    "label": "What color are the stars in the most common temperature range?",
+    "answerAccessor": "select",
+    "placeholder": "Select a color",
+    "options": [
+      {"label": "Blue", "value": "Blue"},
+      {"label": "White", "value": "White"},
+      {"label": "Yellow", "value": "Yellow"},
+      {"label": "Orange", "value": "Orange"},
+      {"label": "Red", "value": "Red"}
+    ],
+    "answerPre": "The most common color for stars in this temperature is"
   }
 }

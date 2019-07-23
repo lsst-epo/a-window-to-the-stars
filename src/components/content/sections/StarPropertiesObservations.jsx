@@ -8,10 +8,10 @@ import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
 import QuestionsAnswerSelections from '../../questions/ExpansionList';
-import QuestionsAnswerTextInputs from '../../questions/TextInputs';
+import QuestionAnswerSelect from '../../questions/Select';
 
 @reactn
-class ComparingStarProperties extends React.PureComponent {
+class StarPropertiesObservations extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -107,7 +107,7 @@ class ComparingStarProperties extends React.PureComponent {
     const { answers } = this.global;
     const activeAnswer = answers[activeId];
     const activeData = activeAnswer ? activeAnswer.data : null;
-
+    // console.log(questions);
     return (
       <Section {...this.props}>
         <section>
@@ -133,10 +133,11 @@ class ComparingStarProperties extends React.PureComponent {
             />
           )}
           {questions && (
-            <QuestionsAnswerTextInputs
-              questions={questions.slice(3, 5)}
-              answers={answers}
-              handleChange={this.updateAnswer}
+            <QuestionAnswerSelect
+              question={questions[3]}
+              answer={answers[questions[3].id]}
+              handleAnswerSelect={this.updateAnswer}
+              activeId={activeId}
             />
           )}
         </section>
@@ -180,7 +181,7 @@ class ComparingStarProperties extends React.PureComponent {
   }
 }
 
-ComparingStarProperties.propTypes = {
+StarPropertiesObservations.propTypes = {
   clusterData: PropTypes.array,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
@@ -191,5 +192,5 @@ ComparingStarProperties.propTypes = {
 };
 
 export default withAnswerHandlers(
-  withData(ComparingStarProperties, 'is_member')
+  withData(StarPropertiesObservations, 'is_member')
 );

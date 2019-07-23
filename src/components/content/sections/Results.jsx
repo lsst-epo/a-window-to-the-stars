@@ -47,6 +47,17 @@ class Results extends React.PureComponent {
                 <sub className="unit">&#8857;</sub>
               </React.Fragment>
             )}
+            {accessor === 'temperature range' && (
+              <React.Fragment>
+                <span className="answer-content">
+                  <span>{formatValue(answer.content[0], 0)}</span>
+                  <span className="unit">K</span>
+                  {` – `}
+                  <span>{formatValue(answer.content[1], 0)}</span>
+                  <span className="unit">K</span>
+                </span>
+              </React.Fragment>
+            )}
             {accessor === 'count' && (
               <span className="unit">
                 {parseInt(answer.content, 10) > 1 ? 'stars' : 'star'}
@@ -107,6 +118,28 @@ class Results extends React.PureComponent {
     );
   }
 
+  renderSelectQA(index, question, answer) {
+    const { label, answerPre } = question;
+    const count = index + 1;
+
+    return (
+      <div className="qa">
+        <div className="question">
+          <span>{count}. </span>
+          {label}
+        </div>
+        {!isEmpty(answer) ? (
+          <div className="answer">
+            {answerPre && <span>{answerPre}</span>}
+            <span>{answer.content}</span>
+          </div>
+        ) : (
+          <p className="answer">No answer provided</p>
+        )}
+      </div>
+    );
+  }
+
   renderQA(index, question, answer) {
     const { type } = question;
 
@@ -120,6 +153,10 @@ class Results extends React.PureComponent {
 
     if (type === 'text' || type === 'textArea') {
       return this.renderTextQA(index, question, answer);
+    }
+
+    if (type === 'select') {
+      return this.renderSelectQA(index, question, answer);
     }
 
     return (
