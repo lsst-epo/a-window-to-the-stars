@@ -8,8 +8,7 @@ import API from '../../site/API';
 import Introduction from './Introduction';
 import ExploringStarClusters from './ExploringStarClusters';
 import MakingHRD from './MakingHRD';
-// import ComparingHRD from './ComparingHRD';
-import ComparingHRDNew from './ComparingHRDNew';
+import ComparingHRD from './ComparingHRD';
 import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
@@ -81,12 +80,14 @@ class Sections extends React.PureComponent {
           render={() => (
             <ExploringStarClusters
               id="1"
-              dataPath="static-data/NGC_188_data.json"
+              dataPath="static-data/NGC_2516_data.json"
               questionsRange={range(1, 10)}
               questions={this.getQuestions(range(1, 10))}
               answers={answers}
               scrollable={0}
               getActiveId={this.getActiveId}
+              scatterXDomain={[10000, 3000]}
+              scatterYDomain={[0.01, 1000]}
               previous="/"
             />
           )}
@@ -117,7 +118,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/3"
           render={() => (
-            <ComparingHRDNew
+            <ComparingHRD
               id="3"
               scrollable={-1}
               clusterName="Cluster A"
@@ -144,7 +145,7 @@ class Sections extends React.PureComponent {
               answers={answers}
               getActiveId={this.getActiveId}
               scatterXDomain={[14000, 3000]}
-              scatterYDomain={[0.001, 10000]}
+              scatterYDomain={[0.01, 1000]}
               clusterName="Cluster A"
               introduction="Use the H-R Diagram to complete the table of observations"
               scrollable={0}
@@ -177,7 +178,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/6"
           render={() => (
-            <ComparingHRDNew
+            <ComparingHRD
               id="6"
               scrollable={-1}
               clusterName="Cluster B"
@@ -199,8 +200,8 @@ class Sections extends React.PureComponent {
             <HRDObservations
               id="7"
               scrollable={0}
-              scatterXDomain={[15500, 3000]}
-              scatterYDomain={[0.001, 10000]}
+              scatterXDomain={[10000, 3500]}
+              scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"
               questionsRange={range(15, 19)}
               questions={this.getQuestions(range(15, 19))}
@@ -222,11 +223,15 @@ class Sections extends React.PureComponent {
                   name: 'Cluster A',
                   key: 'clusterAData',
                   path: 'static-data/NGC_188_data.json',
+                  xDomain: [14000, 3000],
+                  yDomain: [0.01, 1000],
                 },
                 {
                   name: 'Cluster B',
                   key: 'clusterBData',
                   path: 'static-data/NGC_2168_data.json',
+                  xDomain: [10000, 3500],
+                  yDomain: [0.01, 10000],
                 },
               ]}
               tableAnswersRanges={[range(10, 14), range(15, 19)]}
@@ -247,19 +252,15 @@ class Sections extends React.PureComponent {
                   name: 'Cluster A',
                   key: 'clusterAData',
                   path: 'static-data/NGC_188_data.json',
-                  xDomain: [14000, 3000],
-                  yDomain: [0.001, 10000],
                 },
                 {
                   name: 'Cluster B',
                   key: 'clusterBData',
                   path: 'static-data/NGC_2168_data.json',
-                  xDomain: [15000, 3000],
-                  yDomain: [0.001, 10000],
                 },
               ]}
-              scatterXDomain={[15500, 3000]}
-              scatterYDomain={[0.001, 10000]}
+              scatterXDomain={[14000, 3000]}
+              scatterYDomain={[0.01, 10000]}
             />
           )}
         />
@@ -269,8 +270,8 @@ class Sections extends React.PureComponent {
             <StarPropertiesObservations
               id="10"
               scrollable={0}
-              scatterXDomain={[15500, 3000]}
-              scatterYDomain={[0.001, 10000]}
+              scatterXDomain={[10000, 3500]}
+              scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"
               questionsRange={range(24, 28)}
               questions={this.getQuestions(range(24, 28))}

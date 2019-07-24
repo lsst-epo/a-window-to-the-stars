@@ -12,7 +12,8 @@ class YAxis extends React.Component {
 
   componentDidMount() {
     const { scale } = this.props;
-    const yAxis = d3AxisLeft(scale).ticks(6);
+    const numTicks = scale.domain().reduce(this.reducer);
+    const yAxis = d3AxisLeft(scale).ticks(numTicks);
     const $yAxis = d3Select(this.yAxisContainer.current);
 
     $yAxis
@@ -28,6 +29,14 @@ class YAxis extends React.Component {
         return exponent === 0 ? '' : exponent;
       });
   }
+
+  getAbsPow(value) {
+    return Math.abs(Math.log10(value));
+  }
+
+  reducer = (accumulator, current) => {
+    return this.getAbsPow(accumulator) + this.getAbsPow(current);
+  };
 
   render() {
     const { height, padding, label, offsetTop } = this.props;

@@ -5,13 +5,13 @@ import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
-import Card from 'react-md/lib/Cards/Card';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import { arrayify } from '../../lib/utilities.js';
 import Points from './Points.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
 import Tooltip from './Tooltip.jsx';
+import Legend from './Legend.jsx';
 import Lasso from './Lasso.jsx';
 
 class ScatterPlot extends React.PureComponent {
@@ -257,6 +257,15 @@ class ScatterPlot extends React.PureComponent {
     if (!preSelected) this.addEventListeners();
   }
 
+  renderColorLegendContent() {
+    return (
+      <div className="container-flex centered spaced">
+        <div className="description">Colors approximate star colors</div>
+        <div className="data-point" style={{ backgroundColor: '#f9d71c' }} />
+      </div>
+    );
+  }
+
   render() {
     const {
       data,
@@ -271,6 +280,8 @@ class ScatterPlot extends React.PureComponent {
       xValueAccessor,
       yValueAccessor,
       multiple,
+      legend,
+      showColorLegend,
     } = this.props;
 
     const {
@@ -291,100 +302,92 @@ class ScatterPlot extends React.PureComponent {
     });
 
     return (
-      <div className="svg-container scatter-plot-container">
-        {loading && (
-          <CircularProgress
-            className="chart-loader"
-            scale={3}
-            value={loading}
-          />
+      <React.Fragment>
+        {showColorLegend && !loading && (
+          <Legend content={this.renderColorLegendContent()} />
         )}
-        {data && multiple && !loading && (
-          <Card className="legend">
-            {data.map((cluster, i) => {
-              const key = `legend-${cluster.className}-${i}`;
-
-              return (
-                <div key={key} className="container-flex spaced">
-                  <div className="set-name">{cluster.className}</div>
-                  <div className={`data-point ${cluster.className}`} />
-                </div>
-              );
-            })}
-          </Card>
-        )}
-        <Tooltip
-          key="tooltip"
-          pointData={selectedData || hoverPointData}
-          posX={tooltipPosX}
-          posY={tooltipPosY}
-          show={showTooltip}
-        />
-        <svg
-          key="scatter-plot"
-          className={svgClasses}
-          preserveAspectRatio="xMidYMid meet"
-          viewBox={`0 0 ${width} ${height}`}
-          ref={this.svgEl}
-          style={{ opacity: 0 }}
-        >
-          {data &&
-            multiple &&
-            data.map((selection, i) => {
-              const key = `${selection.className}-${i}`;
-
-              return (
-                <Points
-                  key={key}
-                  pointClasses={selection.className}
-                  data={selection.data}
-                  selectedData={selectedData}
-                  hoveredData={hoverPointData}
-                  xScale={xScale}
-                  yScale={yScale}
-                  xValueAccessor={xValueAccessor}
-                  yValueAccessor={yValueAccessor}
-                />
-              );
-            })}
-          {data && !multiple && (
-            <Points
-              data={data}
-              selectedData={selectedData}
-              hoveredData={hoverPointData}
-              xScale={xScale}
-              yScale={yScale}
-              xValueAccessor={xValueAccessor}
-              yValueAccessor={yValueAccessor}
+        <div className="svg-container scatter-plot-container">
+          {loading && (
+            <CircularProgress
+              className="chart-loader"
+              scale={3}
+              value={loading}
             />
           )}
-          <XAxis
-            label={xAxisLabel}
-            height={height}
-            width={width}
-            padding={padding}
-            offsetTop={offsetTop}
-            offsetRight={offsetRight}
-            scale={xScale}
+          {legend && !loading && <Legend content={legend} />}
+          <Tooltip
+            key="tooltip"
+            pointData={selectedData || hoverPointData}
+            posX={tooltipPosX}
+            posY={tooltipPosY}
+            show={showTooltip}
           />
-          <YAxis
-            label={yAxisLabel}
-            height={height}
-            padding={padding}
-            offsetTop={offsetTop}
-            scale={yScale}
-          />
-          {useLasso && (
-            <Lasso
-              active={showLasso}
-              lassoableEl={this.svgEl}
-              dragCallback={this.onDrag}
-              dragStartCallback={this.onDragStart}
-              dragEndCallback={this.onDragEnd}
+          <svg
+            key="scatter-plot"
+            className={svgClasses}
+            preserveAspectRatio="xMidYMid meet"
+            viewBox={`0 0 ${width} ${height}`}
+            ref={this.svgEl}
+            style={{ opacity: 0 }}
+          >
+            {data &&
+              multiple &&
+              data.map((selection, i) => {
+                const key = `${selection.className}-${i}`;
+
+                return (
+                  <Points
+                    key={key}
+                    pointClasses={selection.className}
+                    data={selection.data}
+                    selectedData={selectedData}
+                    hoveredData={hoverPointData}
+                    xScale={xScale}
+                    yScale={yScale}
+                    xValueAccessor={xValueAccessor}
+                    yValueAccessor={yValueAccessor}
+                  />
+                );
+              })}
+            {data && !multiple && (
+              <Points
+                data={data}
+                selectedData={selectedData}
+                hoveredData={hoverPointData}
+                xScale={xScale}
+                yScale={yScale}
+                xValueAccessor={xValueAccessor}
+                yValueAccessor={yValueAccessor}
+              />
+            )}
+            <XAxis
+              label={xAxisLabel}
+              height={height}
+              width={width}
+              padding={padding}
+              offsetTop={offsetTop}
+              offsetRight={offsetRight}
+              scale={xScale}
             />
-          )}
-        </svg>
-      </div>
+            <YAxis
+              label={yAxisLabel}
+              height={height}
+              padding={padding}
+              offsetTop={offsetTop}
+              scale={yScale}
+            />
+            {useLasso && (
+              <Lasso
+                active={showLasso}
+                lassoableEl={this.svgEl}
+                dragCallback={this.onDrag}
+                dragStartCallback={this.onDragStart}
+                dragEndCallback={this.onDragEnd}
+              />
+            )}
+          </svg>
+        </div>
+      </React.Fragment>
     );
   }
 }
@@ -406,6 +409,8 @@ ScatterPlot.propTypes = {
   dataSelectionCallback: PropTypes.func,
   preSelected: PropTypes.bool,
   multiple: PropTypes.bool,
+  legend: PropTypes.node,
+  showColorLegend: PropTypes.bool,
 };
 
 export default ScatterPlot;

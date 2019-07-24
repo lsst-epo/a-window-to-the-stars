@@ -90,6 +90,7 @@ class MakingHRD extends React.PureComponent {
               xAxisLabel="Temperature (K)"
               yAxisLabel="Solar Luminosity"
               preSelected
+              showColorLegend
             />
           </div>
         </div>

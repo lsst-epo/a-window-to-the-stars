@@ -5,9 +5,9 @@ import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
 import { scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
-import Card from 'react-md/lib/Cards/Card';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import Points from './Points.jsx';
+import Legend from '../scatter-plot/Legend.jsx';
 import Lasso from '../scatter-plot/Lasso.jsx';
 
 class StarSelector extends React.Component {
@@ -161,7 +161,6 @@ class StarSelector extends React.Component {
   }
 
   render() {
-    const { showLasso, xScale, yScale, loading } = this.state;
     const {
       data,
       width,
@@ -172,7 +171,9 @@ class StarSelector extends React.Component {
       selection,
       xValueAccessor,
       yValueAccessor,
+      legend,
     } = this.props;
+    const { showLasso, xScale, yScale, loading } = this.state;
 
     const svgClasses = classnames('svg-chart star-selector', {
       loading,
@@ -188,20 +189,7 @@ class StarSelector extends React.Component {
             value={loading}
           />
         )}
-        {data && multiple && !loading && (
-          <Card className="legend">
-            {data.map((cluster, i) => {
-              const key = `legend-${cluster.className}-${i}`;
-
-              return (
-                <div key={key} className="container-flex spaced">
-                  <div className="set-name">{cluster.className}</div>
-                  <div className={`data-point ${cluster.className}`} />
-                </div>
-              );
-            })}
-          </Card>
-        )}
+        {legend && !loading && <Legend content={legend} />}
         <svg
           key="scatter-plot svg-chart"
           className={svgClasses}
@@ -269,6 +257,7 @@ StarSelector.propTypes = {
   backgroundImage: PropTypes.any,
   preSelected: PropTypes.bool,
   multiple: PropTypes.bool,
+  legend: PropTypes.node,
 };
 
 export default StarSelector;
