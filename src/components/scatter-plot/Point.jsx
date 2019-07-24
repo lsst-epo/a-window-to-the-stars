@@ -1,26 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import { select as d3Select } from 'd3-selection';
+import { easeElastic as d3EaseElastic } from 'd3-ease';
 
 class Point extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.baseSize = 6;
+    this.svgEl = React.createRef();
+  }
+
+  componentDidUpdate() {
+    const { selected, hovered } = this.props;
+
+    if (selected || hovered) {
+      d3Select(this.svgEl.current)
+        .raise()
+        .transition()
+        .duration(800)
+        .ease(d3EaseElastic)
+        .attr('r', this.baseSize * 2);
+    } else {
+      d3Select(this.svgEl.current)
+        .transition()
+        .duration(400)
+        .attr('r', this.baseSize);
+    }
+  }
+
   render() {
-    const { x, y, selected, hovered, sourceId, classes } = this.props;
-    const pointClasses = classnames(
-      `data-point-${sourceId} data-point ${classes}`,
-      {
-        selected,
-        hovered,
-      }
-    );
+    const { x, y, classes, fill } = this.props;
 
     return (
       <circle
-        className={pointClasses}
+        ref={this.svgEl}
+        className={classes}
         cx={x}
         cy={y}
-        r={6}
+        r={this.baseSize}
         strokeWidth={1}
-        fill="transparent"
+        fill={fill}
         stroke="transparent"
       />
     );
@@ -30,10 +50,10 @@ class Point extends React.PureComponent {
 Point.propTypes = {
   selected: PropTypes.bool,
   hovered: PropTypes.bool,
-  sourceId: PropTypes.string,
   x: PropTypes.number,
   y: PropTypes.number,
   classes: PropTypes.string,
+  fill: PropTypes.string,
 };
 
 export default Point;

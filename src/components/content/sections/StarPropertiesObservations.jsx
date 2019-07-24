@@ -102,12 +102,17 @@ class StarPropertiesObservations extends React.PureComponent {
   };
 
   render() {
-    const { clusterData, questions, xDomain, yDomain } = this.props;
+    const {
+      clusterData,
+      questions,
+      scatterXDomain,
+      scatterYDomain,
+    } = this.props;
     const { activeGraph, activeId } = this.state;
     const { answers } = this.global;
     const activeAnswer = answers[activeId];
     const activeData = activeAnswer ? activeAnswer.data : null;
-    // console.log(questions);
+
     return (
       <Section {...this.props}>
         <section>
@@ -156,8 +161,8 @@ class StarPropertiesObservations extends React.PureComponent {
             {activeGraph === 0 && (
               <ScatterPlot
                 data={clusterData}
-                xDomain={xDomain}
-                yDomain={yDomain}
+                xDomain={scatterXDomain}
+                yDomain={scatterYDomain}
                 xValueAccessor="temperature"
                 yValueAccessor="luminosity"
                 xAxisLabel="Temperature (K)"
@@ -187,8 +192,8 @@ StarPropertiesObservations.propTypes = {
   questions: PropTypes.array,
   answerHandler: PropTypes.func,
   getActiveId: PropTypes.func,
-  xDomain: PropTypes.array,
-  yDomain: PropTypes.array,
+  scatterXDomain: PropTypes.array,
+  scatterYDomain: PropTypes.array,
 };
 
 export default withAnswerHandlers(

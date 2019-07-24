@@ -110,6 +110,8 @@ class HRDObservations extends React.PureComponent {
       introduction,
       clusterName,
       id,
+      scatterXDomain,
+      scatterYDomain,
     } = this.props;
     const { activeId } = this.state;
 
@@ -138,7 +140,7 @@ class HRDObservations extends React.PureComponent {
           />
         </section>
         <div>
-          <h2>H-R Diagram: Star {clusterName}</h2>
+          <h2 className="space-bottom">H-R Diagram: Star {clusterName}</h2>
           <ScatterPlot
             id={id}
             activeId={activeId}
@@ -147,8 +149,11 @@ class HRDObservations extends React.PureComponent {
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
+            xDomain={scatterXDomain}
+            yDomain={scatterYDomain}
             dataSelectionCallback={this.onGraphSelection}
             useLasso
+            showColorLegend
           />
         </div>
       </Section>
@@ -169,6 +174,8 @@ HRDObservations.propTypes = {
   paginationLocation: PropTypes.number,
   introduction: PropTypes.string,
   clusterName: PropTypes.string,
+  scatterXDomain: PropTypes.array,
+  scatterYDomain: PropTypes.array,
 };
 
 export default withAnswerHandlers(withData(HRDObservations, 'is_member'));

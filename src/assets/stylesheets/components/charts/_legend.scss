@@ -1,52 +1,58 @@
-.svg-container {
-  &.scatter-plot-container {
-    .legend {
-      top: $minPadding / 2;
-      left: calc(12% + #{$minPadding} / 2);
-    }
+
+.legend {
+  display: inline-block;
+  min-width: 30%;
+  padding: $minPadding / 2;
+  margin-bottom: $minPadding;
+  margin-left: 12%;
+
+  .container-flex + .container-flex {
+    margin-top: $minPadding * 0.5;
   }
 
+  .set-name {
+    @include labelPrimary;
+    margin-right: $minPadding;
+    text-transform: capitalize;
+  }
+
+  .description {
+    @include labelPrimary;
+    margin-right: $minPadding;
+  }
+
+  .data-point {
+    width: 12px;
+    height: 12px;
+    border: 1px solid $black;
+    border-radius: 50%;
+
+    &.user {
+      background-color: yellow;
+    }
+
+    &.astronomer {
+      background-color: red;
+    }
+  }
+}
+
+.svg-container {
   .legend {
     position: absolute;
     top: $minPadding / 2;
     left: $minPadding / 2;
-    display: inline-block;
-    min-width: 30%;
-    padding: $minPadding / 2;
-    margin-bottom: $minPadding;
-    // visibility: hidden;
-    // opacity: 0;
-    // transition: opacity $timing $durationSuperSlow;
+    margin-left: 0;
 
-    // &.loaded {
-    //   visibility: visible;
-    //   /* stylelint-disable-next-line declaration-no-important */
-    //   opacity: 1 !important;
-    // }
-
-    .container-flex + .container-flex {
-      margin-top: $minPadding * 0.5;
+    .description {
+      max-width: 125px;
     }
+  }
 
-    .set-name {
-      @include labelPrimary;
-      margin-right: $minPadding;
-      text-transform: capitalize;
-    }
-
-    .data-point {
-      width: 12px;
-      height: 12px;
-      border: 1px solid $black;
-      border-radius: 50%;
-
-      &.user {
-        background-color: yellow;
-      }
-
-      &.astronomer {
-        background-color: red;
-      }
+  &.scatter-plot-container {
+    .legend {
+      top: $minPadding / 2;
+      left: calc(12% + #{$minPadding} / 2);
     }
   }
 }

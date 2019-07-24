@@ -6,6 +6,23 @@ import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
 
 class ComparingHRD extends React.PureComponent {
+  renderLegendContent(data) {
+    return (
+      <React.Fragment>
+        {data.map((cluster, i) => {
+          const key = `legend-${cluster.className}-${i}`;
+
+          return (
+            <div key={key} className="container-flex centered spaced">
+              <div className="set-name">{cluster.className}</div>
+              <div className={`data-point ${cluster.className}`} />
+            </div>
+          );
+        })}
+      </React.Fragment>
+    );
+  }
+
   render() {
     const {
       clusterData,
@@ -21,6 +38,10 @@ class ComparingHRD extends React.PureComponent {
     } = this.props;
 
     const selection = answer ? answer.data : [];
+    const multipleData = [
+      { className: 'user', data: selection },
+      { className: 'astronomer', data: clusterData },
+    ];
     // console.log(selection);
     return (
       <Section {...this.props} layout="">
@@ -41,15 +62,13 @@ class ComparingHRD extends React.PureComponent {
             shortly.
           </p>
         </section>
-        <br />
+        <hr className="divider-horizontal" />
         <div className="container-flex spaced">
-          <div className="col padded col-2 col-width-50">
-            <h2 className="section-title">Your Star Cluster</h2>
-            <br />
+          <div className="col padded col-width-50">
             <StarSelector
               width={clusterWidth}
               height={clusterHeight}
-              data={selection}
+              data={multipleData}
               xValueAccessor="RA"
               yValueAccessor="Dec"
               xDomain={clusterXDomain}
@@ -58,40 +77,13 @@ class ComparingHRD extends React.PureComponent {
               dataSelectionCallback={this.onGraphSelection}
               backgroundImage={clusterImage}
               preSelected
-            />
-            <br />
-            <h2>Your H-R Diagram</h2>
-            <ScatterPlot
-              data={selection}
-              xDomain={scatterXDomain}
-              yDomain={scatterYDomain}
-              xValueAccessor="temperature"
-              yValueAccessor="luminosity"
-              xAxisLabel="Temperature (K)"
-              yAxisLabel="Solar Luminosity"
-              preSelected
+              multiple
+              legend={this.renderLegendContent(multipleData)}
             />
           </div>
-          <div className="col padded col-2 col-width-50">
-            <h2 className="section-title">Astronomer&apos;s Star Cluster</h2>
-            <br />
-            <StarSelector
-              width={clusterWidth}
-              height={clusterHeight}
-              data={clusterData}
-              xValueAccessor="RA"
-              yValueAccessor="Dec"
-              xDomain={clusterXDomain}
-              yDomain={clusterYDomain}
-              dataLassoCallback={this.onGraphLasso}
-              dataSelectionCallback={this.onGraphSelection}
-              backgroundImage={clusterImage}
-              preSelected
-            />
-            <br />
-            <h2>Astronomer&apos;s H-R Diagram</h2>
+          <div className="col padded col-width-50">
             <ScatterPlot
-              data={clusterData}
+              data={multipleData}
               xDomain={scatterXDomain}
               yDomain={scatterYDomain}
               xValueAccessor="temperature"
@@ -99,9 +91,12 @@ class ComparingHRD extends React.PureComponent {
               xAxisLabel="Temperature (K)"
               yAxisLabel="Solar Luminosity"
               preSelected
+              multiple
+              legend={this.renderLegendContent(multipleData)}
             />
           </div>
         </div>
+        <br />
       </Section>
     );
   }

@@ -7,7 +7,6 @@
   }
 
   .data-point {
-    fill: yellow;
     stroke: $black;
 
     &.user {
@@ -16,14 +15,6 @@
 
     &.astronomer {
       fill: red;
-    }
-
-    &.hovered {
-      fill: red;
-    }
-
-    &.selected {
-      fill: blue;
     }
   }
 }

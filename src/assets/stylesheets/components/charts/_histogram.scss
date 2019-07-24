@@ -1,22 +1,14 @@
 .histogram {
   .data-bar {
-    fill: yellow;
+    fill: $baseSecondaryLight;
     stroke: $black;
 
-    &.user {
-      fill: yellow;
-    }
-
-    &.astronomer {
-      fill: red;
-    }
-
     &.hovered {
-      fill: red;
+      fill: $baseSecondary;
     }
 
     &.selected {
-      fill: blue;
+      fill: $baseSecondaryDark;
     }
   }
 }

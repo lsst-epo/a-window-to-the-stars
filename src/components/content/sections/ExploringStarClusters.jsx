@@ -56,7 +56,13 @@ class ExploringStarClusters extends React.PureComponent {
   };
 
   render() {
-    const { questions, answers, clusterData } = this.props;
+    const {
+      questions,
+      answers,
+      clusterData,
+      scatterXDomain,
+      scatterYDomain,
+    } = this.props;
     const { activeId } = this.state;
 
     return (
@@ -108,14 +114,17 @@ class ExploringStarClusters extends React.PureComponent {
           )}
         </section>
         <div className="inner-column">
-          <h2>H-R Diagram</h2>
+          <h2 className="space-bottom">H-R Diagram</h2>
           <ScatterPlot
             data={clusterData}
             xValueAccessor="temperature"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
+            xDomain={scatterXDomain}
+            yDomain={scatterYDomain}
             dataSelectionCallback={this.onGraphSelection}
+            showColorLegend
           />
         </div>
       </Section>
@@ -130,6 +139,8 @@ ExploringStarClusters.propTypes = {
   answers: PropTypes.object,
   getActiveId: PropTypes.func,
   answerHandler: PropTypes.func,
+  scatterXDomain: PropTypes.array,
+  scatterYDomain: PropTypes.array,
 };
 
 export default withAnswerHandlers(withData(ExploringStarClusters, 'is_member'));
