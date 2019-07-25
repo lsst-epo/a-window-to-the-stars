@@ -148,10 +148,12 @@ class StarPropertiesObservations extends React.PureComponent {
     return (
       <Section {...this.props}>
         <section>
-          <h2 className="section-title">Comparing Star Temperatures</h2>
+          <h2 className="section-title">{`Comparing Star ${capitalize(
+            histogramAccessor
+          )}`}</h2>
           <p>
             Use the tabs above the graph to switch between your H-R Diagram and
-            the Temperature Histogram.{' '}
+            the {capitalize(histogramAccessor)} Histogram.{' '}
             <span className="copy-secondary">
               Note: The Sun <span>SUN ICON</span> has been added to your H-R
               Diagram.

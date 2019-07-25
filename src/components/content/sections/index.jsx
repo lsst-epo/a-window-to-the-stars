@@ -311,7 +311,8 @@ class Sections extends React.PureComponent {
                 .concat([14])
                 .concat(range(10, 13))
                 .concat([19])
-                .concat(range(15, 32))}
+                .concat(range(15, 19))
+                .concat(range(20, 32))}
             />
           )}
         />
