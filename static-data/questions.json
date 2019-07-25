@@ -202,7 +202,7 @@
     "id": "24",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the H-R Diagram, select the coldest star",
+    "label": "Using the H-R Diagram, select the star with lowest temperature",
     "answerAccessor": "temperature",
     "answerPre": "The lowest temperature is"
   },
@@ -210,7 +210,7 @@
     "id": "25",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the H-R Diagram, select the hottest star",
+    "label": "Using the H-R Diagram, select the star with highest temperature",
     "answerAccessor": "temperature",
     "answerPre": "The highest temperature is"
   },
@@ -218,9 +218,9 @@
     "id": "26",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Temperature Histogram, select the most common temperature range for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "label": "Using the Temperature Histogram, select the most common temperature range for stars. (Hint: which bar is the highest in the histogram?)",
     "answerAccessor": "temperature range",
-    "answerPre": "The most common temperature range for these stars is"
+    "answerPre": "The most common temperature range for stars is"
   },
   "27": {
     "id": "27",
@@ -236,44 +236,5 @@
       {"label": "Red", "value": "Red"}
     ],
     "answerPre": "The most common color for stars in this temperature is"
-  },
-  "28": {
-    "id": "28",
-    "type": "accordion",
-    "tool": "selection",
-    "label": "Using the H-R Diagram, select the dimmest star",
-    "answerAccessor": "luminosity",
-    "answerPre": "The lowest luminosity is"
-  },
-  "29": {
-    "id": "29",
-    "type": "accordion",
-    "tool": "selection",
-    "label": "Using the H-R Diagram, select the brightest star",
-    "answerAccessor": "luminosity",
-    "answerPre": "The highest luminosity is"
-  },
-  "30": {
-    "id": "30",
-    "type": "accordion",
-    "tool": "selection",
-    "label": "Using the Luminosity Histogram, select the most common luminosity range for these stars. (Hint: Which bar is the highest in the histogram?)",
-    "answerAccessor": "luminosity range",
-    "answerPre": "The most common luminosity range for these stars is"
-  },
-  "31": {
-    "id": "31",
-    "type": "select",
-    "label": "What color are the stars in the most common luminosity range?",
-    "answerAccessor": "select",
-    "placeholder": "Select a color",
-    "options": [
-      {"label": "Blue", "value": "Blue"},
-      {"label": "White", "value": "White"},
-      {"label": "Yellow", "value": "Yellow"},
-      {"label": "Orange", "value": "Orange"},
-      {"label": "Red", "value": "Red"}
-    ],
-    "answerPre": "The most common color for stars in this luminosity is"
   }
 }
