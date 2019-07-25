@@ -11,12 +11,15 @@ class Section extends React.PureComponent {
   };
 
   getPreviousLink(link, id) {
-    const potentialLink = parseInt(id, 10) - 1;
-    return link || potentialLink < 0 ? null : `/${potentialLink}`;
+    const nextId = parseInt(id, 10) - 1;
+    const potentialLink = nextId < 0 ? null : `/${nextId}`;
+    console.log(link, potentialLink, link || potentialLink);
+    return link || potentialLink;
   }
 
   getNextLink(link, id) {
-    return link || `/${parseInt(id, 10) + 1}`;
+    const potentialLink = `/${parseInt(id, 10) + 1}`;
+    return link || potentialLink;
   }
 
   render() {

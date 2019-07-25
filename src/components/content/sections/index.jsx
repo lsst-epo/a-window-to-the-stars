@@ -72,7 +72,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/"
           exact
-          render={() => <Introduction next="1" scrollable={0} />}
+          render={() => <Introduction id="0" next="1" scrollable={0} />}
         />
         <Route
           path="/1"
