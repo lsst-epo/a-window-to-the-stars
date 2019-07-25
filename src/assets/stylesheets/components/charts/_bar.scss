@@ -1,4 +1,5 @@
 .data-bar {
+  cursor: pointer;
   transition: fill $durationSlow $timing;
 
   &:focus {

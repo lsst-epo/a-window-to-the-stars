@@ -12,17 +12,63 @@ class XAxis extends React.Component {
   }
 
   componentDidMount() {
-    const { scale } = this.props;
-    const xAxis = d3AxisBottom(scale).tickFormat(d3Format('1.0f'));
+    const { scale, valueAccessor } = this.props;
     const $xAxis = d3Select(this.xAxisContainer.current);
 
-    $xAxis
-      .call(xAxis)
-      .selectAll('.tick text')
-      .style('text-anchor', 'end')
-      .attr('dx', '-0.8em')
-      .attr('dy', '-0.03em')
-      .attr('transform', 'rotate(-65)');
+    if (valueAccessor === 'luminosity') {
+      const scaleCopy = scale.copy();
+      const oldDomain = scaleCopy.domain();
+      const newDomain = [
+        ...new Set(
+          oldDomain.map((d, i) => {
+            if (i === 0) {
+              return Math.floor(d);
+            }
+
+            if (i === oldDomain.length - 1) {
+              return Math.ceil(d);
+            }
+
+            return Math.round(d);
+          })
+        ),
+      ];
+
+      const augScale = scaleCopy.domain(newDomain);
+      const xAxis = this.getAxis(augScale, valueAccessor);
+
+      $xAxis
+        .call(xAxis)
+        .selectAll('.tick text')
+        .text(d => {
+          return d === 0 ? 1 : 10;
+        })
+        .append('tspan')
+        .attr('baseline-shift', 'super')
+        .text(d => {
+          // const exponent = Math.round(d);
+          // return exponent === 0 ? '' : exponent;
+          return d === 0 ? '' : d;
+        });
+    } else {
+      const xAxis = this.getAxis(scale, valueAccessor);
+
+      $xAxis
+        .call(xAxis)
+        .selectAll('.tick text')
+        .style('text-anchor', 'end')
+        .attr('dx', '-0.8em')
+        .attr('dy', '-0.03em')
+        .attr('transform', 'rotate(-65)');
+    }
+  }
+
+  getAxis(scale, valueAccessor) {
+    if (valueAccessor === 'luminosity') {
+      return d3AxisBottom(scale);
+    }
+
+    return d3AxisBottom(scale).tickFormat(d3Format('1.0f'));
   }
 
   render() {
@@ -65,6 +111,7 @@ XAxis.propTypes = {
   offsetTop: PropTypes.number,
   offsetRight: PropTypes.number,
   scale: PropTypes.any,
+  valueAccessor: PropTypes.string,
 };
 
 export default XAxis;

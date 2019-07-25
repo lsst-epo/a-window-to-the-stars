@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-class Point extends React.PureComponent {
+class Bar extends React.PureComponent {
   render() {
     const { x, y, width, height, selected, hovered, classes } = this.props;
     const barClasses = classnames(`data-bar ${classes}`, {
@@ -25,7 +25,7 @@ class Point extends React.PureComponent {
   }
 }
 
-Point.propTypes = {
+Bar.propTypes = {
   selected: PropTypes.bool,
   hovered: PropTypes.bool,
   x: PropTypes.number,
@@ -35,4 +35,4 @@ Point.propTypes = {
   classes: PropTypes.string,
 };
 
-export default Point;
+export default Bar;

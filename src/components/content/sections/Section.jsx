@@ -10,6 +10,15 @@ class Section extends React.PureComponent {
     paginationLocation: 1,
   };
 
+  getPreviousLink(link, id) {
+    const potentialLink = parseInt(id, 10) - 1;
+    return link || potentialLink < 0 ? null : `/${potentialLink}`;
+  }
+
+  getNextLink(link, id) {
+    return link || `/${parseInt(id, 10) + 1}`;
+  }
+
   render() {
     const {
       children,
@@ -25,8 +34,8 @@ class Section extends React.PureComponent {
 
     return (
       <Page
-        next={next || `/${parseInt(id, 10) + 1}`}
-        previous={previous || `/${parseInt(id, 10) - 1}`}
+        next={this.getNextLink(next, id)}
+        previous={this.getPreviousLink(previous, id)}
         previousText="Back"
         nextText="Continue"
         nextHandler={nextHandler}

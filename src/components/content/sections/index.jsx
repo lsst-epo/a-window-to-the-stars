@@ -1,7 +1,6 @@
 import React from 'react';
 import reactn from 'reactn';
 import { Switch, Route } from 'react-router-dom';
-// import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
 import API from '../../site/API';
@@ -270,6 +269,9 @@ class Sections extends React.PureComponent {
             <StarPropertiesObservations
               id="10"
               scrollable={0}
+              histogramDomain={[3500, 10000]}
+              histogramAccessor="temperature"
+              histogramAxisLabel="Temperature (K)"
               scatterXDomain={[10000, 3500]}
               scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"
@@ -282,8 +284,26 @@ class Sections extends React.PureComponent {
         <Route
           path="/11"
           render={() => (
-            <Results
+            <StarPropertiesObservations
               id="11"
+              scrollable={0}
+              histogramDomain={[-2, 4]}
+              histogramAccessor="luminosity"
+              histogramAxisLabel="Solar Luminosity"
+              scatterXDomain={[10000, 3500]}
+              scatterYDomain={[0.01, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+              questionsRange={range(28, 32)}
+              questions={this.getQuestions(range(28, 32))}
+              getActiveId={this.getActiveId}
+            />
+          )}
+        />
+        <Route
+          path="/12"
+          render={() => (
+            <Results
+              id="12"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}
@@ -291,9 +311,7 @@ class Sections extends React.PureComponent {
                 .concat([14])
                 .concat(range(10, 13))
                 .concat([19])
-                .concat(range(15, 19))
-                .concat(range(20, 24))
-                .concat(range(24, 28))}
+                .concat(range(15, 32))}
             />
           )}
         />
@@ -301,9 +319,5 @@ class Sections extends React.PureComponent {
     );
   }
 }
-
-// Sections.propTypes = {
-//   dataPath: PropTypes.string,
-// };
 
 export default Sections;

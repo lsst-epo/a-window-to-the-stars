@@ -29,16 +29,6 @@ class ScatterPlot extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const {
-      xDomain,
-      yDomain,
-      width,
-      height,
-      padding,
-      offsetRight,
-      offsetTop,
-    } = props;
-
     this.state = {
       selectedData: null,
       hoverPointData: null,
@@ -49,8 +39,6 @@ class ScatterPlot extends React.PureComponent {
       tooltipPosY: 0,
       showTooltip: false,
       loading: true,
-      xScale: this.getXScale(xDomain, width, padding, offsetRight),
-      yScale: this.getYScale(yDomain, height, padding, offsetTop),
     };
 
     this.svgEl = React.createRef();
@@ -276,6 +264,8 @@ class ScatterPlot extends React.PureComponent {
       offsetRight,
       xAxisLabel,
       yAxisLabel,
+      xDomain,
+      yDomain,
       useLasso,
       xValueAccessor,
       yValueAccessor,
@@ -291,10 +281,11 @@ class ScatterPlot extends React.PureComponent {
       showTooltip,
       selectedData,
       showLasso,
-      xScale,
-      yScale,
       loading,
     } = this.state;
+
+    const xScale = this.getXScale(xDomain, width, padding, offsetRight);
+    const yScale = this.getYScale(yDomain, height, padding, offsetTop);
 
     const svgClasses = classnames('hrd svg-chart scatter-plot', {
       loading,

@@ -90,21 +90,24 @@ class Tooltip extends React.PureComponent {
         {barData && (
           <div>
             <div>{barData.length} stars</div>
-            <div>
-              {valueAccessor === 'temperature' && (
-                <React.Fragment>
-                  <span>{formatValue(formattedData[0], 0)}</span>
-                  <span className="unit">K</span>
-                </React.Fragment>
-              )}
-              {` – `}
-              {valueAccessor === 'temperature' && (
-                <React.Fragment>
-                  <span>{formatValue(formattedData[1], 0)}</span>
-                  <span className="unit">K</span>
-                </React.Fragment>
-              )}
-            </div>
+            {valueAccessor === 'temperature' && (
+              <div>
+                <span>{formatValue(formattedData[0], 0)}</span>
+                <span className="unit">K</span>
+                {` – `}
+                <span>{formatValue(formattedData[1], 0)}</span>
+                <span className="unit">K</span>
+              </div>
+            )}
+            {valueAccessor === 'luminosity' && (
+              <div>
+                <span>{formatValue(formattedData[0], 4)}</span>
+                <sub className="unit">&#8857;</sub>
+                {` – `}
+                <span>{formatValue(formattedData[1], 4)}</span>
+                <sub className="unit">&#8857;</sub>
+              </div>
+            )}
           </div>
         )}
       </div>
