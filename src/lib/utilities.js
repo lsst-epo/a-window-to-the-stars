@@ -14,3 +14,7 @@ export const extentFromSet = function(data, valueAccessor) {
     return datum[valueAccessor];
   });
 };
+
+export const capitalize = function(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};

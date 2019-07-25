@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
+import { max as d3Max } from 'd3-array';
 import {
-  histogram as d3Histogram,
-  max as d3Max,
-  thresholdSturges as d3ThresholdSturges,
-} from 'd3-array';
-import {
-  scalePoint as d3ScaleBand,
+  scalePoint as d3ScalePoint,
   scaleLinear as d3ScaleLinear,
 } from 'd3-scale';
 import 'd3-transition';
@@ -19,7 +15,7 @@ import YAxis from './YAxis.jsx';
 import Bars from './Bars.jsx';
 import Tooltip from './Tooltip.jsx';
 
-class Histogram extends React.Component {
+class Histogram extends React.PureComponent {
   static defaultProps = {
     width: 600,
     height: 600,
@@ -33,7 +29,6 @@ class Histogram extends React.Component {
     super(props);
 
     this.state = {
-      data: [],
       selectedData: null,
       hoverDataBar: null,
       tooltipPosX: 0,
@@ -48,49 +43,44 @@ class Histogram extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      data,
-      valueAccessor,
-      width,
-      height,
-      padding,
-      offsetTop,
-      offsetRight,
-    } = this.props;
-
-    const histData = this.histogramData(data, valueAccessor);
-    const xScale = this.getXScale(histData, width, padding, offsetRight);
-    const yScale = this.getYScale(histData, height, padding, offsetTop);
-
-    this.setState(
-      prevState => ({
-        ...prevState,
-        data: histData,
-        xScale,
-        yScale,
-      }),
-      this.updateHistogram
-    );
-  }
-
-  componentDidUpdate(prevProps) {
     const { data } = this.props;
 
-    if (prevProps.data !== data && !isEmpty(data)) {
+    if (!isEmpty(data)) {
       this.updateHistogram();
     }
   }
 
-  getXScale(data, width, padding, offsetRight) {
+  componentDidUpdate() {
+    const { data } = this.props;
+    const { loading } = this.state;
+
+    if (!isEmpty(data) && loading) {
+      this.updateHistogram();
+    }
+  }
+
+  getXScale(data, valueAccessor, width, padding, offsetRight) {
+    if (valueAccessor === 'luminosity') {
+      const last = data[data.length - 1];
+      const domain = data.map(d => {
+        return d.x0;
+      });
+
+      domain.push(last.x1);
+      return d3ScalePoint()
+        .domain(domain)
+        .range([padding, width - offsetRight]);
+    }
+
     const last = data[data.length - 1];
-    const newDomain = data.map(d => {
+    const domain = data.map(d => {
       return d.x0;
     });
 
-    newDomain.push(last.x1);
+    domain.push(last.x1);
 
-    return d3ScaleBand()
-      .domain(newDomain)
+    return d3ScalePoint()
+      .domain(domain)
       .range([padding, width - offsetRight]);
   }
 
@@ -103,14 +93,6 @@ class Histogram extends React.Component {
         }),
       ])
       .range([height - padding, offsetTop]);
-  }
-
-  histogramData(data, valueAccessor) {
-    return d3Histogram()
-      .value(d => {
-        return d[valueAccessor]; // eslint-disable-line dot-notation
-      })
-      .thresholds(d3ThresholdSturges)(data);
   }
 
   clearGraph() {
@@ -192,7 +174,8 @@ class Histogram extends React.Component {
   }
 
   updateBars() {
-    const { data, loading } = this.state;
+    const { loading } = this.state;
+    const { data } = this.props;
     const $histogram = d3Select(this.svgEl.current);
 
     $histogram
@@ -212,13 +195,14 @@ class Histogram extends React.Component {
 
   updateHistogram() {
     const { preSelected } = this.props;
-    this.updateBars();
 
+    this.updateBars();
     if (!preSelected) this.addEventListeners();
   }
 
   render() {
     const {
+      data,
       width,
       height,
       padding,
@@ -230,16 +214,22 @@ class Histogram extends React.Component {
     } = this.props;
 
     const {
-      data,
       hoveredData,
       selectedData,
-      xScale,
-      yScale,
       loading,
       showTooltip,
       tooltipPosY,
       tooltipPosX,
     } = this.state;
+
+    const xScale = this.getXScale(
+      data,
+      valueAccessor,
+      width,
+      padding,
+      offsetRight
+    );
+    const yScale = this.getYScale(data, height, padding, offsetTop);
 
     const svgClasses = classnames('histogram svg-chart', {
       loading,
@@ -273,6 +263,7 @@ class Histogram extends React.Component {
           {xScale && yScale && (
             <Bars
               data={data}
+              valueAccessor={valueAccessor}
               selectedData={selectedData}
               hoveredData={hoveredData}
               offsetTop={offsetTop}
@@ -289,6 +280,7 @@ class Histogram extends React.Component {
               offsetTop={offsetTop}
               offsetRight={offsetRight}
               scale={xScale}
+              valueAccessor={valueAccessor}
             />
           )}
           {yScale && (

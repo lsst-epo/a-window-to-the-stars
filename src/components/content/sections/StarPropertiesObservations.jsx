@@ -1,6 +1,14 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
+import {
+  histogram as d3Histogram,
+  thresholdScott as d3ThresholdScott,
+} from 'd3-array';
+// thresholdSturges as d3ThresholdSturges,
+// thresholdScott as d3ThresholdScott,
+// threshholdFreedmanDiaconis as d3ThresholdFreedmanDiaconis,
+import { capitalize } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
@@ -101,17 +109,41 @@ class StarPropertiesObservations extends React.PureComponent {
     this.setActiveQuestion(id);
   };
 
+  histogramData(data, valueAccessor, domain) {
+    if (valueAccessor === 'luminosity') {
+      return d3Histogram()
+        .value(d => {
+          return Math.log10(d[valueAccessor]); // eslint-disable-line dot-notation
+        })
+        .thresholds(d3ThresholdScott)(data);
+    }
+
+    return d3Histogram()
+      .value(d => {
+        return d[valueAccessor]; // eslint-disable-line dot-notation
+      })
+      .domain(domain)(data);
+  }
+
   render() {
     const {
       clusterData,
       questions,
       scatterXDomain,
       scatterYDomain,
+      histogramAccessor,
+      histogramDomain,
+      histogramAxisLabel,
     } = this.props;
     const { activeGraph, activeId } = this.state;
     const { answers } = this.global;
     const activeAnswer = answers[activeId];
     const activeData = activeAnswer ? activeAnswer.data : null;
+    const histogramData = this.histogramData(
+      clusterData,
+      histogramAccessor,
+      histogramDomain
+    );
 
     return (
       <Section {...this.props}>
@@ -151,7 +183,7 @@ class StarPropertiesObservations extends React.PureComponent {
             className="graph-selector"
             options={[
               { label: 'H-R Diagram', value: 0 },
-              { label: 'Temperature Histogram', value: 1 },
+              { label: `${capitalize(histogramAccessor)} Histogram`, value: 1 },
             ]}
             label="Graph Selector"
             name="Graph Selector"
@@ -172,10 +204,10 @@ class StarPropertiesObservations extends React.PureComponent {
             )}
             {activeGraph === 1 && (
               <Histogram
-                data={clusterData}
+                data={histogramData}
                 selectedData={activeData}
-                valueAccessor="temperature"
-                xAxisLabel="Temperature (K)"
+                valueAccessor={histogramAccessor}
+                xAxisLabel={histogramAxisLabel}
                 dataSelectionCallback={this.onGraphSelection}
               />
             )}
@@ -194,6 +226,9 @@ StarPropertiesObservations.propTypes = {
   getActiveId: PropTypes.func,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
+  histogramAccessor: PropTypes.string,
+  histogramDomain: PropTypes.array,
+  histogramAxisLabel: PropTypes.string,
 };
 
 export default withAnswerHandlers(
