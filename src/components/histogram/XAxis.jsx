@@ -46,9 +46,23 @@ class XAxis extends React.Component {
         .append('tspan')
         .attr('baseline-shift', 'super')
         .text(d => {
-          // const exponent = Math.round(d);
-          // return exponent === 0 ? '' : exponent;
           return d === 0 ? '' : d;
+        });
+    } else if (valueAccessor === 'lifetime') {
+      const xAxis = this.getAxis(scale, valueAccessor);
+
+      $xAxis
+        .call(xAxis)
+        .selectAll('.tick text')
+        .text(d => {
+          const base = d.toExponential(1).split('e+')[0];
+          return `${Math.round(base)}x10`;
+        })
+        .append('tspan')
+        .attr('baseline-shift', 'super')
+        .text(d => {
+          const exp = d.toExponential(1).split('e+')[1];
+          return exp === '0' ? '' : exp;
         });
     } else {
       const xAxis = this.getAxis(scale, valueAccessor);
@@ -66,6 +80,10 @@ class XAxis extends React.Component {
   getAxis(scale, valueAccessor) {
     if (valueAccessor === 'luminosity') {
       return d3AxisBottom(scale);
+    }
+
+    if (valueAccessor === 'mass') {
+      return d3AxisBottom(scale).tickFormat(d3Format('0.01f'));
     }
 
     return d3AxisBottom(scale).tickFormat(d3Format('1.0f'));

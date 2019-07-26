@@ -5,9 +5,9 @@ import {
   histogram as d3Histogram,
   thresholdScott as d3ThresholdScott,
 } from 'd3-array';
+// threshholdFreedmanDiaconis as d3ThresholdFreedmanDiaconis,
 // thresholdSturges as d3ThresholdSturges,
 // thresholdScott as d3ThresholdScott,
-// threshholdFreedmanDiaconis as d3ThresholdFreedmanDiaconis,
 import { capitalize } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
@@ -34,8 +34,10 @@ class StarPropertiesObservations extends React.PureComponent {
   componentDidMount() {
     const { getActiveId, questionsRange } = this.props;
 
-    const activeId = getActiveId(questionsRange);
-    this.setActiveQuestion(activeId);
+    if (getActiveId) {
+      const activeId = getActiveId(questionsRange);
+      this.setActiveQuestion(activeId);
+    }
   }
 
   selectItems(clusters) {
@@ -118,11 +120,25 @@ class StarPropertiesObservations extends React.PureComponent {
         .thresholds(d3ThresholdScott)(data);
     }
 
-    return d3Histogram()
-      .value(d => {
-        return d[valueAccessor]; // eslint-disable-line dot-notation
-      })
-      .domain(domain)(data);
+    if (valueAccessor === 'radius') {
+      return d3Histogram()
+        .value(d => {
+          return d[valueAccessor]; // eslint-disable-line dot-notation
+        })
+        .thresholds(d3ThresholdScott)(data);
+    }
+
+    if (domain) {
+      return d3Histogram()
+        .value(d => {
+          return d[valueAccessor]; // eslint-disable-line dot-notation
+        })
+        .domain(domain)(data);
+    }
+
+    return d3Histogram().value(d => {
+      return d[valueAccessor]; // eslint-disable-line dot-notation
+    })(data);
   }
 
   render() {
