@@ -302,8 +302,50 @@ class Sections extends React.PureComponent {
         <Route
           path="/12"
           render={() => (
-            <Results
+            <StarPropertiesObservations
               id="12"
+              scrollable={0}
+              histogramAccessor="mass"
+              histogramAxisLabel="Stellar Mass (Msun)"
+              scatterXDomain={[10000, 3500]}
+              scatterYDomain={[0.01, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+            />
+          )}
+        />
+        <Route
+          path="/13"
+          render={() => (
+            <StarPropertiesObservations
+              id="13"
+              scrollable={0}
+              histogramAccessor="lifetime"
+              histogramAxisLabel="Lifetime (Gyr)"
+              scatterXDomain={[10000, 3500]}
+              scatterYDomain={[0.01, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+            />
+          )}
+        />
+        <Route
+          path="/14"
+          render={() => (
+            <StarPropertiesObservations
+              id="14"
+              scrollable={0}
+              histogramAccessor="radius"
+              histogramAxisLabel="Radius (Gyr)"
+              scatterXDomain={[10000, 3500]}
+              scatterYDomain={[0.01, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+            />
+          )}
+        />
+        <Route
+          path="/15"
+          render={() => (
+            <Results
+              id="15"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}

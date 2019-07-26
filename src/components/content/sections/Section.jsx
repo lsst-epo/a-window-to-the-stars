@@ -13,7 +13,7 @@ class Section extends React.PureComponent {
   getPreviousLink(link, id) {
     const nextId = parseInt(id, 10) - 1;
     const potentialLink = nextId < 0 ? null : `/${nextId}`;
-    console.log(link, potentialLink, link || potentialLink);
+
     return link || potentialLink;
   }
 

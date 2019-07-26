@@ -218,14 +218,14 @@
     "id": "26",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Temperature Histogram, select the most common temperature range for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "label": "Using the Temperature Histogram, select the most common range of temperatures for these stars. (Hint: Which bar is the highest in the histogram?)",
     "answerAccessor": "temperature range",
     "answerPre": "The most common temperature range for these stars is"
   },
   "27": {
     "id": "27",
     "type": "select",
-    "label": "What color are the stars in the most common temperature range?",
+    "label": "What color are the stars in the most common range of temperatures?",
     "answerAccessor": "select",
     "placeholder": "Select a color",
     "options": [
@@ -235,7 +235,7 @@
       {"label": "Orange", "value": "Orange"},
       {"label": "Red", "value": "Red"}
     ],
-    "answerPre": "The most common color for stars in this temperature is"
+    "answerPre": "The most common color for stars in this range is"
   },
   "28": {
     "id": "28",
@@ -257,14 +257,14 @@
     "id": "30",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Luminosity Histogram, select the most common luminosity range for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "label": "Using the Luminosity Histogram, select the most common range of luminosities for these stars. (Hint: Which bar is the highest in the histogram?)",
     "answerAccessor": "luminosity range",
     "answerPre": "The most common luminosity range for these stars is"
   },
   "31": {
     "id": "31",
     "type": "select",
-    "label": "What color are the stars in the most common luminosity range?",
+    "label": "What color are the stars in the most common range of luminosities?",
     "answerAccessor": "select",
     "placeholder": "Select a color",
     "options": [
@@ -274,6 +274,96 @@
       {"label": "Orange", "value": "Orange"},
       {"label": "Red", "value": "Red"}
     ],
-    "answerPre": "The most common color for stars in this luminosity is"
+    "answerPre": "The most common color for stars in this range is"
+  },
+  "32": {
+    "id": "32",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Mass Histogram, select the range containing the least massive stars. (Hint: Each bar in the histogram is a range of stellar masses.)",
+    "answerAccessor": "luminosity",
+    "answerPre": "The smallest stellar mass is"
+  },
+  "33": {
+    "id": "33",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Mass Histogram, select the range containing the most massive stars.",
+    "answerAccessor": "luminosity",
+    "answerPre": "The largest stellar mass is"
+  },
+  "34": {
+    "id": "34",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Mass Histogram, select the most common range of masses for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "answerAccessor": "luminosity range",
+    "answerPre": "The most common mass range for these stars is"
+  },
+  "35": {
+    "id": "35",
+    "type": "select",
+    "label": "What color are the stars in the most common range of masses?",
+    "answerAccessor": "select",
+    "placeholder": "Select a color",
+    "options": [
+      {"label": "Blue", "value": "Blue"},
+      {"label": "White", "value": "White"},
+      {"label": "Yellow", "value": "Yellow"},
+      {"label": "Orange", "value": "Orange"},
+      {"label": "Red", "value": "Red"}
+    ],
+    "answerPre": "The most common color for stars in this range is"
+  },
+  "36": {
+    "id": "36",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Radius Histogram, select the range containing the smallest stars. (Hint: Each bar in the histogram is a range of stellar masses.)",
+    "answerAccessor": "luminosity",
+    "answerPre": "The smallest radius is"
+  },
+  "37": {
+    "id": "37",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Radius Histogram, select the range containing the largest stars.",
+    "answerAccessor": "luminosity",
+    "answerPre": "The largest radius is"
+  },
+  "38": {
+    "id": "38",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Radius Histogram, select the most common range of Radii for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "answerAccessor": "luminosity range",
+    "answerPre": "The most common radii for these stars is"
+  },
+  "39": {
+    "id": "39",
+    "type": "select",
+    "label": "What color are the stars in the most common range of Radii?",
+    "answerAccessor": "select",
+    "placeholder": "Select a color",
+    "options": [
+      {"label": "Blue", "value": "Blue"},
+      {"label": "White", "value": "White"},
+      {"label": "Yellow", "value": "Yellow"},
+      {"label": "Orange", "value": "Orange"},
+      {"label": "Red", "value": "Red"}
+    ],
+    "answerPre": "The most common color for stars in this range is"
+  },
+  "40": {
+    "id": "40",
+    "type": "textArea",
+    "label": "In which areas of the H-R Diagram are the smallest stars located?",
+    "answerAccessor": "text"
+  },
+  "41": {
+    "id": "41",
+    "type": "textArea",
+    "label": "In which areas of the H-R Diagram are the largest stars located?",
+    "answerAccessor": "text"
   }
 }
