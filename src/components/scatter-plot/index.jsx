@@ -10,7 +10,7 @@ import { arrayify } from '../../lib/utilities.js';
 import Points from './Points.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
-import Tooltip from './Tooltip.jsx';
+import Tooltip from '../charts/shared/Tooltip.jsx';
 import Legend from './Legend.jsx';
 import Lasso from './Lasso.jsx';
 
@@ -24,6 +24,7 @@ class ScatterPlot extends React.PureComponent {
     xDomain: [14000, 3000],
     yDomain: [0.01, 10000],
     useLasso: false,
+    tooltipAccessors: ['temperature', 'luminosity'],
   };
 
   constructor(props) {
@@ -272,6 +273,7 @@ class ScatterPlot extends React.PureComponent {
       multiple,
       legend,
       showColorLegend,
+      tooltipAccessors,
     } = this.props;
 
     const {
@@ -308,10 +310,11 @@ class ScatterPlot extends React.PureComponent {
           {legend && !loading && <Legend content={legend} />}
           <Tooltip
             key="tooltip"
-            pointData={selectedData || hoverPointData}
+            data={selectedData || hoverPointData}
             posX={tooltipPosX}
             posY={tooltipPosY}
             show={showTooltip}
+            accessors={tooltipAccessors}
           />
           <svg
             key="scatter-plot"
@@ -402,6 +405,7 @@ ScatterPlot.propTypes = {
   multiple: PropTypes.bool,
   legend: PropTypes.node,
   showColorLegend: PropTypes.bool,
+  tooltipAccessors: PropTypes.array,
 };
 
 export default ScatterPlot;

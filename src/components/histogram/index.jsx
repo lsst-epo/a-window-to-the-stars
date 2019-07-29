@@ -13,7 +13,7 @@ import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
 import Bars from './Bars.jsx';
-import Tooltip from './Tooltip.jsx';
+import Tooltip from '../charts/shared/Tooltip.jsx';
 
 class Histogram extends React.PureComponent {
   static defaultProps = {
@@ -23,6 +23,7 @@ class Histogram extends React.PureComponent {
     offsetTop: 7,
     offsetRight: 7,
     yAxisLabel: 'Count',
+    tooltipAccessors: ['temperature'],
   };
 
   constructor(props) {
@@ -211,6 +212,7 @@ class Histogram extends React.PureComponent {
       offsetTop,
       offsetRight,
       valueAccessor,
+      tooltipAccessors,
     } = this.props;
 
     const {
@@ -247,11 +249,11 @@ class Histogram extends React.PureComponent {
         )}
         <Tooltip
           key="tooltip"
-          barData={selectedData || hoveredData}
+          data={selectedData || hoveredData}
           posX={tooltipPosX}
           posY={tooltipPosY}
           show={showTooltip}
-          valueAccessor={valueAccessor}
+          accessors={tooltipAccessors}
         />
         <svg
           key={valueAccessor}
@@ -311,6 +313,7 @@ Histogram.propTypes = {
   yAxisLabel: PropTypes.string,
   valueAccessor: PropTypes.string,
   preSelected: PropTypes.bool,
+  tooltipAccessors: PropTypes.array,
   // multiple: PropTypes.bool,
 };
 

@@ -107,5 +107,5 @@ a:not([type='button']) {
 
 b,
 strong {
-  // font-weight: $bold;
+  @include copySecondary;
 }

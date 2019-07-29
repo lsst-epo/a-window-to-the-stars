@@ -29,9 +29,13 @@ export const withAnswerHandlers = ComposedComponent => {
         (answerAccessor === 'temperature' || answerAccessor === 'luminosity')
       ) {
         content = data[0][answerAccessor];
-      } else if (answerAccessor === 'count') {
+      }
+
+      if (answerAccessor === 'count') {
         content = data.length;
-      } else if (answerAccessor === 'temperature range') {
+      }
+
+      if (answerAccessor === 'temperature range') {
         content = extentFromSet(data, 'temperature');
       }
 

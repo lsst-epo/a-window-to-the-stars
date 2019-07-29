@@ -1,3 +1,4 @@
+// Graph selection QAs
 .qas {
   &.form {
     margin-top: 1.5 * $minPadding;
@@ -55,7 +56,8 @@
           margin-right: $minPadding * 0.5;
         }
 
-        .answer-content, .unit {
+        .answer-content,
+        .unit {
           font-weight: $medium;
           color: $baseSecondaryDark;
         }
@@ -73,18 +75,21 @@
   }
 }
 
+// Select Dropdown QAs
 .qa-select {
   .answer-select {
     .select-wrapper::after {
       border-top-color: $neutral20;
     }
 
-    select, label {
+    select,
+    label {
       color: $neutral20;
     }
 
     select {
-      &:focus, &:hover {
+      &:focus,
+      &:hover {
         + hr {
           max-height: 1px;
           background-color: $neutral20;
@@ -98,7 +103,8 @@
     }
   }
 
-  &.active, &.answered {
+  &.active,
+  &.answered {
     .answer-select {
       .select-wrapper::after {
         border-top-color: $neutral40;
@@ -111,7 +117,8 @@
       select {
         color: $neutral40;
 
-        &:focus, &:hover {
+        &:focus,
+        &:hover {
           + hr {
             max-height: 2px;
             background-color: $basePrimary;
@@ -123,6 +130,14 @@
         max-height: 1px;
         background-color: $neutral40;
       }
+    }
+  }
+}
+
+// Text Input QAs
+.md-text-field-container {
+  .unanswered {
+    hr {
     }
   }
 }
