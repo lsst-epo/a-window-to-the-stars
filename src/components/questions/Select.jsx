@@ -14,30 +14,41 @@ class QuestionSelect extends React.PureComponent {
 
   render() {
     const { question, activeId, answer } = this.props;
-    const { id, label, options, placeholder } = question;
+    const {
+      id,
+      label,
+      srLabel,
+      labelPre,
+      labelPost,
+      options,
+      placeholder,
+    } = question;
     const active = activeId === id;
     const answered = !isEmpty(answer);
     const classes = classnames('qa qa-select', {
       active,
       answered,
       unanswered: !answered,
+      'inline-select': labelPre || labelPost,
     });
 
     return (
       <div className={classes}>
+        {labelPre && <span className="label-pre">{labelPre}&nbsp;</span>}
         <Select
           id={`qa-${id}`}
           className="answer-select"
           options={options}
-          label={label}
-          name={label}
+          label={label || srLabel}
+          name={label || srLabel}
           value={answered ? answer.content : ''}
           handleBlur={this.onChange}
           handleChange={this.onChange}
           placeholder={placeholder}
           disabled={!active && !answered}
-          showLabel
+          showLabel={!!label}
         />
+        {labelPost && <span className="label-pre">&nbsp;{labelPost}</span>}
       </div>
     );
   }

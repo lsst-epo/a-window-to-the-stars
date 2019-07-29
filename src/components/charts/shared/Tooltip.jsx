@@ -92,6 +92,10 @@ class Tooltip extends React.PureComponent {
       return formatValue(data, 2);
     }
 
+    if (accessor === 'lifetime') {
+      return formatValue(data / 1000000000, 2);
+    }
+
     return formatValue(data, 0);
   }
 

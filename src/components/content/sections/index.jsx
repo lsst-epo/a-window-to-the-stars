@@ -13,6 +13,7 @@ import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
 import StarPropertiesObservations from './StarPropertiesObservations';
 import EstimatingStellarRadii from './EstimatingStellarRadii';
+import EstimatingStellarLifetimes from './EstimatingStellarLifetimes';
 import Results from './Results';
 import clusterA from '../../../assets/images/ngc188_FINAL.jpg';
 import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
@@ -20,14 +21,20 @@ import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
 @reactn
 class Sections extends React.PureComponent {
   componentDidMount() {
-    if (isEmpty(this.global.questions)) {
-      API.get('static-data/questions.json').then(res => {
-        this.setGlobal(prevGlobal => ({
-          ...prevGlobal,
-          questions: res.data,
-        }));
-      });
-    }
+    // if (isEmpty(this.global.questions)) {
+    //   API.get('static-data/questions.json').then(res => {
+    //     this.setGlobal(prevGlobal => ({
+    //       ...prevGlobal,
+    //       questions: res.data,
+    //     }));
+    //   });
+    // }
+    API.get('static-data/questions.json').then(res => {
+      this.setGlobal(prevGlobal => ({
+        ...prevGlobal,
+        questions: res.data,
+      }));
+    });
   }
 
   onFinish = () => {
@@ -317,7 +324,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/13"
           render={() => (
-            <StarPropertiesObservations
+            <EstimatingStellarLifetimes
               id="13"
               scrollable={0}
               histogramAccessor="lifetime"
@@ -325,6 +332,9 @@ class Sections extends React.PureComponent {
               scatterXDomain={[10000, 3500]}
               scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"
+              questionsRange={range(42, 49)}
+              questions={this.getQuestions(range(42, 49))}
+              getActiveId={this.getActiveId}
             />
           )}
         />
@@ -359,6 +369,7 @@ class Sections extends React.PureComponent {
                 .concat([19])
                 .concat(range(15, 19))
                 .concat(range(20, 32))
+                .concat(range(42, 49))
                 .concat(range(36, 42))}
             />
           )}

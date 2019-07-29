@@ -243,7 +243,7 @@
     "tool": "selection",
     "label": "Using the H-R Diagram, select the dimmest star",
     "answerAccessor": "luminosity",
-    "answerPre": "The lowest luminosity is"
+    "answerPre": "The dimmest star has a luminosity of"
   },
   "29": {
     "id": "29",
@@ -251,7 +251,7 @@
     "tool": "selection",
     "label": "Using the H-R Diagram, select the brightest star",
     "answerAccessor": "luminosity",
-    "answerPre": "The highest luminosity is"
+    "answerPre": "The brightest star has a luminosity of"
   },
   "30": {
     "id": "30",
@@ -365,5 +365,80 @@
     "type": "textArea",
     "label": "In which areas of the H-R Diagram are the largest stars located?",
     "answerAccessor": "text"
+  },
+  "42": {
+    "id": "42",
+    "type": "select",
+    "labelPre": "Low mass main sequence stars have",
+    "labelPost": "lifetimes compared to high mass stars.",
+    "SRLabel": "Do low mass main sequence stars have longer or shorter lifetimes compared to high mass stars?",
+    "answerAccessor": "select",
+    "placeholder": "Select a lifetime description",
+    "options": [
+      {"label": "longer", "value": "longer"},
+      {"label": "shorter", "value": "shorter"}
+    ],
+    "answerPre": "Compared to high mass stars, low mass main sequence stars' lifetimes are"
+  },
+  "43": {
+    "id": "43",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the H-R Diagram, select the star with the shortest lifetime",
+    "answerAccessor": "lifetime",
+    "answerPre": "The longest stellar lifetime is"
+  },
+  "44": {
+    "id": "44",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the H-R Diagram, select the star with the longest lifetime",
+    "answerAccessor": "lifetime",
+    "answerPre": "The longest stellar lifetime is"
+  },
+  "45": {
+    "id": "45",
+    "type": "accordion",
+    "tool": "selection",
+    "label": "Using the Lifetime Histogram, select the most common range of lifetimes for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "answerAccessor": "lifetime range",
+    "answerPre": "The most comon stellar lifetime range is"
+  },
+  "46": {
+    "id": "46",
+    "type": "select",
+    "label": "What color are the stars in the most common range of lifetimes?",
+    "answerAccessor": "select",
+    "placeholder": "Select a color",
+    "options": [
+      {"label": "Blue", "value": "Blue"},
+      {"label": "White", "value": "White"},
+      {"label": "Yellow", "value": "Yellow"},
+      {"label": "Orange", "value": "Orange"},
+      {"label": "Red", "value": "Red"}
+    ],
+    "answerPre": "The most common color for stars in this range is"
+  },
+  "47": {
+    "id": "47",
+    "type": "textArea",
+    "label": "What is the main sequence lifetime of the Sun?",
+    "answerAccessor": "text"
+  },
+  "48": {
+    "id": "48",
+    "type": "select",
+    "labelPre": "We can estimate the age of the Sun with equations that use the Sun’s mass and our understanding of nuclear fusion processes. We also know from observations of other star- forming systems that the rocky objects in the Solar System formed at the same time as the Sun. Radiometric dates derived from meteorites and moon rocks are consistent with an estimated age of about 5 billion years. Based on this evidence, the Sun is",
+    "labelPost": "of its main sequence lifetime.",
+    "SRLabel": "In what stage of its main sequence lifetime is the Sun?",
+    "answerAccessor": "select",
+    "placeholder": "Select a lifetime description",
+    "options": [
+      {"label": "in the early stages", "value": "in the early stages of"},
+      {"label": "halfway through", "value": "halfway through"},
+      {"label": "in the late stages", "value": "in the late stages of"}
+    ],
+    "answerPre": "The Sun is",
+    "answerPost": "its main sequence lifetime"
   }
 }
