@@ -14,6 +14,16 @@
     }
   }
 
+  &.graph-selector {
+    @include headingSecondary;
+    margin-bottom: $verticalSpace;
+
+    select {
+      padding-top: 0;
+    }
+
+  }
+
   .select-wrapper {
     position: relative;
     display: inline-block;
@@ -68,5 +78,22 @@
     background-color: $neutral40;
     border: 0;
     transition: max-height $duration $timing, background-color $durationSlow $timing;
+  }
+
+
+}
+
+.inline-select {
+  .select {
+    display: inline-block;
+
+    .select-wrapper::after {
+      top: calc(50% - 3px);
+      right: 8px;
+    }
+
+    select {
+      padding: 0 28px 8px 8px;
+    }
   }
 }

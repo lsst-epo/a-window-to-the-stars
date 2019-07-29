@@ -77,13 +77,15 @@
 
 // Select Dropdown QAs
 .qa-select {
-  .answer-select {
+  &.unanswered:not(.active) {
     .select-wrapper::after {
       border-top-color: $neutral20;
     }
 
     select,
-    label {
+    label,
+    .label-pre,
+    .label-post {
       color: $neutral20;
     }
 
@@ -103,41 +105,30 @@
     }
   }
 
-  &.active,
-  &.answered {
-    .answer-select {
-      .select-wrapper::after {
-        border-top-color: $neutral40;
-      }
-
-      label {
-        color: $basePrimary;
-      }
-
-      select {
-        color: $neutral40;
-
-        &:focus,
-        &:hover {
-          + hr {
-            max-height: 2px;
-            background-color: $basePrimary;
-          }
-        }
-      }
-
-      hr {
-        max-height: 1px;
-        background-color: $neutral40;
-      }
-    }
+  + .qas {
+    margin-top: calc(0.5 * #{$verticalSpace} + 16px);
   }
 }
 
 // Text Input QAs
 .md-text-field-container {
-  .unanswered {
+  &.unanswered:not(.active) {
+    label {
+      color: $neutral20;
+    }
+
     hr {
+      background-color: $neutral20;
+    }
+  }
+
+  .md-floating-label {
+    &.md-floating-label--inactive {
+      @include copySecondary;
+    }
+
+    &.md-floating-label--floating {
+      font-size: 14px;
     }
   }
 }
