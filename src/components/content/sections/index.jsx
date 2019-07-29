@@ -12,6 +12,7 @@ import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
 import StarPropertiesObservations from './StarPropertiesObservations';
+import EstimatingStellarRadii from './EstimatingStellarRadii';
 import Results from './Results';
 import clusterA from '../../../assets/images/ngc188_FINAL.jpg';
 import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
@@ -330,7 +331,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/14"
           render={() => (
-            <StarPropertiesObservations
+            <EstimatingStellarRadii
               id="14"
               scrollable={0}
               histogramAccessor="radius"
@@ -338,6 +339,9 @@ class Sections extends React.PureComponent {
               scatterXDomain={[10000, 3500]}
               scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"
+              questionsRange={range(36, 42)}
+              questions={this.getQuestions(range(36, 42))}
+              getActiveId={this.getActiveId}
             />
           )}
         />
@@ -354,7 +358,8 @@ class Sections extends React.PureComponent {
                 .concat(range(10, 13))
                 .concat([19])
                 .concat(range(15, 19))
-                .concat(range(20, 32))}
+                .concat(range(20, 32))
+                .concat(range(36, 42))}
             />
           )}
         />

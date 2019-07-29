@@ -9,7 +9,7 @@ class QuestionSelect extends React.PureComponent {
     const { question, handleAnswerSelect } = this.props;
     const { value } = e.target;
 
-    handleAnswerSelect(question.id, value);
+    handleAnswerSelect(question.id, value, e.type);
   };
 
   render() {
@@ -20,6 +20,7 @@ class QuestionSelect extends React.PureComponent {
     const classes = classnames('qa qa-select', {
       active,
       answered,
+      unanswered: !answered,
     });
 
     return (
@@ -30,6 +31,8 @@ class QuestionSelect extends React.PureComponent {
           options={options}
           label={label}
           name={label}
+          value={answered ? answer.content : ''}
+          handleBlur={this.onChange}
           handleChange={this.onChange}
           placeholder={placeholder}
           disabled={!active && !answered}

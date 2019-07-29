@@ -29,6 +29,13 @@ class ExploringStarClusters extends React.PureComponent {
     }));
   }
 
+  advanceActiveQuestion() {
+    const { getActiveId, questionsRange } = this.props;
+    const nextId = getActiveId(questionsRange);
+
+    this.setActiveQuestion(nextId);
+  }
+
   onGraphSelection = selectedData => {
     const { answerHandler } = this.props;
     const { activeId } = this.state;
@@ -46,9 +53,7 @@ class ExploringStarClusters extends React.PureComponent {
   };
 
   onAnswerSave = () => {
-    const { getActiveId, questionsRange } = this.props;
-    const nextId = getActiveId(questionsRange);
-    this.setActiveQuestion(nextId);
+    this.advanceActiveQuestion();
   };
 
   onEdit = id => {

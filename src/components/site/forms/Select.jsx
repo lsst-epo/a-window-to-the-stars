@@ -9,7 +9,6 @@ class Select extends React.PureComponent {
       label,
       name,
       value,
-      defaultValue,
       placeholder,
       handleChange,
       handleBlur,
@@ -26,7 +25,6 @@ class Select extends React.PureComponent {
             id={`select-${id}`}
             name={name}
             value={value}
-            defaultValue={defaultValue || ''}
             onBlur={handleBlur}
             onChange={handleChange}
             aria-label={label}
@@ -71,7 +69,6 @@ Select.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.any,
-  defaultValue: PropTypes.any,
   placeholder: PropTypes.string,
   handleChange: PropTypes.func,
   handleBlur: PropTypes.func,

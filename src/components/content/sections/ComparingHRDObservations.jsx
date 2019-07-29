@@ -8,7 +8,7 @@ import Section from './Section';
 import Table from '../../site/forms/Table';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
-import QuestionsAnswers from '../../questions/TextInputs';
+import QATextInputs from '../../questions/TextInputs';
 
 @reactn
 class ComparingHRDObservations extends React.PureComponent {
@@ -19,11 +19,15 @@ class ComparingHRDObservations extends React.PureComponent {
       clusterAData: [],
       clusterBData: [],
       activeScatter: 0,
+      activeId: null,
     };
   }
 
   componentDidMount() {
-    const { clusters } = this.props;
+    const { clusters, getActiveId, questionsRange } = this.props;
+    const activeId = getActiveId(questionsRange);
+
+    this.setActiveQuestion(activeId);
 
     clusters.forEach(cluster => {
       const { path, key } = cluster;
@@ -104,26 +108,64 @@ class ComparingHRDObservations extends React.PureComponent {
     }));
   };
 
-  updateAnswer = (id, value) => {
+  setActiveQuestion(id) {
+    this.setState(prevState => ({
+      ...prevState,
+      activeId: id,
+    }));
+  }
+
+  advanceActiveQuestion() {
+    const { getActiveId, questionsRange } = this.props;
+    const nextId = getActiveId(questionsRange);
+
+    this.setActiveQuestion(nextId);
+  }
+
+  updateAnswer = (id, value, type) => {
     const { answers: prevAnswers } = this.global;
     const prevAnswer = { ...prevAnswers[id] };
     const content = value || '';
 
-    this.setGlobal(prevGlobal => ({
-      ...prevGlobal,
-      answers: {
-        ...prevAnswers,
-        [id]: {
-          ...prevAnswer,
-          id,
-          content,
+    if (type === 'blur') {
+      this.setGlobal(prevGlobal => ({
+        ...prevGlobal,
+        answers: {
+          ...prevAnswers,
+          [id]: {
+            ...prevAnswer,
+            id,
+            content,
+          },
         },
-      },
-    }));
+      }));
+    }
+
+    if (type === 'change') {
+      this.setGlobal(prevGlobal => ({
+        ...prevGlobal,
+        answers: {
+          ...prevAnswers,
+          [id]: {
+            ...prevAnswer,
+            id,
+            content,
+          },
+        },
+      }));
+
+      this.advanceActiveQuestion();
+    }
   };
 
   render() {
-    const { clusters, questions, tableAnswersRanges } = this.props;
+    const {
+      clusters,
+      questions,
+      questionsRange,
+      tableAnswersRanges,
+      getActiveId,
+    } = this.props;
     const { activeScatter } = this.state;
     const { answers } = this.global;
 
@@ -149,10 +191,11 @@ class ComparingHRDObservations extends React.PureComponent {
             clusters.
           </div>
           {questions && (
-            <QuestionsAnswers
+            <QATextInputs
               questions={questions}
               answers={answers}
               handleChange={this.updateAnswer}
+              activeId={getActiveId(questionsRange)}
             />
           )}
         </section>

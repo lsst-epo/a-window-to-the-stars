@@ -55,14 +55,7 @@ class XAxis extends React.Component {
         .call(xAxis)
         .selectAll('.tick text')
         .text(d => {
-          const base = d.toExponential(1).split('e+')[0];
-          return `${Math.round(base)}x10`;
-        })
-        .append('tspan')
-        .attr('baseline-shift', 'super')
-        .text(d => {
-          const exp = d.toExponential(1).split('e+')[1];
-          return exp === '0' ? '' : exp;
+          return Math.round(d / 1000000000);
         });
     } else {
       const xAxis = this.getAxis(scale, valueAccessor);
