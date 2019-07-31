@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
+// import isEmpty from 'lodash/isEmpty';
 import { extent as d3Extent } from 'd3-array';
 
 export const formatValue = function(number, decimalPlaces) {
@@ -6,7 +6,7 @@ export const formatValue = function(number, decimalPlaces) {
 };
 
 export const arrayify = function(data) {
-  return isEmpty(data) ? null : [].concat(data);
+  return data === null ? null : [].concat(data);
 };
 
 export const extentFromSet = function(data, valueAccessor) {
@@ -20,23 +20,18 @@ export const capitalize = function(string) {
 };
 
 export const getValue = function(accessor, data) {
-  if (!data) return null;
-
   if (accessor === 'luminosity') {
     return formatValue(data, 4);
   }
-
   if (accessor === 'radius') {
     return formatValue(data, 2);
   }
-
   if (accessor === 'mass') {
     return formatValue(data, 2);
   }
-
   if (accessor === 'lifetime') {
     return formatValue(data / 1000000000, 2);
   }
 
-  return formatValue(data, 0);
+  return data;
 };

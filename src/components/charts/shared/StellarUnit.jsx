@@ -6,7 +6,6 @@ class StellarUnit extends React.PureComponent {
     if (type === 'temperature') {
       return <tspan className="unit">&nbsp;K</tspan>;
     }
-
     if (type === 'luminosity') {
       return (
         <tspan className="unit">
@@ -14,7 +13,6 @@ class StellarUnit extends React.PureComponent {
         </tspan>
       );
     }
-
     if (type === 'mass') {
       return (
         <tspan className="unit">
@@ -22,17 +20,18 @@ class StellarUnit extends React.PureComponent {
         </tspan>
       );
     }
-
     if (type === 'lifetime') {
       return <tspan className="unit">&nbsp;Gyr</tspan>;
     }
-
     if (type === 'radius') {
       return (
         <tspan className="unit">
           &nbsp;R<tspan baselineShift="sub">&#8857;</tspan>
         </tspan>
       );
+    }
+    if (type === 'count') {
+      return <tspan className="unit">&nbsp;stars</tspan>;
     }
 
     return null;
@@ -42,7 +41,6 @@ class StellarUnit extends React.PureComponent {
     if (type === 'temperature') {
       return <span className="unit">&nbsp;K</span>;
     }
-
     if (type === 'luminosity') {
       return (
         <span className="unit">
@@ -50,7 +48,6 @@ class StellarUnit extends React.PureComponent {
         </span>
       );
     }
-
     if (type === 'mass') {
       return (
         <span className="unit">
@@ -58,11 +55,9 @@ class StellarUnit extends React.PureComponent {
         </span>
       );
     }
-
     if (type === 'lifetime') {
       return <span className="unit">&nbsp;Gyr</span>;
     }
-
     if (type === 'radius') {
       return (
         <span className="unit">
@@ -70,7 +65,9 @@ class StellarUnit extends React.PureComponent {
         </span>
       );
     }
-
+    if (type === 'count') {
+      return <span className="unit">&nbsp;stars</span>;
+    }
     return null;
   }
 

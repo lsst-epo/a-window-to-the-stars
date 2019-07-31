@@ -188,7 +188,6 @@ class ScatterPlot extends React.PureComponent {
   };
 
   onDragEnd = d => {
-    // console.log('end');
     this.setState(prevState => ({
       ...prevState,
       showTooltip: false,
