@@ -73,6 +73,10 @@ class CombiningHRD extends React.PureComponent {
       }
     );
 
+    const navClasses = classnames(`nav-secondary`, {
+      combined,
+    });
+
     return (
       <React.Fragment>
         <section>
@@ -99,7 +103,6 @@ class CombiningHRD extends React.PureComponent {
           >
             Combine {clusters[0].name} & {clusters[1].name}
           </Button>
-          {}
         </section>
         <hr className="divider-horizontal" />
         <div className="container-flex spaced">
@@ -174,6 +177,31 @@ class CombiningHRD extends React.PureComponent {
             );
           })}
         </div>
+        <br />
+        <nav role="navigation" className={navClasses}>
+          <Button
+            flat
+            primary
+            swapTheming
+            to={previous || `/${parseInt(id, 10) - 1}`}
+            component={Link}
+            iconEl={<ArrowLeft />}
+            iconBefore
+          >
+            {previousText}
+          </Button>
+          <Button
+            flat
+            primary
+            swapTheming
+            to={next || `/${parseInt(id, 10) + 1}`}
+            component={Link}
+            iconEl={<ArrowRight />}
+            iconBefore={false}
+          >
+            {nextText}
+          </Button>
+        </nav>
       </React.Fragment>
     );
   }

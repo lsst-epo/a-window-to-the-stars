@@ -6,4 +6,8 @@
   .nav-item {
     padding-left: 20px;
   }
+
+  &.combined {
+    visibility: hidden;
+  }
 }
