@@ -297,7 +297,7 @@
     "type": "accordion",
     "tool": "selection",
     "label": "Using the Mass Histogram, select the most common range of masses for these stars. (Hint: Which bar is the highest in the histogram?)",
-    "answerAccessor": "luminosity range",
+    "answerAccessor": "mass range",
     "answerPre": "The most common mass range for these stars is"
   },
   "35": {
@@ -336,7 +336,7 @@
     "type": "accordion",
     "tool": "selection",
     "label": "Using the Radius Histogram, select the most common range of Radii for these stars. (Hint: Which bar is the highest in the histogram?)",
-    "answerAccessor": "luminosity range",
+    "answerAccessor": "radius range",
     "answerPre": "The most common radii for these stars is"
   },
   "39": {
@@ -440,5 +440,65 @@
     ],
     "answerPre": "The Sun is",
     "answerPost": "its main sequence lifetime"
+  },
+  "49": {
+    "id": "49",
+    "type": "compound-select",
+    "labelPre": "High mass stars in the main sequence have",
+    "labelPost": "temperatures",
+    "SRLabel": "What temperatures do high mass main sequence stars have?",
+    "answerAccessor": "compound-select",
+    "placeholder": "Select a temperature",
+    "options": [
+      {"label": "high", "value": "high"},
+      {"label": "low", "value": "low"}
+    ],
+    "answerPre": "High mass stars in the main sequence have",
+    "answerPost": "temperatures"
+  },
+  "50": {
+    "id": "50",
+    "type": "compound-select",
+    "labelPre": "and are",
+    "labelPost": "in color",
+    "SRLabel": "What color are high mass main sequence stars?",
+    "answerAccessor": "compound-select",
+    "placeholder": "Select a color",
+    "options": [
+      {"label": "white", "value": "white"},
+      {"label": "red", "value": "red"}
+    ],
+    "answerPre": "and are",
+    "answerPost": "in color."
+  },
+  "51": {
+    "id": "51",
+    "type": "compound-select",
+    "labelPre": "High mass stars in the main sequence are",
+    "labelPost": "luminous than low mass stars,",
+    "SRLabel": "What color are high mass main sequence stars?",
+    "answerAccessor": "compound-select",
+    "placeholder": "Select a color",
+    "options": [
+      {"label": "more", "value": "more"},
+      {"label": "less", "value": "less"}
+    ],
+    "answerPre": "High mass stars in the main sequence are",
+    "answerPost": "luminous than low mass stars,"
+  },
+  "52": {
+    "id": "52",
+    "type": "compound-select",
+    "labelPre": "so therefore must use their hydrogen fuel at a",
+    "labelPost": "rate than low-mass stars.",
+    "SRLabel": "What color are high mass main sequence stars?",
+    "answerAccessor": "compound-select",
+    "placeholder": "Select a color",
+    "options": [
+      {"label": "faster", "value": "faster"},
+      {"label": "slower", "value": "slower"}
+    ],
+    "answerPre": "so therefore must use their hydrogen fuel at a",
+    "answerPost": "rate than low-mass stars."
   }
 }
