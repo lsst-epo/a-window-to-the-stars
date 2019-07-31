@@ -29,9 +29,10 @@ class Select extends React.PureComponent {
             onChange={handleChange}
             aria-label={label}
             disabled={disabled || false}
+            multiple={false}
           >
             {placeholder && (
-              <option key="placeholder-option" value="" disabled>
+              <option key="placeholder-option" value="DEFAULT" disabled>
                 {placeholder}
               </option>
             )}

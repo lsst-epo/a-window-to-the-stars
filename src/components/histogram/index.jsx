@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
 import { select as d3Select, event as d3Event } from 'd3-selection';
-import { max as d3Max } from 'd3-array';
+import {
+  histogram as d3Histogram,
+  thresholdScott as d3ThresholdScott,
+  mean as d3Mean,
+  max as d3Max,
+} from 'd3-array';
+// threshholdFreedmanDiaconis as d3ThresholdFreedmanDiaconis,
+// thresholdSturges as d3ThresholdSturges,
+// thresholdScott as d3ThresholdScott,
 import {
   scalePoint as d3ScalePoint,
   scaleLinear as d3ScaleLinear,
@@ -13,6 +21,7 @@ import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
 import Bars from './Bars.jsx';
+// import Bar from './Bar.jsx';
 import Tooltip from '../charts/shared/Tooltip.jsx';
 
 class Histogram extends React.PureComponent {
@@ -22,21 +31,40 @@ class Histogram extends React.PureComponent {
     padding: 70,
     offsetTop: 7,
     offsetRight: 7,
-    yAxisLabel: 'Count',
+    yAxisLabel: 'Number of Stars',
     tooltipAccessors: ['temperature'],
   };
 
   constructor(props) {
     super(props);
+    const {
+      data,
+      valueAccessor,
+      domain,
+      width,
+      height,
+      padding,
+      offsetRight,
+      offsetTop,
+    } = props;
+
+    const histData = this.histogramData(data, valueAccessor, domain);
 
     this.state = {
+      data: histData,
       selectedData: null,
       hoverDataBar: null,
       tooltipPosX: 0,
       tooltipPosY: 0,
       showTooltip: false,
-      xScale: undefined,
-      yScale: undefined,
+      xScale: this.getXScale(
+        histData,
+        valueAccessor,
+        width,
+        padding,
+        offsetRight
+      ),
+      yScale: this.getYScale(histData, height, padding, offsetTop),
       loading: true,
     };
 
@@ -51,13 +79,48 @@ class Histogram extends React.PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    const { data } = this.props;
-    const { loading } = this.state;
+  // componentDidUpdate() {
+  //   const { data } = this.props;
+  //   const { loading } = this.state;
 
-    if (!isEmpty(data) && loading) {
-      this.updateHistogram();
+  // if (!isEmpty(data) && loading) {
+  //   this.updateHistogram();
+  //   console.log('runs again?');
+  // }
+  // }
+
+  histogramData(data, valueAccessor, domain) {
+    if (valueAccessor === 'luminosity') {
+      return d3Histogram()
+        .value(d => {
+          return Math.log10(d[valueAccessor]); // eslint-disable-line dot-notation
+        })
+        .thresholds(d3ThresholdScott)(data);
     }
+
+    if (valueAccessor === 'radius') {
+      return d3Histogram()
+        .value(d => {
+          return d[valueAccessor]; // eslint-disable-line dot-notation
+        })
+        .thresholds(d3ThresholdScott)(data);
+    }
+
+    if (domain) {
+      return d3Histogram()
+        .value(d => {
+          return d[valueAccessor]; // eslint-disable-line dot-notation
+        })
+        .domain(domain)(data);
+    }
+
+    return d3Histogram().value(d => {
+      return d[valueAccessor]; // eslint-disable-line dot-notation
+    })(data);
+  }
+
+  meanX(data, accessor) {
+    return d3Mean(data, d => d[accessor]);
   }
 
   getXScale(data, valueAccessor, width, padding, offsetRight) {
@@ -90,7 +153,7 @@ class Histogram extends React.PureComponent {
       .domain([
         0,
         d3Max(data, d => {
-          return d.length;
+          return d.length + 10;
         }),
       ])
       .range([height - padding, offsetTop]);
@@ -108,11 +171,11 @@ class Histogram extends React.PureComponent {
 
   toggleSelection(d) {
     const { dataSelectionCallback } = this.props;
-    const { selectedData } = this.state;
+    const { selectedData, xScale, yScale } = this.state;
 
     const newState = {
-      tooltipPosX: d3Event.clientX,
-      tooltipPosY: d3Event.clientY,
+      tooltipPosX: xScale(d.x0),
+      tooltipPosY: yScale(d.length),
       showTooltip: true,
       selectedData: d,
     };
@@ -132,12 +195,13 @@ class Histogram extends React.PureComponent {
 
   // mouseover/focus handler for point
   onMouseOver = d => {
+    const { xScale, yScale } = this.state;
     // add hover style on point and show tooltip
     this.setState(prevState => ({
       ...prevState,
       hoveredData: d,
-      tooltipPosX: d3Event.clientX,
-      tooltipPosY: d3Event.clientY,
+      tooltipPosX: xScale(d.x0),
+      tooltipPosY: yScale(d.length),
       showTooltip: true,
     }));
   };
@@ -175,8 +239,8 @@ class Histogram extends React.PureComponent {
   }
 
   updateBars() {
-    const { loading } = this.state;
-    const { data } = this.props;
+    const { loading, data } = this.state;
+    // const { data } = this.props;
     const $histogram = d3Select(this.svgEl.current);
 
     $histogram
@@ -203,7 +267,6 @@ class Histogram extends React.PureComponent {
 
   render() {
     const {
-      data,
       width,
       height,
       padding,
@@ -216,22 +279,16 @@ class Histogram extends React.PureComponent {
     } = this.props;
 
     const {
+      data,
       hoveredData,
       selectedData,
       loading,
       showTooltip,
       tooltipPosY,
       tooltipPosX,
+      xScale,
+      yScale,
     } = this.state;
-
-    const xScale = this.getXScale(
-      data,
-      valueAccessor,
-      width,
-      padding,
-      offsetRight
-    );
-    const yScale = this.getYScale(data, height, padding, offsetTop);
 
     const svgClasses = classnames('histogram svg-chart', {
       loading,
@@ -249,6 +306,7 @@ class Histogram extends React.PureComponent {
         )}
         <Tooltip
           key="tooltip"
+          graph="histogram"
           data={selectedData || hoveredData}
           posX={tooltipPosX}
           posY={tooltipPosY}
@@ -263,15 +321,26 @@ class Histogram extends React.PureComponent {
           ref={this.svgEl}
         >
           {xScale && yScale && (
-            <Bars
-              data={data}
-              valueAccessor={valueAccessor}
-              selectedData={selectedData}
-              hoveredData={hoveredData}
-              offsetTop={offsetTop}
-              xScale={xScale}
-              yScale={yScale}
-            />
+            <React.Fragment>
+              <Bars
+                data={data}
+                valueAccessor={valueAccessor}
+                selectedData={selectedData}
+                hoveredData={hoveredData}
+                offsetTop={offsetTop}
+                xScale={xScale}
+                yScale={yScale}
+              />
+              {/* <Bar
+                x={xScale(d.x0)}
+                y={yScale(d.length) + offsetTop}
+                width={xScale(d.x1) - xScale(d.x0)}
+                height={yScale(0) - yScale(d.length)}
+                classes={barClasses}
+                selected={this.isMatch(selectedData, d)}
+                hovered={this.isMatch(hoveredData, d)}
+              /> */}
+            </React.Fragment>
           )}
           {xScale && (
             <XAxis
@@ -312,6 +381,7 @@ Histogram.propTypes = {
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
   valueAccessor: PropTypes.string,
+  domain: PropTypes.array,
   preSelected: PropTypes.bool,
   tooltipAccessors: PropTypes.array,
   // multiple: PropTypes.bool,

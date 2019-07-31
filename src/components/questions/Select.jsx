@@ -12,8 +12,23 @@ class QuestionSelect extends React.PureComponent {
     handleAnswerSelect(question.id, value, e.type);
   };
 
+  checkIds(ids, activeId) {
+    let active = false;
+    let i = 0;
+
+    while (i < ids.length) {
+      if (activeId === ids[i]) {
+        active = true;
+      }
+
+      i += 1;
+    }
+
+    return active;
+  }
+
   render() {
-    const { question, activeId, answer } = this.props;
+    const { ids, question, activeId, answer } = this.props;
     const {
       id,
       label,
@@ -23,7 +38,8 @@ class QuestionSelect extends React.PureComponent {
       options,
       placeholder,
     } = question;
-    const active = activeId === id;
+    const active = ids ? this.checkIds(ids, activeId) : activeId === id;
+
     const answered = !isEmpty(answer);
     const classes = classnames('qa qa-select', {
       active,
@@ -41,14 +57,16 @@ class QuestionSelect extends React.PureComponent {
           options={options}
           label={label || srLabel}
           name={label || srLabel}
-          value={answered ? answer.content : ''}
+          value={answered ? answer.content : 'DEFAULT'}
           handleBlur={this.onChange}
           handleChange={this.onChange}
           placeholder={placeholder}
           disabled={!active && !answered}
           showLabel={!!label}
         />
-        {labelPost && <span className="label-pre">&nbsp;{labelPost}</span>}
+        {labelPost && (
+          <span className="label-pre">&nbsp;{labelPost}&nbsp;</span>
+        )}
       </div>
     );
   }
@@ -59,6 +77,7 @@ QuestionSelect.propTypes = {
   question: PropTypes.object,
   answer: PropTypes.object,
   activeId: PropTypes.string,
+  ids: PropTypes.array,
 };
 
 export default QuestionSelect;

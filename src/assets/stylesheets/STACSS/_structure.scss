@@ -49,9 +49,9 @@
       left: 50%;
     }
 
-    .tooltip {
-      position: fixed;
-    }
+    // .tooltip {
+    //   position: fixed;
+    // }
   }
 }
 
@@ -91,6 +91,10 @@
 
   &.spaced {
     justify-content: space-between;
+  }
+
+  &.middle {
+    justify-content: center;
   }
 
   &.centered {

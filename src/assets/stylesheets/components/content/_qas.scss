@@ -110,6 +110,16 @@
   }
 }
 
+.qa-compound-select {
+  .inline-select {
+    display: inline;
+  }
+
+  + .qas {
+    margin-top: $verticalSpace;
+  }
+}
+
 // Text Input QAs
 .md-text-field-container {
   &.unanswered:not(.active) {
@@ -130,5 +140,9 @@
     &.md-floating-label--floating {
       font-size: 14px;
     }
+  }
+
+  .md-text-field {
+    @include copyPrimary;
   }
 }

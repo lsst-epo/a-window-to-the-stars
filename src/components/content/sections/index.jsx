@@ -14,6 +14,7 @@ import CombiningHRD from './CombiningHRD';
 import StarPropertiesObservations from './StarPropertiesObservations';
 import EstimatingStellarRadii from './EstimatingStellarRadii';
 import EstimatingStellarLifetimes from './EstimatingStellarLifetimes';
+import EstimatingStellarMasses from './EstimatingStellarMasses';
 import Results from './Results';
 import clusterA from '../../../assets/images/ngc188_FINAL.jpg';
 import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
@@ -231,13 +232,13 @@ class Sections extends React.PureComponent {
                   key: 'clusterAData',
                   path: 'static-data/NGC_188_data.json',
                   xDomain: [14000, 3000],
-                  yDomain: [0.01, 1000],
+                  yDomain: [0.01, 10000],
                 },
                 {
                   name: 'Cluster B',
                   key: 'clusterBData',
                   path: 'static-data/NGC_2168_data.json',
-                  xDomain: [10000, 3500],
+                  xDomain: [14000, 3000],
                   yDomain: [0.01, 10000],
                 },
               ]}
@@ -310,7 +311,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/12"
           render={() => (
-            <StarPropertiesObservations
+            <EstimatingStellarMasses
               id="12"
               scrollable={0}
               histogramAccessor="mass"
@@ -318,6 +319,9 @@ class Sections extends React.PureComponent {
               scatterXDomain={[10000, 3500]}
               scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"
+              questionsRange={range(49, 51).concat(range(32, 36))}
+              questions={this.getQuestions(range(49, 51).concat(range(32, 36)))}
+              getActiveId={this.getActiveId}
             />
           )}
         />

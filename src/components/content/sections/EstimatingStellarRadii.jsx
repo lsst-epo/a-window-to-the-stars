@@ -1,13 +1,6 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import {
-  histogram as d3Histogram,
-  thresholdScott as d3ThresholdScott,
-} from 'd3-array';
-// threshholdFreedmanDiaconis as d3ThresholdFreedmanDiaconis,
-// thresholdSturges as d3ThresholdSturges,
-// thresholdScott as d3ThresholdScott,
 import { capitalize } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
@@ -27,8 +20,6 @@ class EstimatingStellarRadii extends React.PureComponent {
     this.state = {
       activeGraph: 0,
       activeId: null,
-      selectedHistogramData: null,
-      selectedScatterplotData: null,
     };
   }
 
@@ -139,35 +130,35 @@ class EstimatingStellarRadii extends React.PureComponent {
     this.setActiveQuestion(id);
   };
 
-  histogramData(data, valueAccessor, domain) {
-    if (valueAccessor === 'luminosity') {
-      return d3Histogram()
-        .value(d => {
-          return Math.log10(d[valueAccessor]); // eslint-disable-line dot-notation
-        })
-        .thresholds(d3ThresholdScott)(data);
-    }
+  // histogramData(data, valueAccessor, domain) {
+  //   if (valueAccessor === 'luminosity') {
+  //     return d3Histogram()
+  //       .value(d => {
+  //         return Math.log10(d[valueAccessor]); // eslint-disable-line dot-notation
+  //       })
+  //       .thresholds(d3ThresholdScott)(data);
+  //   }
 
-    if (valueAccessor === 'radius') {
-      return d3Histogram()
-        .value(d => {
-          return d[valueAccessor]; // eslint-disable-line dot-notation
-        })
-        .thresholds(d3ThresholdScott)(data);
-    }
+  //   if (valueAccessor === 'radius') {
+  //     return d3Histogram()
+  //       .value(d => {
+  //         return d[valueAccessor]; // eslint-disable-line dot-notation
+  //       })
+  //       .thresholds(d3ThresholdScott)(data);
+  //   }
 
-    if (domain) {
-      return d3Histogram()
-        .value(d => {
-          return d[valueAccessor]; // eslint-disable-line dot-notation
-        })
-        .domain(domain)(data);
-    }
+  //   if (domain) {
+  //     return d3Histogram()
+  //       .value(d => {
+  //         return d[valueAccessor]; // eslint-disable-line dot-notation
+  //       })
+  //       .domain(domain)(data);
+  //   }
 
-    return d3Histogram().value(d => {
-      return d[valueAccessor]; // eslint-disable-line dot-notation
-    })(data);
-  }
+  //   return d3Histogram().value(d => {
+  //     return d[valueAccessor]; // eslint-disable-line dot-notation
+  //   })(data);
+  // }
 
   render() {
     const {
@@ -183,11 +174,11 @@ class EstimatingStellarRadii extends React.PureComponent {
     const { answers } = this.global;
     const activeAnswer = answers[activeId];
     const activeData = activeAnswer ? activeAnswer.data : null;
-    const histogramData = this.histogramData(
-      clusterData,
-      histogramAccessor,
-      histogramDomain
-    );
+    // const histogramData = this.histogramData(
+    //   clusterData,
+    //   histogramAccessor,
+    //   histogramDomain
+    // );
 
     return (
       <Section {...this.props}>
@@ -278,6 +269,7 @@ class EstimatingStellarRadii extends React.PureComponent {
         <div className="container-flex direction-column">
           <Select
             className="graph-selector"
+            value={activeGraph}
             options={[
               { label: 'H-R Diagram', value: 0 },
               { label: `${capitalize(histogramAccessor)} Histogram`, value: 1 },
@@ -302,9 +294,10 @@ class EstimatingStellarRadii extends React.PureComponent {
             )}
             {activeGraph === 1 && (
               <Histogram
-                data={histogramData}
+                data={clusterData}
                 selectedData={activeData}
                 valueAccessor={histogramAccessor}
+                domain={histogramDomain}
                 xAxisLabel={histogramAxisLabel}
                 dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['radius']}
