@@ -102,36 +102,6 @@ class StarPropertiesObservations extends React.PureComponent {
     this.setActiveQuestion(id);
   };
 
-  // histogramData(data, valueAccessor, domain) {
-  //   if (valueAccessor === 'luminosity') {
-  //     return d3Histogram()
-  //       .value(d => {
-  //         return Math.log10(d[valueAccessor]); // eslint-disable-line dot-notation
-  //       })
-  //       .thresholds(d3ThresholdScott)(data);
-  //   }
-
-  //   if (valueAccessor === 'radius') {
-  //     return d3Histogram()
-  //       .value(d => {
-  //         return d[valueAccessor]; // eslint-disable-line dot-notation
-  //       })
-  //       .thresholds(d3ThresholdScott)(data);
-  //   }
-
-  //   if (domain) {
-  //     return d3Histogram()
-  //       .value(d => {
-  //         return d[valueAccessor]; // eslint-disable-line dot-notation
-  //       })
-  //       .domain(domain)(data);
-  //   }
-
-  //   return d3Histogram().value(d => {
-  //     return d[valueAccessor]; // eslint-disable-line dot-notation
-  //   })(data);
-  // }
-
   render() {
     const {
       clusterData,
@@ -146,11 +116,6 @@ class StarPropertiesObservations extends React.PureComponent {
     const { answers } = this.global;
     const activeAnswer = answers[activeId];
     const activeData = activeAnswer ? activeAnswer.data : null;
-    // const histogramData = this.histogramData(
-    //   clusterData,
-    //   histogramAccessor,
-    //   histogramDomain
-    // );
 
     return (
       <Section {...this.props}>

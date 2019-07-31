@@ -1,5 +1,6 @@
 import React from 'reactn';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import { extentFromSet } from '../../../lib/utilities.js';
 
 export const withAnswerHandlers = ComposedComponent => {
@@ -24,19 +25,14 @@ export const withAnswerHandlers = ComposedComponent => {
       const prevAnswer = { ...prevAnswers[id] };
       let content = data;
 
-      if (
-        data &&
-        (answerAccessor === 'temperature' || answerAccessor === 'luminosity')
-      ) {
-        content = data[0][answerAccessor];
-      }
-
-      if (answerAccessor === 'count') {
+      if (answerAccessor === 'temperature' || answerAccessor === 'luminosity') {
+        content = data[0] ? data[0][answerAccessor] : 'None Selected';
+      } else if (answerAccessor === 'count') {
         content = data.length;
-      }
-
-      if (answerAccessor === 'temperature range') {
-        content = extentFromSet(data, 'temperature');
+      } else if (answerAccessor === 'temperature range') {
+        content = !isEmpty(data)
+          ? extentFromSet(data, 'temperature')
+          : 'None Selected';
       }
 
       this.setGlobal(prevGlobal => ({
