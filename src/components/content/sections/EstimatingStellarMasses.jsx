@@ -10,10 +10,10 @@ import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
 import QASelections from '../../questions/ExpansionList';
 import QASelect from '../../questions/Select';
-import QATextInputs from '../../questions/TextInputs';
+import QACompoundSelect from '../../questions/CompoundSelect';
 
 @reactn
-class EstimatingStellarLifetimes extends React.PureComponent {
+class EstimatingStellarMasses extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -183,65 +183,147 @@ class EstimatingStellarLifetimes extends React.PureComponent {
     return (
       <Section {...this.props}>
         <section>
-          <h2 className="section-title">Estimating Stellar Lifetimes</h2>
+          <h2 className="section-title">Estimating Stellar Masses</h2>
           <p>
-            Stars spend about 90% of their lifetimes as main sequence stars. The
-            main sequence mass of a star is used to calculate its main sequence
-            lifetime. This lifetime is not the age of the star in years, it is a
-            predicted time for how long the star will exist as a stable main
-            sequence star with balanced forces.
+            The mass of a main sequence star establishes its rate of fusion.
+            More massive stars have stronger gravity, and therefore require
+            higher rates of fusion to avoid collapse. The hot gas pressure from
+            fusion reactions in turn determines other factors, such as the
+            star’s size, luminosity, and surface temperature.
           </p>
           <p>
-            The lifetime of a star depends on two factors: how much hydrogen is
-            available for nuclear fusion, and the rate at which fusion is
-            proceeding. The cores of high mass stars experience a much greater
-            gravitational force than the cores of low mass stars. As a result,
-            temperature and fusion rates are much higher in the cores of high
-            mass stars.
+            Although we cannot directly measure the mass of most stars,
+            astronomers have derived equations that relate the luminosity of a
+            star to its mass. In the equation below, the symbols L
+            <sub>&#8857;</sub> and M<sub>&#8857;</sub> are the symbols for the
+            luminosity and mass of the Sun.
           </p>
           <p>
-            The main sequence lifetime of a star can be estimated by this
-            relationship:
+            <b>Important note</b>: These equations can only predict the masses
+            of stars on the main sequence.
           </p>
-          <div className="equation-container">
-            <b className="equation">
-              <div className="container-flex centered">
-                <span>
-                  <span>
-                    T<sub>ms</sub>
-                  </span>
-                  <span>&nbsp;&asymp;&nbsp;</span>
-                  <span>
-                    10<sup>10</sup>&nbsp;x&nbsp;
-                  </span>
-                </span>
-                <span>
-                  <span className="parenthetical">
-                    <span className="fraction">
-                      <span className="numerator">
-                        m<sub>Sun</sub>
-                      </span>
-                      <span className="denominator">
-                        m<sub>star</sub>
-                      </span>
+          <div className="equation-flex">
+            <div className="equation-container padded">
+              <b className="equation">
+                <div className="container-flex centered">
+                  <span className="fraction">
+                    <span className="numerator">L</span>
+                    <span className="denominator">
+                      L<sub>&#8857;</sub>
                     </span>
                   </span>
-                  <sup>&nbsp;3</sup>
-                </span>
-              </div>
-            </b>
+                  <span>&nbsp;&asymp;&nbsp;</span>
+                  <span>0.23&nbsp;</span>
+                  <span>
+                    <span className="parenthetical">
+                      <span className="fraction">
+                        <span className="numerator">M</span>
+                        <span className="denominator">
+                          M<sub>&#8857;</sub>
+                        </span>
+                      </span>
+                    </span>
+                    <sup>&nbsp;2.3</sup>
+                  </span>
+                </div>
+              </b>
+            </div>
+            <div className="equation-container padded">
+              <b className="equation">
+                (M &lt; 0.43M<sub>&#8857;</sub>)
+              </b>
+            </div>
           </div>
-          <p>
-            <span>
-              m<sub>Sun</sub>
-            </span>
-            &nbsp;and&nbsp;
-            <span>
-              m<sub>star</sub>
-            </span>
-            &nbsp;represent the respective masses of the Sun and the other star,
-            and T<sub>ms</sub> is the star’s main sequence lifetime in years.
-          </p>
+          <div className="equation-flex">
+            <div className="equation-container padded">
+              <b className="equation">
+                <div className="container-flex centered">
+                  <span className="fraction">
+                    <span className="numerator">L</span>
+                    <span className="denominator">
+                      L<sub>&#8857;</sub>
+                    </span>
+                  </span>
+                  <span>&nbsp;=&nbsp;</span>
+                  <span>
+                    <span className="parenthetical">
+                      <span className="fraction">
+                        <span className="numerator">M</span>
+                        <span className="denominator">
+                          M<sub>&#8857;</sub>
+                        </span>
+                      </span>
+                    </span>
+                    <sup>&nbsp;4</sup>
+                  </span>
+                </div>
+              </b>
+            </div>
+            <div className="equation-container padded">
+              <b className="equation">
+                (0.43M<sub>&#8857;</sub> &lt; M &lt; 2M<sub>&#8857;</sub>)
+              </b>
+            </div>
+          </div>
+          <div className="equation-flex">
+            <div className="equation-container padded">
+              <b className="equation">
+                <div className="container-flex centered">
+                  <span className="fraction">
+                    <span className="numerator">L</span>
+                    <span className="denominator">
+                      L<sub>&#8857;</sub>
+                    </span>
+                  </span>
+                  <span>&nbsp;&asymp;&nbsp;</span>
+                  <span>1.5&nbsp;</span>
+                  <span>
+                    <span className="parenthetical">
+                      <span className="fraction">
+                        <span className="numerator">M</span>
+                        <span className="denominator">
+                          M<sub>&#8857;</sub>
+                        </span>
+                      </span>
+                    </span>
+                    <sup>&nbsp;3.5</sup>
+                  </span>
+                </div>
+              </b>
+            </div>
+            <div className="equation-container padded">
+              <b className="equation">
+                (2M<sub>&#8857;</sub> &lt; M &lt; 20M<sub>&#8857;</sub>;)
+              </b>
+            </div>
+          </div>
+          <div className="equation-flex">
+            <div className="equation-container padded">
+              <b className="equation">
+                <div className="container-flex centered">
+                  <span className="fraction">
+                    <span className="numerator">L</span>
+                    <span className="denominator">
+                      L<sub>&#8857;</sub>
+                    </span>
+                  </span>
+                  <span>&nbsp;&asymp;&nbsp;</span>
+                  <span>3200&nbsp;</span>
+                  <span className="fraction">
+                    <span className="numerator">M</span>
+                    <span className="denominator">
+                      M<sub>&#8857;</sub>
+                    </span>
+                  </span>
+                </div>
+              </b>
+            </div>
+            <div className="equation-container padded">
+              <b className="equation">
+                (M &gt; 20M<sub>&#8857;</sub>)
+              </b>
+            </div>
+          </div>
           <p className="copy-secondary">
             Note: The Sun <span>SUN ICON</span> has been added to your H-R
             Diagram.
@@ -249,14 +331,14 @@ class EstimatingStellarLifetimes extends React.PureComponent {
           <hr className="divider-horizontal" />
           {questions && (
             <React.Fragment>
-              <QASelect
-                question={questions[0]}
-                answer={answers[questions[0].id]}
+              <QACompoundSelect
+                questions={[questions[0], questions[1]]}
+                answers={answers}
                 handleAnswerSelect={this.updateAnswer}
                 activeId={activeId}
               />
               <QASelections
-                questions={questions.slice(1, 4)}
+                questions={questions.slice(2, 5)}
                 answers={answers}
                 activeId={activeId}
                 toggleHandler={this.onQAToggle}
@@ -265,20 +347,8 @@ class EstimatingStellarLifetimes extends React.PureComponent {
                 editHandler={this.onEdit}
               />
               <QASelect
-                question={questions[4]}
-                answer={answers[questions[4].id]}
-                handleAnswerSelect={this.updateAnswer}
-                activeId={activeId}
-              />
-              <QATextInputs
-                questions={questions.slice(5, 6)}
-                answers={answers}
-                handleChange={this.updateAnswer}
-                activeId={activeId}
-              />
-              <QASelect
-                question={questions[6]}
-                answer={answers[questions[6].id]}
+                question={questions[5]}
+                answer={answers[questions[5].id]}
                 handleAnswerSelect={this.updateAnswer}
                 activeId={activeId}
               />
@@ -308,7 +378,7 @@ class EstimatingStellarLifetimes extends React.PureComponent {
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
                 dataSelectionCallback={this.onGraphSelection}
-                tooltipAccessors={['lifetime']}
+                tooltipAccessors={['mass']}
               />
             )}
             {activeGraph === 1 && (
@@ -319,7 +389,7 @@ class EstimatingStellarLifetimes extends React.PureComponent {
                 domain={histogramDomain}
                 xAxisLabel={histogramAxisLabel}
                 dataSelectionCallback={this.onGraphSelection}
-                tooltipAccessors={['lifetime']}
+                tooltipAccessors={['mass']}
               />
             )}
           </div>
@@ -329,7 +399,7 @@ class EstimatingStellarLifetimes extends React.PureComponent {
   }
 }
 
-EstimatingStellarLifetimes.propTypes = {
+EstimatingStellarMasses.propTypes = {
   clusterData: PropTypes.array,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
@@ -343,5 +413,5 @@ EstimatingStellarLifetimes.propTypes = {
 };
 
 export default withAnswerHandlers(
-  withData(EstimatingStellarLifetimes, 'is_member')
+  withData(EstimatingStellarMasses, 'is_member')
 );

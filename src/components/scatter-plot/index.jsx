@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
-import { select as d3Select, event as d3Event } from 'd3-selection';
+import {
+  select as d3Select,
+  event as d3Event,
+  clientPoint as d3ClientPoint,
+} from 'd3-selection';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
@@ -29,6 +33,15 @@ class ScatterPlot extends React.PureComponent {
 
   constructor(props) {
     super(props);
+    const {
+      xDomain,
+      yDomain,
+      width,
+      height,
+      padding,
+      offsetTop,
+      offsetRight,
+    } = props;
 
     this.state = {
       selectedData: null,
@@ -40,9 +53,12 @@ class ScatterPlot extends React.PureComponent {
       tooltipPosY: 0,
       showTooltip: false,
       loading: true,
+      xScale: this.getXScale(xDomain, width, padding, offsetRight),
+      yScale: this.getYScale(yDomain, height, padding, offsetTop),
     };
 
     this.svgEl = React.createRef();
+    this.svgContainer = React.createRef();
   }
 
   componentDidMount() {
@@ -78,7 +94,7 @@ class ScatterPlot extends React.PureComponent {
 
   getSelectedId(selectedData) {
     if (!selectedData) return null;
-    if (selectedData.length === 1) return selectedData.source_id;
+    if (selectedData.length >= 1) return selectedData[0].source_id;
 
     return null;
   }
@@ -96,10 +112,11 @@ class ScatterPlot extends React.PureComponent {
   toggleSelection(d) {
     const { selectedData } = this.state;
     const selectedPointId = this.getSelectedId(selectedData);
+    const pointPos = d3ClientPoint(this.svgContainer.current, d3Event);
 
     const newState = {
-      tooltipPosX: d3Event.clientX,
-      tooltipPosY: d3Event.clientY,
+      tooltipPosX: pointPos[0],
+      tooltipPosY: pointPos[1],
       showLasso: false,
       showTooltip: true,
       selectedData: arrayify(d),
@@ -118,12 +135,14 @@ class ScatterPlot extends React.PureComponent {
 
   // mouseover/focus handler for point
   onMouseOver = d => {
+    const pointPos = d3ClientPoint(this.svgContainer.current, d3Event);
+
     // add hover style on point and show tooltip
     this.setState(prevState => ({
       ...prevState,
       hoverPointData: arrayify(d),
-      tooltipPosX: d3Event.clientX,
-      tooltipPosY: d3Event.clientY,
+      tooltipPosX: pointPos[0],
+      tooltipPosY: pointPos[1],
       showTooltip: true,
     }));
   };
@@ -265,8 +284,6 @@ class ScatterPlot extends React.PureComponent {
       offsetRight,
       xAxisLabel,
       yAxisLabel,
-      xDomain,
-      yDomain,
       useLasso,
       xValueAccessor,
       yValueAccessor,
@@ -284,10 +301,9 @@ class ScatterPlot extends React.PureComponent {
       selectedData,
       showLasso,
       loading,
+      xScale,
+      yScale,
     } = this.state;
-
-    const xScale = this.getXScale(xDomain, width, padding, offsetRight);
-    const yScale = this.getYScale(yDomain, height, padding, offsetTop);
 
     const svgClasses = classnames('hrd svg-chart scatter-plot', {
       loading,
@@ -297,17 +313,25 @@ class ScatterPlot extends React.PureComponent {
     return (
       <React.Fragment>
         {showColorLegend && !loading && (
-          <Legend content={this.renderColorLegendContent()} />
+          <Legend
+            key="color-legend"
+            content={this.renderColorLegendContent()}
+          />
         )}
-        <div className="svg-container scatter-plot-container">
+        <div
+          key="svg-container"
+          ref={this.svgContainer}
+          className="svg-container scatter-plot-container"
+        >
           {loading && (
             <CircularProgress
+              key="loading"
               className="chart-loader"
               scale={3}
               value={loading}
             />
           )}
-          {legend && !loading && <Legend content={legend} />}
+          {legend && !loading && <Legend key="legend" content={legend} />}
           <Tooltip
             key="tooltip"
             data={selectedData || hoverPointData}

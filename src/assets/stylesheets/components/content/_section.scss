@@ -51,11 +51,29 @@ section {
     }
   }
 
+  .equation-flex {
+    display: flex;
+    justify-content: space-between;
+    max-width: 400px;
+    margin: 0 auto;
+
+    + p {
+      margin-top: $verticalSpace;
+    }
+  }
+
   .equation-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0.5 * $verticalSpace auto;
+    justify-content: center;
+    margin-top: 0.5 * $verticalSpace;
+    margin-bottom: 0.5 * $verticalSpace;
+
+    &.padded {
+      padding-right: 0.5 * $verticalSpace;
+      padding-left: 0.5 * $verticalSpace;
+    }
 
     .equation {
       display: block;
@@ -75,9 +93,10 @@ section {
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      text-align: center;
 
-      .numerator {
-        border-bottom: 1px solid $black;
+      .denominator {
+        border-top: 1px solid $black;
       }
     }
   }

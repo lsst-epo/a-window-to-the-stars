@@ -86,14 +86,18 @@
 .inline-select {
   .select {
     display: inline-block;
+    min-width: 0;
 
-    .select-wrapper::after {
-      top: calc(50% - 3px);
-      right: 8px;
+    .select-wrapper {
+      width: auto;
+
+      &::after {
+        display: none;
+      }
     }
 
     select {
-      padding: 0 28px 8px 8px;
+      padding: 0;
     }
   }
 }

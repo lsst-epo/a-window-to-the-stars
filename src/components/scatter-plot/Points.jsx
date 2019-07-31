@@ -12,7 +12,7 @@ class Points extends React.PureComponent {
       colors: [
         { temp: 3000, color: '#ff0000' },
         { temp: 6000, color: '#ffff00' },
-        { temp: 10000, color: '#ffffff' },
+        { temp: 8000, color: '#ffffff' },
         { temp: 25000, color: '#0000ff' },
       ],
     };
