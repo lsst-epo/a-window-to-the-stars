@@ -48,8 +48,8 @@ Bars.propTypes = {
   selectedData: PropTypes.bool,
   hoveredData: PropTypes.bool,
   offsetTop: PropTypes.number,
-  xScale: PropTypes.string,
-  yScale: PropTypes.string,
+  xScale: PropTypes.func,
+  yScale: PropTypes.func,
   barClasses: PropTypes.string,
 };
 

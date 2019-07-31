@@ -11,4 +11,16 @@
       fill: $baseSecondaryDark;
     }
   }
+
+  .mean-bar {
+    fill: $black;
+  }
+
+  .mean-text {
+    font-size: 12px;
+
+    .inner-text {
+      transform: translateX(50%);
+    }
+  }
 }

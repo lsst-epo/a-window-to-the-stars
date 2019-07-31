@@ -5,12 +5,13 @@ import StellarUnit from './StellarUnit';
 
 class StellarValue extends React.PureComponent {
   render() {
-    const { type, value } = this.props;
+    const { type, value, isSvg } = this.props;
 
     return (
       <React.Fragment>
-        <span>{getValue(type, value)}</span>
-        <StellarUnit type={type} />
+        {!isSvg && <span>{getValue(type, value)}</span>}
+        {isSvg && <tspan>{getValue(type, value)}</tspan>}
+        <StellarUnit type={type} isSvg={isSvg} />
       </React.Fragment>
     );
   }
@@ -19,6 +20,7 @@ class StellarValue extends React.PureComponent {
 StellarValue.propTypes = {
   type: PropTypes.string,
   value: PropTypes.any,
+  isSvg: PropTypes.bool,
 };
 
 export default StellarValue;

@@ -6,7 +6,6 @@ import { select as d3Select, event as d3Event } from 'd3-selection';
 import {
   histogram as d3Histogram,
   thresholdScott as d3ThresholdScott,
-  mean as d3Mean,
   max as d3Max,
 } from 'd3-array';
 // threshholdFreedmanDiaconis as d3ThresholdFreedmanDiaconis,
@@ -21,7 +20,7 @@ import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
 import Bars from './Bars.jsx';
-// import Bar from './Bar.jsx';
+import MeanBar from './MeanBar.jsx';
 import Tooltip from '../charts/shared/Tooltip.jsx';
 
 class Histogram extends React.PureComponent {
@@ -119,10 +118,6 @@ class Histogram extends React.PureComponent {
     })(data);
   }
 
-  meanX(data, accessor) {
-    return d3Mean(data, d => d[accessor]);
-  }
-
   getXScale(data, valueAccessor, width, padding, offsetRight) {
     if (valueAccessor === 'luminosity') {
       const last = data[data.length - 1];
@@ -153,8 +148,8 @@ class Histogram extends React.PureComponent {
       .domain([
         0,
         d3Max(data, d => {
-          return d.length + 10;
-        }),
+          return d.length;
+        }) + 10,
       ])
       .range([height - padding, offsetTop]);
   }
@@ -267,6 +262,7 @@ class Histogram extends React.PureComponent {
 
   render() {
     const {
+      data: meanData,
       width,
       height,
       padding,
@@ -324,22 +320,24 @@ class Histogram extends React.PureComponent {
             <React.Fragment>
               <Bars
                 data={data}
-                valueAccessor={valueAccessor}
                 selectedData={selectedData}
                 hoveredData={hoveredData}
                 offsetTop={offsetTop}
                 xScale={xScale}
                 yScale={yScale}
               />
-              {/* <Bar
-                x={xScale(d.x0)}
-                y={yScale(d.length) + offsetTop}
-                width={xScale(d.x1) - xScale(d.x0)}
-                height={yScale(0) - yScale(d.length)}
-                classes={barClasses}
-                selected={this.isMatch(selectedData, d)}
-                hovered={this.isMatch(hoveredData, d)}
-              /> */}
+              {meanData && valueAccessor && (
+                <MeanBar
+                  data={meanData}
+                  bins={data}
+                  valueAccessor={valueAccessor}
+                  yScale={yScale}
+                  graphWidth={width}
+                  offsetTop={offsetTop}
+                  offsetRight={offsetRight}
+                  padding={padding}
+                />
+              )}
             </React.Fragment>
           )}
           {xScale && (
