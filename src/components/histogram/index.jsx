@@ -71,22 +71,43 @@ class Histogram extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { data } = this.props;
+    const {
+      data,
+      width,
+      padding,
+      offsetRight,
+      offsetTop,
+      height,
+      valueAccessor,
+      domain,
+    } = this.props;
 
     if (!isEmpty(data)) {
-      this.updateHistogram();
+      const histData = this.histogramData(data, valueAccessor, domain);
+
+      this.setState(prevState => ({
+        ...prevState,
+        data: histData,
+        xScale: this.getXScale(
+          histData,
+          valueAccessor,
+          width,
+          padding,
+          offsetRight
+        ),
+        yScale: this.getYScale(histData, height, padding, offsetTop),
+      }));
     }
   }
 
-  // componentDidUpdate() {
-  //   const { data } = this.props;
-  //   const { loading } = this.state;
+  componentDidUpdate() {
+    const { data } = this.props;
+    const { loading } = this.state;
 
-  // if (!isEmpty(data) && loading) {
-  //   this.updateHistogram();
-  //   console.log('runs again?');
-  // }
-  // }
+    if (!isEmpty(data) && loading) {
+      this.updateHistogram();
+    }
+  }
 
   histogramData(data, valueAccessor, domain) {
     if (valueAccessor === 'luminosity') {

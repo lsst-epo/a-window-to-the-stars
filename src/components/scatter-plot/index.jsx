@@ -62,16 +62,30 @@ class ScatterPlot extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.updateScatterPlot();
+    const {
+      xDomain,
+      yDomain,
+      width,
+      height,
+      padding,
+      offsetTop,
+      offsetRight,
+    } = this.props;
+
+    this.setState(prevState => ({
+      ...prevState,
+      xScale: this.getXScale(xDomain, width, padding, offsetRight),
+      yScale: this.getYScale(yDomain, height, padding, offsetTop),
+    }));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { selectedData } = this.state;
+    const { selectedData, loading } = this.state;
     const { data, dataSelectionCallback } = this.props;
     const differentSelectedData = selectedData !== prevState.selectedData;
     const shouldCallback = dataSelectionCallback && differentSelectedData;
 
-    if (prevProps.data !== data) {
+    if (prevProps.data !== data || (!isEmpty(data) && loading)) {
       this.updateScatterPlot();
     }
 
