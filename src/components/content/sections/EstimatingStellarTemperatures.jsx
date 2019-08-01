@@ -13,7 +13,7 @@ import QuestionsAnswerSelections from '../../questions/ExpansionList';
 import QuestionAnswerSelect from '../../questions/Select';
 
 @reactn
-class StarPropertiesObservations extends React.PureComponent {
+class EstimatingStellarTemperatures extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -26,9 +26,17 @@ class StarPropertiesObservations extends React.PureComponent {
   componentDidMount() {
     const { getActiveId, questionsRange } = this.props;
 
-    if (getActiveId) {
-      const activeId = getActiveId(questionsRange);
-      this.setActiveQuestion(activeId);
+    const activeId = getActiveId(questionsRange);
+    this.setActiveQuestion(activeId);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { activeId } = this.state;
+    const { getActiveId, questionsRange } = this.props;
+
+    if (prevState.activeId !== activeId || !activeId) {
+      const newActiveId = getActiveId(questionsRange);
+      this.setActiveQuestion(newActiveId);
     }
   }
 
@@ -196,7 +204,7 @@ class StarPropertiesObservations extends React.PureComponent {
   }
 }
 
-StarPropertiesObservations.propTypes = {
+EstimatingStellarTemperatures.propTypes = {
   clusterData: PropTypes.array,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
@@ -210,5 +218,5 @@ StarPropertiesObservations.propTypes = {
 };
 
 export default withAnswerHandlers(
-  withData(StarPropertiesObservations, 'is_member')
+  withData(EstimatingStellarTemperatures, 'is_member')
 );

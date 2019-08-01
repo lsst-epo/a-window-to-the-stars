@@ -1,7 +1,8 @@
 import React from 'reactn';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import { extentFromSet } from '../../../lib/utilities.js';
+// import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
+// import { extentFromSet } from '../../../lib/utilities.js';
 
 export const withAnswerHandlers = ComposedComponent => {
   class WrappedComponent extends React.PureComponent {
@@ -25,15 +26,18 @@ export const withAnswerHandlers = ComposedComponent => {
       const prevAnswer = { ...prevAnswers[id] };
       let content = data;
 
-      if (answerAccessor === 'temperature' || answerAccessor === 'luminosity') {
-        content = data[0] ? data[0][answerAccessor] : 'None Selected';
+      if (!answerAccessor) {
+        content = data;
       } else if (answerAccessor === 'count') {
         content = data.length;
-      } else if (answerAccessor === 'temperature range') {
-        content = !isEmpty(data)
-          ? extentFromSet(data, 'temperature')
-          : 'None Selected';
+      } else if (!includes(answerAccessor, 'range')) {
+        content = data[0] ? data[0][answerAccessor] : 'None Selected';
       }
+      //  else if (answerAccessor === 'temperature range') {
+      //   content = !isEmpty(data)
+      //     ? extentFromSet(data, 'temperature')
+      //     : 'None Selected';
+      // }
 
       this.setGlobal(prevGlobal => ({
         ...prevGlobal,

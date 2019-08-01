@@ -9,12 +9,11 @@ import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
-import QASelections from '../../questions/ExpansionList';
-import QASelect from '../../questions/Select';
-import QATextInputs from '../../questions/TextInputs';
+import QuestionsAnswerSelections from '../../questions/ExpansionList';
+import QuestionAnswerSelect from '../../questions/Select';
 
 @reactn
-class EstimatingStellarRadii extends React.PureComponent {
+class EstimatingStellarLuminosities extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -27,10 +26,8 @@ class EstimatingStellarRadii extends React.PureComponent {
   componentDidMount() {
     const { getActiveId, questionsRange } = this.props;
 
-    if (getActiveId) {
-      const activeId = getActiveId(questionsRange);
-      this.setActiveQuestion(activeId);
-    }
+    const activeId = getActiveId(questionsRange);
+    this.setActiveQuestion(activeId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -58,40 +55,22 @@ class EstimatingStellarRadii extends React.PureComponent {
     }));
   };
 
-  updateAnswer = (id, value, type) => {
+  updateAnswer = (id, value) => {
     const { answers: prevAnswers } = this.global;
     const prevAnswer = { ...prevAnswers[id] };
     const content = value || '';
 
-    if (type === 'blur') {
-      this.setGlobal(prevGlobal => ({
-        ...prevGlobal,
-        answers: {
-          ...prevAnswers,
-          [id]: {
-            ...prevAnswer,
-            id,
-            content,
-          },
+    this.setGlobal(prevGlobal => ({
+      ...prevGlobal,
+      answers: {
+        ...prevAnswers,
+        [id]: {
+          ...prevAnswer,
+          id,
+          content,
         },
-      }));
-    }
-
-    if (type === 'change') {
-      this.setGlobal(prevGlobal => ({
-        ...prevGlobal,
-        answers: {
-          ...prevAnswers,
-          [id]: {
-            ...prevAnswer,
-            id,
-            content,
-          },
-        },
-      }));
-
-      this.advanceActiveQuestion();
-    }
+      },
+    }));
   };
 
   setActiveQuestion(id) {
@@ -149,63 +128,20 @@ class EstimatingStellarRadii extends React.PureComponent {
     return (
       <Section {...this.props}>
         <section>
-          <h2 className="section-title">Estimating Stellar Radii</h2>
+          <h2 className="section-title">{`Comparing Star ${capitalize(
+            histogramAccessor
+          )}`}</h2>
           <p>
-            The Stefan-Boltzmann equation predicts the size of a star from its
-            luminosity and temperature. If we use solar luminosity units (the
-            Sun’s luminosity = 1), the equation is:
-          </p>
-          <div className="equation-container">
-            <b className="equation">
-              L = R<sup>2</sup>T<sup>4</sup>
-            </b>
-          </div>
-          <p>
-            <b>L</b> is the luminosity of the star, <b>R</b> is the radius of
-            the star, and <b>T</b> is the temperature of the star, all relative
-            to the Sun. For example, a star with a temperature three times the
-            temperature of the Sun has a temperature: <b>T = 3</b>.
-          </p>
-          <p>
-            The H-R Diagram records both temperature and luminosity, so we can
-            rearrange this equation to determine the size of the star:
-          </p>
-          <div className="equation-container">
-            <b className="equation">
-              R = &radic;(L/T<sup>4</sup>)
-            </b>
-          </div>
-          <p>
-            To explore how this works, consider a star with the same luminosity
-            as the Sun (<b>L=1</b>) and a surface temperature that is twice as
-            hot as the Sun (<b>T=2</b>). Substituting these values into the
-            equation above:
-          </p>
-          <div className="equation-container">
-            <div className="container-flex direction-column wrap">
-              <b className="equation">
-                R = &radic;(1/2<sup>4</sup>)
-              </b>
-              <b className="equation">R = &radic;(1/16)</b>
-              <b className="equation">R = &frac14;</b>
-            </div>
-          </div>
-          <p>
-            The star is considerably smaller, having a radius of only &frac14;
-            (or 25% of) the Sun’s radius.
-          </p>
-          <p>
-            Unlike the previous relationships, this equation applies to all
-            stars, not just those on the main sequence. Select stars in
-            different areas of the H-R Diagram to estimate their sizes.
-          </p>
-          <p className="copy-secondary">
-            Note: The Sun <span>SUN ICON</span> has been added to your H-R
-            Diagram.
+            Use the tabs above the graph to switch between your H-R Diagram and
+            the {capitalize(histogramAccessor)} Histogram.{' '}
+            <span className="copy-secondary">
+              Note: The Sun <span>SUN ICON</span> has been added to your H-R
+              Diagram.
+            </span>
           </p>
           <hr className="divider-horizontal" />
           {questions && (
-            <QASelections
+            <QuestionsAnswerSelections
               questions={questions.slice(0, 3)}
               answers={answers}
               activeId={activeId}
@@ -216,18 +152,10 @@ class EstimatingStellarRadii extends React.PureComponent {
             />
           )}
           {questions && (
-            <QASelect
+            <QuestionAnswerSelect
               question={questions[3]}
               answer={answers[questions[3].id]}
               handleAnswerSelect={this.updateAnswer}
-              activeId={activeId}
-            />
-          )}
-          {questions && (
-            <QATextInputs
-              questions={questions.slice(4, 6)}
-              answers={answers}
-              handleChange={this.updateAnswer}
               activeId={activeId}
             />
           )}
@@ -256,7 +184,6 @@ class EstimatingStellarRadii extends React.PureComponent {
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
                 dataSelectionCallback={this.onGraphSelection}
-                tooltipAccessors={['radius']}
               />
             )}
             {activeGraph === 1 && (
@@ -267,7 +194,7 @@ class EstimatingStellarRadii extends React.PureComponent {
                 domain={histogramDomain}
                 xAxisLabel={histogramAxisLabel}
                 dataSelectionCallback={this.onGraphSelection}
-                tooltipAccessors={['radius']}
+                tooltipAccessors={[histogramAccessor]}
               />
             )}
           </div>
@@ -277,7 +204,7 @@ class EstimatingStellarRadii extends React.PureComponent {
   }
 }
 
-EstimatingStellarRadii.propTypes = {
+EstimatingStellarLuminosities.propTypes = {
   clusterData: PropTypes.array,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
@@ -291,5 +218,5 @@ EstimatingStellarRadii.propTypes = {
 };
 
 export default withAnswerHandlers(
-  withData(EstimatingStellarRadii, 'is_member')
+  withData(EstimatingStellarLuminosities, 'is_member')
 );
