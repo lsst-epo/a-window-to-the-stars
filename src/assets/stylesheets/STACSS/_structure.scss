@@ -123,7 +123,7 @@
     }
 
     &.combined {
-      animation: reveal 2s $timing 2s forwards;
+      animation: reveal 1s $timing 1s forwards;
     }
 
     > * {
@@ -141,7 +141,7 @@
         z-index: 1;
 
         &.combined {
-          animation: mergeRight 4s $timing forwards;
+          animation: mergeRight 2s $timing forwards;
         }
       }
     }

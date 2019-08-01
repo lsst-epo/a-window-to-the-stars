@@ -8,6 +8,7 @@ class StellarValue extends React.PureComponent {
     const { type, value, isSvg } = this.props;
     const tempValue = getValue(type, value);
     const formattedValue = isNaN(tempValue) ? value : tempValue; // eslint-disable-line no-restricted-globals
+
     return (
       <React.Fragment>
         {!isSvg && <span>{formattedValue}</span>}

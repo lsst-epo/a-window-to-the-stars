@@ -70,19 +70,22 @@ class ScatterPlot extends React.PureComponent {
       padding,
       offsetTop,
       offsetRight,
+      activeData,
     } = this.props;
 
     this.setState(prevState => ({
       ...prevState,
       xScale: this.getXScale(xDomain, width, padding, offsetRight),
       yScale: this.getYScale(yDomain, height, padding, offsetTop),
+      selectedData: activeData,
     }));
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { selectedData, loading } = this.state;
-    const { data, dataSelectionCallback } = this.props;
-    const differentSelectedData = selectedData !== prevState.selectedData;
+    const { data, dataSelectionCallback, activeData } = this.props;
+    const differentSelectedData =
+      selectedData !== prevState.selectedData && selectedData !== null;
     const shouldCallback = dataSelectionCallback && differentSelectedData;
 
     if (prevProps.data !== data || (!isEmpty(data) && loading)) {
@@ -91,6 +94,19 @@ class ScatterPlot extends React.PureComponent {
 
     if (shouldCallback) {
       dataSelectionCallback(selectedData);
+    }
+
+    this.checkActive(activeData, prevProps.activeData);
+  }
+
+  checkActive(data, prevData) {
+    if (data !== null && data !== prevData) {
+      this.setState(prevState => ({
+        ...prevState,
+        selectedData: data,
+      }));
+    } else if (data === null && data !== prevData) {
+      this.clearGraph();
     }
   }
 
@@ -323,6 +339,11 @@ class ScatterPlot extends React.PureComponent {
       loaded: !loading,
     });
 
+    // const ids = data.map(d => {
+    //   return d.source_id;
+    // });
+    // console.log('hasDupes', uniq(ids).length !== ids.length, ids.length - uniq(ids).length);
+
     return (
       <React.Fragment>
         {showColorLegend && !loading && (
@@ -361,6 +382,31 @@ class ScatterPlot extends React.PureComponent {
             ref={this.svgEl}
             style={{ opacity: 0 }}
           >
+            <XAxis
+              label={xAxisLabel}
+              height={height}
+              width={width}
+              padding={padding}
+              offsetTop={offsetTop}
+              offsetRight={offsetRight}
+              scale={xScale}
+            />
+            <YAxis
+              label={yAxisLabel}
+              height={height}
+              padding={padding}
+              offsetTop={offsetTop}
+              scale={yScale}
+            />
+            {useLasso && (
+              <Lasso
+                active={showLasso}
+                lassoableEl={this.svgEl}
+                dragCallback={this.onDrag}
+                dragStartCallback={this.onDragStart}
+                dragEndCallback={this.onDragEnd}
+              />
+            )}
             {data &&
               multiple &&
               data.map((selection, i) => {
@@ -391,31 +437,6 @@ class ScatterPlot extends React.PureComponent {
                 yValueAccessor={yValueAccessor}
               />
             )}
-            <XAxis
-              label={xAxisLabel}
-              height={height}
-              width={width}
-              padding={padding}
-              offsetTop={offsetTop}
-              offsetRight={offsetRight}
-              scale={xScale}
-            />
-            <YAxis
-              label={yAxisLabel}
-              height={height}
-              padding={padding}
-              offsetTop={offsetTop}
-              scale={yScale}
-            />
-            {useLasso && (
-              <Lasso
-                active={showLasso}
-                lassoableEl={this.svgEl}
-                dragCallback={this.onDrag}
-                dragStartCallback={this.onDragStart}
-                dragEndCallback={this.onDragEnd}
-              />
-            )}
           </svg>
         </div>
       </React.Fragment>
@@ -425,6 +446,7 @@ class ScatterPlot extends React.PureComponent {
 
 ScatterPlot.propTypes = {
   data: PropTypes.array,
+  activeData: PropTypes.any,
   width: PropTypes.number,
   height: PropTypes.number,
   xAxisLabel: PropTypes.string,
