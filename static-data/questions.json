@@ -386,7 +386,7 @@
     "tool": "selection",
     "label": "Using the H-R Diagram, select the star with the shortest lifetime",
     "answerAccessor": "lifetime",
-    "answerPre": "The longest stellar lifetime is"
+    "answerPre": "The shortest stellar lifetime is"
   },
   "44": {
     "id": "44",

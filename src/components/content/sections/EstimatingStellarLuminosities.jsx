@@ -13,7 +13,7 @@ import QuestionsAnswerSelections from '../../questions/ExpansionList';
 import QuestionAnswerSelect from '../../questions/Select';
 
 @reactn
-class StarPropertiesObservations extends React.PureComponent {
+class EstimatingStellarLuminosities extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -26,11 +26,19 @@ class StarPropertiesObservations extends React.PureComponent {
   componentDidMount() {
     const { getActiveId, questionsRange } = this.props;
 
-    if (getActiveId) {
-      const activeId = getActiveId(questionsRange);
-      this.setActiveQuestion(activeId);
-    }
+    const activeId = getActiveId(questionsRange);
+    this.setActiveQuestion(activeId);
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { activeId } = this.state;
+  //   const { getActiveId, questionsRange } = this.props;
+
+  //   if (prevState.activeId !== activeId || !activeId) {
+  //     const newActiveId = getActiveId(questionsRange);
+  //     this.setActiveQuestion(newActiveId);
+  //   }
+  // }
 
   selectItems(clusters) {
     return clusters.map((cluster, i) => {
@@ -47,23 +55,23 @@ class StarPropertiesObservations extends React.PureComponent {
     }));
   };
 
-  updateAnswer = (id, value) => {
-    const { answers: prevAnswers } = this.global;
-    const prevAnswer = { ...prevAnswers[id] };
-    const content = value || '';
+  // updateAnswer = (id, value) => {
+  //   const { answers: prevAnswers } = this.global;
+  //   const prevAnswer = { ...prevAnswers[id] };
+  //   const content = value || '';
 
-    this.setGlobal(prevGlobal => ({
-      ...prevGlobal,
-      answers: {
-        ...prevAnswers,
-        [id]: {
-          ...prevAnswer,
-          id,
-          content,
-        },
-      },
-    }));
-  };
+  //   this.setGlobal(prevGlobal => ({
+  //     ...prevGlobal,
+  //     answers: {
+  //       ...prevAnswers,
+  //       [id]: {
+  //         ...prevAnswer,
+  //         id,
+  //         content,
+  //       },
+  //     },
+  //   }));
+  // };
 
   setActiveQuestion(id) {
     this.setState(prevState => ({
@@ -112,6 +120,7 @@ class StarPropertiesObservations extends React.PureComponent {
       histogramAccessor,
       histogramDomain,
       histogramAxisLabel,
+      answerHandler,
     } = this.props;
     const { activeGraph, activeId } = this.state;
     const { answers } = this.global;
@@ -147,7 +156,7 @@ class StarPropertiesObservations extends React.PureComponent {
             <QuestionAnswerSelect
               question={questions[3]}
               answer={answers[questions[3].id]}
-              handleAnswerSelect={this.updateAnswer}
+              handleAnswerSelect={answerHandler}
               activeId={activeId}
             />
           )}
@@ -196,7 +205,7 @@ class StarPropertiesObservations extends React.PureComponent {
   }
 }
 
-StarPropertiesObservations.propTypes = {
+EstimatingStellarLuminosities.propTypes = {
   clusterData: PropTypes.array,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
@@ -210,5 +219,5 @@ StarPropertiesObservations.propTypes = {
 };
 
 export default withAnswerHandlers(
-  withData(StarPropertiesObservations, 'is_member')
+  withData(EstimatingStellarLuminosities, 'is_member')
 );

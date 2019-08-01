@@ -11,7 +11,8 @@ import ComparingHRD from './ComparingHRD';
 import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
-import StarPropertiesObservations from './StarPropertiesObservations';
+import EstimatingStellarTemperatures from './EstimatingStellarTemperatures';
+import EstimatingStellarLuminosities from './EstimatingStellarLuminosities';
 import EstimatingStellarRadii from './EstimatingStellarRadii';
 import EstimatingStellarLifetimes from './EstimatingStellarLifetimes';
 import EstimatingStellarMasses from './EstimatingStellarMasses';
@@ -275,7 +276,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/10"
           render={() => (
-            <StarPropertiesObservations
+            <EstimatingStellarTemperatures
               id="10"
               scrollable={0}
               histogramDomain={[3500, 10000]}
@@ -293,7 +294,7 @@ class Sections extends React.PureComponent {
         <Route
           path="/11"
           render={() => (
-            <StarPropertiesObservations
+            <EstimatingStellarLuminosities
               id="11"
               scrollable={0}
               histogramDomain={[-2, 4]}

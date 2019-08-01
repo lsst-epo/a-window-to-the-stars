@@ -33,6 +33,16 @@ class EstimatingStellarMasses extends React.PureComponent {
     }
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { activeId } = this.state;
+  //   const { getActiveId, questionsRange } = this.props;
+
+  //   if (prevState.activeId !== activeId || !activeId) {
+  //     const newActiveId = getActiveId(questionsRange);
+  //     this.setActiveQuestion(newActiveId);
+  //   }
+  // }
+
   selectItems(clusters) {
     return clusters.map((cluster, i) => {
       return { label: cluster.name, value: i };
@@ -249,7 +259,7 @@ class EstimatingStellarMasses extends React.PureComponent {
             </div>
             <div className="equation-container padded">
               <b className="equation">
-                (2M<sub>&#8857;</sub> &lt; M &lt; 20M<sub>&#8857;</sub>;)
+                (2M<sub>&#8857;</sub> &lt; M &lt; 20M<sub>&#8857;</sub>)
               </b>
             </div>
           </div>

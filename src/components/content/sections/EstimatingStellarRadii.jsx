@@ -33,6 +33,16 @@ class EstimatingStellarRadii extends React.PureComponent {
     }
   }
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { activeId } = this.state;
+  //   const { getActiveId, questionsRange } = this.props;
+
+  //   if (prevState.activeId !== activeId || !activeId) {
+  //     const newActiveId = getActiveId(questionsRange);
+  //     this.setActiveQuestion(newActiveId);
+  //   }
+  // }
+
   selectItems(clusters) {
     return clusters.map((cluster, i) => {
       return { label: cluster.name, value: i };
