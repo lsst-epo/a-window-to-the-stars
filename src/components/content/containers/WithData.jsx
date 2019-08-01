@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import uniq from 'lodash/uniq';
 import API from '../../site/API';
 
 export const withData = (ComposedComponent, filter) => {
@@ -17,9 +18,11 @@ export const withData = (ComposedComponent, filter) => {
 
       if (filter) {
         API.get(dataPath).then(res => {
-          const clusterData = res.data.stars.filter(datum => {
-            return !!datum.is_member;
-          });
+          const clusterData = uniq(
+            res.data.stars.filter(datum => {
+              return !!datum.is_member;
+            })
+          );
 
           this.setState(prevState => ({
             ...prevState,

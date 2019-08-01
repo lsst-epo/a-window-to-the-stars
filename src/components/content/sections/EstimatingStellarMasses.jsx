@@ -1,6 +1,7 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import { capitalize } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
@@ -327,6 +328,9 @@ class EstimatingStellarMasses extends React.PureComponent {
             {activeGraph === 0 && (
               <ScatterPlot
                 data={clusterData}
+                activeData={
+                  !isEmpty(answers[activeId]) ? answers[activeId].data : null
+                }
                 xDomain={scatterXDomain}
                 yDomain={scatterYDomain}
                 xValueAccessor="temperature"

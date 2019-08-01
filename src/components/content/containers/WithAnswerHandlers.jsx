@@ -43,6 +43,7 @@ export const withAnswerHandlers = ComposedComponent => {
             ...prevAnswer,
             id,
             content,
+            data,
           },
         },
       }));

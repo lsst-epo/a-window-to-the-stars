@@ -143,8 +143,10 @@ class HRDObservations extends React.PureComponent {
           <h2 className="space-bottom">H-R Diagram: Star {clusterName}</h2>
           <ScatterPlot
             id={id}
-            activeId={activeId}
             data={clusterData}
+            activeData={
+              !isEmpty(answers[activeId]) ? answers[activeId].data : null
+            }
             xValueAccessor="temperature"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
