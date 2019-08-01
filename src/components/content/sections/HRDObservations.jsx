@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import { formatValue } from '../../../lib/utilities.js';
+import { formatValue, getAnswerData } from '../../../lib/utilities.js';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
@@ -144,9 +144,7 @@ class HRDObservations extends React.PureComponent {
           <ScatterPlot
             id={id}
             data={clusterData}
-            activeData={
-              !isEmpty(answers[activeId]) ? answers[activeId].data : null
-            }
+            activeData={getAnswerData(answers, activeId)}
             xValueAccessor="temperature"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"

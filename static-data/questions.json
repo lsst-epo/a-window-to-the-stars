@@ -281,7 +281,7 @@
     "type": "accordion",
     "tool": "selection",
     "label": "Using the Mass Histogram, select the range containing the least massive stars. (Hint: Each bar in the histogram is a range of stellar masses.)",
-    "answerAccessor": "luminosity",
+    "answerAccessor": "mass range",
     "answerPre": "The smallest stellar mass is"
   },
   "33": {
@@ -289,7 +289,7 @@
     "type": "accordion",
     "tool": "selection",
     "label": "Using the Mass Histogram, select the range containing the most massive stars.",
-    "answerAccessor": "luminosity",
+    "answerAccessor": "mass range",
     "answerPre": "The largest stellar mass is"
   },
   "34": {
@@ -320,7 +320,7 @@
     "type": "accordion",
     "tool": "selection",
     "label": "Using the Radius Histogram, select the range containing the smallest stars. (Hint: Each bar in the histogram is a range of stellar masses.)",
-    "answerAccessor": "luminosity",
+    "answerAccessor": "radius range",
     "answerPre": "The smallest radius is"
   },
   "37": {
@@ -328,7 +328,7 @@
     "type": "accordion",
     "tool": "selection",
     "label": "Using the Radius Histogram, select the range containing the largest stars.",
-    "answerAccessor": "luminosity",
+    "answerAccessor": "radius range",
     "answerPre": "The largest radius is"
   },
   "38": {

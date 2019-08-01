@@ -1,6 +1,11 @@
 import isEmpty from 'lodash/isEmpty';
 import { extent as d3Extent } from 'd3-array';
 
+export const getAnswerData = function(answers, id) {
+  const answer = answers[id];
+  return !isEmpty(answer) ? answer.data : null;
+};
+
 export const datumInData = function(data, datum) {
   if (isEmpty(data)) return false;
 

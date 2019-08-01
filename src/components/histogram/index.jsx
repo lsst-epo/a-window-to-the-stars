@@ -100,12 +100,25 @@ class Histogram extends React.PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    const { data } = this.props;
+  componentDidUpdate(prevProps) {
+    const { data, activeData } = this.props;
     const { loading } = this.state;
 
     if (!isEmpty(data) && loading) {
       this.updateHistogram();
+    }
+
+    this.checkActive(activeData, prevProps.activeData);
+  }
+
+  checkActive(data, prevData) {
+    if (data !== null && data !== prevData) {
+      this.setState(prevState => ({
+        ...prevState,
+        selectedData: data,
+      }));
+    } else if (data === null && data !== prevData) {
+      this.clearGraph();
     }
   }
 
@@ -390,7 +403,7 @@ class Histogram extends React.PureComponent {
 
 Histogram.propTypes = {
   data: PropTypes.array,
-  // selectedData: PropTypes.array,
+  activeData: PropTypes.any,
   dataSelectionCallback: PropTypes.func,
   width: PropTypes.number,
   height: PropTypes.number,
