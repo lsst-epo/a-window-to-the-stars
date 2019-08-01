@@ -1,8 +1,8 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import { capitalize } from '../../../lib/utilities';
+// import isEmpty from 'lodash/isEmpty';
+import { capitalize, getAnswerData } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
@@ -115,8 +115,7 @@ class StarPropertiesObservations extends React.PureComponent {
     } = this.props;
     const { activeGraph, activeId } = this.state;
     const { answers } = this.global;
-    const activeAnswer = answers[activeId];
-    const activeData = activeAnswer ? activeAnswer.data : null;
+    const activeData = getAnswerData(answers, activeId);
 
     return (
       <Section {...this.props}>
@@ -169,9 +168,7 @@ class StarPropertiesObservations extends React.PureComponent {
             {activeGraph === 0 && (
               <ScatterPlot
                 data={clusterData}
-                activeData={
-                  !isEmpty(answers[activeId]) ? answers[activeId].data : null
-                }
+                activeData={activeData}
                 xDomain={scatterXDomain}
                 yDomain={scatterYDomain}
                 xValueAccessor="temperature"
@@ -184,7 +181,7 @@ class StarPropertiesObservations extends React.PureComponent {
             {activeGraph === 1 && (
               <Histogram
                 data={clusterData}
-                selectedData={activeData}
+                activeData={activeData}
                 valueAccessor={histogramAccessor}
                 domain={histogramDomain}
                 xAxisLabel={histogramAxisLabel}

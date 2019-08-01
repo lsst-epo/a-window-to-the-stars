@@ -349,7 +349,7 @@ class Sections extends React.PureComponent {
               id="14"
               scrollable={0}
               histogramAccessor="radius"
-              histogramAxisLabel="Radius (Gyr)"
+              histogramAxisLabel="Radius (Rsun)"
               scatterXDomain={[10000, 3500]}
               scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
+// import isEmpty from 'lodash/isEmpty';
+import { getAnswerData } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
@@ -123,9 +124,7 @@ class ExploringStarClusters extends React.PureComponent {
           <h2 className="space-bottom">H-R Diagram</h2>
           <ScatterPlot
             data={clusterData}
-            activeData={
-              !isEmpty(answers[activeId]) ? answers[activeId].data : null
-            }
+            activeData={getAnswerData(answers, activeId)}
             xValueAccessor="temperature"
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
