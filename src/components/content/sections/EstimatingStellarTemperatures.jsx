@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { capitalize, getAnswerData } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
+import { withActiveQuestions } from '../containers/withActiveQuestions';
 import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
@@ -19,33 +20,7 @@ class EstimatingStellarTemperatures extends React.PureComponent {
 
     this.state = {
       activeGraph: 0,
-      activeId: null,
     };
-  }
-
-  componentDidMount() {
-    const { getActiveId, questionsRange } = this.props;
-
-    const activeId = getActiveId(questionsRange);
-    this.setActiveQuestion(activeId);
-  }
-
-  componentDidUpdate() {
-    const { activeId } = this.state;
-    console.log(activeId);
-  }
-  //   const { getActiveId, questionsRange } = this.props;
-
-  //   if (prevState.activeId !== activeId || !activeId) {
-  //     const newActiveId = getActiveId(questionsRange);
-  //     this.setActiveQuestion(newActiveId);
-  //   }
-  // }
-
-  selectItems(clusters) {
-    return clusters.map((cluster, i) => {
-      return { label: cluster.name, value: i };
-    });
   }
 
   onGraphSelect = e => {
@@ -57,46 +32,10 @@ class EstimatingStellarTemperatures extends React.PureComponent {
     }));
   };
 
-  // updateAnswer = (id, value) => {
-  //   const { answers: prevAnswers } = this.global;
-  //   const prevAnswer = { ...prevAnswers[id] };
-  //   const content = value || '';
-
-  //   this.setGlobal(prevGlobal => ({
-  //     ...prevGlobal,
-  //     answers: {
-  //       ...prevAnswers,
-  //       [id]: {
-  //         ...prevAnswer,
-  //         id,
-  //         content,
-  //       },
-  //     },
-  //   }));
-  // };
-
-  setActiveQuestion = id => {
-    this.setState(prevState => ({
-      ...prevState,
-      activeId: id,
-    }));
-  };
-
-  advanceActiveQuestion = () => {
-    const { getActiveId, questionsRange } = this.props;
-    const nextId = getActiveId(questionsRange);
-    this.setActiveQuestion(nextId);
-  };
-
   onGraphSelection = selectedData => {
-    const { answerHandler } = this.props;
-    const { activeId } = this.state;
+    const { answerHandler, activeId } = this.props;
 
     answerHandler(activeId, selectedData);
-  };
-
-  onQAToggle = () => {
-    return null;
   };
 
   render() {
@@ -109,8 +48,11 @@ class EstimatingStellarTemperatures extends React.PureComponent {
       histogramDomain,
       histogramAxisLabel,
       answerHandler,
+      setActive,
+      advanceActive,
+      activeId,
     } = this.props;
-    const { activeGraph, activeId } = this.state;
+    const { activeGraph } = this.state;
     const { answers } = this.global;
     const activeData = getAnswerData(answers, activeId);
 
@@ -134,10 +76,9 @@ class EstimatingStellarTemperatures extends React.PureComponent {
               questions={questions.slice(0, 3)}
               answers={answers}
               activeId={activeId}
-              toggleHandler={this.onQAToggle}
               cancelHandler={answerHandler}
-              saveHandler={this.advanceActiveQuestion}
-              editHandler={this.setActiveQuestion}
+              saveHandler={advanceActive}
+              editHandler={setActive}
             />
           )}
           {questions && (
@@ -195,10 +136,11 @@ class EstimatingStellarTemperatures extends React.PureComponent {
 
 EstimatingStellarTemperatures.propTypes = {
   clusterData: PropTypes.array,
-  questionsRange: PropTypes.array,
+  activeId: PropTypes.string,
+  setActive: PropTypes.func,
+  advanceActive: PropTypes.func,
   questions: PropTypes.array,
   answerHandler: PropTypes.func,
-  getActiveId: PropTypes.func,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
   histogramAccessor: PropTypes.string,
@@ -207,5 +149,5 @@ EstimatingStellarTemperatures.propTypes = {
 };
 
 export default withAnswerHandlers(
-  withData(EstimatingStellarTemperatures, 'is_member')
+  withActiveQuestions(withData(EstimatingStellarTemperatures, 'is_member'))
 );

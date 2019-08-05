@@ -4,12 +4,15 @@ import QuestionsAnswers from 'react-md/lib//ExpansionPanels/ExpansionList';
 import QuestionAnswer from './ExpansionPanel';
 
 class QuestionExpansionList extends React.PureComponent {
+  toggleHandler = () => {
+    return null;
+  };
+
   render() {
     const {
       questions,
       answers,
       activeId,
-      toggleHandler,
       cancelHandler,
       saveHandler,
       editHandler,
@@ -28,7 +31,7 @@ class QuestionExpansionList extends React.PureComponent {
               question={question}
               answer={answer}
               active={activeId === id}
-              toggleHandler={toggleHandler}
+              toggleHandler={this.toggleHandler}
               cancelHandler={cancelHandler}
               saveHandler={saveHandler}
               editHandler={editHandler}

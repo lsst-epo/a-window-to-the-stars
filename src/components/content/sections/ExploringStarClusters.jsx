@@ -1,65 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import isEmpty from 'lodash/isEmpty';
 import { getAnswerData } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
+import { withActiveQuestions } from '../containers/withActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QuestionsAnswers from '../../questions/ExpansionList';
 
 class ExploringStarClusters extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeId: null,
-    };
-  }
-
-  componentDidMount() {
-    const { getActiveId, questionsRange } = this.props;
-    const activeId = getActiveId(questionsRange);
-
-    this.setActiveQuestion(activeId);
-  }
-
-  setActiveQuestion(id) {
-    this.setState(prevState => ({
-      ...prevState,
-      activeId: id,
-    }));
-  }
-
-  advanceActiveQuestion() {
-    const { getActiveId, questionsRange } = this.props;
-    const nextId = getActiveId(questionsRange);
-
-    this.setActiveQuestion(nextId);
-  }
-
   onGraphSelection = selectedData => {
-    const { answerHandler } = this.props;
-    const { activeId } = this.state;
+    const { answerHandler, activeId } = this.props;
 
     answerHandler(activeId, selectedData);
-  };
-
-  onQAToggle = () => {
-    return null;
-  };
-
-  onAnswerCancel = id => {
-    const { answerHandler } = this.props;
-    answerHandler(id);
-  };
-
-  onAnswerSave = () => {
-    this.advanceActiveQuestion();
-  };
-
-  onEdit = id => {
-    this.setActiveQuestion(id);
   };
 
   render() {
@@ -69,8 +22,11 @@ class ExploringStarClusters extends React.PureComponent {
       clusterData,
       scatterXDomain,
       scatterYDomain,
+      answerHandler,
+      setActive,
+      advanceActive,
+      activeId,
     } = this.props;
-    const { activeId } = this.state;
 
     return (
       <Section {...this.props}>
@@ -113,10 +69,9 @@ class ExploringStarClusters extends React.PureComponent {
               questions={questions}
               answers={answers}
               activeId={activeId}
-              toggleHandler={this.onQAToggle}
-              cancelHandler={this.onAnswerCancel}
-              saveHandler={this.onAnswerSave}
-              editHandler={this.onEdit}
+              cancelHandler={answerHandler}
+              saveHandler={advanceActive}
+              editHandler={setActive}
             />
           )}
         </section>
@@ -142,13 +97,16 @@ class ExploringStarClusters extends React.PureComponent {
 
 ExploringStarClusters.propTypes = {
   clusterData: PropTypes.array,
-  questionsRange: PropTypes.array,
+  activeId: PropTypes.string,
+  setActive: PropTypes.func,
+  advanceActive: PropTypes.func,
   questions: PropTypes.array,
   answers: PropTypes.object,
-  getActiveId: PropTypes.func,
   answerHandler: PropTypes.func,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
 };
 
-export default withAnswerHandlers(withData(ExploringStarClusters, 'is_member'));
+export default withAnswerHandlers(
+  withActiveQuestions(withData(ExploringStarClusters, 'is_member'))
+);

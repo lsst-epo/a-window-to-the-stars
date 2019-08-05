@@ -4,27 +4,13 @@ import isEmpty from 'lodash/isEmpty';
 import { formatValue, getAnswerData } from '../../../lib/utilities.js';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
+import { withActiveQuestions } from '../containers/withActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QuestionsAnswers from '../../questions/ExpansionList';
 import Table from '../../site/forms/Table';
 
 class HRDObservations extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeId: null,
-    };
-  }
-
-  componentDidMount() {
-    const { getActiveId, questionsRange } = this.props;
-
-    const activeId = getActiveId(questionsRange);
-    this.setActiveQuestion(activeId);
-  }
-
   tableValues() {
     const cells = [
       ['Main Sequence Temperature Range'],
@@ -64,42 +50,10 @@ class HRDObservations extends React.PureComponent {
     return cells;
   }
 
-  setActiveQuestion(id) {
-    this.setState(prevState => ({
-      ...prevState,
-      activeId: id,
-    }));
-  }
-
-  advanceActiveQuestion() {
-    const { getActiveId, questionsRange } = this.props;
-    const nextId = getActiveId(questionsRange);
-    this.setActiveQuestion(nextId);
-  }
-
   onGraphSelection = selectedData => {
-    const { answerHandler } = this.props;
-    const { activeId } = this.state;
+    const { answerHandler, activeId } = this.props;
 
     answerHandler(activeId, selectedData);
-  };
-
-  onQAToggle = () => {
-    return null;
-  };
-
-  onAnswerCancel = id => {
-    const { answerHandler } = this.props;
-
-    answerHandler(id);
-  };
-
-  onAnswerSave = id => {
-    this.advanceActiveQuestion(id);
-  };
-
-  onEdit = id => {
-    this.setActiveQuestion(id);
   };
 
   render() {
@@ -112,8 +66,11 @@ class HRDObservations extends React.PureComponent {
       id,
       scatterXDomain,
       scatterYDomain,
+      answerHandler,
+      setActive,
+      advanceActive,
+      activeId,
     } = this.props;
-    const { activeId } = this.state;
 
     return (
       <Section {...this.props}>
@@ -126,10 +83,9 @@ class HRDObservations extends React.PureComponent {
               questions={questions}
               answers={answers}
               activeId={activeId}
-              toggleHandler={this.onQAToggle}
-              cancelHandler={this.onAnswerCancel}
-              saveHandler={this.onAnswerSave}
-              editHandler={this.onEdit}
+              cancelHandler={answerHandler}
+              saveHandler={advanceActive}
+              editHandler={setActive}
             />
           )}
           <hr className="divider-horizontal" />
@@ -163,12 +119,14 @@ class HRDObservations extends React.PureComponent {
 
 HRDObservations.propTypes = {
   id: PropTypes.number,
+  activeId: PropTypes.string,
+  setActive: PropTypes.func,
+  advanceActive: PropTypes.func,
   clusterData: PropTypes.array,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
   answers: PropTypes.object,
   answerHandler: PropTypes.func,
-  getActiveId: PropTypes.func,
   layout: PropTypes.string,
   dividers: PropTypes.bool,
   paginationLocation: PropTypes.number,
@@ -178,4 +136,6 @@ HRDObservations.propTypes = {
   scatterYDomain: PropTypes.array,
 };
 
-export default withAnswerHandlers(withData(HRDObservations, 'is_member'));
+export default withAnswerHandlers(
+  withActiveQuestions(withData(HRDObservations, 'is_member'))
+);

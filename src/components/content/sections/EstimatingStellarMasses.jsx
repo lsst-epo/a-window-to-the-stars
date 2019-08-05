@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { capitalize, getAnswerData } from '../../../lib/utilities';
 import { withData } from '../containers/WithData';
 import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
+import { withActiveQuestions } from '../containers/withActiveQuestions';
 import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
@@ -20,33 +21,7 @@ class EstimatingStellarMasses extends React.PureComponent {
 
     this.state = {
       activeGraph: 0,
-      activeId: null,
     };
-  }
-
-  componentDidMount() {
-    const { getActiveId, questionsRange } = this.props;
-
-    if (getActiveId) {
-      const activeId = getActiveId(questionsRange);
-      this.setActiveQuestion(activeId);
-    }
-  }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { activeId } = this.state;
-  //   const { getActiveId, questionsRange } = this.props;
-
-  //   if (prevState.activeId !== activeId || !activeId) {
-  //     const newActiveId = getActiveId(questionsRange);
-  //     this.setActiveQuestion(newActiveId);
-  //   }
-  // }
-
-  selectItems(clusters) {
-    return clusters.map((cluster, i) => {
-      return { label: cluster.name, value: i };
-    });
   }
 
   onGraphSelect = e => {
@@ -59,77 +34,19 @@ class EstimatingStellarMasses extends React.PureComponent {
   };
 
   updateAnswer = (id, value, type) => {
-    const { answers: prevAnswers } = this.global;
-    const prevAnswer = { ...prevAnswers[id] };
-    const content = value || '';
+    const { answerHandler, advanceActive } = this.props;
 
-    if (type === 'blur') {
-      this.setGlobal(prevGlobal => ({
-        ...prevGlobal,
-        answers: {
-          ...prevAnswers,
-          [id]: {
-            ...prevAnswer,
-            id,
-            content,
-          },
-        },
-      }));
-    }
+    answerHandler(id, value, type);
 
     if (type === 'change') {
-      this.setGlobal(prevGlobal => ({
-        ...prevGlobal,
-        answers: {
-          ...prevAnswers,
-          [id]: {
-            ...prevAnswer,
-            id,
-            content,
-          },
-        },
-      }));
-
-      this.advanceActiveQuestion();
+      advanceActive();
     }
   };
 
-  setActiveQuestion(id) {
-    this.setState(prevState => ({
-      ...prevState,
-      activeId: id,
-    }));
-  }
-
-  advanceActiveQuestion() {
-    const { getActiveId, questionsRange } = this.props;
-    const nextId = getActiveId(questionsRange);
-    this.setActiveQuestion(nextId);
-  }
-
   onGraphSelection = selectedData => {
-    const { answerHandler } = this.props;
-    const { activeId } = this.state;
+    const { answerHandler, activeId } = this.props;
 
     answerHandler(activeId, selectedData);
-  };
-
-  onQAToggle = () => {
-    return null;
-  };
-
-  onAnswerCancel = id => {
-    const { answerHandler } = this.props;
-
-    answerHandler(id);
-  };
-
-  onAnswerSave = id => {
-    this.advanceActiveQuestion(id);
-  };
-
-  onEdit = id => {
-    this.setActiveQuestion(id);
   };
 
   render() {
@@ -141,8 +58,12 @@ class EstimatingStellarMasses extends React.PureComponent {
       histogramAccessor,
       histogramDomain,
       histogramAxisLabel,
+      answerHandler,
+      setActive,
+      advanceActive,
+      activeId,
     } = this.props;
-    const { activeGraph, activeId } = this.state;
+    const { activeGraph } = this.state;
     const { answers } = this.global;
     const activeData = getAnswerData(answers, activeId);
 
@@ -307,10 +228,9 @@ class EstimatingStellarMasses extends React.PureComponent {
                 questions={questions.slice(2, 5)}
                 answers={answers}
                 activeId={activeId}
-                toggleHandler={this.onQAToggle}
-                cancelHandler={this.onAnswerCancel}
-                saveHandler={this.onAnswerSave}
-                editHandler={this.onEdit}
+                cancelHandler={answerHandler}
+                saveHandler={advanceActive}
+                editHandler={setActive}
               />
               <QASelect
                 question={questions[5]}
@@ -368,10 +288,11 @@ class EstimatingStellarMasses extends React.PureComponent {
 
 EstimatingStellarMasses.propTypes = {
   clusterData: PropTypes.array,
-  questionsRange: PropTypes.array,
+  activeId: PropTypes.string,
+  setActive: PropTypes.func,
+  advanceActive: PropTypes.func,
   questions: PropTypes.array,
   answerHandler: PropTypes.func,
-  getActiveId: PropTypes.func,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
   histogramAccessor: PropTypes.string,
@@ -380,5 +301,5 @@ EstimatingStellarMasses.propTypes = {
 };
 
 export default withAnswerHandlers(
-  withData(EstimatingStellarMasses, 'is_member')
+  withActiveQuestions(withData(EstimatingStellarMasses, 'is_member'))
 );

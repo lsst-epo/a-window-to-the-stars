@@ -26,7 +26,12 @@ export const withAnswerHandlers = ComposedComponent => {
       const prevAnswer = { ...prevAnswers[id] };
       let content = data;
 
-      if (answerAccessor === 'select' || !answerAccessor) {
+      if (
+        answerAccessor === 'text' ||
+        answerAccessor === 'compound-select' ||
+        answerAccessor === 'select' ||
+        !answerAccessor
+      ) {
         content = data;
       } else if (answerAccessor === 'count') {
         content = data.length;
