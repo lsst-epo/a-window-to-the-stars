@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import Question from 'react-md/lib//ExpansionPanels/ExpansionPanel';
 import Answer from '../answers/ExpansionPanel';
 
-class QuestionExpansionPanel extends React.PureComponent {
+class QAExpansionPanel extends React.PureComponent {
   render() {
     const {
       question,
@@ -61,7 +61,7 @@ class QuestionExpansionPanel extends React.PureComponent {
   }
 }
 
-QuestionExpansionPanel.propTypes = {
+QAExpansionPanel.propTypes = {
   answer: PropTypes.object,
   question: PropTypes.object,
   active: PropTypes.bool,
@@ -73,4 +73,4 @@ QuestionExpansionPanel.propTypes = {
   editHandler: PropTypes.func,
 };
 
-export default QuestionExpansionPanel;
+export default QAExpansionPanel;

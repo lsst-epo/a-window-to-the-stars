@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import Select from '../site/forms/Select';
 
-class QuestionSelect extends React.PureComponent {
+class QASelect extends React.PureComponent {
   onChange = e => {
     const { question, handleAnswerSelect } = this.props;
     const { value } = e.target;
@@ -38,10 +38,10 @@ class QuestionSelect extends React.PureComponent {
       options,
       placeholder,
     } = question;
+    // const active = ids ? this.checkIds(ids, activeId) : activeId === id;
     const active = ids ? this.checkIds(ids, activeId) : activeId === id;
-
     const answered = !isEmpty(answer);
-    const classes = classnames('qa qa-select', {
+    const classes = classnames('qa-select', {
       active,
       answered,
       unanswered: !answered,
@@ -72,7 +72,7 @@ class QuestionSelect extends React.PureComponent {
   }
 }
 
-QuestionSelect.propTypes = {
+QASelect.propTypes = {
   handleAnswerSelect: PropTypes.func,
   question: PropTypes.object,
   answer: PropTypes.object,
@@ -80,4 +80,4 @@ QuestionSelect.propTypes = {
   ids: PropTypes.array,
 };
 
-export default QuestionSelect;
+export default QASelect;

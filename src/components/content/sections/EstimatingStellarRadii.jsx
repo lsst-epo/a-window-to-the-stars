@@ -10,9 +10,7 @@ import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
-import QASelections from '../../questions/ExpansionList';
-import QASelect from '../../questions/Select';
-import QATextInputs from '../../questions/TextInputs';
+import QAs from '../../qas';
 
 @reactn
 class EstimatingStellarRadii extends React.PureComponent {
@@ -126,29 +124,13 @@ class EstimatingStellarRadii extends React.PureComponent {
           </p>
           <hr className="divider-horizontal" />
           {questions && (
-            <QASelections
-              questions={questions.slice(0, 3)}
+            <QAs
+              questions={questions}
               answers={answers}
               activeId={activeId}
-              cancelHandler={answerHandler}
-              saveHandler={advanceActive}
-              editHandler={setActive}
-            />
-          )}
-          {questions && (
-            <QASelect
-              question={questions[3]}
-              answer={answers[questions[3].id]}
-              handleAnswerSelect={this.updateAnswer}
-              activeId={activeId}
-            />
-          )}
-          {questions && (
-            <QATextInputs
-              questions={questions.slice(4, 6)}
-              answers={answers}
-              handleChange={this.updateAnswer}
-              activeId={activeId}
+              answerHandler={answerHandler}
+              advanceActive={advanceActive}
+              setActive={setActive}
             />
           )}
         </section>

@@ -4,10 +4,13 @@ import PropTypes from 'prop-types';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'react-md/lib/Buttons/Button';
-import { formatValue } from '../../../lib/utilities.js';
+// import { getCompoundQs } from '../../../lib/utilities.js';
 import Page from '../../site/Page';
 import ScatterPlot from '../../scatter-plot';
 import ArrowLeft from '../../site/icons/ArrowLeft';
+// import StellarValue from '../../charts/shared/StellarValue';
+// import StellarValueRange from '../../charts/shared/StellarValueRange';
+import FormattedAnswer from '../../answers/FormattedAnswer';
 
 class Results extends React.PureComponent {
   static defaultProps = {
@@ -29,40 +32,7 @@ class Results extends React.PureComponent {
         </div>
         {!isEmpty(answer) ? (
           <p className="answer">
-            {pre && <span className="answer-pre">{pre} </span>}
-
-            {accessor === 'temperature' && (
-              <React.Fragment>
-                <span className="answer-content">
-                  {formatValue(answer.content, 0)}
-                </span>
-                <span className="unit"> K</span>
-              </React.Fragment>
-            )}
-            {accessor === 'luminosity' && (
-              <React.Fragment>
-                <span className="answer-content">
-                  {formatValue(answer.content, 3)}
-                </span>
-                <sub className="unit">&#8857;</sub>
-              </React.Fragment>
-            )}
-            {accessor === 'temperature range' && (
-              <React.Fragment>
-                <span className="answer-content">
-                  <span>{formatValue(answer.content[0], 0)}</span>
-                  <span className="unit">K</span>
-                  {` – `}
-                  <span>{formatValue(answer.content[1], 0)}</span>
-                  <span className="unit">K</span>
-                </span>
-              </React.Fragment>
-            )}
-            {accessor === 'count' && (
-              <span className="unit">
-                {parseInt(answer.content, 10) > 1 ? 'stars' : 'star'}
-              </span>
-            )}
+            <FormattedAnswer pre={pre} type={accessor} body={answer.content} />
           </p>
         ) : (
           <p className="answer">No answer provided</p>
@@ -119,7 +89,29 @@ class Results extends React.PureComponent {
   }
 
   renderSelectQA(index, question, answer) {
-    const { label, answerPre } = question;
+    const { label, SRLabel, answerPre } = question;
+    const count = index + 1;
+
+    return (
+      <div className="qa">
+        <div className="question">
+          <span>{count}. </span>
+          {label || SRLabel}
+        </div>
+        {!isEmpty(answer) ? (
+          <p className="answer">
+            {answerPre && <span>{answerPre}&nbsp;</span>}
+            <span>{answer.content}</span>
+          </p>
+        ) : (
+          <p className="answer">No answer provided</p>
+        )}
+      </div>
+    );
+  }
+
+  renderCompoundSelectQA(index, question, answer) {
+    const { SRLabel: label, answerPre, answerPost } = question;
     const count = index + 1;
 
     return (
@@ -129,10 +121,11 @@ class Results extends React.PureComponent {
           {label}
         </div>
         {!isEmpty(answer) ? (
-          <div className="answer">
-            {answerPre && <span>{answerPre}</span>}
+          <p className="answer">
+            {answerPre && <span>{answerPre}&nbsp;</span>}
             <span>{answer.content}</span>
-          </div>
+            {answerPost && <span>&nbsp;{answerPost}</span>}
+          </p>
         ) : (
           <p className="answer">No answer provided</p>
         )}
@@ -157,6 +150,10 @@ class Results extends React.PureComponent {
 
     if (type === 'select') {
       return this.renderSelectQA(index, question, answer);
+    }
+
+    if (type === 'compound-select') {
+      return this.renderCompoundSelectQA(index, question, answer);
     }
 
     return (

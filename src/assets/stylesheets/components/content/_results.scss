@@ -3,7 +3,7 @@
 
   .result {
     + .result {
-      margin-top: $minPadding;
+      margin-top: 2* $minPadding;
     }
 
     .question {
@@ -12,15 +12,11 @@
     }
 
     .answer {
-      margin-left: $minPadding;
+      margin-top: 0.5 * $verticalSpace;
 
       &.graph {
         max-width: 320px;
       }
-    }
-
-    .answer-content, .unit {
-      // text-decoration: underline;
     }
   }
 }

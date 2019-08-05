@@ -7,7 +7,7 @@ import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { withActiveQuestions } from '../containers/withActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
-import QuestionsAnswers from '../../questions/ExpansionList';
+import QAs from '../../qas';
 import Table from '../../site/forms/Table';
 
 class HRDObservations extends React.PureComponent {
@@ -79,13 +79,13 @@ class HRDObservations extends React.PureComponent {
           <p>{introduction}</p>
           <hr className="divider-horizontal" />
           {questions && (
-            <QuestionsAnswers
+            <QAs
               questions={questions}
               answers={answers}
               activeId={activeId}
-              cancelHandler={answerHandler}
-              saveHandler={advanceActive}
-              editHandler={setActive}
+              answerHandler={answerHandler}
+              advanceActive={advanceActive}
+              setActive={setActive}
             />
           )}
           <hr className="divider-horizontal" />

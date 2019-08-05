@@ -10,9 +10,7 @@ import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
-import QASelections from '../../questions/ExpansionList';
-import QASelect from '../../questions/Select';
-import QACompoundSelect from '../../questions/CompoundSelect';
+import QAs from '../../qas';
 
 @reactn
 class EstimatingStellarMasses extends React.PureComponent {
@@ -217,28 +215,14 @@ class EstimatingStellarMasses extends React.PureComponent {
           </p>
           <hr className="divider-horizontal" />
           {questions && (
-            <React.Fragment>
-              <QACompoundSelect
-                questions={[questions[0], questions[1]]}
-                answers={answers}
-                handleAnswerSelect={this.updateAnswer}
-                activeId={activeId}
-              />
-              <QASelections
-                questions={questions.slice(2, 5)}
-                answers={answers}
-                activeId={activeId}
-                cancelHandler={answerHandler}
-                saveHandler={advanceActive}
-                editHandler={setActive}
-              />
-              <QASelect
-                question={questions[5]}
-                answer={answers[questions[5].id]}
-                handleAnswerSelect={this.updateAnswer}
-                activeId={activeId}
-              />
-            </React.Fragment>
+            <QAs
+              questions={questions}
+              answers={answers}
+              activeId={activeId}
+              answerHandler={answerHandler}
+              advanceActive={advanceActive}
+              setActive={setActive}
+            />
           )}
         </section>
         <div className="container-flex direction-column">

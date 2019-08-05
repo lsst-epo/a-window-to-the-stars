@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Prompts extends React.PureComponent {
+class Prompt extends React.PureComponent {
   render() {
-    const { label } = this.props;
+    const { question } = this.props;
+    const { label } = question;
 
     return <p>{label}</p>;
   }
 }
 
-Prompts.propTypes = {
-  label: PropTypes.string,
+Prompt.propTypes = {
+  question: PropTypes.object,
 };
 
-export default Prompts;
+export default Prompt;

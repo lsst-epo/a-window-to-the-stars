@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import classnames from 'classnames';
 import TextField from 'react-md/lib/TextFields/TextField';
 
-class AnswerTextInput extends React.PureComponent {
+class TextInput extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -14,7 +14,8 @@ class AnswerTextInput extends React.PureComponent {
   }
 
   handleChange = value => {
-    const { id, handleChange } = this.props;
+    const { question, handleChange } = this.props;
+    const { id } = question;
     const { value: oldValue } = this.state;
 
     if (!oldValue) {
@@ -25,17 +26,19 @@ class AnswerTextInput extends React.PureComponent {
   };
 
   handleBlur = () => {
-    const { id, handleChange } = this.props;
+    const { question, handleChange } = this.props;
+    const { id } = question;
     const { value } = this.state;
 
     handleChange(id, value, 'blur');
   };
 
   render() {
-    const { answer, activeId, id, type, label, placeholder } = this.props;
+    const { question, answer, activeId } = this.props;
+    const { id, type, label, placeholder } = question;
     const active = activeId === id;
     const answered = !isEmpty(answer);
-    const classes = classnames('qa qa-text-input', {
+    const classes = classnames('qa-text-input', {
       active,
       answered,
       unanswered: !answered,
@@ -78,14 +81,11 @@ class AnswerTextInput extends React.PureComponent {
   }
 }
 
-AnswerTextInput.propTypes = {
-  id: PropTypes.string,
-  activeId: PropTypes.string,
-  type: PropTypes.string,
-  label: PropTypes.string,
-  placeholder: PropTypes.string,
+TextInput.propTypes = {
+  activeId: PropTypes.bool,
+  question: PropTypes.object,
   handleChange: PropTypes.func,
   answer: PropTypes.object,
 };
 
-export default AnswerTextInput;
+export default TextInput;
