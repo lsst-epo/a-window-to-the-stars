@@ -10,8 +10,7 @@ import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
-import QuestionsAnswerSelections from '../../questions/ExpansionList';
-import QuestionAnswerSelect from '../../questions/Select';
+import QAs from '../../qas';
 
 @reactn
 class EstimatingStellarLuminosities extends React.PureComponent {
@@ -72,21 +71,13 @@ class EstimatingStellarLuminosities extends React.PureComponent {
           </p>
           <hr className="divider-horizontal" />
           {questions && (
-            <QuestionsAnswerSelections
-              questions={questions.slice(0, 3)}
+            <QAs
+              questions={questions}
               answers={answers}
               activeId={activeId}
-              cancelHandler={answerHandler}
-              saveHandler={advanceActive}
-              editHandler={setActive}
-            />
-          )}
-          {questions && (
-            <QuestionAnswerSelect
-              question={questions[3]}
-              answer={answers[questions[3].id]}
-              handleAnswerSelect={answerHandler}
-              activeId={activeId}
+              answerHandler={answerHandler}
+              advanceActive={advanceActive}
+              setActive={setActive}
             />
           )}
         </section>

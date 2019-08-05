@@ -70,9 +70,13 @@
     }
   }
 
-  + .qa {
-    margin-top: calc(0.5 * #{$verticalSpace} + 16px);
+  > .qa {
+    margin-top: 2 * $minPadding;
   }
+
+  // + .qa {
+  //   margin-top: calc(0.5 * #{$verticalSpace} + 16px);
+  // }
 }
 
 // Select Dropdown QAs
@@ -105,8 +109,10 @@
     }
   }
 
-  + .qas {
-    margin-top: calc(0.5 * #{$verticalSpace} + 16px);
+  &.answered, &.active {
+    label, .label-pre {
+      color: $basePrimary;
+    }
   }
 }
 
@@ -115,9 +121,9 @@
     display: inline;
   }
 
-  + .qas {
-    margin-top: $verticalSpace;
-  }
+  // + .qas {
+  //   margin-top: $verticalSpace;
+  // }
 }
 
 // Text Input QAs
@@ -135,6 +141,7 @@
   .md-floating-label {
     &.md-floating-label--inactive {
       @include copySecondary;
+      color: $basePrimary;
     }
 
     &.md-floating-label--floating {

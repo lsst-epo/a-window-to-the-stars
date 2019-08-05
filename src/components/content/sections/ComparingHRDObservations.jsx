@@ -10,7 +10,7 @@ import Section from './Section';
 import Table from '../../site/forms/Table';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
-import QATextInputs from '../../questions/TextInputs';
+import QAs from '../../qas';
 
 @reactn
 class ComparingHRDObservations extends React.PureComponent {
@@ -106,20 +106,18 @@ class ComparingHRDObservations extends React.PureComponent {
     }));
   };
 
-  updateAnswer = (id, value, type) => {
-    const { answerHandler, advanceActive } = this.props;
-
-    answerHandler(id, value, type);
-
-    if (type === 'change') {
-      advanceActive();
-    }
-  };
-
   render() {
-    const { clusters, questions, tableAnswersRanges, activeId } = this.props;
+    const {
+      clusters,
+      questions,
+      answers,
+      tableAnswersRanges,
+      activeId,
+      answerHandler,
+      setActive,
+      advanceActive,
+    } = this.props;
     const { activeScatter } = this.state;
-    const { answers } = this.global;
 
     return (
       <Section {...this.props}>
@@ -143,11 +141,13 @@ class ComparingHRDObservations extends React.PureComponent {
             clusters.
           </div>
           {questions && (
-            <QATextInputs
+            <QAs
               questions={questions}
               answers={answers}
-              handleChange={this.updateAnswer}
               activeId={activeId}
+              answerHandler={answerHandler}
+              advanceActive={advanceActive}
+              setActive={setActive}
             />
           )}
         </section>
@@ -194,6 +194,7 @@ ComparingHRDObservations.propTypes = {
   advanceActive: PropTypes.func,
   answerHandler: PropTypes.func,
   questions: PropTypes.array,
+  answers: PropTypes.array,
   tableAnswersRanges: PropTypes.array,
 };
 

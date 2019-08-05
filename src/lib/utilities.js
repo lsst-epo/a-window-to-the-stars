@@ -1,9 +1,31 @@
 import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
 import { extent as d3Extent } from 'd3-array';
 
 export const getAnswerData = function(answers, id) {
   const answer = answers[id];
   return !isEmpty(answer) ? answer.data : null;
+};
+
+export const getCompoundQs = function(questions, i) {
+  const question = questions[i];
+  const { ids } = question;
+  const qs = [question];
+  let nextCompoundIndex = i + 1;
+  let isCompound = true;
+
+  while (isCompound) {
+    const nextQ = questions[nextCompoundIndex];
+
+    if (nextQ.type === 'compound-select' && includes(ids, nextQ.id)) {
+      qs.push(nextQ);
+      nextCompoundIndex += 1;
+    } else {
+      isCompound = false;
+    }
+  }
+
+  return qs;
 };
 
 export const datumInData = function(data, datum) {
