@@ -6,7 +6,7 @@ import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { withActiveQuestions } from '../containers/withActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
-import QuestionsAnswers from '../../questions/ExpansionList';
+import QAs from '../../qas';
 
 class ExploringStarClusters extends React.PureComponent {
   onGraphSelection = selectedData => {
@@ -65,13 +65,13 @@ class ExploringStarClusters extends React.PureComponent {
           </p>
           <hr className="divider-horizontal" />
           {questions && (
-            <QuestionsAnswers
+            <QAs
               questions={questions}
               answers={answers}
               activeId={activeId}
-              cancelHandler={answerHandler}
-              saveHandler={advanceActive}
-              editHandler={setActive}
+              answerHandler={answerHandler}
+              advanceActive={advanceActive}
+              setActive={setActive}
             />
           )}
         </section>

@@ -43,25 +43,6 @@ class Sections extends React.PureComponent {
     this.dispatch.empty();
   };
 
-  getActiveId = questionsRange => {
-    const { answers } = this.global;
-    let activeId = null;
-    let i = 0;
-
-    while (i < questionsRange.length) {
-      const id = questionsRange[i];
-
-      if (isEmpty(answers[id])) {
-        activeId = id.toString();
-        i = questionsRange.length;
-      }
-
-      i += 1;
-    }
-
-    return activeId;
-  };
-
   getQuestions(questionsRange) {
     const { questions } = this.global;
 
@@ -94,7 +75,6 @@ class Sections extends React.PureComponent {
               questions={this.getQuestions(range(1, 10))}
               answers={answers}
               scrollable={0}
-              getActiveId={this.getActiveId}
               scatterXDomain={[10000, 3000]}
               scatterYDomain={[0.01, 1000]}
               previous="/"
@@ -106,12 +86,12 @@ class Sections extends React.PureComponent {
           render={() => (
             <MakingHRD
               id="2"
-              dataPath="static-data/NGC_188_data.json"
+              activeId={14}
               questionsRange={[14]}
               questions={this.getQuestions([14])}
-              scrollable={0}
-              activeId={14}
               answer={answers[14]}
+              dataPath="static-data/NGC_188_data.json"
+              scrollable={0}
               clusterName="Cluster A"
               clusterImage={clusterA}
               clusterWidth={1200}
@@ -152,7 +132,6 @@ class Sections extends React.PureComponent {
               questionsRange={range(10, 14)}
               questions={this.getQuestions(range(10, 14))}
               answers={answers}
-              getActiveId={this.getActiveId}
               scatterXDomain={[14000, 3000]}
               scatterYDomain={[0.01, 1000]}
               clusterName="Cluster A"
@@ -166,6 +145,10 @@ class Sections extends React.PureComponent {
           render={() => (
             <MakingHRD
               id="5"
+              activeId={19}
+              answer={answers[19]}
+              questionsRange={[19]}
+              questions={this.getQuestions([19])}
               scrollable={0}
               clusterImage={clusterB}
               clusterWidth={1200}
@@ -175,10 +158,6 @@ class Sections extends React.PureComponent {
               scatterXDomain={[15500, 3000]}
               scatterYDomain={[0.001, 10000]}
               dataPath="static-data/NGC_2168_data.json"
-              activeId={19}
-              answer={answers[19]}
-              questionsRange={[19]}
-              questions={this.getQuestions([19])}
               clusterName="Cluster B"
               introduction="Try creating an H-R Diagram for a different Star Cluster. Locate the star cluster in this image. Not all the stars you see in the image are actually stars in the cluster—some are much closer to Earth than the stars in the cluster, and some are farther away. Because of their different distances, these stars can provide inaccurate information on an H-R Diagram if plotted with the stars in the cluster."
             />
@@ -215,7 +194,6 @@ class Sections extends React.PureComponent {
               questionsRange={range(15, 19)}
               questions={this.getQuestions(range(15, 19))}
               answers={answers}
-              getActiveId={this.getActiveId}
               clusterName="Cluster B"
               introduction="Use the H-R Diagram to complete the table of observations"
             />
@@ -246,7 +224,7 @@ class Sections extends React.PureComponent {
               tableAnswersRanges={[range(10, 14), range(15, 19)]}
               questionsRange={range(20, 24)}
               questions={this.getQuestions(range(20, 24))}
-              getActiveId={this.getActiveId}
+              answers={answers}
             />
           )}
         />
@@ -287,7 +265,6 @@ class Sections extends React.PureComponent {
               dataPath="static-data/NGC_2168_data.json"
               questionsRange={range(24, 28)}
               questions={this.getQuestions(range(24, 28))}
-              getActiveId={this.getActiveId}
             />
           )}
         />
@@ -305,7 +282,6 @@ class Sections extends React.PureComponent {
               dataPath="static-data/NGC_2168_data.json"
               questionsRange={range(28, 32)}
               questions={this.getQuestions(range(28, 32))}
-              getActiveId={this.getActiveId}
             />
           )}
         />
@@ -320,9 +296,8 @@ class Sections extends React.PureComponent {
               scatterXDomain={[10000, 3500]}
               scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"
-              questionsRange={range(49, 51).concat(range(32, 36))}
-              questions={this.getQuestions(range(49, 51).concat(range(32, 36)))}
-              getActiveId={this.getActiveId}
+              questionsRange={range(49, 53).concat(range(32, 36))}
+              questions={this.getQuestions(range(49, 53).concat(range(32, 36)))}
             />
           )}
         />
@@ -339,7 +314,6 @@ class Sections extends React.PureComponent {
               dataPath="static-data/NGC_2168_data.json"
               questionsRange={range(42, 49)}
               questions={this.getQuestions(range(42, 49))}
-              getActiveId={this.getActiveId}
             />
           )}
         />
@@ -356,7 +330,6 @@ class Sections extends React.PureComponent {
               dataPath="static-data/NGC_2168_data.json"
               questionsRange={range(36, 42)}
               questions={this.getQuestions(range(36, 42))}
-              getActiveId={this.getActiveId}
             />
           )}
         />
@@ -374,6 +347,8 @@ class Sections extends React.PureComponent {
                 .concat([19])
                 .concat(range(15, 19))
                 .concat(range(20, 32))
+                .concat(range(49, 53))
+                .concat(range(32, 36))
                 .concat(range(42, 49))
                 .concat(range(36, 42))}
             />

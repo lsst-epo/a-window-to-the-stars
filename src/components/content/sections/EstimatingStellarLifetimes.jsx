@@ -10,9 +10,7 @@ import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
-import QASelections from '../../questions/ExpansionList';
-import QASelect from '../../questions/Select';
-import QATextInputs from '../../questions/TextInputs';
+import QAs from '../../qas';
 
 @reactn
 class EstimatingStellarLifetimes extends React.PureComponent {
@@ -135,40 +133,14 @@ class EstimatingStellarLifetimes extends React.PureComponent {
           </p>
           <hr className="divider-horizontal" />
           {questions && (
-            <React.Fragment>
-              <QASelect
-                question={questions[0]}
-                answer={answers[questions[0].id]}
-                handleAnswerSelect={this.updateAnswer}
-                activeId={activeId}
-              />
-              <QASelections
-                questions={questions.slice(1, 4)}
-                answers={answers}
-                activeId={activeId}
-                cancelHandler={answerHandler}
-                saveHandler={advanceActive}
-                editHandler={setActive}
-              />
-              <QASelect
-                question={questions[4]}
-                answer={answers[questions[4].id]}
-                handleAnswerSelect={this.updateAnswer}
-                activeId={activeId}
-              />
-              <QATextInputs
-                questions={questions.slice(5, 6)}
-                answers={answers}
-                handleChange={this.updateAnswer}
-                activeId={activeId}
-              />
-              <QASelect
-                question={questions[6]}
-                answer={answers[questions[6].id]}
-                handleAnswerSelect={this.updateAnswer}
-                activeId={activeId}
-              />
-            </React.Fragment>
+            <QAs
+              questions={questions}
+              answers={answers}
+              activeId={activeId}
+              answerHandler={answerHandler}
+              advanceActive={advanceActive}
+              setActive={setActive}
+            />
           )}
         </section>
         <div className="container-flex direction-column">

@@ -1,8 +1,6 @@
 import React from 'reactn';
 import PropTypes from 'prop-types';
-// import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
-// import { extentFromSet } from '../../../lib/utilities.js';
 
 export const withAnswerHandlers = ComposedComponent => {
   class WrappedComponent extends React.PureComponent {
@@ -26,11 +24,13 @@ export const withAnswerHandlers = ComposedComponent => {
       const prevAnswer = { ...prevAnswers[id] };
       let content = data;
 
-      if (
-        answerAccessor === 'text' ||
+      if (!answerAccessor) {
+        content = data;
+      } else if (answerAccessor === 'text') {
+        content = data || '';
+      } else if (
         answerAccessor === 'compound-select' ||
-        answerAccessor === 'select' ||
-        !answerAccessor
+        answerAccessor === 'select'
       ) {
         content = data;
       } else if (answerAccessor === 'count') {
@@ -53,8 +53,8 @@ export const withAnswerHandlers = ComposedComponent => {
       }));
     }
 
-    answerHandler = (id, data, type) => {
-      if ((id && data) || type) {
+    answerHandler = (id, data, eventType) => {
+      if ((id && data) || eventType) {
         this.updateAnswer(id, data);
       } else {
         this.clearAnswer(id);

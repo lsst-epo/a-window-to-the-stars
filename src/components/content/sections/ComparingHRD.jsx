@@ -42,7 +42,7 @@ class ComparingHRD extends React.PureComponent {
       { className: 'user', data: selection },
       { className: 'astronomer', data: clusterData },
     ];
-    // console.log(selection);
+
     return (
       <Section {...this.props} layout="">
         <section>
@@ -104,9 +104,6 @@ class ComparingHRD extends React.PureComponent {
 
 ComparingHRD.propTypes = {
   id: PropTypes.number,
-  layout: PropTypes.string,
-  dividers: PropTypes.bool,
-  paginationLocation: PropTypes.number,
   questionsRange: PropTypes.array,
   questions: PropTypes.array,
   clusterData: PropTypes.array,

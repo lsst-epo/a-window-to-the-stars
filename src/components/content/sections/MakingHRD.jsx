@@ -5,7 +5,7 @@ import { withData } from '../containers/WithData';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
-import QuestionPrompts from '../../questions/prompts';
+import Prompt from '../../questions/Prompt';
 
 @reactn
 class MakingHRD extends React.PureComponent {
@@ -58,7 +58,7 @@ class MakingHRD extends React.PureComponent {
         <hr className="divider-horizontal" />
         <div className="container-flex spaced">
           <div className="col padded col-width-50">
-            <QuestionPrompts questions={questions} />
+            {questions && <Prompt question={questions[0]} />}
           </div>
           <div className="col padded col-width-50">
             <h2>H-R Diagram</h2>

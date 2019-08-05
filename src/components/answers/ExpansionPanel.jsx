@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import includes from 'lodash/includes';
+// import includes from 'lodash/includes';
 import Button from 'react-md/lib/Buttons/Button';
-import StellarValue from '../charts/shared/StellarValue';
-import StellarValueRange from '../charts/shared/StellarValueRange';
+// import StellarValue from '../charts/shared/StellarValue';
+// import StellarValueRange from '../charts/shared/StellarValueRange';
+import FormattedAnswer from './FormattedAnswer';
 
 class AnswerExpansionPanel extends React.PureComponent {
   render() {
@@ -29,20 +30,7 @@ class AnswerExpansionPanel extends React.PureComponent {
           </Button>
         )}
         <p id={`answer-content-${id}`}>
-          {pre && <span className="answer-pre">{pre} </span>}
-          {includes(accessor, 'range') && (
-            <span className="answer-content">
-              <StellarValueRange
-                type={accessor.split(' range')[0]}
-                data={content}
-              />
-            </span>
-          )}
-          {!includes(accessor, 'range') && (
-            <span className="answer-content">
-              <StellarValue type={accessor} value={content} />
-            </span>
-          )}
+          <FormattedAnswer pre={pre} type={accessor} body={content} />
         </p>
       </div>
     );

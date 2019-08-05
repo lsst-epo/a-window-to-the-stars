@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import QASelect from './Select';
+import QASelect from './QASelect';
 
 class QuestionCompoundSelect extends React.PureComponent {
   render() {

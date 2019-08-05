@@ -371,7 +371,7 @@
     "type": "select",
     "labelPre": "Low mass main sequence stars have",
     "labelPost": "lifetimes compared to high mass stars.",
-    "SRLabel": "Do low mass main sequence stars have longer or shorter lifetimes compared to high mass stars?",
+    "SRLabel": "Do low mass main sequence stars have longer or shorter lifetimes compared to high mass main sequence stars?",
     "answerAccessor": "select",
     "placeholder": "Select a lifetime description",
     "options": [
@@ -443,10 +443,11 @@
   },
   "49": {
     "id": "49",
+    "ids": ["49", "50"],
     "type": "compound-select",
     "labelPre": "High mass stars in the main sequence have",
     "labelPost": "temperatures",
-    "SRLabel": "What temperatures do high mass main sequence stars have?",
+    "SRLabel": "What kind of temperatures do high mass main sequence stars have?",
     "answerAccessor": "compound-select",
     "placeholder": "Select a temperature",
     "options": [
@@ -458,6 +459,7 @@
   },
   "50": {
     "id": "50",
+    "ids": ["49", "50"],
     "type": "compound-select",
     "labelPre": "and are",
     "labelPost": "in color",
@@ -468,15 +470,16 @@
       {"label": "white", "value": "white"},
       {"label": "red", "value": "red"}
     ],
-    "answerPre": "and are",
+    "answerPre": "High mass main sequence stars are",
     "answerPost": "in color."
   },
   "51": {
     "id": "51",
+    "ids": ["51", "52"],
     "type": "compound-select",
     "labelPre": "High mass stars in the main sequence are",
     "labelPost": "luminous than low mass stars,",
-    "SRLabel": "What color are high mass main sequence stars?",
+    "SRLabel": "How does the luminosity of high mass stars compare to low mass stars?",
     "answerAccessor": "compound-select",
     "placeholder": "Select a color",
     "options": [
@@ -488,17 +491,18 @@
   },
   "52": {
     "id": "52",
+    "ids": ["51", "52"],
     "type": "compound-select",
     "labelPre": "so therefore must use their hydrogen fuel at a",
     "labelPost": "rate than low-mass stars.",
-    "SRLabel": "What color are high mass main sequence stars?",
+    "SRLabel": "Compared to low mass stars, how quickly do high mass stars use their hydrogen fuel?",
     "answerAccessor": "compound-select",
     "placeholder": "Select a color",
     "options": [
       {"label": "faster", "value": "faster"},
       {"label": "slower", "value": "slower"}
     ],
-    "answerPre": "so therefore must use their hydrogen fuel at a",
+    "answerPre": "High mass stars use their hydrogen fuel at a",
     "answerPost": "rate than low-mass stars."
   }
 }
