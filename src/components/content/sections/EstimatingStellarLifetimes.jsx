@@ -127,9 +127,13 @@ class EstimatingStellarLifetimes extends React.PureComponent {
             &nbsp;represent the respective masses of the Sun and the other star,
             and T<sub>ms</sub> is the star’s main sequence lifetime in years.
           </p>
-          <p className="copy-secondary">
-            Note: The Sun <span>SUN ICON</span> has been added to your H-R
-            Diagram.
+          <p>
+            Use the dropdown above the graph to switch between your H-R Diagram
+            and the {capitalize(histogramAccessor)} Histogram.{' '}
+            <span className="copy-secondary">
+              Note: The Sun <span>SUN ICON</span> has been added to your H-R
+              Diagram.
+            </span>
           </p>
           <hr className="divider-horizontal" />
           {questions && (

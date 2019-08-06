@@ -118,9 +118,13 @@ class EstimatingStellarRadii extends React.PureComponent {
             stars, not just those on the main sequence. Select stars in
             different areas of the H-R Diagram to estimate their sizes.
           </p>
-          <p className="copy-secondary">
-            Note: The Sun <span>SUN ICON</span> has been added to your H-R
-            Diagram.
+          <p>
+            Use the dropdown above the graph to switch between your H-R Diagram
+            and the {capitalize(histogramAccessor)} Histogram.{' '}
+            <span className="copy-secondary">
+              Note: The Sun <span>SUN ICON</span> has been added to your H-R
+              Diagram.
+            </span>
           </p>
           <hr className="divider-horizontal" />
           {questions && (
