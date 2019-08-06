@@ -53,8 +53,8 @@ export const withAnswerHandlers = ComposedComponent => {
       }));
     }
 
-    answerHandler = (id, data) => {
-      if (id && data) {
+    answerHandler = (id, data, type) => {
+      if ((id && data) || type) {
         this.updateAnswer(id, data);
       } else {
         this.clearAnswer(id);
