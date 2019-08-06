@@ -13,6 +13,7 @@ import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
 import EstimatingStellarTemperatures from './EstimatingStellarTemperatures';
 import EstimatingStellarLuminosities from './EstimatingStellarLuminosities';
+import EstimatingTempLumExtension from './EstimatingTempLumExtension';
 import EstimatingStellarRadii from './EstimatingStellarRadii';
 import EstimatingStellarLifetimes from './EstimatingStellarLifetimes';
 import EstimatingStellarMasses from './EstimatingStellarMasses';
@@ -288,8 +289,25 @@ class Sections extends React.PureComponent {
         <Route
           path="/12"
           render={() => (
-            <EstimatingStellarMasses
+            <EstimatingTempLumExtension
               id="12"
+              scrollable={0}
+              histogramDomain={[-2, 4]}
+              histogramAccessor="luminosity"
+              histogramAxisLabel="Solar Luminosity"
+              scatterXDomain={[10000, 3500]}
+              scatterYDomain={[0.01, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+              questionsRange={range(53, 69)}
+              questions={this.getQuestions(range(53, 69))}
+            />
+          )}
+        />
+        <Route
+          path="/13"
+          render={() => (
+            <EstimatingStellarMasses
+              id="13"
               scrollable={0}
               histogramAccessor="mass"
               histogramAxisLabel="Stellar Mass (Msun)"
@@ -302,10 +320,10 @@ class Sections extends React.PureComponent {
           )}
         />
         <Route
-          path="/13"
+          path="/14"
           render={() => (
             <EstimatingStellarLifetimes
-              id="13"
+              id="14"
               scrollable={0}
               histogramAccessor="lifetime"
               histogramAxisLabel="Lifetime (Gyr)"
@@ -318,10 +336,10 @@ class Sections extends React.PureComponent {
           )}
         />
         <Route
-          path="/14"
+          path="/15"
           render={() => (
             <EstimatingStellarRadii
-              id="14"
+              id="15"
               scrollable={0}
               histogramAccessor="radius"
               histogramAxisLabel="Radius (Rsun)"
@@ -334,10 +352,10 @@ class Sections extends React.PureComponent {
           )}
         />
         <Route
-          path="/15"
+          path="/16"
           render={() => (
             <Results
-              id="15"
+              id="16"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}
@@ -350,7 +368,8 @@ class Sections extends React.PureComponent {
                 .concat(range(49, 53))
                 .concat(range(32, 36))
                 .concat(range(42, 49))
-                .concat(range(36, 42))}
+                .concat(range(36, 42))
+                .concat(range(53, 69))}
             />
           )}
         />

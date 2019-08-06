@@ -43,7 +43,7 @@ class QA extends React.PureComponent {
       );
     }
 
-    if (type === 'select') {
+    if (type === 'select' || type === 'inline-select') {
       return (
         <QASelect
           activeId={activeId}
