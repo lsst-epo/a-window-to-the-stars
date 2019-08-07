@@ -481,7 +481,7 @@
     "labelPost": "luminous than low mass stars,",
     "SRLabel": "How does the luminosity of high mass stars compare to low mass stars?",
     "answerAccessor": "compound-select",
-    "placeholder": "Select a color",
+    "placeholder": "Select",
     "options": [
       {"label": "more", "value": "more"},
       {"label": "less", "value": "less"}
@@ -645,6 +645,48 @@
     "id": "68",
     "type": "textArea",
     "label": "What physical property of stars could explain why stars in the lower left of the H-R Diagram are dimmer than the stars in the upper left if they are both very hot?",
+    "answerAccessor": "text"
+  },
+  "69": {
+    "id": "69",
+    "type": "text",
+    "label": "As a main sequence star enters the giant stage, its surface becomes cooler and it increases in size. Which of these two factors (temperature or size) contributes to its increase in luminosity?",
+    "answerAccessor": "text"
+  },
+  "70": {
+    "id": "70",
+    "type": "text",
+    "label": "A star that is 15x the mass of the Sun will live for about 9 million years. How many times shorter than the lifetime of the Sun is the lifetime of the bigger star?",
+    "answerAccessor": "text"
+  },
+  "71": {
+    "id": "71",
+    "type": "text",
+    "label": "If we were to think of the Sun’s lifetime as analogous to the 80-year life expectancy for the average human, on this scale, how long does the 15x star live?",
+    "answerAccessor": "text"
+  },
+  "72": {
+    "id": "72",
+    "type": "text",
+    "label": "Compare the rate of hydrogen consumption between the 15x star and the Sun. Which star consumes its hydrogen fuel more quickly?",
+    "answerAccessor": "text"
+  },
+  "73": {
+    "id": "73",
+    "type": "textArea",
+    "label": "In this investigation you have examined five different properties of stars: temperature, luminosity, mass, lifetime, and radius. Which of these is the property that determines all the others? Explain your answer.",
+    "answerAccessor": "text"
+  },
+  "74": {
+    "id": "74",
+    "type": "textArea",
+    "label": "Describe the characteristics of the most common kind of star: its mass, size, lifetime, temperature, luminosity, and color.",
+    "answerAccessor": "text"
+  },
+  "75": {
+    "id": "75",
+    "type": "textArea",
+    "label": "Consider what you have learned by comparing the Sun to other stars in your H-R Diagram. Is the Sun an average star? Explain your reasoning, citing evidence relating to mass, size, lifetime, temperature, and luminosity.",
     "answerAccessor": "text"
   }
 }

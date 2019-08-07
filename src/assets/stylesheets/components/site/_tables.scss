@@ -3,6 +3,10 @@
 table.md-data-table {
   .md-table-row {
     .md-table-column {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      white-space: nowrap;
+
       &.md-text--secondary, &.row-title {
         @include copySecondary;
         color: $neutral40;
@@ -10,5 +14,3 @@ table.md-data-table {
     }
   }
 }
-
-// md-table-column md-text-left md-table-column--header md-text--secondary

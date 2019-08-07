@@ -46,7 +46,7 @@ export const datumInData = function(data, datum) {
 };
 
 export const formatValue = function(number, decimalPlaces) {
-  return Number.parseFloat(number).toFixed(decimalPlaces);
+  return Number.parseFloat(Number.parseFloat(number).toFixed(decimalPlaces));
 };
 
 export const arrayify = function(data) {
@@ -85,4 +85,40 @@ export const getValue = function(accessor, data) {
   }
 
   return data;
+};
+
+export const getSymbol = function(accessor) {
+  if (
+    accessor === 'radius' ||
+    accessor === 'mass' ||
+    accessor === 'luminosity'
+  ) {
+    return `&#8857`;
+  }
+
+  return '';
+};
+
+export const getUnit = function(accessor) {
+  if (accessor === 'luminosity') {
+    return `L${getSymbol(accessor)}`;
+  }
+
+  if (accessor === 'radius') {
+    return `R${getSymbol(accessor)}`;
+  }
+
+  if (accessor === 'mass') {
+    return `M${getSymbol(accessor)}`;
+  }
+
+  if (accessor === 'lifetime') {
+    return 'Gyr';
+  }
+
+  if (accessor === 'temperature') {
+    return 'K';
+  }
+
+  return '';
 };
