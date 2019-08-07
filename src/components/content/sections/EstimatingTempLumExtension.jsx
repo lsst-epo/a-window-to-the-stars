@@ -3,9 +3,9 @@ import reactn from 'reactn';
 import PropTypes from 'prop-types';
 // import isEmpty from 'lodash/isEmpty';
 import { getAnswerData } from '../../../lib/utilities';
-import { withData } from '../containers/WithData';
-import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { withActiveQuestions } from '../containers/withActiveQuestions';
+import { WithData } from '../containers/WithData';
+import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
+import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
@@ -88,6 +88,6 @@ EstimatingTempLumExtension.propTypes = {
   histogramAxisLabel: PropTypes.string,
 };
 
-export default withAnswerHandlers(
-  withActiveQuestions(withData(EstimatingTempLumExtension, 'is_member'))
+export default WithAnswerHandlers(
+  WithActiveQuestions(WithData(EstimatingTempLumExtension, 'is_member'))
 );

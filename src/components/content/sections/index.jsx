@@ -17,6 +17,7 @@ import EstimatingTempLumExtension from './EstimatingTempLumExtension';
 import EstimatingStellarRadii from './EstimatingStellarRadii';
 import EstimatingStellarLifetimes from './EstimatingStellarLifetimes';
 import EstimatingStellarMasses from './EstimatingStellarMasses';
+import DiscussReport from './DiscussReport';
 import Results from './Results';
 import clusterA from '../../../assets/images/ngc188_FINAL.jpg';
 import clusterB from '../../../assets/images/ngc2168_FINAL.jpg';
@@ -292,9 +293,6 @@ class Sections extends React.PureComponent {
             <EstimatingTempLumExtension
               id="12"
               scrollable={0}
-              histogramDomain={[-2, 4]}
-              histogramAccessor="luminosity"
-              histogramAxisLabel="Solar Luminosity"
               scatterXDomain={[10000, 3500]}
               scatterYDomain={[0.01, 10000]}
               dataPath="static-data/NGC_2168_data.json"
@@ -354,8 +352,34 @@ class Sections extends React.PureComponent {
         <Route
           path="/16"
           render={() => (
-            <Results
+            <DiscussReport
               id="16"
+              scrollable={0}
+              scatterXDomain={[10000, 3500]}
+              scatterYDomain={[0.01, 10000]}
+              dataPath="static-data/NGC_2168_data.json"
+              questionsRange={range(69, 76)}
+              questions={this.getQuestions(range(69, 76))}
+              tableHeaders={[
+                'Property',
+                'Minimum',
+                'Maximum',
+                'Midpoint',
+                'Sun',
+              ]}
+              tableAnswersIds={range(24, 27)
+                .concat(range(28, 31))
+                .concat(range(32, 35))
+                .concat(range(43, 46))
+                .concat(range(36, 39))}
+            />
+          )}
+        />
+        <Route
+          path="/17"
+          render={() => (
+            <Results
+              id="17"
               questions={questions}
               answers={answers}
               handleFinish={this.onFinish}
@@ -369,7 +393,8 @@ class Sections extends React.PureComponent {
                 .concat(range(32, 36))
                 .concat(range(42, 49))
                 .concat(range(36, 42))
-                .concat(range(53, 69))}
+                .concat(range(53, 69))
+                .concat(range(69, 76))}
             />
           )}
         />

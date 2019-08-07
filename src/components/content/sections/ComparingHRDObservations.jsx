@@ -130,6 +130,7 @@ class ComparingHRDObservations extends React.PureComponent {
             shows your observations of both cluters.
           </p>
           <br />
+          <hr className="divider-horizontal" />
           <Table
             colTitles={this.tableHeaders(clusters)}
             rowTitles

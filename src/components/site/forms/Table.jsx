@@ -8,10 +8,10 @@ import TableColumn from 'react-md/lib//DataTables/TableColumn';
 
 class Table extends React.PureComponent {
   render() {
-    const { colTitles, rowTitles, rows } = this.props;
+    const { colTitles, rowTitles, rows, className } = this.props;
 
     return (
-      <DataTable plain fullWidth>
+      <DataTable plain fullWidth className={className}>
         {colTitles && (
           <TableHeader>
             <TableRow>
@@ -48,6 +48,7 @@ class Table extends React.PureComponent {
 }
 
 Table.propTypes = {
+  className: PropTypes.string,
   colTitles: PropTypes.array,
   rows: PropTypes.array,
   rowTitles: PropTypes.bool,
