@@ -2,7 +2,7 @@ import React from 'reactn';
 import PropTypes from 'prop-types';
 import includes from 'lodash/includes';
 
-export const withAnswerHandlers = ComposedComponent => {
+export const WithAnswerHandlers = ComposedComponent => {
   class WrappedComponent extends React.PureComponent {
     clearAnswer(id) {
       const { answers: prevAnswers } = this.global;
@@ -76,4 +76,4 @@ export const withAnswerHandlers = ComposedComponent => {
   return WrappedComponent;
 };
 
-export default withAnswerHandlers;
+export default WithAnswerHandlers;

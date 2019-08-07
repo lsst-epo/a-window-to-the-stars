@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 import API from '../../site/API';
 
-export const withData = (ComposedComponent, filter) => {
+export const WithData = (ComposedComponent, filter) => {
   class WrappedComponent extends React.PureComponent {
     constructor(props) {
       super(props);
@@ -54,4 +54,4 @@ export const withData = (ComposedComponent, filter) => {
   return WrappedComponent;
 };
 
-export default withData;
+export default WithData;

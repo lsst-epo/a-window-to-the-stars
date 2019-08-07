@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withData } from '../containers/WithData';
+import { WithData } from '../containers/WithData';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
@@ -118,4 +118,4 @@ ComparingHRD.propTypes = {
   answer: PropTypes.object,
 };
 
-export default withData(ComparingHRD, 'is_member');
+export default WithData(ComparingHRD, 'is_member');

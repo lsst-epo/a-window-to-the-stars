@@ -2,7 +2,7 @@ import React from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 
-export const withActiveQuestions = ComposedComponent => {
+export const WithActiveQuestions = ComposedComponent => {
   class WrappedComponent extends React.PureComponent {
     constructor(props) {
       super(props);
@@ -72,4 +72,4 @@ export const withActiveQuestions = ComposedComponent => {
   return WrappedComponent;
 };
 
-export default withActiveQuestions;
+export default WithActiveQuestions;

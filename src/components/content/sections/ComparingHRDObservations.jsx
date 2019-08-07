@@ -3,8 +3,8 @@ import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { formatValue } from '../../../lib/utilities.js';
-import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { withActiveQuestions } from '../containers/withActiveQuestions';
+import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
+import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import API from '../../site/API';
 import Section from './Section';
 import Table from '../../site/forms/Table';
@@ -198,6 +198,6 @@ ComparingHRDObservations.propTypes = {
   tableAnswersRanges: PropTypes.array,
 };
 
-export default withAnswerHandlers(
-  withActiveQuestions(ComparingHRDObservations)
+export default WithAnswerHandlers(
+  WithActiveQuestions(ComparingHRDObservations)
 );

@@ -3,9 +3,9 @@ import reactn from 'reactn';
 import PropTypes from 'prop-types';
 // import isEmpty from 'lodash/isEmpty';
 import { capitalize, getAnswerData } from '../../../lib/utilities';
-import { withData } from '../containers/WithData';
-import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { withActiveQuestions } from '../containers/withActiveQuestions';
+import { WithData } from '../containers/WithData';
+import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
+import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
@@ -139,6 +139,6 @@ EstimatingStellarLuminosities.propTypes = {
   histogramAxisLabel: PropTypes.string,
 };
 
-export default withAnswerHandlers(
-  withActiveQuestions(withData(EstimatingStellarLuminosities, 'is_member'))
+export default WithAnswerHandlers(
+  WithActiveQuestions(WithData(EstimatingStellarLuminosities, 'is_member'))
 );

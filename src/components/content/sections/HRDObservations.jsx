@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { formatValue, getAnswerData } from '../../../lib/utilities.js';
-import { withData } from '../containers/WithData';
-import { withAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { withActiveQuestions } from '../containers/withActiveQuestions';
+import { WithData } from '../containers/WithData';
+import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
+import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
@@ -136,6 +136,6 @@ HRDObservations.propTypes = {
   scatterYDomain: PropTypes.array,
 };
 
-export default withAnswerHandlers(
-  withActiveQuestions(withData(HRDObservations, 'is_member'))
+export default WithAnswerHandlers(
+  WithActiveQuestions(WithData(HRDObservations, 'is_member'))
 );

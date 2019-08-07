@@ -1,7 +1,7 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import { withData } from '../containers/WithData';
+import { WithData } from '../containers/WithData';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
@@ -122,4 +122,4 @@ MakingHRD.propTypes = {
   introduction: PropTypes.string,
 };
 
-export default withData(MakingHRD);
+export default WithData(MakingHRD);
