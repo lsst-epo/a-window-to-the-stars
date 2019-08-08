@@ -63,6 +63,23 @@ export const capitalize = function(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const getSunValue = function(accessor) {
+  const data = {
+    lifetime: 10000000000,
+    luminosity: 1,
+    mass: 1,
+    radius: 1,
+    source_id: 'Sun',
+    temperature: 5778,
+  };
+
+  if (accessor) {
+    return data[accessor];
+  }
+
+  return data;
+};
+
 export const getValue = function(accessor, data) {
   if (accessor === 'luminosity') {
     return formatValue(data, 2);

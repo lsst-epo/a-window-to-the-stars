@@ -11,6 +11,7 @@ import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
 import QAs from '../../qas';
+import SunIcon from '../../site/icons/Sun';
 
 @reactn
 class EstimatingStellarLuminosities extends React.PureComponent {
@@ -65,8 +66,8 @@ class EstimatingStellarLuminosities extends React.PureComponent {
             Use the dropdown above the graph to switch between your H-R Diagram
             and the {capitalize(histogramAccessor)} Histogram.{' '}
             <span className="copy-secondary">
-              Note: The Sun <span>SUN ICON</span> has been added to your H-R
-              Diagram.
+              Note: The Sun <SunIcon className="sun-icon" /> has been added to
+              your H-R Diagram.
             </span>
           </p>
           <hr className="divider-horizontal" />
@@ -105,6 +106,7 @@ class EstimatingStellarLuminosities extends React.PureComponent {
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
                 dataSelectionCallback={this.onGraphSelection}
+                includeSun
               />
             )}
             {activeGraph === 1 && (

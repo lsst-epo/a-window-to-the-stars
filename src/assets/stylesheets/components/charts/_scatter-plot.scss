@@ -16,6 +16,16 @@
     &.astronomer {
       fill: red;
     }
+
+    &.sun {
+      transition: transform $duration $timing;
+    }
+  }
+
+  .spinning {
+    .sun {
+      transform: rotate(15, 24, 24);
+    }
   }
 }
 

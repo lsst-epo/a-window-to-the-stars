@@ -2,7 +2,7 @@ import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import { getAnswerData } from '../../../lib/utilities';
+import { getAnswerData, getSunValue } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { WithActiveQuestions } from '../containers/WithActiveQuestions';
@@ -14,6 +14,7 @@ import Histogram from '../../histogram';
 import QAs from '../../qas';
 import StellarValue from '../../charts/shared/StellarValue';
 import StellarValueRange from '../../charts/shared/StellarValueRange';
+import SunIcon from '../../site/icons/Sun';
 
 @reactn
 class DiscussReport extends React.PureComponent {
@@ -39,30 +40,6 @@ class DiscussReport extends React.PureComponent {
 
     answerHandler(activeId, selectedData);
   };
-
-  getSunValue(accessor) {
-    if (accessor === 'luminosity') {
-      return <StellarValue value={1} type={accessor} />;
-    }
-
-    if (accessor === 'radius') {
-      return <StellarValue value={1} type={accessor} />;
-    }
-
-    if (accessor === 'mass') {
-      return <StellarValue value={1} type={accessor} />;
-    }
-
-    if (accessor === 'lifetime') {
-      return <StellarValue value={10000000000} type={accessor} />;
-    }
-
-    if (accessor === 'temperature') {
-      return <StellarValue value={5778} type={accessor} />;
-    }
-
-    return null;
-  }
 
   tableValues(answers, tableHeaders, tableAnswersIds) {
     const cells = [
@@ -95,7 +72,7 @@ class DiscussReport extends React.PureComponent {
         idIndex += 1;
       }
 
-      cell.push(this.getSunValue(accessor));
+      cell.push(<StellarValue value={getSunValue(accessor)} type={accessor} />);
     });
 
     return cells;
@@ -130,8 +107,8 @@ class DiscussReport extends React.PureComponent {
             Use the dropdown above the graph to switch between your H-R Diagram
             and the Stellar Property Histograms.{' '}
             <span className="copy-secondary">
-              Note: The Sun <span>SUN ICON</span> has been added to your H-R
-              Diagram.
+              Note: The Sun <SunIcon className="sun-icon" /> has been added to
+              your H-R Diagram.
             </span>
           </p>
           <hr className="divider-horizontal" />
@@ -181,6 +158,7 @@ class DiscussReport extends React.PureComponent {
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
                 dataSelectionCallback={this.onGraphSelection}
+                includeSun
               />
             )}
             {activeGraph === 1 && (

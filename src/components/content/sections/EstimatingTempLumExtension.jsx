@@ -9,6 +9,7 @@ import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
+import SunIcon from '../../site/icons/Sun';
 
 @reactn
 class EstimatingTempLumExtension extends React.PureComponent {
@@ -43,6 +44,10 @@ class EstimatingTempLumExtension extends React.PureComponent {
             of stars by their temperatures and luminosities, and to use those
             properties to infer additional information about the stars.
           </p>
+          <span className="copy-secondary">
+            Note: The Sun <SunIcon className="sun-icon" /> has been added to
+            your H-R Diagram.
+          </span>
           <hr className="divider-horizontal" />
           {questions && (
             <QAs
@@ -67,6 +72,7 @@ class EstimatingTempLumExtension extends React.PureComponent {
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
             dataSelectionCallback={this.onGraphSelection}
+            includeSun
           />
         </div>
       </Section>

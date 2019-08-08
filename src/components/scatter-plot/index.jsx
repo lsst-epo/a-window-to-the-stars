@@ -238,10 +238,6 @@ class ScatterPlot extends React.PureComponent {
     const { loading } = this.state;
     const $scatterplot = d3Select(this.svgEl.current);
 
-    // if (!data) {
-    //   return;
-    // }
-
     if (isEmpty(data) && preSelected && loading) {
       this.setState(prevState => ({
         ...prevState,
@@ -320,6 +316,7 @@ class ScatterPlot extends React.PureComponent {
       legend,
       showColorLegend,
       tooltipAccessors,
+      includeSun,
     } = this.props;
 
     const {
@@ -423,6 +420,7 @@ class ScatterPlot extends React.PureComponent {
                     yScale={yScale}
                     xValueAccessor={xValueAccessor}
                     yValueAccessor={yValueAccessor}
+                    includeSun={includeSun}
                   />
                 );
               })}
@@ -435,6 +433,7 @@ class ScatterPlot extends React.PureComponent {
                 yScale={yScale}
                 xValueAccessor={xValueAccessor}
                 yValueAccessor={yValueAccessor}
+                includeSun={includeSun}
               />
             )}
           </svg>
@@ -465,6 +464,7 @@ ScatterPlot.propTypes = {
   legend: PropTypes.node,
   showColorLegend: PropTypes.bool,
   tooltipAccessors: PropTypes.array,
+  includeSun: PropTypes.bool,
 };
 
 export default ScatterPlot;
