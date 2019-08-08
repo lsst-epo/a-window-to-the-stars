@@ -51,6 +51,12 @@ section {
     }
   }
 
+  .sun-icon {
+    position: relative;
+    bottom: -6px;
+    fill: $black;
+  }
+
   .equation-flex {
     display: flex;
     justify-content: space-between;

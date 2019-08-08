@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { datumInData } from '../../lib/utilities.js';
 import Point from './Point.jsx';
+import Sun from './Sun.jsx';
 
 class Points extends React.PureComponent {
   constructor(props) {
@@ -85,6 +86,7 @@ class Points extends React.PureComponent {
       xValueAccessor,
       yValueAccessor,
       pointClasses,
+      includeSun,
     } = this.props;
 
     return (
@@ -114,10 +116,18 @@ class Points extends React.PureComponent {
               x={xScale(temp)}
               y={yScale(d[yValueAccessor])}
               fill={this.getFill(temp)}
-              tabIndex="0"
             />
           );
         })}
+        {includeSun && (
+          <Sun
+            selectedData={selectedData}
+            hoveredData={hoveredData}
+            xScale={xScale}
+            yScale={yScale}
+            tabIndex="0"
+          />
+        )}
       </g>
     );
   }
@@ -132,6 +142,7 @@ Points.propTypes = {
   xScale: PropTypes.string,
   yScale: PropTypes.string,
   pointClasses: PropTypes.string,
+  includeSun: PropTypes.bool,
 };
 
 export default Points;

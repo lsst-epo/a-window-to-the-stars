@@ -13,16 +13,16 @@ class Point extends React.PureComponent {
 
   componentDidUpdate() {
     const { selected, hovered } = this.props;
-
+    const $point = d3Select(this.svgEl.current);
     if (selected || hovered) {
-      d3Select(this.svgEl.current)
+      $point
         .raise()
         .transition()
         .duration(800)
         .ease(d3EaseElastic)
         .attr('r', this.baseSize * 2);
     } else {
-      d3Select(this.svgEl.current)
+      $point
         .transition()
         .duration(400)
         .attr('r', this.baseSize);
@@ -42,6 +42,7 @@ class Point extends React.PureComponent {
         strokeWidth={1}
         fill={fill}
         stroke="transparent"
+        tabIndex="0"
       />
     );
   }
