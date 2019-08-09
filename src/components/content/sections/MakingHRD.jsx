@@ -52,7 +52,9 @@ class MakingHRD extends React.Component {
     return (
       <Section {...this.props} layout="">
         <section>
-          <h2 className="section-title">Making H-R Diagrams: {clusterName}</h2>
+          <h2 className="section-title">
+            Making H-R Diagrams: Star Cluster {clusterName}
+          </h2>
           <p>{introduction}</p>
         </section>
         <hr className="divider-horizontal" />

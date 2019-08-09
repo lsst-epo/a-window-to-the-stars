@@ -75,7 +75,9 @@ class HRDObservations extends React.Component {
     return (
       <Section {...this.props}>
         <section>
-          <h2 className="section-title">Exploring Star {clusterName}</h2>
+          <h2 className="section-title">
+            Exploring Star Cluster {clusterName}
+          </h2>
           <p>{introduction}</p>
           <hr className="divider-horizontal" />
           {questions && (

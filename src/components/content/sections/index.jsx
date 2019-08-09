@@ -39,7 +39,6 @@ class Sections extends React.PureComponent {
       API.get('static-data/questions.json'),
       API.get('static-data/clusters.json'),
     ]).then(res => {
-      console.log(res[0]);
       this.setGlobal(prevGlobal => ({
         ...prevGlobal,
         questions: res[0].data,

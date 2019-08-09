@@ -47,7 +47,7 @@ class ComparingHRD extends React.Component {
       <Section {...this.props} layout="">
         <section>
           <h2 className="section-title">
-            Comparing H-R Diagrams: {clusterName}
+            Comparing H-R Diagrams: Star Cluster {clusterName}
           </h2>
           <p>
             It’s not obvious which stars belong to the cluster. Astronomers have
