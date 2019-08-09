@@ -293,13 +293,7 @@ class Sections extends React.PureComponent {
                     'Midpoint',
                     'Sun',
                   ]}
-                  tableAnswerIds={[
-                    range(24, 27),
-                    range(28, 31),
-                    range(32, 35),
-                    range(43, 46),
-                    range(36, 39),
-                  ]}
+                  tableAnswerIds={[range(24, 27)]}
                 />
               )}
             />
@@ -325,13 +319,7 @@ class Sections extends React.PureComponent {
                     'Midpoint',
                     'Sun',
                   ]}
-                  tableAnswerIds={[
-                    range(24, 27),
-                    range(28, 31),
-                    range(32, 35),
-                    range(43, 46),
-                    range(36, 39),
-                  ]}
+                  tableAnswerIds={[range(28, 31)]}
                 />
               )}
             />
@@ -354,13 +342,7 @@ class Sections extends React.PureComponent {
                     'Midpoint',
                     'Sun',
                   ]}
-                  tableAnswerIds={[
-                    range(24, 27),
-                    range(28, 31),
-                    range(32, 35),
-                    range(43, 46),
-                    range(36, 39),
-                  ]}
+                  tableAnswerIds={[range(24, 27), range(28, 31)]}
                 />
               )}
             />
@@ -387,13 +369,7 @@ class Sections extends React.PureComponent {
                     'Midpoint',
                     'Sun',
                   ]}
-                  tableAnswerIds={[
-                    range(24, 27),
-                    range(28, 31),
-                    range(32, 35),
-                    range(43, 46),
-                    range(36, 39),
-                  ]}
+                  tableAnswerIds={[range(32, 35)]}
                 />
               )}
             />
@@ -418,13 +394,7 @@ class Sections extends React.PureComponent {
                     'Midpoint',
                     'Sun',
                   ]}
-                  tableAnswerIds={[
-                    range(24, 27),
-                    range(28, 31),
-                    range(32, 35),
-                    range(43, 46),
-                    range(36, 39),
-                  ]}
+                  tableAnswerIds={[range(43, 46)]}
                 />
               )}
             />
@@ -449,13 +419,7 @@ class Sections extends React.PureComponent {
                     'Midpoint',
                     'Sun',
                   ]}
-                  tableAnswerIds={[
-                    range(24, 27),
-                    range(28, 31),
-                    range(32, 35),
-                    range(43, 46),
-                    range(36, 39),
-                  ]}
+                  tableAnswerIds={[range(36, 39)]}
                 />
               )}
             />

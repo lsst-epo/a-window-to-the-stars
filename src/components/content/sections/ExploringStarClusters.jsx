@@ -63,6 +63,11 @@ class ExploringStarClusters extends React.PureComponent {
             always appear on an H-R Diagram, even if you import the data from
             thousands of stars.
           </p>
+          <p>
+            The main sequence forms a slightly s-shaped diagonal band across the
+            plot. To determine the approximate position of the main sequence
+            stars on an H-R Diagram, complete the following:
+          </p>
           <hr className="divider-horizontal" />
           {questions && (
             <QAs

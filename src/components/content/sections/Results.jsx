@@ -80,7 +80,7 @@ class Results extends React.PureComponent {
           {label}
         </div>
         {!isEmpty(answer) ? (
-          <div className="answer">{answer.content}</div>
+          <p className="answer">{answer.content}</p>
         ) : (
           <p className="answer">No answer provided</p>
         )}

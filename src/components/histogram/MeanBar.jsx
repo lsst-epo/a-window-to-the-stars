@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { mean as d3Mean, max as d3Max } from 'd3-array';
+import { max as d3Max } from 'd3-array';
 import { scaleLinear as d3ScaleLinear } from 'd3-scale';
+import { getMean } from '../../lib/utilities';
 import StellarValue from '../charts/shared/StellarValue';
 
 class MeanBar extends React.PureComponent {
@@ -13,16 +14,6 @@ class MeanBar extends React.PureComponent {
       .range([padding, graphWidth - offsetRight]);
   }
 
-  mean() {
-    const { data, valueAccessor } = this.props;
-
-    if (valueAccessor === 'luminosity') {
-      return Math.log(d3Mean(data, d => d[valueAccessor]));
-    }
-
-    return d3Mean(data, d => d[valueAccessor]);
-  }
-
   maxHeight(data) {
     return d3Max(data, d => {
       return d.length;
@@ -30,10 +21,10 @@ class MeanBar extends React.PureComponent {
   }
 
   render() {
-    const { bins, valueAccessor, yScale, offsetTop } = this.props;
+    const { bins, valueAccessor, yScale, offsetTop, data } = this.props;
     const width = 3;
     const modifier = 8;
-    const mean = this.mean();
+    const mean = getMean(data, valueAccessor);
     const xScale = this.getXScale();
     const yMax = yScale(this.maxHeight(bins));
     const x = xScale(mean) - width / 2;
