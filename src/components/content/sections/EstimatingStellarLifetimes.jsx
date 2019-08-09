@@ -33,16 +33,6 @@ class EstimatingStellarLifetimes extends React.PureComponent {
     }));
   };
 
-  updateAnswer = (id, value, type) => {
-    const { answerHandler, advanceActive } = this.props;
-
-    answerHandler(id, value, type);
-
-    if (type === 'change') {
-      advanceActive();
-    }
-  };
-
   onGraphSelection = selectedData => {
     const { answerHandler, activeId } = this.props;
 

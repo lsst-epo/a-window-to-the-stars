@@ -1,6 +1,7 @@
 import React from 'reactn';
 import PropTypes from 'prop-types';
 import includes from 'lodash/includes';
+import isObject from 'lodash/isObject';
 
 export const WithAnswerHandlers = ComposedComponent => {
   class WrappedComponent extends React.PureComponent {
@@ -28,11 +29,13 @@ export const WithAnswerHandlers = ComposedComponent => {
         content = data;
       } else if (answerAccessor === 'text') {
         content = data || '';
+        content = isObject(content) ? '' : content;
       } else if (
         answerAccessor === 'compound-select' ||
         answerAccessor === 'select'
       ) {
         content = data;
+        content = isObject(content) ? 'DEFAULT' : content;
       } else if (answerAccessor === 'count') {
         content = data.length;
       } else if (!includes(answerAccessor, 'range')) {

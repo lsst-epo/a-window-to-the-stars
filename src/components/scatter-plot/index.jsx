@@ -336,11 +336,6 @@ class ScatterPlot extends React.PureComponent {
       loaded: !loading,
     });
 
-    // const ids = data.map(d => {
-    //   return d.source_id;
-    // });
-    // console.log('hasDupes', uniq(ids).length !== ids.length, ids.length - uniq(ids).length);
-
     return (
       <React.Fragment>
         {showColorLegend && !loading && (

@@ -117,7 +117,6 @@ class DiscussReport extends React.PureComponent {
                 yValueAccessor="luminosity"
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
-                dataSelectionCallback={this.onGraphSelection}
                 includeSun
               />
             )}
@@ -127,7 +126,6 @@ class DiscussReport extends React.PureComponent {
                 activeData={activeData}
                 valueAccessor="temperature"
                 domain={[3500, 10000]}
-                dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['temperature']}
               />
             )}
@@ -137,7 +135,6 @@ class DiscussReport extends React.PureComponent {
                 activeData={activeData}
                 valueAccessor="luminosity"
                 domain={[-2, 4]}
-                dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['luminosity']}
               />
             )}
@@ -146,7 +143,6 @@ class DiscussReport extends React.PureComponent {
                 data={clusterData}
                 activeData={activeData}
                 valueAccessor="mass"
-                dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['mass']}
               />
             )}
@@ -155,7 +151,6 @@ class DiscussReport extends React.PureComponent {
                 data={clusterData}
                 activeData={activeData}
                 valueAccessor="lifetime"
-                dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['lifetime']}
               />
             )}
@@ -164,7 +159,6 @@ class DiscussReport extends React.PureComponent {
                 data={clusterData}
                 activeData={activeData}
                 valueAccessor="radius"
-                dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['radius']}
               />
             )}
