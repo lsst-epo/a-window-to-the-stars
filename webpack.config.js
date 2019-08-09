@@ -3,6 +3,7 @@ const common = require('./webpack/webpack.common');
 
 const envs = {
   development: 'dev',
+  staging: 'prod',
   production: 'prod',
 };
 /* eslint-disable global-require,import/no-dynamic-require */
