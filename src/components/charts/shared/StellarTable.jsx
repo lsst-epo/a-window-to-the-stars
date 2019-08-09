@@ -1,36 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import { getSunValue } from '../../../lib/utilities';
+import { getSunValue, getMean } from '../../../lib/utilities';
 import Table from '../../site/forms/Table';
 import StellarValue from './StellarValue';
-import StellarValueRange from './StellarValueRange';
+import StellarTableCell from './StellarTableCell';
+// import StellarValueRange from './StellarValueRange';
 
 class StellarTable extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      rows: [],
-    };
-  }
-
-  componentDidMount() {
-    const { answers, answerIds, colTitles, rowTitles } = this.props;
-
-    this.setState(prevState => ({
-      ...prevState,
-      rows: this.getRows(answers, colTitles, rowTitles, answerIds),
-    }));
-  }
-
   getCellValue(answer, accessor) {
     if (isEmpty(answer)) {
       return '';
     }
 
     if (Array.isArray(answer.content)) {
-      return <StellarValueRange data={answer.content} type={accessor} />;
+      // return <StellarValueRange data={answer.content} type={accessor} />;
+      return (
+        <StellarValue
+          value={getMean(answer.content, accessor)}
+          type={accessor}
+        />
+      );
     }
 
     return <StellarValue value={answer.content} type={accessor} />;
@@ -44,7 +34,7 @@ class StellarTable extends React.PureComponent {
       const accessor = row[0].toLowerCase();
 
       answerIds[j].forEach(id => {
-        row.push(this.getCellValue(answers[id], accessor));
+        row.push(<StellarTableCell answer={answers[id]} accessor={accessor} />);
       });
 
       row.push(<StellarValue value={getSunValue(accessor)} type={accessor} />);
@@ -54,15 +44,14 @@ class StellarTable extends React.PureComponent {
   }
 
   render() {
-    const { colTitles } = this.props;
-    const { rows } = this.state;
+    const { answers, answerIds, colTitles, rowTitles } = this.props;
 
     return (
       <Table
         className="stellar-properties"
         colTitles={colTitles}
         includeRowTitles
-        rows={rows}
+        rows={this.getRows(answers, colTitles, rowTitles, answerIds)}
       />
     );
   }

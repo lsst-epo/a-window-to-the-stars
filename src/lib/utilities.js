@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
-import { extent as d3Extent } from 'd3-array';
+import { extent as d3Extent, mean as d3Mean } from 'd3-array';
 
 export const getAnswerData = function(answers, id) {
   const answer = answers[id];
@@ -53,10 +53,18 @@ export const arrayify = function(data) {
   return data === null ? null : [].concat(data);
 };
 
-export const extentFromSet = function(data, valueAccessor) {
+export const extentFromSet = function(data, accessor) {
   return d3Extent(data, datum => {
-    return datum[valueAccessor];
+    return datum[accessor];
   });
+};
+
+export const getMean = function(data, accessor) {
+  if (accessor === 'luminosity') {
+    return Math.log(d3Mean(data, d => d[accessor]));
+  }
+
+  return d3Mean(data, d => d[accessor]);
 };
 
 export const capitalize = function(string) {
