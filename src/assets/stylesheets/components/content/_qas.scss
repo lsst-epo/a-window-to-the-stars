@@ -6,6 +6,8 @@
 
   &.md-expansion-panel-list {
     .qa {
+      width: 100%;
+
       + .qa {
         margin-top: 0.5 * $verticalSpace;
       }
@@ -48,6 +50,10 @@
 
         .answer {
           padding: $minPadding * 0.5 0 0;
+
+          p {
+            max-width: calc(100% - 124px);
+          }
         }
       }
 
@@ -74,9 +80,9 @@
     margin-top: 2 * $minPadding;
   }
 
-  // + .qa {
-  //   margin-top: calc(0.5 * #{$verticalSpace} + 16px);
-  // }
+  + .stellar-properties {
+    margin-top: 2 * $minPadding;
+  }
 }
 
 // Select Dropdown QAs
@@ -114,16 +120,16 @@
       color: $basePrimary;
     }
   }
+
+  // .select .select-wrapper {
+  //   width: auto;
+  // }
 }
 
 .qa-compound-select {
   .inline-select {
     display: inline;
   }
-
-  // + .qas {
-  //   margin-top: $verticalSpace;
-  // }
 }
 
 // Text Input QAs

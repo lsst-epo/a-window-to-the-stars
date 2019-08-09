@@ -13,7 +13,7 @@ import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
 
 @reactn
-class ComparingHRDObservations extends React.PureComponent {
+class ComparingHRDObservations extends React.Component {
   constructor(props) {
     super(props);
 
@@ -133,7 +133,7 @@ class ComparingHRDObservations extends React.PureComponent {
           <hr className="divider-horizontal" />
           <Table
             colTitles={this.tableHeaders(clusters)}
-            rowTitles
+            includeRowTitles
             rows={this.tableValues(answers, tableAnswersRanges)}
           />
           <hr className="divider-horizontal" />

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
+import { arrayify } from '../../../lib/utilities';
 import API from '../../site/API';
 
 export const WithData = (ComposedComponent, filter) => {
@@ -15,30 +16,38 @@ export const WithData = (ComposedComponent, filter) => {
 
     componentDidMount() {
       const { dataPath } = this.props;
+      const paths = arrayify(dataPath);
 
-      if (filter) {
-        API.get(dataPath).then(res => {
-          const clusterData = uniq(
-            res.data.stars.filter(datum => {
-              return !!datum.is_member;
-            })
-          );
+      Promise.all(this.allGets(paths)).then(res => {
+        let clusterData = this.combineData(res);
 
-          this.setState(prevState => ({
-            ...prevState,
-            clusterData,
-          }));
-        });
-      } else {
-        API.get(dataPath).then(res => {
-          const clusterData = res.data.stars;
+        if (filter) {
+          clusterData = clusterData.filter(datum => {
+            return !!datum.is_member;
+          });
+        }
 
-          this.setState(prevState => ({
-            ...prevState,
-            clusterData,
-          }));
-        });
-      }
+        this.setState(prevState => ({
+          ...prevState,
+          clusterData,
+        }));
+      });
+    }
+
+    allGets(paths) {
+      return paths.map(path => {
+        return API.get(path);
+      });
+    }
+
+    combineData(res) {
+      return uniq(
+        res
+          .map(r => {
+            return r.data.stars;
+          })
+          .flat(1)
+      );
     }
 
     render() {

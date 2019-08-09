@@ -8,7 +8,7 @@ import StarSelector from '../../star-selector';
 import Prompt from '../../questions/Prompt';
 
 @reactn
-class MakingHRD extends React.PureComponent {
+class MakingHRD extends React.Component {
   updateAnswer(id, data) {
     const { answers: prevAnswers } = this.global;
     const prevAnswer = { ...prevAnswers[id] };

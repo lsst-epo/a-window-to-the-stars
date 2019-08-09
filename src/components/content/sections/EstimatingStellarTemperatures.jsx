@@ -10,6 +10,7 @@ import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
 import QAs from '../../qas';
+import StellarTable from '../../charts/shared/StellarTable';
 import SunIcon from '../../site/icons/Sun';
 
 @reactn
@@ -50,6 +51,9 @@ class EstimatingStellarTemperatures extends React.PureComponent {
       setActive,
       advanceActive,
       activeId,
+      tableAnswerIds,
+      tableHeaders,
+      tableRowTitles,
     } = this.props;
     const { activeGraph } = this.state;
     const { answers } = this.global;
@@ -80,6 +84,12 @@ class EstimatingStellarTemperatures extends React.PureComponent {
               setActive={setActive}
             />
           )}
+          <StellarTable
+            answers={answers}
+            answerIds={tableAnswerIds}
+            colTitles={tableHeaders}
+            rowTitles={tableRowTitles}
+          />
         </section>
         <div className="container-flex direction-column">
           <Select
@@ -138,6 +148,9 @@ EstimatingStellarTemperatures.propTypes = {
   histogramAccessor: PropTypes.string,
   histogramDomain: PropTypes.array,
   histogramAxisLabel: PropTypes.string,
+  tableAnswerIds: PropTypes.array,
+  tableHeaders: PropTypes.array,
+  tableRowTitles: PropTypes.array,
 };
 
 export default WithAnswerHandlers(
