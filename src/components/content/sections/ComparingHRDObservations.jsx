@@ -93,7 +93,7 @@ class ComparingHRDObservations extends React.Component {
 
   selectItems(clusters) {
     return clusters.map((cluster, i) => {
-      return { label: cluster.name, value: i };
+      return { label: `Cluster ${cluster.name}`, value: i };
     });
   }
 
@@ -123,11 +123,13 @@ class ComparingHRDObservations extends React.Component {
       <Section {...this.props}>
         <section>
           <h2 className="section-title">
-            Comparing {clusters[0].name} & {clusters[1].name}
+            Comparing Star Cluster {clusters[0].name} & Star Cluster{' '}
+            {clusters[1].name}
           </h2>
           <p>
-            Now compare {clusters[0].name} and {clusters[1].name}. The table
-            shows your observations of both cluters.
+            Now compare Star Cluster {clusters[0].name} and Star Cluster{' '}
+            {clusters[1].name}. The table shows your observations of both
+            cluters.
           </p>
           <br />
           <hr className="divider-horizontal" />

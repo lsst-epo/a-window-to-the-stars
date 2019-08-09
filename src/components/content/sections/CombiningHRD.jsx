@@ -72,7 +72,8 @@ class CombiningHRD extends React.Component {
       <React.Fragment>
         <section>
           <h2 className="section-title">
-            Combining H-R Diagrams: {clusters[0].name} & {clusters[1].name}
+            Combining H-R Diagrams: Cluster {clusters[0].name} & Cluster{' '}
+            {clusters[1].name}
           </h2>
           <p>
             Not all star clusters contain stars at every stage of their
