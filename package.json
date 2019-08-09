@@ -9,7 +9,7 @@
     "start-dash": "cross-env NODE_ENV=development webpack-dashboard -- webpack-dev-server",
     "test": "jest --watchAll --coverage",
     "build": "cross-env NODE_ENV=production webpack",
-    "netlify-deploy": "cross-env NODE_ENV=production webpack",
+    "netlify-deploy": "cross-env NODE_ENV=production DEPLOY_ENV=staging webpack",
     "deploy": "gh-pages -d build"
   },
   "lint-staged": {
@@ -56,6 +56,9 @@
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
+    "@babel/plugin-transform-runtime": "7.4.4",
+    "@babel/polyfill": "7.4.4",
+    "@babel/runtime": "7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/plugin-transform-react-constant-elements": "7.2.0",
@@ -80,12 +83,9 @@
     "babel-core": "7.0.0-bridge.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "7.4.4",
-    "@babel/polyfill": "7.4.4",
     "@babel/preset-env": "7.4.4",
     "@babel/preset-react": "7.0.0",
     "@babel/register": "7.4.4",
-    "@babel/runtime": "7.4.4",
     "app-manifest-webpack-plugin": "^1.2.0",
     "autoprefixer": "^9.5.1",
     "babel-eslint": "10.0.1",
