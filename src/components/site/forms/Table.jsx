@@ -8,7 +8,7 @@ import TableColumn from 'react-md/lib//DataTables/TableColumn';
 
 class Table extends React.PureComponent {
   render() {
-    const { colTitles, rowTitles, rows, className } = this.props;
+    const { colTitles, includeRowTitles, rows, className } = this.props;
 
     return (
       <DataTable plain fullWidth className={className}>
@@ -28,7 +28,7 @@ class Table extends React.PureComponent {
           {rows.map((row, i) => (
             <TableRow key={`row-${i}`}>
               {row.map((col, j) => {
-                if (rowTitles && j === 0) {
+                if (includeRowTitles && j === 0) {
                   return (
                     <TableColumn key={`col-${j}`} className="row-title">
                       {col}
@@ -51,7 +51,7 @@ Table.propTypes = {
   className: PropTypes.string,
   colTitles: PropTypes.array,
   rows: PropTypes.array,
-  rowTitles: PropTypes.bool,
+  includeRowTitles: PropTypes.bool,
 };
 
 export default Table;

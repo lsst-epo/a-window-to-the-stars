@@ -54,6 +54,8 @@ section {
   .sun-icon {
     position: relative;
     bottom: -6px;
+    /* stylelint-disable-next-line declaration-no-important */
+    visibility: visible !important;
     fill: $black;
   }
 
@@ -105,5 +107,9 @@ section {
         border-top: 1px solid $black;
       }
     }
+  }
+
+  .divider-horizontal + .stellar-properties {
+    margin-top: 2 * $minPadding;
   }
 }

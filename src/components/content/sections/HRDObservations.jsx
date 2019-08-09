@@ -10,7 +10,7 @@ import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
 import Table from '../../site/forms/Table';
 
-class HRDObservations extends React.PureComponent {
+class HRDObservations extends React.Component {
   tableValues() {
     const cells = [
       ['Main Sequence Temperature Range'],
@@ -91,7 +91,7 @@ class HRDObservations extends React.PureComponent {
           <hr className="divider-horizontal" />
           <Table
             colTitles={[`Star ${clusterName}`, 'Values']}
-            rowTitles
+            includeRowTitles
             rows={this.tableValues()}
           />
         </section>

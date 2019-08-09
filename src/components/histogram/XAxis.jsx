@@ -104,7 +104,7 @@ class XAxis extends React.Component {
           key="x-axis-label"
           className="x-axis-label"
           transform={`translate(${(width + padding + offsetRight) / 2},
-           ${height - padding * 0.08})`}
+           ${height - padding * 0.15})`}
           style={{ textAnchor: 'middle' }}
         >
           {label}
@@ -115,7 +115,7 @@ class XAxis extends React.Component {
 }
 
 XAxis.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.node,
   height: PropTypes.number,
   width: PropTypes.number,
   padding: PropTypes.number,

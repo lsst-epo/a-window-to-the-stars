@@ -9,6 +9,7 @@ import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
+import StellarTable from '../../charts/shared/StellarTable';
 import SunIcon from '../../site/icons/Sun';
 
 @reactn
@@ -29,6 +30,9 @@ class EstimatingTempLumExtension extends React.PureComponent {
       setActive,
       advanceActive,
       activeId,
+      tableAnswerIds,
+      tableHeaders,
+      tableRowTitles,
     } = this.props;
     const { answers } = this.global;
     const activeData = getAnswerData(answers, activeId);
@@ -49,6 +53,12 @@ class EstimatingTempLumExtension extends React.PureComponent {
             your H-R Diagram.
           </span>
           <hr className="divider-horizontal" />
+          <StellarTable
+            answers={answers}
+            answerIds={tableAnswerIds}
+            colTitles={tableHeaders}
+            rowTitles={tableRowTitles}
+          />
           {questions && (
             <QAs
               questions={questions}
@@ -92,6 +102,9 @@ EstimatingTempLumExtension.propTypes = {
   histogramAccessor: PropTypes.string,
   histogramDomain: PropTypes.array,
   histogramAxisLabel: PropTypes.string,
+  tableAnswerIds: PropTypes.array,
+  tableHeaders: PropTypes.array,
+  tableRowTitles: PropTypes.array,
 };
 
 export default WithAnswerHandlers(

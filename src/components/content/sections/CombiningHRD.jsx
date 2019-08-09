@@ -8,7 +8,7 @@ import ArrowRight from '../../site/icons/ArrowRight';
 import API from '../../site/API';
 import ScatterPlot from '../../scatter-plot';
 
-class CombiningHRD extends React.PureComponent {
+class CombiningHRD extends React.Component {
   static defaultProps = {
     previousText: 'Back',
     nextText: 'Continue',
@@ -55,16 +55,7 @@ class CombiningHRD extends React.PureComponent {
 
   render() {
     const { combined } = this.state;
-    const {
-      id,
-      clusters,
-      scatterXDomain,
-      scatterYDomain,
-      previous,
-      previousText,
-      next,
-      nextText,
-    } = this.props;
+    const { id, clusters, previous, previousText, next, nextText } = this.props;
 
     const absColClasses = classnames(
       `col col-absolute padded col-width-50 revealable`,
@@ -144,7 +135,7 @@ class CombiningHRD extends React.PureComponent {
             </nav>
           </div>
           {clusters.map((cluster, i) => {
-            const { name, key } = cluster;
+            const { name, key, xDomain, yDomain } = cluster;
             const { [key]: clusterData } = this.state;
 
             const colClasses = classnames(
@@ -165,8 +156,8 @@ class CombiningHRD extends React.PureComponent {
                 <h2 className={nameClasses}>{name}</h2>
                 <ScatterPlot
                   data={clusterData}
-                  xDomain={scatterXDomain}
-                  yDomain={scatterYDomain}
+                  xDomain={xDomain}
+                  yDomain={yDomain}
                   xValueAccessor="temperature"
                   yValueAccessor="luminosity"
                   xAxisLabel="Temperature (K)"
@@ -210,8 +201,6 @@ class CombiningHRD extends React.PureComponent {
 CombiningHRD.propTypes = {
   id: PropTypes.number,
   clusters: PropTypes.array,
-  scatterXDomain: PropTypes.array,
-  scatterYDomain: PropTypes.array,
   next: PropTypes.string,
   previous: PropTypes.string,
   previousText: PropTypes.string,

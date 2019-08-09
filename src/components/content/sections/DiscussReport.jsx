@@ -1,19 +1,16 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import { getAnswerData, getSunValue } from '../../../lib/utilities';
+import { getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import Section from './Section';
-import Table from '../../site/forms/Table';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
 import QAs from '../../qas';
-import StellarValue from '../../charts/shared/StellarValue';
-import StellarValueRange from '../../charts/shared/StellarValueRange';
+import StellarTable from '../../charts/shared/StellarTable';
 import SunIcon from '../../site/icons/Sun';
 
 @reactn
@@ -41,43 +38,6 @@ class DiscussReport extends React.PureComponent {
     answerHandler(activeId, selectedData);
   };
 
-  tableValues(answers, tableHeaders, tableAnswersIds) {
-    const cells = [
-      ['Temperature'],
-      ['Luminosity'],
-      ['Mass'],
-      ['Lifetime'],
-      ['Radius'],
-    ];
-
-    let idIndex = 0;
-    const mod = 3;
-
-    cells.forEach(cell => {
-      const accessor = cell[0].toLowerCase();
-
-      for (let i = 0; i < mod; i += 1) {
-        const answer = answers[tableAnswersIds[idIndex]];
-
-        if (isEmpty(answer)) {
-          cell.push('');
-        } else if (Array.isArray(answer.content)) {
-          cell.push(
-            <StellarValueRange data={answer.content} type={accessor} />
-          );
-        } else {
-          cell.push(<StellarValue value={answer.content} type={accessor} />);
-        }
-
-        idIndex += 1;
-      }
-
-      cell.push(<StellarValue value={getSunValue(accessor)} type={accessor} />);
-    });
-
-    return cells;
-  }
-
   render() {
     const {
       clusterData,
@@ -89,7 +49,8 @@ class DiscussReport extends React.PureComponent {
       advanceActive,
       activeId,
       tableHeaders,
-      tableAnswersIds,
+      tableRowTitles,
+      tableAnswerIds,
     } = this.props;
     const { activeGraph } = this.state;
     const { answers } = this.global;
@@ -112,13 +73,12 @@ class DiscussReport extends React.PureComponent {
             </span>
           </p>
           <hr className="divider-horizontal" />
-          <Table
-            className="stellar-properties"
+          <StellarTable
+            answers={answers}
+            answerIds={tableAnswerIds}
             colTitles={tableHeaders}
-            rowTitles
-            rows={this.tableValues(answers, tableHeaders, tableAnswersIds)}
+            rowTitles={tableRowTitles}
           />
-          <hr className="divider-horizontal" />
           {questions && (
             <QAs
               questions={questions}
@@ -167,7 +127,6 @@ class DiscussReport extends React.PureComponent {
                 activeData={activeData}
                 valueAccessor="temperature"
                 domain={[3500, 10000]}
-                xAxisLabel="Temperature (K)"
                 dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['temperature']}
               />
@@ -178,7 +137,6 @@ class DiscussReport extends React.PureComponent {
                 activeData={activeData}
                 valueAccessor="luminosity"
                 domain={[-2, 4]}
-                xAxisLabel="Temperature (K)"
                 dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['luminosity']}
               />
@@ -188,7 +146,6 @@ class DiscussReport extends React.PureComponent {
                 data={clusterData}
                 activeData={activeData}
                 valueAccessor="mass"
-                xAxisLabel="Stellar Mass (Msun)"
                 dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['mass']}
               />
@@ -198,7 +155,6 @@ class DiscussReport extends React.PureComponent {
                 data={clusterData}
                 activeData={activeData}
                 valueAccessor="lifetime"
-                xAxisLabel="Lifetime (Gyr)"
                 dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['lifetime']}
               />
@@ -208,7 +164,6 @@ class DiscussReport extends React.PureComponent {
                 data={clusterData}
                 activeData={activeData}
                 valueAccessor="radius"
-                xAxisLabel="Radius (Rsun)"
                 dataSelectionCallback={this.onGraphSelection}
                 tooltipAccessors={['radius']}
               />
@@ -226,8 +181,9 @@ DiscussReport.propTypes = {
   setActive: PropTypes.func,
   advanceActive: PropTypes.func,
   questions: PropTypes.array,
-  tableAnswersIds: PropTypes.array,
+  tableAnswerIds: PropTypes.array,
   tableHeaders: PropTypes.array,
+  tableRowTitles: PropTypes.array,
   answerHandler: PropTypes.func,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,

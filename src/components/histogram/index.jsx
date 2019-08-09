@@ -17,6 +17,8 @@ import {
 } from 'd3-scale';
 import 'd3-transition';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
+import { capitalize } from '../../lib/utilities';
+import StellarUnit from '../charts/shared/StellarUnit';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
 import Bars from './Bars.jsx';
@@ -27,7 +29,7 @@ class Histogram extends React.PureComponent {
   static defaultProps = {
     width: 600,
     height: 600,
-    padding: 70,
+    padding: 80,
     offsetTop: 7,
     offsetRight: 7,
     yAxisLabel: 'Number of Stars',
@@ -136,7 +138,7 @@ class Histogram extends React.PureComponent {
         .value(d => {
           return d[valueAccessor]; // eslint-disable-line dot-notation
         })
-        .thresholds(d3ThresholdScott)(data);
+        .thresholds(15)(data);
     }
 
     if (domain) {
@@ -186,6 +188,14 @@ class Histogram extends React.PureComponent {
         }) + 10,
       ])
       .range([height - padding, offsetTop]);
+  }
+
+  getLabel(type) {
+    return (
+      <tspan>
+        {capitalize(type)} (<StellarUnit type={type} isSvg />)
+      </tspan>
+    );
   }
 
   clearGraph() {
@@ -376,7 +386,7 @@ class Histogram extends React.PureComponent {
           )}
           {xScale && (
             <XAxis
-              label={xAxisLabel}
+              label={xAxisLabel || this.getLabel(valueAccessor)}
               height={height}
               width={width}
               padding={padding}
@@ -410,7 +420,7 @@ Histogram.propTypes = {
   padding: PropTypes.number,
   offsetRight: PropTypes.number,
   offsetTop: PropTypes.number,
-  xAxisLabel: PropTypes.string,
+  xAxisLabel: PropTypes.node,
   yAxisLabel: PropTypes.string,
   valueAccessor: PropTypes.string,
   domain: PropTypes.array,
