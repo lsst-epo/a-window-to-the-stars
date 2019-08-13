@@ -1,6 +1,8 @@
 import React, { addCallback, addReducer, setGlobal } from 'reactn';
 import ReactDOM from 'react-dom';
 import ls from 'local-storage';
+import includes from 'lodash/includes';
+import sortBy from 'lodash/sortBy';
 import App from './App.jsx';
 import './assets/stylesheets/styles.scss';
 
@@ -9,6 +11,10 @@ const emptyState = {
   lastUpdated: Date.now().toString(),
   questions: null,
   answers: {},
+  totalNumPages: 18,
+  visitedPages: [],
+  investigationProgress: 0,
+  pageProgress: 0,
   activeId: null,
   activeGraphData: null,
   clusterA: [],
@@ -39,6 +45,28 @@ addReducer('empty', prevGlobal => {
   };
 
   ls('hrd', global);
+
+  return global;
+});
+
+addReducer('updateProgress', (prevGlobal, dispatch, currentProgress) => {
+  const { visitedPages: prevVisitedPages, totalNumPages } = prevGlobal;
+  const pageProgress = Math.ceil((currentProgress / (totalNumPages - 1)) * 100);
+
+  const global = {
+    ...prevGlobal,
+    pageProgress,
+  };
+
+  if (!includes(prevVisitedPages, currentProgress)) {
+    const visitedPages = sortBy(prevVisitedPages.concat([currentProgress]));
+    const investigationProgress = Math.ceil(
+      (visitedPages.length / totalNumPages) * 100
+    );
+
+    global.visitedPages = visitedPages;
+    global.investigationProgress = investigationProgress;
+  }
 
   return global;
 });
