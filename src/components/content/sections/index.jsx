@@ -1,6 +1,7 @@
 import React from 'react';
 import reactn from 'reactn';
 import { Switch, Route } from 'react-router-dom';
+import includes from 'lodash/includes';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
 import API from '../../site/API';
@@ -13,6 +14,7 @@ import ComparingHRD from './ComparingHRD';
 import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
+import CombinedHRD from './CombinedHRD';
 import EstimatingStellarTemperatures from './EstimatingStellarTemperatures';
 import EstimatingStellarLuminosities from './EstimatingStellarLuminosities';
 import EstimatingTempLumExtension from './EstimatingTempLumExtension';
@@ -72,7 +74,7 @@ class Sections extends React.PureComponent {
   }
 
   render() {
-    const { questions, answers, clusters } = this.global;
+    const { visitedPages, questions, answers, clusters } = this.global;
 
     return (
       <React.Fragment>
@@ -249,26 +251,42 @@ class Sections extends React.PureComponent {
             <Route
               path="/9"
               render={() => (
-                <CombiningHRD
-                  id="9"
-                  scrollable={-1}
-                  clusters={[
-                    {
-                      name: clusters.NGC2516.name,
-                      key: 'clusterAData',
-                      path: clusters.NGC2516.path,
-                      xDomain: clusters.NGC2516.hrd.domain.x,
-                      yDomain: clusters.NGC2516.hrd.domain.y,
-                    },
-                    {
-                      name: clusters.NGC2682.name,
-                      key: 'clusterBData',
-                      path: clusters.NGC2682.path,
-                      xDomain: clusters.NGC2516.hrd.domain.x,
-                      yDomain: clusters.NGC2516.hrd.domain.y,
-                    },
-                  ]}
-                />
+                <React.Fragment>
+                  {includes(visitedPages, 9) ? (
+                    <CombinedHRD
+                      id="9"
+                      scrollable={0}
+                      dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
+                      scatterXDomain={clusters.NGC2516.hrd.domain.x}
+                      scatterYDomain={clusters.NGC2516.hrd.domain.y}
+                      clusterNames={[
+                        clusters.NGC2516.name,
+                        clusters.NGC2682.name,
+                      ]}
+                    />
+                  ) : (
+                    <CombiningHRD
+                      id="9"
+                      scrollable={-1}
+                      clusters={[
+                        {
+                          name: clusters.NGC2516.name,
+                          key: 'clusterAData',
+                          path: clusters.NGC2516.path,
+                          xDomain: clusters.NGC2516.hrd.domain.x,
+                          yDomain: clusters.NGC2516.hrd.domain.y,
+                        },
+                        {
+                          name: clusters.NGC2682.name,
+                          key: 'clusterBData',
+                          path: clusters.NGC2682.path,
+                          xDomain: clusters.NGC2516.hrd.domain.x,
+                          yDomain: clusters.NGC2516.hrd.domain.y,
+                        },
+                      ]}
+                    />
+                  )}
+                </React.Fragment>
               )}
             />
             <Route
