@@ -7,7 +7,9 @@ import range from 'lodash/range';
 import API from '../../site/API';
 import { capitalize } from '../../../lib/utilities';
 import StellarUnit from '../../charts/shared/StellarUnit';
+import NoMatch from '../../site/NoMatch';
 import Introduction from './Introduction';
+import ProgressCheckIn from './ProgressCheckIn';
 import ExploringStarClusters from './ExploringStarClusters';
 import MakingHRD from './MakingHRD';
 import ComparingHRD from './ComparingHRD';
@@ -29,24 +31,18 @@ import NGC2682Image from '../../../assets/images/ngc2682_FINAL.jpg';
 @reactn
 class Sections extends React.PureComponent {
   componentDidMount() {
-    // if (isEmpty(this.global.questions)) {
-    //   API.get('static-data/questions.json').then(res => {
-    //     this.setGlobal(prevGlobal => ({
-    //       ...prevGlobal,
-    //       questions: res.data,
-    //     }));
-    //   });
-    // }
-    Promise.all([
-      API.get('static-data/questions.json'),
-      API.get('static-data/clusters.json'),
-    ]).then(res => {
-      this.setGlobal(prevGlobal => ({
-        ...prevGlobal,
-        questions: res[0].data,
-        clusters: res[1].data,
-      }));
-    });
+    if (isEmpty(this.global.questions) || isEmpty(this.global.clusters)) {
+      Promise.all([
+        API.get('static-data/questions.json'),
+        API.get('static-data/clusters.json'),
+      ]).then(res => {
+        this.setGlobal(prevGlobal => ({
+          ...prevGlobal,
+          questions: res[0].data,
+          clusters: res[1].data,
+        }));
+      });
+    }
   }
 
   onFinish = () => {
@@ -85,11 +81,13 @@ class Sections extends React.PureComponent {
               exact
               render={() => <Introduction id="0" next="1" scrollable={0} />}
             />
+            <Route path="/progress/:id" component={ProgressCheckIn} />
             <Route
               path="/1"
               render={() => (
                 <ExploringStarClusters
                   id="1"
+                  next="/progress/1"
                   questionsRange={range(1, 10)}
                   questions={this.getQuestions(range(1, 10))}
                   answers={answers}
@@ -255,6 +253,7 @@ class Sections extends React.PureComponent {
                   {includes(visitedPages, 9) ? (
                     <CombinedHRD
                       id="9"
+                      next="/progress/9"
                       scrollable={0}
                       dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
                       scatterXDomain={clusters.NGC2516.hrd.domain.x}
@@ -267,6 +266,7 @@ class Sections extends React.PureComponent {
                   ) : (
                     <CombiningHRD
                       id="9"
+                      next="/progress/9"
                       scrollable={-1}
                       clusters={[
                         {
@@ -421,6 +421,7 @@ class Sections extends React.PureComponent {
               render={() => (
                 <EstimatingStellarRadii
                   id="15"
+                  next="/progress/15"
                   scrollable={0}
                   histogramAccessor="radius"
                   histogramAxisLabel={this.getLabel('radius')}
@@ -499,6 +500,7 @@ class Sections extends React.PureComponent {
                 />
               )}
             />
+            <Route component={NoMatch} />
           </Switch>
         )}
       </React.Fragment>

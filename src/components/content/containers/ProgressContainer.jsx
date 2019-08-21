@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import reactn from 'reactn';
+import isNumber from 'lodash/isNumber';
 import PropTypes from 'prop-types';
 
 @reactn
@@ -18,10 +19,11 @@ class ProgressContainer extends React.Component {
       return 0;
     }
 
-    const id = progress.split('/')[1];
+    const splitted = progress.split('/');
+    const id = parseInt(splitted[splitted.length - 1], 10);
 
-    if (id.length) {
-      return parseInt(id, 10);
+    if (isNumber(id)) {
+      return id;
     }
 
     return 0;
@@ -29,7 +31,6 @@ class ProgressContainer extends React.Component {
 
   updateProgress() {
     const { location } = this.props;
-
     this.dispatch.updateProgress(this.formattedProgress(location.pathname));
   }
 

@@ -32,10 +32,6 @@ addCallback(global => {
   return null;
 });
 
-// addReducer('updateLS', global => {
-//   ls('hrd', global);
-// });
-
 addReducer('empty', prevGlobal => {
   const global = {
     ...prevGlobal,

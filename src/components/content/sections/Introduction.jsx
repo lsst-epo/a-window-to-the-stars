@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Section from './Section';
 import placeholder from '../../../assets/images/placeholder.jpg';
 
@@ -62,17 +61,10 @@ class Introduction extends React.PureComponent {
             </li>
           </ul>
         </section>
-        <img src={placeholder} alt="Star Field" className="hero-image" />
+        <img src={placeholder} alt="Placeholder" className="hero-image" />
       </Section>
     );
   }
 }
-
-Introduction.propTypes = {
-  id: PropTypes.number,
-  layout: PropTypes.string,
-  dividers: PropTypes.bool,
-  paginationLocation: PropTypes.number,
-};
 
 export default Introduction;
