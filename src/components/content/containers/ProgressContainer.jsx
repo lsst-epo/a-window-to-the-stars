@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import isNumber from 'lodash/isNumber';
+import _isFinite from 'lodash/isFinite';
 
 @reactn
 class ProgressContainer extends React.Component {
@@ -22,7 +22,7 @@ class ProgressContainer extends React.Component {
     const splitted = progress.split('/');
     const id = parseInt(splitted[splitted.length - 1], 10);
 
-    if (isNumber(id)) {
+    if (_isFinite(id)) {
       return id;
     }
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import reactn from 'reactn';
 import { Switch, Route } from 'react-router-dom';
-import includes from 'lodash/includes';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
 import API from '../../site/API';
@@ -67,6 +66,19 @@ class Sections extends React.PureComponent {
         {capitalize(type)} (<StellarUnit type={type} isSvg />)
       </tspan>
     );
+  }
+
+  visitedFarther(visitedPages, targetPage) {
+    let i = visitedPages.length;
+    let isFarther = false;
+
+    while (i >= 0 && !isFarther) {
+      isFarther = visitedPages[i] > targetPage;
+
+      i -= 1;
+    }
+
+    return isFarther;
   }
 
   render() {
@@ -250,7 +262,7 @@ class Sections extends React.PureComponent {
               path="/9"
               render={() => (
                 <React.Fragment>
-                  {includes(visitedPages, 9) ? (
+                  {this.visitedFarther(visitedPages, 9) ? (
                     <CombinedHRD
                       id="9"
                       next="/progress/9"
