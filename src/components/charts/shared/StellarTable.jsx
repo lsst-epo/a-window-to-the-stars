@@ -1,31 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import { getSunValue, getMean } from '../../../lib/utilities';
+import { getSunValue } from '../../../lib/utilities';
 import Table from '../../site/forms/Table';
 import StellarValue from './StellarValue';
 import StellarTableCell from './StellarTableCell';
 // import StellarValueRange from './StellarValueRange';
 
 class StellarTable extends React.PureComponent {
-  getCellValue(answer, accessor) {
-    if (isEmpty(answer)) {
-      return '';
-    }
-
-    if (Array.isArray(answer.content)) {
-      // return <StellarValueRange data={answer.content} type={accessor} />;
-      return (
-        <StellarValue
-          value={getMean(answer.content, accessor)}
-          type={accessor}
-        />
-      );
-    }
-
-    return <StellarValue value={answer.content} type={accessor} />;
-  }
-
   getRows(answers, colTitles, rowTitles, answerIds) {
     const rows = [].concat(rowTitles);
 
