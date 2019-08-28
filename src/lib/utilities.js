@@ -60,10 +60,6 @@ export const extentFromSet = function(data, accessor) {
 };
 
 export const getMean = function(data, accessor) {
-  if (accessor === 'luminosity') {
-    return Math.log(d3Mean(data, d => d[accessor]));
-  }
-
   return d3Mean(data, d => d[accessor]);
 };
 
