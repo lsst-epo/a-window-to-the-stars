@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import reactn from 'reactn';
-import isNumber from 'lodash/isNumber';
 import PropTypes from 'prop-types';
+import isNumber from 'lodash/isNumber';
 
 @reactn
 class ProgressContainer extends React.Component {
