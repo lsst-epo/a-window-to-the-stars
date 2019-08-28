@@ -55,17 +55,19 @@ class GlobalStore {
       const pageProgress = Math.ceil(
         (currentProgress / (totalNumPages - 1)) * 100
       );
-
       const global = {
         ...prevGlobal,
         pageProgress,
       };
 
       if (!includes(prevVisitedPages, currentProgress)) {
-        const visitedPages = sortBy(prevVisitedPages.concat([currentProgress]));
+        const visitedPages = !prevVisitedPages
+          ? [currentProgress]
+          : sortBy(prevVisitedPages.concat([currentProgress]));
         const investigationProgress = Math.ceil(
           (visitedPages.length / totalNumPages) * 100
         );
+
         global.visitedPages = visitedPages;
         global.investigationProgress = investigationProgress;
       }
