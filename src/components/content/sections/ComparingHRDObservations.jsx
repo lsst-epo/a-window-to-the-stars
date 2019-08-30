@@ -1,18 +1,14 @@
 import React from 'react';
-import reactn from 'reactn';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import { formatValue } from '../../../lib/utilities.js';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import API from '../../site/API';
 import Section from './Section';
-import Table from '../../site/forms/Table';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
+import ObservationsTable from '../../charts/shared/ObservationsTable';
 import QAs from '../../qas';
 
-@reactn
 class ComparingHRDObservations extends React.Component {
   constructor(props) {
     super(props);
@@ -42,55 +38,6 @@ class ComparingHRDObservations extends React.Component {
     });
   }
 
-  tableHeaders(clusters) {
-    const cells = [''];
-
-    clusters.forEach(cluster => {
-      cells.push(cluster.name);
-    });
-    return cells;
-  }
-
-  tableValues(answers, tableAnswersRanges) {
-    const cells = [
-      ['Main Sequence Temperature Range'],
-      ['Total Giant Stars'],
-      ['Total White Dwarf Stars'],
-    ];
-
-    tableAnswersRanges.forEach(range => {
-      const a1 = range[0];
-      const a2 = range[1];
-      const a3 = range[2];
-      const a4 = range[3];
-
-      if (!isEmpty(answers[a1]) && !isEmpty(answers[a2])) {
-        cells[0].push(
-          `${formatValue(answers[a1].content, 0)} K  -  ${formatValue(
-            answers[a2].content,
-            0
-          )} K`
-        );
-      } else {
-        cells[0].push('');
-      }
-
-      if (!isEmpty(answers[a3])) {
-        cells[1].push(answers[a3].content);
-      } else {
-        cells[1].push('');
-      }
-
-      if (!isEmpty(answers[a4])) {
-        cells[2].push(answers[a4].content);
-      } else {
-        cells[2].push('');
-      }
-    });
-
-    return cells;
-  }
-
   selectItems(clusters) {
     return clusters.map((cluster, i) => {
       return { label: `Cluster ${cluster.name}`, value: i };
@@ -111,11 +58,13 @@ class ComparingHRDObservations extends React.Component {
       clusters,
       questions,
       answers,
-      tableAnswersRanges,
       activeId,
       answerHandler,
       setActive,
       advanceActive,
+      tableAnswerIds,
+      tableRowTitles,
+      tableHeaders,
     } = this.props;
     const { activeScatter } = this.state;
 
@@ -133,10 +82,11 @@ class ComparingHRDObservations extends React.Component {
           </p>
           <br />
           <hr className="divider-horizontal" />
-          <Table
-            colTitles={this.tableHeaders(clusters)}
-            includeRowTitles
-            rows={this.tableValues(answers, tableAnswersRanges)}
+          <ObservationsTable
+            answers={answers}
+            answerIds={tableAnswerIds}
+            rowTitles={tableRowTitles}
+            colTitles={tableHeaders}
           />
           <hr className="divider-horizontal" />
           <div className="copy-secondary">
@@ -198,7 +148,10 @@ ComparingHRDObservations.propTypes = {
   answerHandler: PropTypes.func,
   questions: PropTypes.array,
   answers: PropTypes.array,
+  tableAnswerIds: PropTypes.array,
   tableAnswersRanges: PropTypes.array,
+  tableHeaders: PropTypes.array,
+  tableRowTitles: PropTypes.array,
 };
 
 export default WithAnswerHandlers(

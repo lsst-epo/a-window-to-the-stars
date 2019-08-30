@@ -1,23 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getSunValue } from '../../../lib/utilities';
+import isArray from 'lodash/isArray';
 import Table from '../../site/forms/Table';
-import StellarValue from './StellarValue';
-import StellarTableCell from './StellarTableCell';
+import ObservationsTableCell from './ObservationsTableCell';
 
-class StellarTable extends React.PureComponent {
+class ObservationsTable extends React.PureComponent {
   getRows(answers, colTitles, rowTitles, answerIds) {
     const rows = [].concat(rowTitles);
 
     for (let j = 0; j < rows.length; j += 1) {
       const row = rows[j];
-      const accessor = row[0].toLowerCase();
 
       answerIds[j].forEach(id => {
-        row.push(<StellarTableCell answer={answers[id]} accessor={accessor} />);
-      });
+        const isRange = isArray(id);
 
-      row.push(<StellarValue value={getSunValue(accessor)} type={accessor} />);
+        if (isRange) {
+          row.push(
+            <ObservationsTableCell
+              answerRange={[answers[id[0]], answers[id[1]]]}
+              accessor="temperature"
+            />
+          );
+        } else {
+          row.push(
+            <ObservationsTableCell answer={answers[id]} accessor="count" />
+          );
+        }
+      });
     }
 
     return rows;
@@ -28,7 +37,7 @@ class StellarTable extends React.PureComponent {
 
     return (
       <Table
-        className="stellar-properties"
+        className="hrd-observations"
         colTitles={colTitles}
         includeRowTitles
         rows={this.getRows(answers, colTitles, rowTitles, answerIds)}
@@ -37,11 +46,11 @@ class StellarTable extends React.PureComponent {
   }
 }
 
-StellarTable.propTypes = {
+ObservationsTable.propTypes = {
   answers: PropTypes.object,
   answerIds: PropTypes.array,
   colTitles: PropTypes.array,
   rowTitles: PropTypes.array,
 };
 
-export default StellarTable;
+export default ObservationsTable;

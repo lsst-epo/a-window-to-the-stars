@@ -167,6 +167,13 @@ class Sections extends React.PureComponent {
                   clusterName={clusters.NGC2516.name}
                   introduction="Use the H-R Diagram to complete the table of observations"
                   scrollable={0}
+                  tableRowTitles={[
+                    ['Main Sequence Range'],
+                    ['Total Giant Stars'],
+                    ['Total White Dwarf Stars'],
+                  ]}
+                  tableHeaders={[clusters.NGC2516.name, 'Values']}
+                  tableAnswerIds={[[[10, 11]], [12], [13]]}
                 />
               )}
             />
@@ -226,6 +233,13 @@ class Sections extends React.PureComponent {
                   questions={this.getQuestions(range(15, 19))}
                   answers={answers}
                   introduction="Use the H-R Diagram to complete the table of observations"
+                  tableRowTitles={[
+                    ['Main Sequence Range'],
+                    ['Total Giant Stars'],
+                    ['Total White Dwarf Stars'],
+                  ]}
+                  tableHeaders={[clusters.NGC2682.name, 'Values']}
+                  tableAnswerIds={[[[15, 16]], [17], [18]]}
                 />
               )}
             />
@@ -251,7 +265,17 @@ class Sections extends React.PureComponent {
                       yDomain: clusters.NGC2516.hrd.domain.y,
                     },
                   ]}
-                  tableAnswersRanges={[range(10, 14), range(15, 19)]}
+                  tableRowTitles={[
+                    ['Main Sequence Range'],
+                    ['Total Giant Stars'],
+                    ['Total White Dwarf Stars'],
+                  ]}
+                  tableHeaders={[
+                    '',
+                    clusters.NGC2516.name,
+                    clusters.NGC2682.name,
+                  ]}
+                  tableAnswerIds={[[[10, 11], [15, 16]], [12, 17], [13, 18]]}
                   questionsRange={range(20, 24)}
                   questions={this.getQuestions(range(20, 24))}
                   answers={answers}
