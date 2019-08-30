@@ -9,15 +9,18 @@
 >- Is the Sun an average star? Is it the most common kind of star?
 
 
-Check out the [work-in-progress](https://lsst-epo.github.io/a-window-to-the-stars).
+Check out [Production](https://lsst-epo.github.io/a-window-to-the-stars).
+Check out [Staging](https://a-window-to-the-stars.netlify.com/#/).
 
-Built using [homegrown Webpack-React starter project](https://github.com/lsst-epo/webpack-react-boilerplate).
+Dev envirnoment inspired by [homegrown Webpack-React starter project](https://github.com/lsst-epo/webpack-react-boilerplate).
 
 ### Table of contents
 
 [Project structure](#project-structure)
 
 [Installation](#installation)
+
+[Deploying](#deploying)
 
 [Configuration](#configuration)
 
@@ -47,14 +50,25 @@ src/
 
 2- Install npm packages: `yarn`
 
-3- Start dev server: `yarn start`
+### Development
 
-4- Unit testing will watch all your changes in the test files as well as create coverage folder: `yarn test`
+1- Start dev server: `yarn start` (or `yarn start-dash` to run webpack-dev-server with [webpack dashboard](https://github.com/FormidableLabs/webpack-dashboard))
 
-5- Build and bundle assets for production: `yarn build`
+2- Unit testing will watch all your changes in the test files as well as create coverage folder: `yarn test`
 
-6- Deploy to Github Pages via [gh-pages module](https://github.com/tschaub/gh-pages): `yarn deploy`
+3- Build and bundle assets for Production: `yarn build`
 
+4- Build and bundle assets for Staging: `yarn netflify-deploy`
+
+### Deploying
+
+#### Production:
+
+Deploy to Production (Github Pages) via [gh-pages module](https://github.com/tschaub/gh-pages): `yarn deploy`
+
+#### Staging:
+
+Push changes to master, or create pull request to trigger a build/deploy to [Continuous Deployment to Netlify](https://www.netlify.com/docs/continuous-deployment/)
 
 ### Configuration
 
@@ -103,7 +117,7 @@ git
 - [Prettier](https://github.com/prettier/prettier) [ JS formatter ]
 - [EditorConfig](https://editorconfig.org/) [ Code Style definitions ]
 - [STACSS](https://github.com/castiron/STACSS) [ SCSS architecture ]
-- [Style](https://github.com/webpack-contrib/style-loader) & [CSS Loader](https://github.com/webpack-contrib/css-loader) & [SASS-loader](https://github.com/webpack-contrib/sass-loader) & [PostCSS](https://github.com/postcss/postcss) with [Autoprefixer](https://github.com/postcss/autoprefixer)
+- [Style Loader](https://github.com/webpack-contrib/style-loader) & [CSS Loader](https://github.com/webpack-contrib/css-loader) & [SASS-loader](https://github.com/webpack-contrib/sass-loader) & [PostCSS](https://github.com/postcss/postcss) with [Autoprefixer](https://github.com/postcss/autoprefixer)
 - [Browserslist](https://github.com/browserslist/browserslist) [ Share target browsers between different front-end tools, like Autoprefixer, Stylelint and babel-preset-env ]
 - [React hot loader](https://github.com/gaearon/react-hot-loader)
 - [Webpack dev server](https://github.com/webpack/webpack-dev-server)
@@ -113,5 +127,8 @@ git
 - [React](https://github.com/facebook/react) `16.8`
 - [prop-types](https://github.com/facebook/prop-types) `16.8`
 - [React Router](https://github.com/ReactTraining/react-router) `5.0.1`
+- [Reactn](https://github.com/CharlesStover/reactn) `2.1.4`
+- [Axios](https://github.com/axios/axios) `0.19.0`
+- [Local Storage](https://github.com/bevacqua/local-storage) `2.0.0`
 - [Lodash](https://github.com/lodash/lodash)
 - [D3](https://github.com/d3/d3) `5.9.2`

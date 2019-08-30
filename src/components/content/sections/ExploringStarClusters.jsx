@@ -58,10 +58,12 @@ class ExploringStarClusters extends React.PureComponent {
             stars. Giant stars are stars in the late stages of their lifetimes.
             They are powered by more than one type of nuclear fusion reaction.
             White dwarfs are stellar remnants that are no longer powered by
-            fusion. White dwarfs are commonly referred to as dead stars. These
-            three areas (giant stars, main sequence, and white dwarfs) will
-            always appear on an H-R Diagram, even if you import the data from
-            thousands of stars.
+            fusion. White dwarfs are commonly referred to as dead stars.
+          </p>
+          <p>
+            These These three areas (giant stars, main sequence, and white
+            dwarfs) will always appear on an H-R Diagram, even if you import the
+            data from thousands of stars.
           </p>
           <p>
             The main sequence forms a slightly s-shaped diagonal band across the
