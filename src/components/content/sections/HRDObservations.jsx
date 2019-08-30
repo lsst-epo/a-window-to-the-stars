@@ -1,55 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-import { formatValue, getAnswerData } from '../../../lib/utilities.js';
+import { getAnswerData } from '../../../lib/utilities.js';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
-import Table from '../../site/forms/Table';
+import ObservationsTable from '../../charts/shared/ObservationsTable';
 
 class HRDObservations extends React.Component {
-  tableValues() {
-    const cells = [
-      ['Main Sequence Temperature Range'],
-      ['Total Giant Stars'],
-      ['Total White Dwarf Stars'],
-    ];
-
-    const { questionsRange, answers } = this.props;
-    const a1 = questionsRange[0];
-    const a2 = questionsRange[1];
-    const a3 = questionsRange[2];
-    const a4 = questionsRange[3];
-
-    if (!isEmpty(answers[a1]) && !isEmpty(answers[a2])) {
-      cells[0].push(
-        `${formatValue(answers[a1].content, 0)} K  -  ${formatValue(
-          answers[a2].content,
-          0
-        )} K`
-      );
-    } else {
-      cells[0].push('');
-    }
-
-    if (!isEmpty(answers[a3])) {
-      cells[1].push(answers[a3].content);
-    } else {
-      cells[1].push('');
-    }
-
-    if (!isEmpty(answers[a4])) {
-      cells[2].push(answers[a4].content);
-    } else {
-      cells[2].push('');
-    }
-
-    return cells;
-  }
-
   onGraphSelection = selectedData => {
     const { answerHandler, activeId } = this.props;
 
@@ -70,6 +30,9 @@ class HRDObservations extends React.Component {
       setActive,
       advanceActive,
       activeId,
+      tableAnswerIds,
+      tableRowTitles,
+      tableHeaders,
     } = this.props;
 
     return (
@@ -91,10 +54,11 @@ class HRDObservations extends React.Component {
             />
           )}
           <hr className="divider-horizontal" />
-          <Table
-            colTitles={[`Star ${clusterName}`, 'Values']}
-            includeRowTitles
-            rows={this.tableValues()}
+          <ObservationsTable
+            answers={answers}
+            answerIds={tableAnswerIds}
+            rowTitles={tableRowTitles}
+            colTitles={tableHeaders}
           />
         </section>
         <div>
@@ -133,6 +97,10 @@ HRDObservations.propTypes = {
   clusterName: PropTypes.string,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
+  tableAnswerIds: PropTypes.array,
+  tableAnswersRanges: PropTypes.array,
+  tableHeaders: PropTypes.array,
+  tableRowTitles: PropTypes.array,
 };
 
 export default WithAnswerHandlers(

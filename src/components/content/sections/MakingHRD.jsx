@@ -1,34 +1,17 @@
 import React from 'react';
-import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import { WithData } from '../containers/WithData';
+import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
 import Prompt from '../../questions/Prompt';
 
-@reactn
 class MakingHRD extends React.Component {
-  updateAnswer(id, data) {
-    const { answers: prevAnswers } = this.global;
-    const prevAnswer = { ...prevAnswers[id] };
-
-    this.setGlobal(prevGlobal => ({
-      ...prevGlobal,
-      answers: {
-        ...prevAnswers,
-        [id]: {
-          ...prevAnswer,
-          id,
-          data,
-        },
-      },
-    }));
-  }
-
   onGraphLasso = selectedData => {
-    const { activeId } = this.props;
-    this.updateAnswer(activeId, selectedData);
+    const { answerHandler, activeId } = this.props;
+
+    answerHandler(activeId, selectedData);
   };
 
   render() {
@@ -103,15 +86,10 @@ class MakingHRD extends React.Component {
 }
 
 MakingHRD.propTypes = {
-  id: PropTypes.number,
-  layout: PropTypes.string,
-  dividers: PropTypes.bool,
-  paginationLocation: PropTypes.number,
-  questionsRange: PropTypes.array,
   questions: PropTypes.array,
   answer: PropTypes.object,
+  answerHandler: PropTypes.func,
   activeId: PropTypes.string,
-  dataPath: PropTypes.string,
   clusterData: PropTypes.array,
   clusterImage: PropTypes.node,
   clusterName: PropTypes.string,
@@ -124,4 +102,4 @@ MakingHRD.propTypes = {
   introduction: PropTypes.string,
 };
 
-export default WithData(MakingHRD);
+export default WithAnswerHandlers(WithData(MakingHRD));

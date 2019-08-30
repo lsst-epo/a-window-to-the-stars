@@ -14,7 +14,7 @@ class ComparingHRD extends React.Component {
 
           return (
             <div key={key} className="container-flex centered spaced">
-              <div className="set-name">{cluster.className}</div>
+              <div className="set-name">{cluster.source}</div>
               <div className={`data-point ${cluster.className}`} />
             </div>
           );
@@ -39,8 +39,8 @@ class ComparingHRD extends React.Component {
 
     const selection = answer ? answer.data : [];
     const multipleData = [
-      { className: 'user', data: selection },
-      { className: 'astronomer', data: clusterData },
+      { source: 'you', className: 'user', data: selection },
+      { source: 'astronomer', className: 'astronomer', data: clusterData },
     ];
 
     return (
@@ -73,8 +73,6 @@ class ComparingHRD extends React.Component {
               yValueAccessor="Dec"
               xDomain={clusterXDomain}
               yDomain={clusterYDomain}
-              dataLassoCallback={this.onGraphLasso}
-              dataSelectionCallback={this.onGraphSelection}
               backgroundImage={clusterImage}
               preSelected
               multiple
@@ -103,9 +101,6 @@ class ComparingHRD extends React.Component {
 }
 
 ComparingHRD.propTypes = {
-  id: PropTypes.number,
-  questionsRange: PropTypes.array,
-  questions: PropTypes.array,
   clusterData: PropTypes.array,
   clusterName: PropTypes.string,
   clusterImage: PropTypes.node,
