@@ -15,7 +15,7 @@ import StellarTable from '../../charts/shared/StellarTable';
 import SunIcon from '../../site/icons/Sun';
 
 @reactn
-class StellarProperty extends React.PureComponent {
+class StellarProperty extends React.Component {
   render() {
     const {
       clusterData,
