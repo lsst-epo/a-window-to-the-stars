@@ -16,12 +16,11 @@ import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
 import CombinedHRD from './CombinedHRD';
-import EstimatingStellarTemperatures from './EstimatingStellarTemperatures';
-import EstimatingStellarLuminosities from './EstimatingStellarLuminosities';
+import StellarProperty from './StellarProperty';
 import EstimatingTempLumExtension from './EstimatingTempLumExtension';
-import EstimatingStellarRadii from './EstimatingStellarRadii';
-import EstimatingStellarLifetimes from './EstimatingStellarLifetimes';
-import EstimatingStellarMasses from './EstimatingStellarMasses';
+import RadiiCopy from './stellar-property-copy/Radii';
+import LifetimesCopy from './stellar-property-copy/Lifetimes';
+import MassesCopy from './stellar-property-copy/Masses';
 import DiscussReport from './DiscussReport';
 import Results from './Results';
 import NGC2516Image from '../../../assets/images/ngc2516.jpg';
@@ -328,7 +327,7 @@ class Sections extends React.PureComponent {
             <Route
               path="/10"
               render={() => (
-                <EstimatingStellarTemperatures
+                <StellarProperty
                   id="10"
                   scrollable={0}
                   histogramDomain={[3500, 9500]}
@@ -348,13 +347,14 @@ class Sections extends React.PureComponent {
                     'Sun',
                   ]}
                   tableAnswerIds={[range(24, 27)]}
+                  sectionTitle="Comparing Star Temperature"
                 />
               )}
             />
             <Route
               path="/11"
               render={() => (
-                <EstimatingStellarLuminosities
+                <StellarProperty
                   id="11"
                   scrollable={0}
                   histogramDomain={[-2, 4]}
@@ -374,6 +374,7 @@ class Sections extends React.PureComponent {
                     'Sun',
                   ]}
                   tableAnswerIds={[range(28, 31)]}
+                  sectionTitle="Comparing Star Luminosity"
                 />
               )}
             />
@@ -403,7 +404,7 @@ class Sections extends React.PureComponent {
             <Route
               path="/13"
               render={() => (
-                <EstimatingStellarMasses
+                <StellarProperty
                   id="13"
                   scrollable={0}
                   histogramAccessor="mass"
@@ -424,13 +425,15 @@ class Sections extends React.PureComponent {
                     'Sun',
                   ]}
                   tableAnswerIds={[range(32, 35)]}
+                  sectionTitle="Estimating Stellar Masses"
+                  sectionCopy={<MassesCopy />}
                 />
               )}
             />
             <Route
               path="/14"
               render={() => (
-                <EstimatingStellarLifetimes
+                <StellarProperty
                   id="14"
                   scrollable={0}
                   histogramAccessor="lifetime"
@@ -449,13 +452,15 @@ class Sections extends React.PureComponent {
                     'Sun',
                   ]}
                   tableAnswerIds={[range(43, 46)]}
+                  sectionTitle="Estimating Stellar Lifetimes"
+                  sectionCopy={<LifetimesCopy />}
                 />
               )}
             />
             <Route
               path="/15"
               render={() => (
-                <EstimatingStellarRadii
+                <StellarProperty
                   id="15"
                   next="/progress/15"
                   scrollable={0}
@@ -475,6 +480,8 @@ class Sections extends React.PureComponent {
                     'Sun',
                   ]}
                   tableAnswerIds={[range(36, 39)]}
+                  sectionTitle="Estimating Stellar Radii"
+                  sectionCopy={<RadiiCopy />}
                 />
               )}
             />
