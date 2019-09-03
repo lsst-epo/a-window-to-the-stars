@@ -391,6 +391,7 @@ class Sections extends React.PureComponent {
               render={() => (
                 <EstimatingTempLumExtension
                   id="12"
+                  next="/progress/12"
                   scrollable={0}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
