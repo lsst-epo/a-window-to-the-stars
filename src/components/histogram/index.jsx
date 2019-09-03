@@ -209,7 +209,7 @@ class Histogram extends React.PureComponent {
   }
 
   toggleSelection(d) {
-    const { dataSelectionCallback } = this.props;
+    const { activeId, dataSelectionCallback } = this.props;
     const { selectedData, xScale, yScale } = this.state;
 
     const newState = {
@@ -229,7 +229,7 @@ class Histogram extends React.PureComponent {
       ...newState,
     }));
 
-    dataSelectionCallback(d);
+    dataSelectionCallback(activeId, d);
   }
 
   // mouseover/focus handler for point
@@ -413,6 +413,7 @@ class Histogram extends React.PureComponent {
 
 Histogram.propTypes = {
   data: PropTypes.array,
+  activeId: PropTypes.string,
   activeData: PropTypes.any,
   dataSelectionCallback: PropTypes.func,
   width: PropTypes.number,

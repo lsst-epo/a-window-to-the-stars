@@ -5,6 +5,7 @@ import { getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithGraphToggler } from '../containers/WithGraphToggler';
 import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
@@ -15,29 +16,6 @@ import SunIcon from '../../site/icons/Sun';
 
 @reactn
 class DiscussReport extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeGraph: 0,
-    };
-  }
-
-  onGraphSelect = e => {
-    const { value } = e.target;
-
-    this.setState(prevState => ({
-      ...prevState,
-      activeGraph: parseInt(value, 10),
-    }));
-  };
-
-  onGraphSelection = selectedData => {
-    const { answerHandler, activeId } = this.props;
-
-    answerHandler(activeId, selectedData);
-  };
-
   render() {
     const {
       clusterData,
@@ -45,6 +23,8 @@ class DiscussReport extends React.PureComponent {
       scatterXDomain,
       scatterYDomain,
       answerHandler,
+      graphSelectHandler,
+      activeGraph,
       setActive,
       advanceActive,
       activeId,
@@ -52,7 +32,7 @@ class DiscussReport extends React.PureComponent {
       tableRowTitles,
       tableAnswerIds,
     } = this.props;
-    const { activeGraph } = this.state;
+
     const { answers } = this.global;
     const activeData = getAnswerData(answers, activeId);
 
@@ -104,7 +84,7 @@ class DiscussReport extends React.PureComponent {
             ]}
             label="Graph Selector"
             name="Graph Selector"
-            handleChange={this.onGraphSelect}
+            handleChange={graphSelectHandler}
           />
           <div className="container-graphs">
             {activeGraph === 0 && (
@@ -184,8 +164,10 @@ DiscussReport.propTypes = {
   histogramAccessor: PropTypes.string,
   histogramDomain: PropTypes.array,
   histogramAxisLabel: PropTypes.string,
+  activeGraph: PropTypes.number,
+  graphSelectHandler: PropTypes.func,
 };
 
-export default WithAnswerHandlers(
-  WithActiveQuestions(WithData(DiscussReport, 'is_member'))
+export default WithGraphToggler(
+  WithAnswerHandlers(WithActiveQuestions(WithData(DiscussReport, 'is_member')))
 );

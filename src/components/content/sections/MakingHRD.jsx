@@ -7,17 +7,13 @@ import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
 import Prompt from '../../questions/Prompt';
 
-class MakingHRD extends React.Component {
-  onGraphLasso = selectedData => {
-    const { answerHandler, activeId } = this.props;
-
-    answerHandler(activeId, selectedData);
-  };
-
+class MakingHRD extends React.PureComponent {
   render() {
     const {
       answer,
       questions,
+      answerHandler,
+      activeId,
       clusterImage,
       introduction,
       clusterData,
@@ -56,11 +52,12 @@ class MakingHRD extends React.Component {
               width={clusterWidth}
               height={clusterHeight}
               data={clusterData}
+              activeId={activeId}
               xValueAccessor="RA"
               yValueAccessor="Dec"
               xDomain={clusterXDomain}
               yDomain={clusterYDomain}
-              dataLassoCallback={this.onGraphLasso}
+              dataLassoCallback={answerHandler}
               backgroundImage={clusterImage}
               selection={selection}
             />
@@ -68,6 +65,7 @@ class MakingHRD extends React.Component {
           <div className="col padded col-width-50">
             <ScatterPlot
               data={selection}
+              activeId={activeId}
               xDomain={scatterXDomain}
               yDomain={scatterYDomain}
               xValueAccessor="temperature"

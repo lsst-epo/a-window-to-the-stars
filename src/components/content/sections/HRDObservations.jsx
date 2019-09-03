@@ -9,13 +9,7 @@ import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
 import ObservationsTable from '../../charts/shared/ObservationsTable';
 
-class HRDObservations extends React.Component {
-  onGraphSelection = selectedData => {
-    const { answerHandler, activeId } = this.props;
-
-    answerHandler(activeId, selectedData);
-  };
-
+class HRDObservations extends React.PureComponent {
   render() {
     const {
       clusterData,
@@ -66,6 +60,7 @@ class HRDObservations extends React.Component {
           <ScatterPlot
             id={id}
             data={clusterData}
+            activeId={activeId}
             activeData={getAnswerData(answers, activeId)}
             xValueAccessor="temperature"
             yValueAccessor="luminosity"
@@ -73,7 +68,7 @@ class HRDObservations extends React.Component {
             yAxisLabel="Solar Luminosity"
             xDomain={scatterXDomain}
             yDomain={scatterYDomain}
-            dataSelectionCallback={this.onGraphSelection}
+            dataSelectionCallback={answerHandler}
             useLasso
             showColorLegend
           />

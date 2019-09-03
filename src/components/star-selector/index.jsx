@@ -55,10 +55,10 @@ class StarSelector extends React.Component {
         showLasso: false,
       }),
       () => {
-        const { dataLassoCallback } = this.props;
+        const { activeId, dataLassoCallback } = this.props;
 
         if (dataLassoCallback) {
-          dataLassoCallback([]);
+          dataLassoCallback(activeId, []);
         }
       }
     );
@@ -77,10 +77,10 @@ class StarSelector extends React.Component {
   };
 
   onDragEnd = d => {
-    const { dataLassoCallback } = this.props;
+    const { activeId, dataLassoCallback } = this.props;
 
     if (dataLassoCallback) {
-      dataLassoCallback(d);
+      dataLassoCallback(activeId, d);
     }
   };
 
@@ -88,10 +88,10 @@ class StarSelector extends React.Component {
   addEventListeners() {
     d3Select(this.svgEl.current).on('click', () => {
       if (d3Event.target.classList[0] !== 'data-point') {
-        const { dataLassoCallback } = this.props;
+        const { activeId, dataLassoCallback } = this.props;
 
         if (dataLassoCallback) {
-          dataLassoCallback([]);
+          dataLassoCallback(activeId, []);
         }
       }
     });
@@ -248,6 +248,7 @@ StarSelector.propTypes = {
   height: PropTypes.number,
   padding: PropTypes.number,
   data: PropTypes.array,
+  activeId: PropTypes.string,
   selection: PropTypes.array,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,

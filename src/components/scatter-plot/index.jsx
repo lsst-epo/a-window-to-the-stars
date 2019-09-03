@@ -83,7 +83,7 @@ class ScatterPlot extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { selectedData, loading } = this.state;
-    const { data, dataSelectionCallback, activeData } = this.props;
+    const { data, activeId, dataSelectionCallback, activeData } = this.props;
     const differentSelectedData =
       selectedData !== prevState.selectedData && selectedData !== null;
     const shouldCallback = dataSelectionCallback && differentSelectedData;
@@ -93,7 +93,7 @@ class ScatterPlot extends React.PureComponent {
     }
 
     if (shouldCallback) {
-      dataSelectionCallback(selectedData);
+      dataSelectionCallback(activeId, selectedData);
     }
 
     this.checkActive(activeData, prevProps.activeData);
@@ -440,6 +440,7 @@ class ScatterPlot extends React.PureComponent {
 
 ScatterPlot.propTypes = {
   data: PropTypes.array,
+  activeId: PropTypes.string,
   activeData: PropTypes.any,
   width: PropTypes.number,
   height: PropTypes.number,
