@@ -9,12 +9,6 @@ import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
 
 class ExploringStarClusters extends React.PureComponent {
-  onGraphSelection = selectedData => {
-    const { answerHandler, activeId } = this.props;
-
-    answerHandler(activeId, selectedData);
-  };
-
   render() {
     const {
       questions,
@@ -86,6 +80,7 @@ class ExploringStarClusters extends React.PureComponent {
           <h2 className="space-bottom">H-R Diagram</h2>
           <ScatterPlot
             data={clusterData}
+            activeId={activeId}
             activeData={getAnswerData(answers, activeId)}
             xValueAccessor="temperature"
             yValueAccessor="luminosity"
@@ -93,7 +88,7 @@ class ExploringStarClusters extends React.PureComponent {
             yAxisLabel="Solar Luminosity"
             xDomain={scatterXDomain}
             yDomain={scatterYDomain}
-            dataSelectionCallback={this.onGraphSelection}
+            dataSelectionCallback={answerHandler}
             showColorLegend
           />
         </div>

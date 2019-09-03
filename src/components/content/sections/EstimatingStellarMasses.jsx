@@ -1,11 +1,11 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-// import isEmpty from 'lodash/isEmpty';
 import { capitalize, getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithGraphToggler } from '../containers/WithGraphToggler';
 import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
@@ -16,29 +16,6 @@ import SunIcon from '../../site/icons/Sun';
 
 @reactn
 class EstimatingStellarMasses extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeGraph: 0,
-    };
-  }
-
-  onGraphSelect = e => {
-    const { value } = e.target;
-
-    this.setState(prevState => ({
-      ...prevState,
-      activeGraph: parseInt(value, 10),
-    }));
-  };
-
-  onGraphSelection = selectedData => {
-    const { answerHandler, activeId } = this.props;
-
-    answerHandler(activeId, selectedData);
-  };
-
   render() {
     const {
       clusterData,
@@ -55,8 +32,10 @@ class EstimatingStellarMasses extends React.PureComponent {
       tableAnswerIds,
       tableHeaders,
       tableRowTitles,
+      graphSelectHandler,
+      activeGraph,
     } = this.props;
-    const { activeGraph } = this.state;
+
     const { answers } = this.global;
     const activeData = getAnswerData(answers, activeId);
 
@@ -240,12 +219,13 @@ class EstimatingStellarMasses extends React.PureComponent {
             ]}
             label="Graph Selector"
             name="Graph Selector"
-            handleChange={this.onGraphSelect}
+            handleChange={graphSelectHandler}
           />
           <div className="container-graphs">
             {activeGraph === 0 && (
               <ScatterPlot
                 data={clusterData}
+                activeId={activeId}
                 activeData={activeData}
                 xDomain={scatterXDomain}
                 yDomain={scatterYDomain}
@@ -253,7 +233,7 @@ class EstimatingStellarMasses extends React.PureComponent {
                 yValueAccessor="luminosity"
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
-                dataSelectionCallback={this.onGraphSelection}
+                dataSelectionCallback={answerHandler}
                 tooltipAccessors={['mass']}
                 includeSun
               />
@@ -261,11 +241,12 @@ class EstimatingStellarMasses extends React.PureComponent {
             {activeGraph === 1 && (
               <Histogram
                 data={clusterData}
+                activeId={activeId}
                 activeData={activeData}
                 valueAccessor={histogramAccessor}
                 domain={histogramDomain}
                 xAxisLabel={histogramAxisLabel}
-                dataSelectionCallback={this.onGraphSelection}
+                dataSelectionCallback={answerHandler}
                 tooltipAccessors={['mass']}
               />
             )}
@@ -291,8 +272,12 @@ EstimatingStellarMasses.propTypes = {
   tableAnswerIds: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
+  activeGraph: PropTypes.number,
+  graphSelectHandler: PropTypes.func,
 };
 
-export default WithAnswerHandlers(
-  WithActiveQuestions(WithData(EstimatingStellarMasses, 'is_member'))
+export default WithGraphToggler(
+  WithAnswerHandlers(
+    WithActiveQuestions(WithData(EstimatingStellarMasses, 'is_member'))
+  )
 );

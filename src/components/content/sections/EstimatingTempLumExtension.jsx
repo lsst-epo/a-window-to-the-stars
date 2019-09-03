@@ -1,7 +1,6 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
-// import isEmpty from 'lodash/isEmpty';
 import { getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
@@ -14,12 +13,6 @@ import SunIcon from '../../site/icons/Sun';
 
 @reactn
 class EstimatingTempLumExtension extends React.PureComponent {
-  onGraphSelection = selectedData => {
-    const { answerHandler, activeId } = this.props;
-
-    answerHandler(activeId, selectedData);
-  };
-
   render() {
     const {
       clusterData,
@@ -74,6 +67,7 @@ class EstimatingTempLumExtension extends React.PureComponent {
           <h2 className="space-bottom">H-R Diagram</h2>
           <ScatterPlot
             data={clusterData}
+            activeId={activeId}
             activeData={activeData}
             xDomain={scatterXDomain}
             yDomain={scatterYDomain}
@@ -81,7 +75,7 @@ class EstimatingTempLumExtension extends React.PureComponent {
             yValueAccessor="luminosity"
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
-            dataSelectionCallback={this.onGraphSelection}
+            dataSelectionCallback={answerHandler}
             includeSun
           />
         </div>

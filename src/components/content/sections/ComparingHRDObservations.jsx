@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithGraphToggler } from '../containers/WithGraphToggler';
 import API from '../../site/API';
 import Section from './Section';
 import Select from '../../site/forms/Select';
@@ -16,7 +17,6 @@ class ComparingHRDObservations extends React.Component {
     this.state = {
       clusterAData: [],
       clusterBData: [],
-      activeScatter: 0,
     };
   }
 
@@ -44,15 +44,6 @@ class ComparingHRDObservations extends React.Component {
     });
   }
 
-  onClusterSelect = e => {
-    const { value } = e.target;
-
-    this.setState(prevState => ({
-      ...prevState,
-      activeScatter: parseInt(value, 10),
-    }));
-  };
-
   render() {
     const {
       clusters,
@@ -65,8 +56,9 @@ class ComparingHRDObservations extends React.Component {
       tableAnswerIds,
       tableRowTitles,
       tableHeaders,
+      graphSelectHandler,
+      activeGraph,
     } = this.props;
-    const { activeScatter } = this.state;
 
     return (
       <Section {...this.props}>
@@ -110,10 +102,10 @@ class ComparingHRDObservations extends React.Component {
             options={this.selectItems(clusters)}
             label="Cluster Selector"
             name="Cluster Selector"
-            handleChange={this.onClusterSelect}
+            handleChange={graphSelectHandler}
           />
           {clusters.map((cluster, i) => {
-            if (activeScatter !== i) return null;
+            if (activeGraph !== i) return null;
             const { name, key, xDomain, yDomain } = cluster;
             const { [key]: clusterData } = this.state;
             const id = `${name}-${i}`;
@@ -152,8 +144,10 @@ ComparingHRDObservations.propTypes = {
   tableAnswersRanges: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
+  activeGraph: PropTypes.number,
+  graphSelectHandler: PropTypes.func,
 };
 
-export default WithAnswerHandlers(
-  WithActiveQuestions(ComparingHRDObservations)
+export default WithGraphToggler(
+  WithAnswerHandlers(WithActiveQuestions(ComparingHRDObservations))
 );

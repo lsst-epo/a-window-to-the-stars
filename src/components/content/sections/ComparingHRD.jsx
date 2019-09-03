@@ -5,7 +5,7 @@ import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import StarSelector from '../../star-selector';
 
-class ComparingHRD extends React.Component {
+class ComparingHRD extends React.PureComponent {
   renderLegendContent(data) {
     return (
       <React.Fragment>
