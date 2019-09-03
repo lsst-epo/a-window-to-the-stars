@@ -114,6 +114,7 @@ class Sections extends React.PureComponent {
               path="/2"
               render={() => (
                 <MakingHRD
+                  key={`${clusters.NGC2516.name}-make`}
                   id="2"
                   activeId={14}
                   questionsRange={[14]}
@@ -137,6 +138,7 @@ class Sections extends React.PureComponent {
               path="/3"
               render={() => (
                 <ComparingHRD
+                  key={`${clusters.NGC2516.name}-hrd-comparison`}
                   id="3"
                   scrollable={-1}
                   dataPath={clusters.NGC2516.path}
@@ -156,6 +158,7 @@ class Sections extends React.PureComponent {
               path="/4"
               render={() => (
                 <HRDObservations
+                  key={`${clusters.NGC2516.name}-observations`}
                   id="4"
                   questionsRange={range(10, 14)}
                   questions={this.getQuestions(range(10, 14))}
@@ -180,6 +183,7 @@ class Sections extends React.PureComponent {
               path="/5"
               render={() => (
                 <MakingHRD
+                  key={`${clusters.NGC2682.name}-make`}
                   id="5"
                   activeId={19}
                   answer={answers[19]}
@@ -203,6 +207,7 @@ class Sections extends React.PureComponent {
               path="/6"
               render={() => (
                 <ComparingHRD
+                  key={`${clusters.NGC2682.name}-hrd-comparison`}
                   id="6"
                   scrollable={-1}
                   dataPath={clusters.NGC2682.path}
@@ -222,6 +227,7 @@ class Sections extends React.PureComponent {
               path="/7"
               render={() => (
                 <HRDObservations
+                  key={`${clusters.NGC2682.name}-observations`}
                   id="7"
                   scrollable={0}
                   dataPath={clusters.NGC2682.path}
@@ -328,6 +334,7 @@ class Sections extends React.PureComponent {
               path="/10"
               render={() => (
                 <StellarProperty
+                  key="estimating-temperature"
                   id="10"
                   scrollable={0}
                   histogramDomain={[3500, 9500]}
@@ -355,6 +362,7 @@ class Sections extends React.PureComponent {
               path="/11"
               render={() => (
                 <StellarProperty
+                  key="estimating-luminosity"
                   id="11"
                   scrollable={0}
                   histogramDomain={[-2, 4]}
@@ -405,6 +413,7 @@ class Sections extends React.PureComponent {
               path="/13"
               render={() => (
                 <StellarProperty
+                  key="estimating-mass"
                   id="13"
                   scrollable={0}
                   histogramAccessor="mass"
@@ -434,6 +443,7 @@ class Sections extends React.PureComponent {
               path="/14"
               render={() => (
                 <StellarProperty
+                  key="estimating-lifetime"
                   id="14"
                   scrollable={0}
                   histogramAccessor="lifetime"
@@ -461,6 +471,7 @@ class Sections extends React.PureComponent {
               path="/15"
               render={() => (
                 <StellarProperty
+                  key="estimating-radius"
                   id="15"
                   next="/progress/15"
                   scrollable={0}
