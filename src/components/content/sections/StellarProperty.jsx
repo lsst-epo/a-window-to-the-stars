@@ -15,7 +15,7 @@ import StellarTable from '../../charts/shared/StellarTable';
 import SunIcon from '../../site/icons/Sun';
 
 @reactn
-class EstimatingStellarTemperatures extends React.PureComponent {
+class StellarProperty extends React.PureComponent {
   render() {
     const {
       clusterData,
@@ -26,14 +26,16 @@ class EstimatingStellarTemperatures extends React.PureComponent {
       histogramDomain,
       histogramAxisLabel,
       answerHandler,
-      graphSelectHandler,
-      activeGraph,
       setActive,
       advanceActive,
       activeId,
       tableAnswerIds,
       tableHeaders,
       tableRowTitles,
+      graphSelectHandler,
+      activeGraph,
+      sectionCopy,
+      sectionTitle,
     } = this.props;
 
     const { answers } = this.global;
@@ -42,9 +44,8 @@ class EstimatingStellarTemperatures extends React.PureComponent {
     return (
       <Section {...this.props}>
         <section>
-          <h2 className="section-title">{`Comparing Star ${capitalize(
-            histogramAccessor
-          )}`}</h2>
+          <h2 className="section-title">{sectionTitle}</h2>
+          {sectionCopy}
           <p>
             Use the dropdown above the graph to switch between your H-R Diagram
             and the {capitalize(histogramAccessor)} Histogram.{' '}
@@ -77,7 +78,10 @@ class EstimatingStellarTemperatures extends React.PureComponent {
             value={activeGraph}
             options={[
               { label: 'H-R Diagram', value: 0 },
-              { label: `${capitalize(histogramAccessor)} Histogram`, value: 1 },
+              {
+                label: `${capitalize(histogramAccessor)} Histogram`,
+                value: 1,
+              },
             ]}
             label="Graph Selector"
             name="Graph Selector"
@@ -96,6 +100,7 @@ class EstimatingStellarTemperatures extends React.PureComponent {
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
                 dataSelectionCallback={answerHandler}
+                tooltipAccessors={['radius']}
                 includeSun
               />
             )}
@@ -108,7 +113,7 @@ class EstimatingStellarTemperatures extends React.PureComponent {
                 domain={histogramDomain}
                 xAxisLabel={histogramAxisLabel}
                 dataSelectionCallback={answerHandler}
-                tooltipAccessors={[histogramAccessor]}
+                tooltipAccessors={['radius']}
               />
             )}
           </div>
@@ -118,7 +123,8 @@ class EstimatingStellarTemperatures extends React.PureComponent {
   }
 }
 
-EstimatingStellarTemperatures.propTypes = {
+StellarProperty.propTypes = {
+  id: PropTypes.string,
   clusterData: PropTypes.array,
   activeId: PropTypes.string,
   setActive: PropTypes.func,
@@ -135,10 +141,12 @@ EstimatingStellarTemperatures.propTypes = {
   tableRowTitles: PropTypes.array,
   activeGraph: PropTypes.number,
   graphSelectHandler: PropTypes.func,
+  sectionCopy: PropTypes.node,
+  sectionTitle: PropTypes.string,
 };
 
 export default WithGraphToggler(
   WithAnswerHandlers(
-    WithActiveQuestions(WithData(EstimatingStellarTemperatures, 'is_member'))
+    WithActiveQuestions(WithData(StellarProperty, 'is_member'))
   )
 );
