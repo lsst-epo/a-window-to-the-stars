@@ -7,6 +7,7 @@ import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import { WithGraphToggler } from '../containers/WithGraphToggler';
 import Section from './Section';
+import StellarUnit from '../../charts/shared/StellarUnit';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
@@ -16,6 +17,14 @@ import SunIcon from '../../site/icons/Sun';
 
 @reactn
 class StellarProperty extends React.Component {
+  getHistogramAxisLabel(type) {
+    return (
+      <tspan>
+        {capitalize(type)} (<StellarUnit type={type} isSvg />)
+      </tspan>
+    );
+  }
+
   render() {
     const {
       clusterData,
@@ -24,7 +33,6 @@ class StellarProperty extends React.Component {
       scatterYDomain,
       histogramAccessor,
       histogramDomain,
-      histogramAxisLabel,
       answerHandler,
       setActive,
       advanceActive,
@@ -34,7 +42,7 @@ class StellarProperty extends React.Component {
       tableRowTitles,
       graphSelectHandler,
       activeGraph,
-      sectionCopy,
+      children,
       sectionTitle,
     } = this.props;
 
@@ -45,7 +53,7 @@ class StellarProperty extends React.Component {
       <Section {...this.props}>
         <section>
           <h2 className="section-title">{sectionTitle}</h2>
-          {sectionCopy}
+          {children}
           <p>
             Use the dropdown above the graph to switch between your H-R Diagram
             and the {capitalize(histogramAccessor)} Histogram.{' '}
@@ -111,7 +119,7 @@ class StellarProperty extends React.Component {
                 activeData={activeData}
                 valueAccessor={histogramAccessor}
                 domain={histogramDomain}
-                xAxisLabel={histogramAxisLabel}
+                xAxisLabel={this.getHistogramAxisLabel(histogramAccessor)}
                 dataSelectionCallback={answerHandler}
                 tooltipAccessors={['radius']}
               />
@@ -124,6 +132,7 @@ class StellarProperty extends React.Component {
 }
 
 StellarProperty.propTypes = {
+  children: PropTypes.node,
   id: PropTypes.string,
   clusterData: PropTypes.array,
   activeId: PropTypes.string,
@@ -135,13 +144,11 @@ StellarProperty.propTypes = {
   scatterYDomain: PropTypes.array,
   histogramAccessor: PropTypes.string,
   histogramDomain: PropTypes.array,
-  histogramAxisLabel: PropTypes.string,
   tableAnswerIds: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
   activeGraph: PropTypes.number,
   graphSelectHandler: PropTypes.func,
-  sectionCopy: PropTypes.node,
   sectionTitle: PropTypes.string,
 };
 
