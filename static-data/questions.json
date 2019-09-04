@@ -116,6 +116,12 @@
     "answerAccessor": "count",
     "answerPre": null
   },
+  "76": {
+    "id": "76",
+    "type": "textArea",
+    "label": "Are you certain that you have included all the cluster stars and eliminated all the ones that are not in the cluster? Explain.",
+    "answerAccessor": "text"
+  },
   "14": {
     "id": "14",
     "type": "prompt",
@@ -161,6 +167,12 @@
     "answerAccessor": "count",
     "answerPre": null
   },
+  "23": {
+    "id": "23",
+    "type": "textArea",
+    "label": "Are you certain that you have included all the cluster stars and eliminated all the ones that are not in the cluster? Explain.",
+    "answerAccessor": "text"
+  },
   "19": {
     "id": "19",
     "type": "prompt",
@@ -172,30 +184,20 @@
   },
   "20": {
     "id": "20",
-    "type": "text",
-    "label": "What color of main sequence star is not present in Cluster A?",
-    "placeholder": "Enter Color",
-    "answerAccessor": "text",
-    "answerPost": " main sequence stars are not present in Cluster A"
+    "type": "textArea",
+    "label": "Think about what is different about the main sequences of your two clusters. Based on your observations, what color of main sequence star is not present in older clusters?",
+    "answerAccessor": "text"
   },
   "21": {
     "id": "21",
-    "type": "text",
-    "label": "What color of main sequence star is not present in Cluster B?",
-    "placeholder": "Enter Color",
-    "answerAccessor": "text",
-    "answerPost": " main sequence stars are not present in Cluster B"
+    "type": "textArea",
+    "label": "Think about what you have learned about giant stars and white dwarf stars. Based on your observations, which star cluster do you think is older? Explain your answer.",
+    "answerAccessor": "text"
   },
   "22": {
     "id": "22",
     "type": "textArea",
-    "label": "Think about what you have learned about giant stars and white dwarf stars. Which star cluster do you think is older? Explain your answer.",
-    "answerAccessor": "text"
-  },
-  "23": {
-    "id": "23",
-    "type": "textArea",
-    "label": "Explain what happened to the missing main sequence stars?",
+    "label": "Explain what has happened to the main sequence stars not present in older clusters",
     "answerAccessor": "text"
   },
   "24": {
