@@ -81,10 +81,6 @@ class ComparingHRDObservations extends React.Component {
             colTitles={tableHeaders}
           />
           <hr className="divider-horizontal" />
-          <div className="copy-secondary">
-            Think about what is different about the main sequences of your two
-            clusters.
-          </div>
           {questions && (
             <QAs
               questions={questions}

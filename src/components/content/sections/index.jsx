@@ -282,7 +282,7 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[[[10, 11], [15, 16]], [12, 17], [13, 18]]}
                   questionsRange={range(20, 24)}
-                  questions={this.getQuestions(range(20, 24))}
+                  questions={this.getQuestions(range(20, 23))}
                   answers={answers}
                 />
               )}
