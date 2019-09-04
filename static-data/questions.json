@@ -3,7 +3,7 @@
     "id": "1",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the brightest Main Sequence Star whose temperature is around 3,000 K",
+    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is around 3,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -12,7 +12,7 @@
     "id": "2",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the dimmest Main Sequence Star whose temperature is around 3,000 K",
+    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is around 3,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -21,7 +21,7 @@
     "id": "3",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the brightest Main Sequence Star whose temperature is around 6,000 K",
+    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is around 6,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -30,7 +30,7 @@
     "id": "4",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the dimmest Main Sequence Star whose temperature is around 6,000 K",
+    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is around 6,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -39,7 +39,7 @@
     "id": "5",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the brightest Main Sequence Star whose temperature is around 10,000 K",
+    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is around 10,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -48,7 +48,7 @@
     "id": "6",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the dimmest Main Sequence Star whose temperature is around 10,000 K",
+    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is around 10,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -57,7 +57,7 @@
     "id": "7",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the dimmest Giant Star",
+    "label": "Click on a point on the H-R Diagram to select the dimmest Giant Star",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -66,7 +66,7 @@
     "id": "8",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the brightest White Dwarf Star",
+    "label": "Click on a point on the H-R Diagram to select the brightest White Dwarf Star",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -75,7 +75,7 @@
     "id": "9",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the coldest White Dwarf Star",
+    "label": "Click on a point on the H-R Diagram to select the coldest White Dwarf Star",
     "placeholder": null,
     "answerAccessor": "temperature",
     "answerPre": "The selected star has a temperature of "
@@ -84,7 +84,7 @@
     "id": "10",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the hottest Main Sequence Star",
+    "label": "Click on a point on the H-R Diagram to select the hottest Main Sequence Star",
     "placeholder": null,
     "answerAccessor": "temperature",
     "answerPre": "The selected star has a temperature of "
@@ -93,7 +93,7 @@
     "id": "11",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the coldest Main Sequence Star",
+    "label": "Click on a point on the H-R Diagram to select the coldest Main Sequence Star",
     "placeholder": null,
     "answerAccessor": "temperature",
     "answerPre": "The selected star has a temperature of "
@@ -102,7 +102,7 @@
     "id": "12",
     "type": "accordion",
     "tool": "lasso",
-    "label": "Draw a circle around all of the Giant Stars",
+    "label": "Click and drag to trace around all of the Giant Stars",
     "placeholder": null,
     "answerAccessor": "count",
     "answerPre": null
@@ -111,7 +111,7 @@
     "id": "13",
     "type": "accordion",
     "tool": "lasso",
-    "label": "Draw a circle around all of the White Dwarf Stars",
+    "label": "Click and drag to trace around all of the White Dwarf Stars",
     "placeholder": null,
     "answerAccessor": "count",
     "answerPre": null
@@ -120,7 +120,7 @@
     "id": "14",
     "type": "prompt",
     "tool": "lasso",
-    "label": "Draw a circle around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.",
+    "label": "Click and drag to trace around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.",
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
@@ -129,7 +129,7 @@
     "id": "15",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the hottest Main Sequence Star",
+    "label": "Click on a point in the H-R Diagram to select the hottest Main Sequence Star",
     "placeholder": null,
     "answerAccessor": "temperature",
     "answerPre": "The selected star has a temperature of "
@@ -138,7 +138,7 @@
     "id": "16",
     "type": "accordion",
     "tool": "selection",
-    "label": "Select the coldest Main Sequence Star",
+    "label": "Click on a point in the H-R Diagram to select the coldest Main Sequence Star",
     "placeholder": null,
     "answerAccessor": "temperature",
     "answerPre": "The selected star has a temperature of "
@@ -147,7 +147,7 @@
     "id": "17",
     "type": "accordion",
     "tool": "lasso",
-    "label": "Draw a circle around all of the Giant Stars",
+    "label": "Click and drag to trace around all of the Giant Stars",
     "placeholder": null,
     "answerAccessor": "count",
     "answerPre": null
@@ -156,7 +156,7 @@
     "id": "18",
     "type": "accordion",
     "tool": "lasso",
-    "label": "Draw a circle around all of the White Dwarf Stars",
+    "label": "Click and drag to trace around all of the White Dwarf Stars",
     "placeholder": null,
     "answerAccessor": "count",
     "answerPre": null
@@ -165,7 +165,7 @@
     "id": "19",
     "type": "prompt",
     "tool": "lasso",
-    "label": "Draw a circle around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.",
+    "label": "Click and drag to trace around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.",
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
@@ -202,7 +202,7 @@
     "id": "24",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the H-R Diagram, select the coldest star",
+    "label": "Click on a point on the H-R Diagram to select the coldest star",
     "answerAccessor": "temperature",
     "answerPre": "The lowest temperature is"
   },
@@ -210,7 +210,7 @@
     "id": "25",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the H-R Diagram, select the hottest star",
+    "label": "Click on a point on the H-R Diagram to select the hottest star",
     "answerAccessor": "temperature",
     "answerPre": "The highest temperature is"
   },
@@ -218,7 +218,7 @@
     "id": "26",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Temperature Histogram, select the most common range of temperatures for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "label": "Click on a bar on the Temperature Histogram to select the most common range of temperatures for these stars. (Hint: Which bar is the highest in the histogram?)",
     "answerAccessor": "temperature range",
     "answerPre": "The most common temperature range for these stars is"
   },
@@ -241,7 +241,7 @@
     "id": "28",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the H-R Diagram, select the dimmest star",
+    "label": "Click on a point on the H-R Diagram to select the dimmest star",
     "answerAccessor": "luminosity",
     "answerPre": "The dimmest star has a luminosity of"
   },
@@ -249,7 +249,7 @@
     "id": "29",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the H-R Diagram, select the brightest star",
+    "label": "Click on a point on the H-R Diagram to select the brightest star",
     "answerAccessor": "luminosity",
     "answerPre": "The brightest star has a luminosity of"
   },
@@ -257,7 +257,7 @@
     "id": "30",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Luminosity Histogram, select the most common range of luminosities for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "label": "Click on a bar on the Luminosity Histogram to select the most common range of luminosities for these stars. (Hint: Which bar is the highest in the histogram?)",
     "answerAccessor": "luminosity range",
     "answerPre": "The most common luminosity range for these stars is"
   },
@@ -280,7 +280,7 @@
     "id": "32",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Mass Histogram, select the range containing the least massive stars. (Hint: Each bar in the histogram is a range of stellar masses.)",
+    "label": "Click on a bar on the Mass Histogram to select the range containing the least massive stars. (Hint: Each bar in the histogram is a range of stellar masses.)",
     "answerAccessor": "mass range",
     "answerPre": "The smallest stellar mass is"
   },
@@ -288,7 +288,7 @@
     "id": "33",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Mass Histogram, select the range containing the most massive stars.",
+    "label": "Click on a bar on the Mass Histogram to select the range containing the most massive stars.",
     "answerAccessor": "mass range",
     "answerPre": "The largest stellar mass is"
   },
@@ -296,7 +296,7 @@
     "id": "34",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Mass Histogram, select the most common range of masses for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "label": "Click on a bar on the Mass Histogram to select the most common range of masses for these stars. (Hint: Which bar is the highest in the histogram?)",
     "answerAccessor": "mass range",
     "answerPre": "The most common mass range for these stars is"
   },
@@ -319,7 +319,7 @@
     "id": "36",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Radius Histogram, select the range containing the smallest stars. (Hint: Each bar in the histogram is a range of stellar masses.)",
+    "label": "Click on a bar on the Radius Histogram to select the range containing the smallest stars. (Hint: Each bar in the histogram is a range of stellar masses.)",
     "answerAccessor": "radius range",
     "answerPre": "The smallest radius is"
   },
@@ -327,7 +327,7 @@
     "id": "37",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Radius Histogram, select the range containing the largest stars.",
+    "label": "Click on a bar on the Radius Histogram to select the range containing the largest stars.",
     "answerAccessor": "radius range",
     "answerPre": "The largest radius is"
   },
@@ -335,7 +335,7 @@
     "id": "38",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Radius Histogram, select the most common range of Radii for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "label": "Click on a bar on the Radius Histogram to select the most common range of Radii for these stars. (Hint: Which bar is the highest in the histogram?)",
     "answerAccessor": "radius range",
     "answerPre": "The most common radii for these stars is"
   },
@@ -384,7 +384,7 @@
     "id": "43",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the H-R Diagram, select the star with the shortest lifetime",
+    "label": "Click on a point on the H-R Diagram to select the star with the shortest lifetime",
     "answerAccessor": "lifetime",
     "answerPre": "The shortest stellar lifetime is"
   },
@@ -392,7 +392,7 @@
     "id": "44",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the H-R Diagram, select the star with the longest lifetime",
+    "label": "Click on a point on the H-R Diagram to select the star with the longest lifetime",
     "answerAccessor": "lifetime",
     "answerPre": "The longest stellar lifetime is"
   },
@@ -400,7 +400,7 @@
     "id": "45",
     "type": "accordion",
     "tool": "selection",
-    "label": "Using the Lifetime Histogram, select the most common range of lifetimes for these stars. (Hint: Which bar is the highest in the histogram?)",
+    "label": "Click on a bar on the Lifetime Histogram to select the most common range of lifetimes for these stars. (Hint: Which bar is the highest in the histogram?)",
     "answerAccessor": "lifetime range",
     "answerPre": "The most comon stellar lifetime range is"
   },
