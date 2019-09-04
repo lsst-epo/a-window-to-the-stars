@@ -10,6 +10,7 @@ import NoMatch from '../../site/NoMatch';
 import Introduction from './Introduction';
 import ProgressCheckIn from './ProgressCheckIn';
 import ExploringStarClusters from './ExploringStarClusters';
+import IntroMakingHRD from './IntroMakingHRD';
 import MakingHRD from './MakingHRD';
 import ComparingHRD from './ComparingHRD';
 import HRDObservations from './HRDObservations';
@@ -112,10 +113,15 @@ class Sections extends React.PureComponent {
             />
             <Route
               path="/2"
+              exact
+              render={() => <IntroMakingHRD id="2" scrollable={0} />}
+            />
+            <Route
+              path="/3"
               render={() => (
                 <MakingHRD
                   key={`${clusters.NGC2516.name}-make`}
-                  id="2"
+                  id="3"
                   activeId={14}
                   questionsRange={[14]}
                   questions={this.getQuestions([14])}
@@ -135,11 +141,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/3"
+              path="/4"
               render={() => (
                 <ComparingHRD
                   key={`${clusters.NGC2516.name}-hrd-comparison`}
-                  id="3"
+                  id="4"
                   scrollable={-1}
                   dataPath={clusters.NGC2516.path}
                   scatterXDomain={clusters.NGC2516.starSelector.domain.x}
@@ -155,11 +161,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/4"
+              path="/5"
               render={() => (
                 <HRDObservations
                   key={`${clusters.NGC2516.name}-observations`}
-                  id="4"
+                  id="5"
                   questionsRange={range(10, 14)}
                   questions={this.getQuestions(range(10, 14))}
                   answers={answers}
@@ -180,11 +186,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/5"
+              path="/6"
               render={() => (
                 <MakingHRD
                   key={`${clusters.NGC2682.name}-make`}
-                  id="5"
+                  id="6"
                   activeId={19}
                   answer={answers[19]}
                   questionsRange={[19]}
@@ -204,11 +210,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/6"
+              path="/7"
               render={() => (
                 <ComparingHRD
                   key={`${clusters.NGC2682.name}-hrd-comparison`}
-                  id="6"
+                  id="7"
                   scrollable={-1}
                   dataPath={clusters.NGC2682.path}
                   scatterXDomain={clusters.NGC2682.starSelector.domain.x}
@@ -224,11 +230,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/7"
+              path="/8"
               render={() => (
                 <HRDObservations
                   key={`${clusters.NGC2682.name}-observations`}
-                  id="7"
+                  id="8"
                   scrollable={0}
                   dataPath={clusters.NGC2682.path}
                   scatterXDomain={clusters.NGC2682.hrd.domain.x}
@@ -249,10 +255,10 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/8"
+              path="/9"
               render={() => (
                 <ComparingHRDObservations
-                  id="8"
+                  id="9"
                   scrollable={0}
                   clusters={[
                     {
@@ -288,13 +294,13 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/9"
+              path="/10"
               render={() => (
                 <React.Fragment>
                   {this.visitedFarther(visitedPages, 9) ? (
                     <CombinedHRD
-                      id="9"
-                      next="/progress/9"
+                      id="10"
+                      next="/progress/10"
                       scrollable={0}
                       dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
                       scatterXDomain={clusters.NGC2516.hrd.domain.x}
@@ -306,8 +312,8 @@ class Sections extends React.PureComponent {
                     />
                   ) : (
                     <CombiningHRD
-                      id="9"
-                      next="/progress/9"
+                      id="10"
+                      next="/progress/10"
                       scrollable={-1}
                       clusters={[
                         {
@@ -331,11 +337,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/10"
+              path="/11"
               render={() => (
                 <StellarProperty
                   key="estimating-temperature"
-                  id="10"
+                  id="11"
                   scrollable={0}
                   histogramDomain={[3500, 9500]}
                   histogramAccessor="temperature"
@@ -359,11 +365,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/11"
+              path="/12"
               render={() => (
                 <StellarProperty
                   key="estimating-luminosity"
-                  id="11"
+                  id="12"
                   scrollable={0}
                   histogramDomain={[-2, 4]}
                   histogramAccessor="luminosity"
@@ -387,11 +393,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/12"
+              path="/13"
               render={() => (
                 <EstimatingTempLumExtension
-                  id="12"
-                  next="/progress/12"
+                  id="13"
+                  next="/progress/13"
                   scrollable={0}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
@@ -411,11 +417,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/13"
+              path="/14"
               render={() => (
                 <StellarProperty
                   key="estimating-mass"
-                  id="13"
+                  id="14"
                   scrollable={0}
                   histogramAccessor="mass"
                   histogramAxisLabel={this.getLabel('mass')}
@@ -441,11 +447,11 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/14"
+              path="/15"
               render={() => (
                 <StellarProperty
                   key="estimating-lifetime"
-                  id="14"
+                  id="15"
                   scrollable={0}
                   histogramAccessor="lifetime"
                   histogramAxisLabel={this.getLabel('lifetime')}
@@ -469,12 +475,12 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/15"
+              path="/16"
               render={() => (
                 <StellarProperty
                   key="estimating-radius"
-                  id="15"
-                  next="/progress/15"
+                  id="16"
+                  next="/progress/16"
                   scrollable={0}
                   histogramAccessor="radius"
                   histogramAxisLabel={this.getLabel('radius')}
@@ -498,10 +504,10 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/16"
+              path="/17"
               render={() => (
                 <DiscussReport
-                  id="16"
+                  id="17"
                   scrollable={0}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
@@ -533,10 +539,10 @@ class Sections extends React.PureComponent {
               )}
             />
             <Route
-              path="/17"
+              path="/18"
               render={() => (
                 <Results
-                  id="17"
+                  id="18"
                   questions={questions}
                   answers={answers}
                   handleFinish={this.onFinish}

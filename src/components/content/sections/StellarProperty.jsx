@@ -49,10 +49,10 @@ class StellarProperty extends React.Component {
           <p>
             Use the dropdown above the graph to switch between your H-R Diagram
             and the {capitalize(histogramAccessor)} Histogram.{' '}
-            <span className="copy-secondary">
-              Note: The Sun <SunIcon className="sun-icon" /> has been added to
-              your H-R Diagram.
-            </span>
+          </p>
+          <p className="copy-secondary">
+            Note: The Sun <SunIcon className="sun-icon" /> has been added to
+            your H-R Diagram.
           </p>
           <hr className="divider-horizontal" />
           {questions && (
