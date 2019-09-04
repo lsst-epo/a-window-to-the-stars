@@ -34,24 +34,11 @@
     > .hero-image {
       align-self: center;
       justify-self: flex-start;
-      width: auto;
-      max-width: 100%;
-      max-height: calc(100vh - #{$siteHeaderHeight} - 2 * #{$minPadding});
     }
-
-    // > .inner-column .svg-container {
-    //   width: auto;
-    //   max-width: 100%;
-    //   max-height: calc(100vh - #{$siteHeaderHeight} - 2 * #{$minPadding});
-    // }
 
     &.col-width-50 {
       left: 50%;
     }
-
-    // .tooltip {
-    //   position: fixed;
-    // }
   }
 }
 
