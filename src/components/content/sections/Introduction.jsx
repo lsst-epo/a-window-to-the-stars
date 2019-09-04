@@ -1,6 +1,6 @@
 import React from 'react';
 import Section from './Section';
-import placeholder from '../../../assets/images/placeholder.jpg';
+import placeholder from '../../../assets/images/ngc2632_FINAL.jpg';
 
 class Introduction extends React.PureComponent {
   render() {
