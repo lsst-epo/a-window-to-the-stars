@@ -4,28 +4,34 @@ import { Switch, Route } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
 import API from '../../site/API';
-import { capitalize } from '../../../lib/utilities';
-import StellarUnit from '../../charts/shared/StellarUnit';
+
 import NoMatch from '../../site/NoMatch';
-import Introduction from './Introduction';
 import ProgressCheckIn from './ProgressCheckIn';
+import CopyWithHero from './CopyWithHero';
+import StellarProperty from './StellarProperty';
+
 import ExploringStarClusters from './ExploringStarClusters';
-import IntroMakingHRD from './IntroMakingHRD';
 import MakingHRD from './MakingHRD';
 import ComparingHRD from './ComparingHRD';
 import HRDObservations from './HRDObservations';
 import ComparingHRDObservations from './ComparingHRDObservations';
 import CombiningHRD from './CombiningHRD';
 import CombinedHRD from './CombinedHRD';
-import StellarProperty from './StellarProperty';
 import EstimatingTempLumExtension from './EstimatingTempLumExtension';
-import RadiiCopy from './stellar-property-copy/Radii';
-import LifetimesCopy from './stellar-property-copy/Lifetimes';
-import MassesCopy from './stellar-property-copy/Masses';
+
 import DiscussReport from './DiscussReport';
 import Results from './Results';
+
+import IntroCopy from './copy/Intro';
+import MakingIntroCopy from './copy/MakingIntro';
+import RadiiCopy from './copy/Radii';
+import LifetimesCopy from './copy/Lifetimes';
+import MassesCopy from './copy/Masses';
+
 import NGC2516Image from '../../../assets/images/ngc2516.jpg';
 import NGC2682Image from '../../../assets/images/ngc2682_FINAL.jpg';
+import introHero from '../../../assets/images/ngc2632_FINAL.jpg';
+import makingHero from '../../../assets/images/ngc2168_FINAL.jpg';
 
 @reactn
 class Sections extends React.PureComponent {
@@ -60,14 +66,6 @@ class Sections extends React.PureComponent {
     return null;
   }
 
-  getLabel(type) {
-    return (
-      <tspan>
-        {capitalize(type)} (<StellarUnit type={type} isSvg />)
-      </tspan>
-    );
-  }
-
   visitedFarther(visitedPages, targetPage) {
     let i = visitedPages.length;
     let isFarther = false;
@@ -91,7 +89,19 @@ class Sections extends React.PureComponent {
             <Route
               path="/"
               exact
-              render={() => <Introduction id="0" next="1" scrollable={0} />}
+              render={() => (
+                <CopyWithHero
+                  key="intro"
+                  id="0"
+                  next="1"
+                  scrollable={0}
+                  sectionTitle="Introduction"
+                  heroImage={introHero}
+                  heroAltText="star field"
+                >
+                  <IntroCopy />
+                </CopyWithHero>
+              )}
             />
             <Route path="/progress/:id" component={ProgressCheckIn} />
             <Route
@@ -100,6 +110,7 @@ class Sections extends React.PureComponent {
                 <ExploringStarClusters
                   id="1"
                   next="/progress/1"
+                  previous="/"
                   questionsRange={range(1, 10)}
                   questions={this.getQuestions(range(1, 10))}
                   answers={answers}
@@ -107,14 +118,23 @@ class Sections extends React.PureComponent {
                   dataPath={clusters.NGC2168.path}
                   scatterXDomain={clusters.NGC2168.hrd.domain.x}
                   scatterYDomain={clusters.NGC2168.hrd.domain.y}
-                  previous="/"
                 />
               )}
             />
             <Route
               path="/2"
-              exact
-              render={() => <IntroMakingHRD id="2" scrollable={0} />}
+              render={() => (
+                <CopyWithHero
+                  key="making-intro"
+                  id="2"
+                  scrollable={0}
+                  sectionTitle="Making & Comparing H-R Diagrams"
+                  heroImage={makingHero}
+                  heroAltText="star field"
+                >
+                  <MakingIntroCopy />
+                </CopyWithHero>
+              )}
             />
             <Route
               path="/3"
@@ -345,7 +365,6 @@ class Sections extends React.PureComponent {
                   scrollable={0}
                   histogramDomain={[3500, 9500]}
                   histogramAccessor="temperature"
-                  histogramAxisLabel={this.getLabel('temperature')}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
@@ -373,7 +392,6 @@ class Sections extends React.PureComponent {
                   scrollable={0}
                   histogramDomain={[-2, 4]}
                   histogramAccessor="luminosity"
-                  histogramAxisLabel={this.getLabel('luminosity')}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
@@ -424,7 +442,6 @@ class Sections extends React.PureComponent {
                   id="14"
                   scrollable={0}
                   histogramAccessor="mass"
-                  histogramAxisLabel={this.getLabel('mass')}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
@@ -442,8 +459,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[range(32, 35)]}
                   sectionTitle="Estimating Stellar Masses"
-                  sectionCopy={<MassesCopy />}
-                />
+                >
+                  <MassesCopy />
+                </StellarProperty>
               )}
             />
             <Route
@@ -454,7 +472,6 @@ class Sections extends React.PureComponent {
                   id="15"
                   scrollable={0}
                   histogramAccessor="lifetime"
-                  histogramAxisLabel={this.getLabel('lifetime')}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
@@ -470,8 +487,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[range(43, 46)]}
                   sectionTitle="Estimating Stellar Lifetimes"
-                  sectionCopy={<LifetimesCopy />}
-                />
+                >
+                  <LifetimesCopy />
+                </StellarProperty>
               )}
             />
             <Route
@@ -483,7 +501,6 @@ class Sections extends React.PureComponent {
                   next="/progress/16"
                   scrollable={0}
                   histogramAccessor="radius"
-                  histogramAxisLabel={this.getLabel('radius')}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
@@ -499,8 +516,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[range(36, 39)]}
                   sectionTitle="Estimating Stellar Radii"
-                  sectionCopy={<RadiiCopy />}
-                />
+                >
+                  <RadiiCopy />
+                </StellarProperty>
               )}
             />
             <Route
