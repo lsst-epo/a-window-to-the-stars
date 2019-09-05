@@ -4,9 +4,9 @@
 
 .svg-chart {
   display: block;
-  min-width: 320px;
-  min-height: 320px;
-  max-height: calc(95vh - #{$siteHeaderHeight} - #{$minPadding} * 2 - 100px);
+  min-width: $break30;
+  min-height: $break30;
+  max-height: calc(95vh - #{$siteHeaderHeight} - (#{$minPadding} * 2) - 100px);
   visibility: hidden;
   opacity: 0;
   transition: opacity $timing $durationSuperSlow;

@@ -3,7 +3,7 @@
     "id": "1",
     "type": "accordion",
     "tool": "selection",
-    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is around 3,000 K",
+    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is closest to 3,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -12,7 +12,7 @@
     "id": "2",
     "type": "accordion",
     "tool": "selection",
-    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is around 3,000 K",
+    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is closest to 3,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -21,7 +21,7 @@
     "id": "3",
     "type": "accordion",
     "tool": "selection",
-    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is around 6,000 K",
+    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is closest to 6,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -30,7 +30,7 @@
     "id": "4",
     "type": "accordion",
     "tool": "selection",
-    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is around 6,000 K",
+    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is closest to 6,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -39,7 +39,7 @@
     "id": "5",
     "type": "accordion",
     "tool": "selection",
-    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is around 10,000 K",
+    "label": "Click on a point on the H-R Diagram to select the brightest Main Sequence Star whose temperature is closest to 10,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "
@@ -48,7 +48,7 @@
     "id": "6",
     "type": "accordion",
     "tool": "selection",
-    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is around 10,000 K",
+    "label": "Click on a point on the H-R Diagram to select the dimmest Main Sequence Star whose temperature is closest to 10,000 K",
     "placeholder": null,
     "answerAccessor": "luminosity",
     "answerPre": "The selected star has a luminosity of "

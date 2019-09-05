@@ -24,7 +24,7 @@ class HRDObservations extends React.PureComponent {
       setActive,
       advanceActive,
       activeId,
-      tableAnswerIds,
+      tableCells,
       tableRowTitles,
       tableHeaders,
     } = this.props;
@@ -50,7 +50,7 @@ class HRDObservations extends React.PureComponent {
           <hr className="divider-horizontal" />
           <ObservationsTable
             answers={answers}
-            answerIds={tableAnswerIds}
+            cells={tableCells}
             rowTitles={tableRowTitles}
             colTitles={tableHeaders}
           />
@@ -92,8 +92,7 @@ HRDObservations.propTypes = {
   clusterName: PropTypes.string,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
-  tableAnswerIds: PropTypes.array,
-  tableAnswersRanges: PropTypes.array,
+  tableCells: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
 };

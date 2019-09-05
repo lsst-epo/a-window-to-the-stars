@@ -118,6 +118,23 @@ class Sections extends React.PureComponent {
                   dataPath={clusters.NGC2168.path}
                   scatterXDomain={clusters.NGC2168.hrd.domain.x}
                   scatterYDomain={clusters.NGC2168.hrd.domain.y}
+                  tableRowTitles={[
+                    ['Main Sequence Stars'],
+                    ['Main Sequence Stars'],
+                    ['Main Sequence Stars'],
+                    ['Dimmest Giant Star'],
+                    ['Brightest White Dwarf Star'],
+                    ['Coldest White Dwarf Star'],
+                  ]}
+                  tableHeaders={['Region', 'Temperature', 'Luminosity']}
+                  tableCells={[
+                    ['~3000 K', { accessor: 'luminosity', ids: [1, 2] }],
+                    ['~6000 K', { accessor: 'luminosity', ids: [3, 4] }],
+                    ['~10000 K', { accessor: 'luminosity', ids: [5, 6] }],
+                    ['', { accessor: 'luminosity', ids: 7 }],
+                    ['', { accessor: 'luminosity', ids: 8 }],
+                    [{ accessor: 'temperature', ids: 9 }, ''],
+                  ]}
                 />
               )}
             />
@@ -201,7 +218,11 @@ class Sections extends React.PureComponent {
                     ['Total White Dwarf Stars'],
                   ]}
                   tableHeaders={[clusters.NGC2516.name, 'Values']}
-                  tableAnswerIds={[[[10, 11]], [12], [13]]}
+                  tableCells={[
+                    [{ accessor: 'temperature', ids: [10, 11] }],
+                    [{ accessor: 'count', ids: 12 }],
+                    [{ accessor: 'count', ids: 13 }],
+                  ]}
                 />
               )}
             />
@@ -270,7 +291,11 @@ class Sections extends React.PureComponent {
                     ['Total White Dwarf Stars'],
                   ]}
                   tableHeaders={[clusters.NGC2682.name, 'Values']}
-                  tableAnswerIds={[[[15, 16]], [17], [18]]}
+                  tableCells={[
+                    [{ accessor: 'temperature', ids: [15, 16] }],
+                    [{ accessor: 'count', ids: 17 }],
+                    [{ accessor: 'count', ids: 18 }],
+                  ]}
                 />
               )}
             />
@@ -306,7 +331,20 @@ class Sections extends React.PureComponent {
                     clusters.NGC2516.name,
                     clusters.NGC2682.name,
                   ]}
-                  tableAnswerIds={[[[10, 11], [15, 16]], [12, 17], [13, 18]]}
+                  tableCells={[
+                    [
+                      { accessor: 'temperature', ids: [10, 11] },
+                      { accessor: 'temperature', ids: [15, 16] },
+                    ],
+                    [
+                      { accessor: 'count', ids: 12 },
+                      { accessor: 'count', ids: 17 },
+                    ],
+                    [
+                      { accessor: 'count', ids: 13 },
+                      { accessor: 'count', ids: 18 },
+                    ],
+                  ]}
                   questionsRange={range(20, 24)}
                   questions={this.getQuestions(range(20, 23))}
                   answers={answers}
