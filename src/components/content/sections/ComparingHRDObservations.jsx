@@ -53,7 +53,7 @@ class ComparingHRDObservations extends React.Component {
       answerHandler,
       setActive,
       advanceActive,
-      tableAnswerIds,
+      tableCells,
       tableRowTitles,
       tableHeaders,
       graphSelectHandler,
@@ -76,7 +76,7 @@ class ComparingHRDObservations extends React.Component {
           <hr className="divider-horizontal" />
           <ObservationsTable
             answers={answers}
-            answerIds={tableAnswerIds}
+            cells={tableCells}
             rowTitles={tableRowTitles}
             colTitles={tableHeaders}
           />
@@ -136,8 +136,7 @@ ComparingHRDObservations.propTypes = {
   answerHandler: PropTypes.func,
   questions: PropTypes.array,
   answers: PropTypes.array,
-  tableAnswerIds: PropTypes.array,
-  tableAnswersRanges: PropTypes.array,
+  tableCells: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
   activeGraph: PropTypes.number,

@@ -5,26 +5,28 @@ import Table from '../../site/forms/Table';
 import ObservationsTableCell from './ObservationsTableCell';
 
 class ObservationsTable extends React.PureComponent {
-  getRows(answers, colTitles, rowTitles, answerIds) {
+  getRows(answers, colTitles, rowTitles, cells) {
     const rows = [].concat(rowTitles);
 
     for (let j = 0; j < rows.length; j += 1) {
       const row = rows[j];
 
-      answerIds[j].forEach(id => {
-        const isRange = isArray(id);
+      cells[j].forEach(cell => {
+        const { accessor, ids } = cell;
 
-        if (isRange) {
+        if (isArray(ids) && accessor) {
           row.push(
             <ObservationsTableCell
-              answerRange={[answers[id[0]], answers[id[1]]]}
-              accessor="temperature"
+              answerRange={[answers[ids[0]], answers[ids[1]]]}
+              accessor={accessor}
             />
           );
-        } else {
+        } else if (ids && accessor) {
           row.push(
-            <ObservationsTableCell answer={answers[id]} accessor="count" />
+            <ObservationsTableCell answer={answers[ids]} accessor={accessor} />
           );
+        } else {
+          row.push(cell);
         }
       });
     }
@@ -33,14 +35,14 @@ class ObservationsTable extends React.PureComponent {
   }
 
   render() {
-    const { answers, answerIds, colTitles, rowTitles } = this.props;
+    const { answers, cells, colTitles, rowTitles } = this.props;
 
     return (
       <Table
         className="hrd-observations"
         colTitles={colTitles}
         includeRowTitles
-        rows={this.getRows(answers, colTitles, rowTitles, answerIds)}
+        rows={this.getRows(answers, colTitles, rowTitles, cells)}
       />
     );
   }
@@ -48,7 +50,7 @@ class ObservationsTable extends React.PureComponent {
 
 ObservationsTable.propTypes = {
   answers: PropTypes.object,
-  answerIds: PropTypes.array,
+  cells: PropTypes.array,
   colTitles: PropTypes.array,
   rowTitles: PropTypes.array,
 };

@@ -7,6 +7,7 @@ import { WithActiveQuestions } from '../containers/WithActiveQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
+import ObservationsTable from '../../charts/shared/ObservationsTable';
 
 class ExploringStarClusters extends React.PureComponent {
   render() {
@@ -20,6 +21,9 @@ class ExploringStarClusters extends React.PureComponent {
       setActive,
       advanceActive,
       activeId,
+      tableCells,
+      tableRowTitles,
+      tableHeaders,
     } = this.props;
 
     return (
@@ -55,14 +59,14 @@ class ExploringStarClusters extends React.PureComponent {
             fusion. White dwarfs are commonly referred to as dead stars.
           </p>
           <p>
-            These These three areas (giant stars, main sequence, and white
-            dwarfs) will always appear on an H-R Diagram, even if you import the
-            data from thousands of stars.
+            These three areas (giant stars, main sequence, and white dwarfs)
+            will always appear on an H-R Diagram, even if you import the data
+            from thousands of stars.
           </p>
           <p>
             The main sequence forms a slightly s-shaped diagonal band across the
             plot. To determine the approximate position of the main sequence
-            stars on an H-R Diagram, complete the following:
+            stars on this H-R Diagram, complete the following:
           </p>
           <hr className="divider-horizontal" />
           {questions && (
@@ -75,6 +79,13 @@ class ExploringStarClusters extends React.PureComponent {
               setActive={setActive}
             />
           )}
+          <hr className="divider-horizontal" />
+          <ObservationsTable
+            answers={answers}
+            cells={tableCells}
+            rowTitles={tableRowTitles}
+            colTitles={tableHeaders}
+          />
         </section>
         <div className="inner-column">
           <h2 className="space-bottom">H-R Diagram</h2>
@@ -107,6 +118,9 @@ ExploringStarClusters.propTypes = {
   answerHandler: PropTypes.func,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
+  tableCells: PropTypes.array,
+  tableHeaders: PropTypes.array,
+  tableRowTitles: PropTypes.array,
 };
 
 export default WithAnswerHandlers(
