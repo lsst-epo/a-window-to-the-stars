@@ -25,9 +25,7 @@ export const WithAnswerHandlers = ComposedComponent => {
       const prevAnswer = { ...prevAnswers[id] };
       let content = data;
 
-      if (!answerAccessor) {
-        content = data;
-      } else if (answerAccessor === 'text') {
+      if (answerAccessor === 'text') {
         content = data || '';
         content = isObject(content) ? '' : content;
       } else if (

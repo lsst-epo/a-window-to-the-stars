@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import { WithData } from '../containers/WithData';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
@@ -37,7 +38,7 @@ class ComparingHRD extends React.PureComponent {
       answer,
     } = this.props;
 
-    const selection = answer ? answer.data : [];
+    const selection = !isEmpty(answer) ? answer.data : [];
     const multipleData = [
       { source: 'you', className: 'user', data: selection },
       { source: 'astronomer', className: 'astronomer', data: clusterData },

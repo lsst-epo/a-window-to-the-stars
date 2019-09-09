@@ -77,22 +77,14 @@ class Lasso extends React.Component {
                 ];
                 const classification = classifyPoint(d, nodePos);
 
-                return classification === -1 || classification === 0;
+                return classification === -1;
               });
 
               $active.attr('d', $dragLine.curve(d3CurveCardinalClosed));
 
-              this.setState(
-                prevState => ({
-                  ...prevState,
-                  lassoed: $filtered.data(),
-                }),
-                () => {
-                  if (dragEndCallback) {
-                    dragEndCallback($filtered.data());
-                  }
-                }
-              );
+              if (dragEndCallback) {
+                dragEndCallback($filtered.data());
+              }
               // console.log('end');
             });
           });
@@ -103,7 +95,7 @@ class Lasso extends React.Component {
 
   render() {
     const { active } = this.props;
-    const lassoClasses = classnames('draggable-path', { active });
+    const lassoClasses = classnames('lasso', { active });
     return <path ref={this.draggablePathEl} className={lassoClasses} />;
   }
 }

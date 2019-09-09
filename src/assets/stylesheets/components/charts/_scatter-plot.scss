@@ -2,8 +2,12 @@
   width: 100%;
   height: auto;
 
-  path.draggable-path {
+  .lasso {
     stroke: $black;
+  }
+
+  .eraser {
+    stroke: $white;
   }
 
   .data-point {
