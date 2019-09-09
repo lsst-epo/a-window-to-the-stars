@@ -7,8 +7,8 @@ import { scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import Points from './Points.jsx';
-import Legend from '../scatter-plot/Legend.jsx';
-import Lasso from '../scatter-plot/Lasso.jsx';
+import Legend from '../charts/shared/Legend.jsx';
+import Lasso from '../charts/shared/Lasso.jsx';
 
 class StarSelector extends React.Component {
   static defaultProps = {
@@ -65,15 +65,14 @@ class StarSelector extends React.Component {
   };
 
   onDrag = () => {
-    this.setState(
-      prevState => ({
+    const { showLasso } = this.state;
+
+    if (!showLasso) {
+      this.setState(prevState => ({
         ...prevState,
         showLasso: true,
-      }),
-      () => {
-        // console.log('dragging');
-      }
-    );
+      }));
+    }
   };
 
   onDragEnd = d => {
@@ -111,11 +110,11 @@ class StarSelector extends React.Component {
         loading: false,
       }));
     } else if (multiple) {
-      data.forEach((selection, i) => {
+      data.forEach((cluster, i) => {
         if (i === data.length - 1) {
           d3Select(this.svgEl.current)
-            .selectAll(`.data-point.${selection.className}`)
-            .data(selection.data)
+            .selectAll(`.data-point.${cluster.className}`)
+            .data(cluster.data)
             .transition()
             .end()
             .then(() => {
@@ -128,8 +127,8 @@ class StarSelector extends React.Component {
             });
         } else {
           d3Select(this.svgEl.current)
-            .selectAll(`.data-point${selection.className}`)
-            .data(selection.data);
+            .selectAll(`.data-point${cluster.className}`)
+            .data(cluster.data);
         }
       });
     } else {

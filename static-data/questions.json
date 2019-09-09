@@ -116,17 +116,11 @@
     "answerAccessor": "count",
     "answerPre": null
   },
-  "76": {
-    "id": "76",
-    "type": "textArea",
-    "label": "Are you certain that you have included all the cluster stars and eliminated all the ones that are not in the cluster? Explain.",
-    "answerAccessor": "text"
-  },
   "14": {
     "id": "14",
     "type": "prompt",
     "tool": "lasso",
-    "label": "Click and drag to trace around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.",
+    "label": "Click and drag to trace around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.  Click and drag over points on the H-R Diagram to remove them from your selection.",
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
@@ -689,6 +683,12 @@
     "id": "75",
     "type": "textArea",
     "label": "Consider what you have learned by comparing the Sun to other stars in your H-R Diagram. Is the Sun an average star? Explain your reasoning, citing evidence relating to mass, size, lifetime, temperature, and luminosity.",
+    "answerAccessor": "text"
+  },
+  "76": {
+    "id": "76",
+    "type": "textArea",
+    "label": "Are you certain that you have included all the cluster stars and eliminated all the ones that are not in the cluster? Explain.",
     "answerAccessor": "text"
   }
 }

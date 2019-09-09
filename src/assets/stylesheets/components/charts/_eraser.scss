@@ -1,11 +1,11 @@
-.lasso {
+.eraser {
   opacity: 0;
   fill: none;
-  stroke: $black;
+  stroke: $white;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 8;
-  transition: opacity $timing $duration;
+  stroke-width: 50;
+  // transition: opacity $timing $duration;
 
   &.active {
     opacity: 1;

@@ -94,8 +94,6 @@ class Points extends React.PureComponent {
         {data.map((d, i) => {
           const { source_id: id } = d;
           const key = `point-${id}-${i}`;
-          // const selected = includes(selectedData, d);
-          // const hovered = includes(hoveredData, d);
           const selected = datumInData(selectedData, d);
           const hovered = datumInData(hoveredData, d);
           const temp = d[xValueAccessor];

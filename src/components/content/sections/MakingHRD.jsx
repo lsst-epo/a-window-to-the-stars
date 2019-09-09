@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
@@ -26,7 +27,7 @@ class MakingHRD extends React.PureComponent {
       scatterYDomain,
     } = this.props;
 
-    const selection = answer ? answer.data : [];
+    const selection = !isEmpty(answer) ? answer.data : [];
 
     return (
       <Section {...this.props} layout="">
@@ -72,7 +73,9 @@ class MakingHRD extends React.PureComponent {
               yValueAccessor="luminosity"
               xAxisLabel="Temperature (K)"
               yAxisLabel="Solar Luminosity"
+              dataSelectionCallback={answerHandler}
               preSelected
+              useEraser
               showColorLegend
             />
           </div>

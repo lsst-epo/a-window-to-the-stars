@@ -15,8 +15,9 @@ import Points from './Points.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
 import Tooltip from '../charts/shared/Tooltip.jsx';
-import Legend from './Legend.jsx';
-import Lasso from './Lasso.jsx';
+import Legend from '../charts/shared/Legend.jsx';
+import Lasso from '../charts/shared/Lasso.jsx';
+import Eraser from '../charts/shared/Eraser.jsx';
 
 class ScatterPlot extends React.PureComponent {
   static defaultProps = {
@@ -28,6 +29,7 @@ class ScatterPlot extends React.PureComponent {
     xDomain: [14000, 3000],
     yDomain: [0.01, 10000],
     useLasso: false,
+    useEraser: false,
     tooltipAccessors: ['temperature', 'luminosity'],
   };
 
@@ -47,8 +49,7 @@ class ScatterPlot extends React.PureComponent {
       selectedData: null,
       hoverPointData: null,
       showLasso: false,
-      dragLine: [],
-      dragLoop: [],
+      showEraser: false,
       tooltipPosX: 0,
       tooltipPosY: 0,
       showTooltip: false,
@@ -81,20 +82,23 @@ class ScatterPlot extends React.PureComponent {
     }));
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { selectedData, loading } = this.state;
-    const { data, activeId, dataSelectionCallback, activeData } = this.props;
-    const differentSelectedData =
-      selectedData !== prevState.selectedData && selectedData !== null;
-    const shouldCallback = dataSelectionCallback && differentSelectedData;
+  componentDidUpdate(prevProps) {
+    const { loading } = this.state;
+    const { data, activeData } = this.props;
+    // const { selectedData, loading } = this.state;
+    // const { data, activeId, dataSelectionCallback, activeData } = this.props;
+    // const differentSelectedData =
+    //   selectedData !== prevState.selectedData && selectedData !== null;
+    // const shouldCallback = dataSelectionCallback && differentSelectedData;
 
     if (prevProps.data !== data || (!isEmpty(data) && loading)) {
       this.updateScatterPlot();
     }
 
-    if (shouldCallback) {
-      dataSelectionCallback(activeId, selectedData);
-    }
+    // if (shouldCallback) {
+    //   console.log('HRD handle answering', selectedData);
+    //   dataSelectionCallback(activeId, selectedData);
+    // }
 
     this.checkActive(activeData, prevProps.activeData);
   }
@@ -136,10 +140,12 @@ class ScatterPlot extends React.PureComponent {
       showTooltip: false,
       selectedData: null,
       showLasso: false,
+      showEraser: false,
     }));
   }
 
   toggleSelection(d) {
+    const { activeId, dataSelectionCallback } = this.props;
     const { selectedData } = this.state;
     const selectedPointId = this.getSelectedId(selectedData);
     const pointPos = d3ClientPoint(this.svgContainer.current, d3Event);
@@ -148,6 +154,7 @@ class ScatterPlot extends React.PureComponent {
       tooltipPosX: pointPos[0],
       tooltipPosY: pointPos[1],
       showLasso: false,
+      showEraser: false,
       showTooltip: true,
       selectedData: arrayify(d),
     };
@@ -161,6 +168,10 @@ class ScatterPlot extends React.PureComponent {
       ...prevState,
       ...newState,
     }));
+
+    if (activeId && dataSelectionCallback) {
+      dataSelectionCallback(activeId, arrayify(d));
+    }
   }
 
   // mouseover/focus handler for point
@@ -189,26 +200,70 @@ class ScatterPlot extends React.PureComponent {
     }));
   };
 
-  onDragStart = () => {
+  onLassoDragStart = () => {
     // console.log('start');
   };
 
-  onDrag = () => {
+  onLassoDrag = () => {
+    const { showLasso } = this.state;
     // console.log('dragging');
-    this.setState(prevState => ({
-      ...prevState,
-      selectedData: null,
-      showTooltip: false,
-      showLasso: true,
-    }));
+
+    if (!showLasso) {
+      this.setState(prevState => ({
+        ...prevState,
+        selectedData: null,
+        showTooltip: false,
+        showLasso: true,
+      }));
+    }
   };
 
-  onDragEnd = d => {
-    this.setState(prevState => ({
-      ...prevState,
-      showTooltip: false,
-      selectedData: arrayify(d),
-    }));
+  onLassoDragEnd = d => {
+    const { activeId, dataSelectionCallback } = this.props;
+
+    this.setState(
+      prevState => ({
+        ...prevState,
+        showTooltip: false,
+      }),
+      () => {
+        if (dataSelectionCallback) {
+          dataSelectionCallback(activeId, arrayify(d));
+        }
+      }
+    );
+  };
+
+  onEraserDragStart = () => {
+    // console.log('drag start');
+  };
+
+  onEraserDrag = () => {
+    const { showEraser } = this.state;
+
+    if (!showEraser) {
+      this.setState(prevState => ({
+        ...prevState,
+        showEraser: true,
+      }));
+    }
+  };
+
+  onEraserDragEnd = d => {
+    const { activeId, dataSelectionCallback } = this.props;
+
+    this.setState(
+      prevState => ({
+        ...prevState,
+        showTooltip: false,
+        showEraser: false,
+      }),
+      () => {
+        if (dataSelectionCallback) {
+          dataSelectionCallback(activeId, arrayify(d));
+        }
+      }
+    );
   };
 
   // add event listeners to Scatterplot and Points
@@ -238,7 +293,7 @@ class ScatterPlot extends React.PureComponent {
     const { loading } = this.state;
     const $scatterplot = d3Select(this.svgEl.current);
 
-    if (isEmpty(data) && preSelected && loading) {
+    if (isEmpty(data) && preSelected) {
       this.setState(prevState => ({
         ...prevState,
         loading: false,
@@ -310,6 +365,7 @@ class ScatterPlot extends React.PureComponent {
       xAxisLabel,
       yAxisLabel,
       useLasso,
+      useEraser,
       xValueAccessor,
       yValueAccessor,
       multiple,
@@ -326,6 +382,7 @@ class ScatterPlot extends React.PureComponent {
       showTooltip,
       selectedData,
       showLasso,
+      showEraser,
       loading,
       xScale,
       yScale,
@@ -390,15 +447,6 @@ class ScatterPlot extends React.PureComponent {
               offsetTop={offsetTop}
               scale={yScale}
             />
-            {useLasso && (
-              <Lasso
-                active={showLasso}
-                lassoableEl={this.svgEl}
-                dragCallback={this.onDrag}
-                dragStartCallback={this.onDragStart}
-                dragEndCallback={this.onDragEnd}
-              />
-            )}
             {data &&
               multiple &&
               data.map((selection, i) => {
@@ -431,6 +479,24 @@ class ScatterPlot extends React.PureComponent {
                 includeSun={includeSun}
               />
             )}
+            {useLasso && (
+              <Lasso
+                active={showLasso}
+                lassoableEl={this.svgEl}
+                dragCallback={this.onLassoDrag}
+                dragStartCallback={this.onLassoDragStart}
+                dragEndCallback={this.onLassoDragEnd}
+              />
+            )}
+            {useEraser && (
+              <Eraser
+                active={showEraser}
+                lassoableEl={this.svgEl}
+                dragCallback={this.onEraserDrag}
+                dragStartCallback={this.onEraserDragStart}
+                dragEndCallback={this.onEraserDragEnd}
+              />
+            )}
           </svg>
         </div>
       </React.Fragment>
@@ -454,6 +520,7 @@ ScatterPlot.propTypes = {
   offsetTop: PropTypes.number,
   offsetRight: PropTypes.number,
   useLasso: PropTypes.bool,
+  useEraser: PropTypes.bool,
   dataSelectionCallback: PropTypes.func,
   preSelected: PropTypes.bool,
   multiple: PropTypes.bool,
