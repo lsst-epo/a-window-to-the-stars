@@ -1,4 +1,5 @@
 import React from 'react';
+import reactn from 'reactn';
 import PropTypes from 'prop-types';
 import { getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
@@ -9,7 +10,17 @@ import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
 import ObservationsTable from '../../charts/shared/ObservationsTable';
 
+@reactn
 class ExploringStarClusters extends React.PureComponent {
+  componentDidUpdate(prevProps) {
+    const { answers: prevAnswers } = prevProps;
+    const { answers, regionAnswers } = this.props;
+
+    if (prevAnswers !== answers) {
+      this.dispatch.updateUserDefinedRegions(regionAnswers);
+    }
+  }
+
   render() {
     const {
       questions,
@@ -24,6 +35,7 @@ class ExploringStarClusters extends React.PureComponent {
       tableCells,
       tableRowTitles,
       tableHeaders,
+      regions,
     } = this.props;
 
     return (
@@ -101,6 +113,7 @@ class ExploringStarClusters extends React.PureComponent {
             yDomain={scatterYDomain}
             dataSelectionCallback={answerHandler}
             showColorLegend
+            regions={regions}
           />
         </div>
       </Section>
@@ -121,6 +134,9 @@ ExploringStarClusters.propTypes = {
   tableCells: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
+  regionAmswers: PropTypes.array,
+  regionAnswers: PropTypes.array,
+  regions: PropTypes.array,
 };
 
 export default WithAnswerHandlers(

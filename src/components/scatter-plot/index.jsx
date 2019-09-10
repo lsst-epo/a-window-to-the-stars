@@ -18,6 +18,7 @@ import Tooltip from '../charts/shared/Tooltip.jsx';
 import Legend from '../charts/shared/Legend.jsx';
 import Lasso from '../charts/shared/Lasso.jsx';
 import Eraser from '../charts/shared/Eraser.jsx';
+import Region from '../charts/shared/Region.jsx';
 
 class ScatterPlot extends React.PureComponent {
   static defaultProps = {
@@ -373,6 +374,7 @@ class ScatterPlot extends React.PureComponent {
       showColorLegend,
       tooltipAccessors,
       includeSun,
+      regions,
     } = this.props;
 
     const {
@@ -447,6 +449,22 @@ class ScatterPlot extends React.PureComponent {
               offsetTop={offsetTop}
               scale={yScale}
             />
+            {regions &&
+              regions.map(region => {
+                const { type, points } = region;
+
+                return (
+                  <Region
+                    key={type}
+                    type={type}
+                    points={points}
+                    xScale={xScale}
+                    yScale={yScale}
+                    xValueAccessor={xValueAccessor}
+                    yValueAccessor={yValueAccessor}
+                  />
+                );
+              })}
             {data &&
               multiple &&
               data.map((selection, i) => {
@@ -514,6 +532,7 @@ ScatterPlot.propTypes = {
   yAxisLabel: PropTypes.string,
   xValueAccessor: PropTypes.string,
   yValueAccessor: PropTypes.string,
+  tooltipAccessors: PropTypes.array,
   xDomain: PropTypes.array,
   yDomain: PropTypes.array,
   padding: PropTypes.number,
@@ -526,8 +545,8 @@ ScatterPlot.propTypes = {
   multiple: PropTypes.bool,
   legend: PropTypes.node,
   showColorLegend: PropTypes.bool,
-  tooltipAccessors: PropTypes.array,
   includeSun: PropTypes.bool,
+  regions: PropTypes.array,
 };
 
 export default ScatterPlot;

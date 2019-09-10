@@ -25,6 +25,7 @@ class MakingHRD extends React.PureComponent {
       clusterYDomain,
       scatterXDomain,
       scatterYDomain,
+      regions,
     } = this.props;
 
     const selection = !isEmpty(answer) ? answer.data : [];
@@ -77,6 +78,7 @@ class MakingHRD extends React.PureComponent {
               preSelected
               useEraser
               showColorLegend
+              regions={regions}
             />
           </div>
         </div>
@@ -101,6 +103,7 @@ MakingHRD.propTypes = {
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
   introduction: PropTypes.string,
+  regions: PropTypes.array,
 };
 
 export default WithAnswerHandlers(WithData(MakingHRD));

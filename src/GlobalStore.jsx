@@ -1,5 +1,6 @@
 import { addCallback, addReducer, setGlobal } from 'reactn';
 import ls from 'local-storage';
+import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
 import sortBy from 'lodash/sortBy';
 
@@ -17,6 +18,8 @@ class GlobalStore {
       activeGraphData: null,
       clusterA: [],
       clusterB: [],
+      userDefinedRegions: [],
+      // astroDefinedRegions: [],
     };
 
     // const existingState = this.emptyState;
@@ -74,6 +77,46 @@ class GlobalStore {
 
       return global;
     });
+
+    addReducer(
+      'updateUserDefinedRegions',
+      (prevGlobal, dispatch, regionAnswers) => {
+        const { answers } = prevGlobal;
+        const userDefinedRegions = [];
+
+        regionAnswers.forEach(region => {
+          const { type, ids } = region;
+          const newRegion = { type, points: [] };
+
+          if (type === 'ms') {
+            ids.forEach(id => {
+              if (!isEmpty(answers[id])) {
+                newRegion.points.push(answers[id].data[0]);
+              }
+            });
+          } else if (type === 'wd') {
+            ids.forEach(id => {
+              if (!isEmpty(answers[id])) {
+                newRegion.points.push(answers[id].data[0]);
+              }
+            });
+          } else if (type === 'g') {
+            ids.forEach(id => {
+              if (!isEmpty(answers[id])) {
+                newRegion.points.push(answers[id].data[0]);
+              }
+            });
+          }
+
+          userDefinedRegions.push(newRegion);
+        });
+
+        return {
+          ...prevGlobal,
+          userDefinedRegions,
+        };
+      }
+    );
   }
 }
 
