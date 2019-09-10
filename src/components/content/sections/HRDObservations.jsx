@@ -27,6 +27,7 @@ class HRDObservations extends React.PureComponent {
       tableCells,
       tableRowTitles,
       tableHeaders,
+      regions,
     } = this.props;
 
     return (
@@ -71,6 +72,7 @@ class HRDObservations extends React.PureComponent {
             dataSelectionCallback={answerHandler}
             useLasso
             showColorLegend
+            regions={regions}
           />
         </div>
       </Section>
@@ -95,6 +97,7 @@ HRDObservations.propTypes = {
   tableCells: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
+  regions: PropTypes.array,
 };
 
 export default WithAnswerHandlers(

@@ -80,7 +80,14 @@ class Sections extends React.PureComponent {
   }
 
   render() {
-    const { visitedPages, questions, answers, clusters } = this.global;
+    const {
+      visitedPages,
+      questions,
+      answers,
+      clusters,
+      userDefinedRegions,
+      // astroDefinedRegions,
+    } = this.global;
 
     return (
       <React.Fragment>
@@ -135,6 +142,12 @@ class Sections extends React.PureComponent {
                     ['', { accessor: 'luminosity', ids: 8 }],
                     [{ accessor: 'temperature', ids: 9 }, ''],
                   ]}
+                  regionAnswers={[
+                    { type: 'ms', ids: [1, 3, 5, 6, 4, 2] },
+                    { type: 'wd', ids: [8, 9] },
+                    { type: 'g', ids: [7] },
+                  ]}
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -174,6 +187,7 @@ class Sections extends React.PureComponent {
                   clusterWidth={clusters.NGC2516.image.width}
                   clusterHeight={clusters.NGC2516.image.height}
                   introduction="Locate the star cluster in this image. Not all the stars you see in the image are actually stars in the cluster—some are much closer to Earth than the stars in the cluster, and some are farther away. Because of their different distances, these stars can provide inaccurate information on an H-R Diagram if plotted with the stars in the cluster."
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -194,6 +208,7 @@ class Sections extends React.PureComponent {
                   clusterWidth={clusters.NGC2516.image.width}
                   clusterHeight={clusters.NGC2516.image.height}
                   answer={answers[14]}
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -223,6 +238,7 @@ class Sections extends React.PureComponent {
                     [{ accessor: 'count', ids: 12 }],
                     [{ accessor: 'count', ids: 13 }],
                   ]}
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -247,6 +263,7 @@ class Sections extends React.PureComponent {
                   clusterWidth={clusters.NGC2682.image.width}
                   clusterHeight={clusters.NGC2682.image.height}
                   introduction="Try creating an H-R Diagram for a different Star Cluster. Locate the star cluster in this image. Not all the stars you see in the image are actually stars in the cluster—some are much closer to Earth than the stars in the cluster, and some are farther away. Because of their different distances, these stars can provide inaccurate information on an H-R Diagram if plotted with the stars in the cluster."
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -267,6 +284,7 @@ class Sections extends React.PureComponent {
                   clusterWidth={clusters.NGC2682.image.width}
                   clusterHeight={clusters.NGC2682.image.height}
                   answer={answers[19]}
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -296,6 +314,7 @@ class Sections extends React.PureComponent {
                     [{ accessor: 'count', ids: 17 }],
                     [{ accessor: 'count', ids: 18 }],
                   ]}
+                  regions={userDefinedRegions}
                 />
               )}
             />

@@ -36,6 +36,7 @@ class ComparingHRD extends React.PureComponent {
       scatterXDomain,
       scatterYDomain,
       answer,
+      regions,
     } = this.props;
 
     const selection = !isEmpty(answer) ? answer.data : [];
@@ -92,6 +93,7 @@ class ComparingHRD extends React.PureComponent {
               preSelected
               multiple
               legend={this.renderLegendContent(multipleData)}
+              regions={regions}
             />
           </div>
         </div>
@@ -112,6 +114,7 @@ ComparingHRD.propTypes = {
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
   answer: PropTypes.object,
+  regions: PropTypes.array,
 };
 
 export default WithData(ComparingHRD, 'is_member');
