@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import includes from 'lodash/includes';
 import { select as d3Select } from 'd3-selection';
-import { easeElastic as d3EaseElastic } from 'd3-ease';
-import { datumInData, getSunValue } from '../../lib/utilities.js';
-// import SunIcon from '../site/icons/Sun';
+// import { easeElastic as d3EaseElastic } from 'd3-ease';
+import { getSunValue } from '../../lib/utilities.js';
 
 class Sun extends React.PureComponent {
   constructor(props) {
@@ -11,43 +11,35 @@ class Sun extends React.PureComponent {
 
     this.baseSize = 30;
     this.sunData = getSunValue();
-    this.svgEl = React.createRef();
+    // this.svgEl = React.createRef();
     this.pathEl = React.createRef();
   }
 
   componentDidMount() {
-    d3Select(this.pathEl.current).datum(getSunValue());
+    d3Select(this.pathEl.current).datum(this.sunData);
   }
 
-  componentDidUpdate() {
-    const { selectedData, hoveredData } = this.props;
-    const selected = datumInData(selectedData, this.sunData);
-    const hovered = datumInData(hoveredData, this.sunData);
-    const $sun = d3Select(this.svgEl.current);
+  // componentDidUpdate() {
+  //   const { selectedData, hoveredData } = this.props;
+  //   const selected = includes(selectedData, this.sunData);
+  //   const hovered = includes(hoveredData, this.sunData);
+  //   const $sun = d3Select(this.svgEl.current);
 
-    if (selected || hovered) {
-      $sun
-        .raise()
-        .transition()
-        .duration(800)
-        .ease(d3EaseElastic);
-    } else {
-      $sun
-        .raise()
-        .transition()
-        .duration(400);
-    }
-  }
+  //   if (selected || hovered) {
+  //     $sun
+  //       .raise()
+  //       .transition()
+  //       .duration(800)
+  //       .ease(d3EaseElastic);
+  //   }
+  // }
 
   render() {
-    const { xScale, yScale, selectedData, hoveredData } = this.props;
+    const { xScale, yScale } = this.props;
     const { temperature, luminosity } = this.sunData;
-    const selected = datumInData(selectedData, this.sunData);
-    const hovered = datumInData(hoveredData, this.sunData);
 
     return (
       <svg
-        className={selected || hovered ? 'spinning' : ''}
         ref={this.svgEl}
         x={xScale(temperature) - this.baseSize / 2}
         y={yScale(luminosity) - 4}
@@ -68,8 +60,8 @@ class Sun extends React.PureComponent {
 }
 
 Sun.propTypes = {
-  selectedData: PropTypes.array,
-  hoveredData: PropTypes.array,
+  // selectedData: PropTypes.array,
+  // hoveredData: PropTypes.array,
   xScale: PropTypes.func,
   yScale: PropTypes.func,
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
 import classnames from 'classnames';
 import {
   select as d3Select,
@@ -13,6 +14,7 @@ import 'd3-transition';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
 import { arrayify } from '../../lib/utilities.js';
 import Points from './Points.jsx';
+import Sun from './Sun.jsx';
 import XAxis from './XAxis.jsx';
 import YAxis from './YAxis.jsx';
 import Tooltip from '../charts/shared/Tooltip.jsx';
@@ -161,7 +163,7 @@ class ScatterPlot extends React.PureComponent {
   toggleSelection(d) {
     const { activeId, dataSelectionCallback } = this.props;
     const { selectedData } = this.state;
-    const selectedPointId = this.getSelectedId(selectedData);
+    // const selectedPointId = this.getSelectedId(selectedData);
     const pointPos = d3ClientPoint(this.svgContainer.current, d3Event);
 
     const newState = {
@@ -173,7 +175,7 @@ class ScatterPlot extends React.PureComponent {
       selectedData: arrayify(d),
     };
 
-    if (d.source_id === selectedPointId) {
+    if (includes(selectedData, d)) {
       newState.selectedData = null;
       newState.showTooltip = false;
     }
@@ -523,6 +525,15 @@ class ScatterPlot extends React.PureComponent {
                 />
               )}
             </g>
+            {includeSun && (
+              <Sun
+                selectedData={selectedData}
+                hoveredData={hoverPointData}
+                xScale={xScale}
+                yScale={yScale}
+                tabIndex="0"
+              />
+            )}
             {useLasso && (
               <Lasso
                 active={showLasso}

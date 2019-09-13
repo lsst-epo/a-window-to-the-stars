@@ -7,7 +7,7 @@ class ObservationsTableCell extends React.PureComponent {
   rangeChecker(answerRange) {
     if (!answerRange) return false;
     if (!answerRange[0] || !answerRange[1]) return false;
-    if (answerRange[0].data && answerRange[1].data) return true;
+    if (answerRange[0].data[0] && answerRange[1].data[0]) return true;
 
     return false;
   }

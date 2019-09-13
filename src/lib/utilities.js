@@ -28,22 +28,22 @@ export const getCompoundQs = function(questions, i) {
   return qs;
 };
 
-export const datumInData = function(data, datum) {
-  if (isEmpty(data)) return false;
+// export const datumInData = function(data, datum) {
+//   if (isEmpty(data)) return false;
 
-  let isMatch = false;
-  let i = 0;
+//   let isMatch = false;
+//   let i = 0;
 
-  while (i < data.length) {
-    if (data[i].source_id === datum.source_id) {
-      isMatch = true;
-      i = data.length;
-    }
-    i += 1;
-  }
+//   while (i < data.length) {
+//     if (data[i].source_id === datum.source_id) {
+//       isMatch = true;
+//       i = data.length;
+//     }
+//     i += 1;
+//   }
 
-  return isMatch;
-};
+//   return isMatch;
+// };
 
 export const formatValue = function(number, decimalPlaces) {
   return Number.parseFloat(Number.parseFloat(number).toFixed(decimalPlaces));

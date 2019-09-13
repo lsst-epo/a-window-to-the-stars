@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import includes from 'lodash/includes';
+import includes from 'lodash/includes';
 import classnames from 'classnames';
-import { datumInData } from '../../lib/utilities.js';
+// import { datumInData } from '../../lib/utilities.js';
 import Point from './Point.jsx';
-import Sun from './Sun.jsx';
+// import Sun from './Sun.jsx';
 
 class Points extends React.PureComponent {
   constructor(props) {
@@ -86,7 +86,7 @@ class Points extends React.PureComponent {
       xValueAccessor,
       yValueAccessor,
       pointClasses,
-      includeSun,
+      // includeSun,
     } = this.props;
 
     return (
@@ -94,8 +94,8 @@ class Points extends React.PureComponent {
         {data.map((d, i) => {
           const { source_id: id } = d;
           const key = `point-${id}-${i}`;
-          const selected = datumInData(selectedData, d);
-          const hovered = datumInData(hoveredData, d);
+          const selected = includes(selectedData, d);
+          const hovered = includes(hoveredData, d);
           const temp = d[xValueAccessor];
           const classes = classnames(`data-point-${id} data-point`, {
             [pointClasses]: pointClasses,
@@ -117,7 +117,7 @@ class Points extends React.PureComponent {
             />
           );
         })}
-        {includeSun && (
+        {/*        {includeSun && (
           <Sun
             selectedData={selectedData}
             hoveredData={hoveredData}
@@ -125,7 +125,7 @@ class Points extends React.PureComponent {
             yScale={yScale}
             tabIndex="0"
           />
-        )}
+        )} */}
       </g>
     );
   }
@@ -140,7 +140,7 @@ Points.propTypes = {
   xScale: PropTypes.string,
   yScale: PropTypes.string,
   pointClasses: PropTypes.string,
-  includeSun: PropTypes.bool,
+  // includeSun: PropTypes.bool,
 };
 
 export default Points;
