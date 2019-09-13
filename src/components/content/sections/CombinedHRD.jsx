@@ -11,6 +11,7 @@ class CombinedHRD extends React.PureComponent {
       scatterXDomain,
       scatterYDomain,
       clusterData,
+      regions,
     } = this.props;
 
     return (
@@ -48,6 +49,7 @@ class CombinedHRD extends React.PureComponent {
             xAxisLabel="Temperature (K)"
             yAxisLabel="Solar Luminosity"
             preSelected
+            regions={regions}
           />
         </div>
       </Section>
@@ -61,6 +63,7 @@ CombinedHRD.propTypes = {
   clusterData: PropTypes.array,
   scatterXDomain: PropTypes.array,
   scatterYDomain: PropTypes.array,
+  regions: PropTypes.array,
 };
 
 export default WithData(CombinedHRD, 'is_member');

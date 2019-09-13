@@ -367,6 +367,7 @@ class Sections extends React.PureComponent {
                   questionsRange={range(20, 24)}
                   questions={this.getQuestions(range(20, 23))}
                   answers={answers}
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -386,6 +387,7 @@ class Sections extends React.PureComponent {
                         clusters.NGC2516.name,
                         clusters.NGC2682.name,
                       ]}
+                      regions={userDefinedRegions}
                     />
                   ) : (
                     <CombiningHRD
@@ -408,6 +410,7 @@ class Sections extends React.PureComponent {
                           yDomain: clusters.NGC2516.hrd.domain.y,
                         },
                       ]}
+                      regions={userDefinedRegions}
                     />
                   )}
                 </React.Fragment>
@@ -437,6 +440,7 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[range(24, 27)]}
                   sectionTitle="Comparing Star Temperature"
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -464,6 +468,7 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[range(28, 31)]}
                   sectionTitle="Comparing Star Luminosity"
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -488,6 +493,7 @@ class Sections extends React.PureComponent {
                     'Sun',
                   ]}
                   tableAnswerIds={[range(24, 27), range(28, 31)]}
+                  regions={userDefinedRegions}
                 />
               )}
             />
@@ -516,6 +522,7 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[range(32, 35)]}
                   sectionTitle="Estimating Stellar Masses"
+                  regions={userDefinedRegions}
                 >
                   <MassesCopy />
                 </StellarProperty>
@@ -544,6 +551,7 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[range(43, 46)]}
                   sectionTitle="Estimating Stellar Lifetimes"
+                  regions={userDefinedRegions}
                 >
                   <LifetimesCopy />
                 </StellarProperty>
@@ -573,6 +581,7 @@ class Sections extends React.PureComponent {
                   ]}
                   tableAnswerIds={[range(36, 39)]}
                   sectionTitle="Estimating Stellar Radii"
+                  regions={userDefinedRegions}
                 >
                   <RadiiCopy />
                 </StellarProperty>
@@ -610,6 +619,7 @@ class Sections extends React.PureComponent {
                     range(43, 46),
                     range(36, 39),
                   ]}
+                  regions={userDefinedRegions}
                 />
               )}
             />

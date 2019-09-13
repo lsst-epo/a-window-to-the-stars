@@ -58,6 +58,7 @@ class ComparingHRDObservations extends React.Component {
       tableHeaders,
       graphSelectHandler,
       activeGraph,
+      regions,
     } = this.props;
 
     return (
@@ -117,6 +118,7 @@ class ComparingHRDObservations extends React.Component {
                   xAxisLabel="Temperature (K)"
                   yAxisLabel="Solar Luminosity"
                   preSelected
+                  regions={regions}
                 />
               </React.Fragment>
             );
@@ -141,6 +143,7 @@ ComparingHRDObservations.propTypes = {
   tableRowTitles: PropTypes.array,
   activeGraph: PropTypes.number,
   graphSelectHandler: PropTypes.func,
+  regions: PropTypes.array,
 };
 
 export default WithGraphToggler(

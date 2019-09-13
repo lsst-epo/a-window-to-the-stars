@@ -55,7 +55,15 @@ class CombiningHRD extends React.Component {
 
   render() {
     const { combined } = this.state;
-    const { id, clusters, previous, previousText, next, nextText } = this.props;
+    const {
+      id,
+      clusters,
+      previous,
+      previousText,
+      next,
+      nextText,
+      regions,
+    } = this.props;
 
     const absColClasses = classnames(
       `col col-absolute padded col-width-50 revealable`,
@@ -164,6 +172,7 @@ class CombiningHRD extends React.Component {
                   xAxisLabel="Temperature (K)"
                   yAxisLabel="Solar Luminosity"
                   preSelected
+                  regions={regions}
                 />
               </div>
             );
@@ -206,6 +215,7 @@ CombiningHRD.propTypes = {
   previous: PropTypes.string,
   previousText: PropTypes.string,
   nextText: PropTypes.string,
+  regions: PropTypes.array,
 };
 
 export default CombiningHRD;
