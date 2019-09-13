@@ -44,6 +44,7 @@ class StellarProperty extends React.Component {
       activeGraph,
       children,
       sectionTitle,
+      regions,
     } = this.props;
 
     const { answers } = this.global;
@@ -110,6 +111,7 @@ class StellarProperty extends React.Component {
                 dataSelectionCallback={answerHandler}
                 tooltipAccessors={['radius']}
                 includeSun
+                regions={regions}
               />
             )}
             {activeGraph === 1 && (
@@ -150,6 +152,7 @@ StellarProperty.propTypes = {
   activeGraph: PropTypes.number,
   graphSelectHandler: PropTypes.func,
   sectionTitle: PropTypes.string,
+  regions: PropTypes.array,
 };
 
 export default WithGraphToggler(

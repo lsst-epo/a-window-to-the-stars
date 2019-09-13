@@ -31,6 +31,7 @@ class DiscussReport extends React.PureComponent {
       tableHeaders,
       tableRowTitles,
       tableAnswerIds,
+      regions,
     } = this.props;
 
     const { answers } = this.global;
@@ -98,6 +99,7 @@ class DiscussReport extends React.PureComponent {
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
                 includeSun
+                regions={regions}
               />
             )}
             {activeGraph === 1 && (
@@ -166,6 +168,7 @@ DiscussReport.propTypes = {
   histogramAxisLabel: PropTypes.string,
   activeGraph: PropTypes.number,
   graphSelectHandler: PropTypes.func,
+  regions: PropTypes.array,
 };
 
 export default WithGraphToggler(

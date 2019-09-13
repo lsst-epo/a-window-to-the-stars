@@ -26,6 +26,7 @@ class EstimatingTempLumExtension extends React.PureComponent {
       tableAnswerIds,
       tableHeaders,
       tableRowTitles,
+      regions,
     } = this.props;
     const { answers } = this.global;
     const activeData = getAnswerData(answers, activeId);
@@ -77,6 +78,7 @@ class EstimatingTempLumExtension extends React.PureComponent {
             yAxisLabel="Solar Luminosity"
             dataSelectionCallback={answerHandler}
             includeSun
+            regions={regions}
           />
         </div>
       </Section>
@@ -99,6 +101,7 @@ EstimatingTempLumExtension.propTypes = {
   tableAnswerIds: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
+  regions: PropTypes.array,
 };
 
 export default WithAnswerHandlers(
