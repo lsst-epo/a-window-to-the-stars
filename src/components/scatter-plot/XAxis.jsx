@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { select as d3Select } from 'd3-selection';
 import { axisBottom as d3AxisBottom } from 'd3-axis';
 
-class XAxis extends React.Component {
+class XAxis extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.xAxisContainer = React.createRef();
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     const { scale } = this.props;
     const xAxis = d3AxisBottom(scale);
     const $xAxis = d3Select(this.xAxisContainer.current);

@@ -88,26 +88,15 @@ class GlobalStore {
           const { type, ids } = region;
           const newRegion = { type, points: [] };
 
-          if (type === 'ms') {
-            ids.forEach(id => {
-              if (!isEmpty(answers[id])) {
-                newRegion.points.push(answers[id].data[0]);
-              }
-            });
-          } else if (type === 'wd') {
-            ids.forEach(id => {
-              if (!isEmpty(answers[id])) {
-                newRegion.points.push(answers[id].data[0]);
-              }
-            });
-          } else if (type === 'g') {
-            ids.forEach(id => {
-              if (!isEmpty(answers[id])) {
-                newRegion.points.push(answers[id].data[0]);
-              }
-            });
-          }
+          ids.forEach(id => {
+            if (!isEmpty(answers[id])) {
+              newRegion.points.push(answers[id].data[0]);
+            }
+          });
 
+          // if (newRegion.points.length === ids.length) {
+          //   newRegion.type = `${type} complete`;
+          // }
           userDefinedRegions.push(newRegion);
         });
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import uniqBy from 'lodash/uniq';
 import { arrayify } from '../../../lib/utilities';
 import API from '../../site/API';
 
@@ -19,7 +18,7 @@ export const WithData = (ComposedComponent, filter) => {
       const paths = arrayify(dataPath);
 
       Promise.all(this.allGets(paths)).then(res => {
-        let clusterData = uniqBy(this.combineData(res), 'source_id');
+        let clusterData = this.combineData(res);
 
         if (filter) {
           clusterData = clusterData.filter(datum => {
