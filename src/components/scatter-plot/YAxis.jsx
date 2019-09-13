@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { select as d3Select } from 'd3-selection';
 import { axisLeft as d3AxisLeft } from 'd3-axis';
 
-class YAxis extends React.Component {
+class YAxis extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.yAxisContainer = React.createRef();
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     const { scale } = this.props;
     const numTicks = scale.domain().reduce(this.reducer);
     const yAxis = d3AxisLeft(scale).ticks(numTicks);
@@ -18,15 +18,25 @@ class YAxis extends React.Component {
 
     $yAxis
       .call(yAxis)
-      .selectAll('.tick text')
-      .text(d => {
-        return Math.log10(d) === 0 ? 1 : 10;
-      })
-      .append('tspan')
-      .attr('baseline-shift', 'super')
-      .text(d => {
+      .selectAll('.tick')
+      .each(function renderTick(d) {
+        const base = Math.log10(d) === 0 ? 1 : 10;
         const exponent = Math.log10(d);
-        return exponent === 0 ? '' : exponent;
+
+        if (base % 1 === 0 && exponent % 1 === 0) {
+          d3Select(this)
+            .select('text')
+            .text(function renderTickBase() {
+              return base;
+            })
+            .append('tspan')
+            .attr('baseline-shift', 'super')
+            .text(function renderTickExp() {
+              return exponent === 0 ? '' : exponent;
+            });
+        } else {
+          d3Select(this).remove();
+        }
       });
   }
 

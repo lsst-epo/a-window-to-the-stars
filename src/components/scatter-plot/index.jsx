@@ -7,6 +7,7 @@ import {
   event as d3Event,
   clientPoint as d3ClientPoint,
 } from 'd3-selection';
+import { zoom as d3Zoom } from 'd3-zoom';
 import { scaleLog as d3ScaleLog, scaleLinear as d3ScaleLinear } from 'd3-scale';
 import 'd3-transition';
 import CircularProgress from 'react-md/lib//Progress/CircularProgress';
@@ -59,8 +60,8 @@ class ScatterPlot extends React.PureComponent {
       yScale: this.getYScale(yDomain, height, padding, offsetTop),
     };
 
-    this.svgEl = React.createRef();
     this.svgContainer = React.createRef();
+    this.svgEl = React.createRef();
   }
 
   componentDidMount() {
@@ -86,20 +87,10 @@ class ScatterPlot extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const { loading } = this.state;
     const { data, activeData } = this.props;
-    // const { selectedData, loading } = this.state;
-    // const { data, activeId, dataSelectionCallback, activeData } = this.props;
-    // const differentSelectedData =
-    //   selectedData !== prevState.selectedData && selectedData !== null;
-    // const shouldCallback = dataSelectionCallback && differentSelectedData;
 
     if (prevProps.data !== data || (!isEmpty(data) && loading)) {
       this.updateScatterPlot();
     }
-
-    // if (shouldCallback) {
-    //   console.log('HRD handle answering', selectedData);
-    //   dataSelectionCallback(activeId, selectedData);
-    // }
 
     this.checkActive(activeData, prevProps.activeData);
   }
@@ -113,6 +104,28 @@ class ScatterPlot extends React.PureComponent {
     } else if (data === null && data !== prevData) {
       this.clearGraph();
     }
+  }
+
+  rescale(transformEvent) {
+    const {
+      xDomain,
+      yDomain,
+      width,
+      height,
+      padding,
+      offsetTop,
+      offsetRight,
+    } = this.props;
+
+    this.setState(prevState => ({
+      ...prevState,
+      xScale: transformEvent.rescaleX(
+        this.getXScale(xDomain, width, padding, offsetRight)
+      ),
+      yScale: transformEvent.rescaleY(
+        this.getYScale(yDomain, height, padding, offsetTop)
+      ),
+    }));
   }
 
   getXScale(domain, width, padding, offsetRight) {
@@ -267,8 +280,13 @@ class ScatterPlot extends React.PureComponent {
     );
   };
 
+  onZoom = () => {
+    this.rescale(d3Event.transform);
+  };
+
   // add event listeners to Scatterplot and Points
   addEventListeners() {
+    const { width, height, padding, offsetTop, offsetRight } = this.props;
     const $scatterplot = d3Select(this.svgEl.current);
     const $allPoints = d3Select(this.svgEl.current).selectAll('.data-point');
 
@@ -282,6 +300,18 @@ class ScatterPlot extends React.PureComponent {
         this.clearGraph();
       }
     });
+
+    const zoom = d3Zoom()
+      .translateExtent([
+        [padding, offsetTop],
+        [width - offsetRight, height - padding],
+      ])
+      .scaleExtent([1, 5])
+      .extent([[padding, offsetTop], [width - offsetRight, height - padding]])
+      .on('zoom', this.onZoom);
+
+    $scatterplot.call(zoom).on('mousedown.zoom', null);
+
     // add event listeners to points
     $allPoints
       .on('mouseover', this.onMouseOver)
@@ -433,70 +463,66 @@ class ScatterPlot extends React.PureComponent {
             ref={this.svgEl}
             style={{ opacity: 0 }}
           >
-            <XAxis
-              label={xAxisLabel}
-              height={height}
-              width={width}
-              padding={padding}
-              offsetTop={offsetTop}
-              offsetRight={offsetRight}
-              scale={xScale}
-            />
-            <YAxis
-              label={yAxisLabel}
-              height={height}
-              padding={padding}
-              offsetTop={offsetTop}
-              scale={yScale}
-            />
-            {regions &&
-              regions.map(region => {
-                const { type, points } = region;
+            <defs>
+              <clipPath id="clip">
+                <rect
+                  x={padding}
+                  y={offsetTop}
+                  width={width - padding - offsetRight}
+                  height={height - padding}
+                />
+              </clipPath>
+            </defs>
+            <g clipPath="url('#clip')">
+              {regions &&
+                regions.map(region => {
+                  const { type, points } = region;
 
-                return (
-                  <Region
-                    key={type}
-                    type={type}
-                    points={points}
-                    xScale={xScale}
-                    yScale={yScale}
-                    xValueAccessor={xValueAccessor}
-                    yValueAccessor={yValueAccessor}
-                  />
-                );
-              })}
-            {data &&
-              multiple &&
-              data.map((selection, i) => {
-                const key = `${selection.className}-${i}`;
+                  return (
+                    <Region
+                      key={type}
+                      type={type}
+                      points={points}
+                      xScale={xScale}
+                      yScale={yScale}
+                      xValueAccessor={xValueAccessor}
+                      yValueAccessor={yValueAccessor}
+                    />
+                  );
+                })}
+              {data &&
+                multiple &&
+                data.map((selection, i) => {
+                  const key = `${selection.className}-${i}`;
 
-                return (
-                  <Points
-                    key={key}
-                    pointClasses={selection.className}
-                    data={selection.data}
-                    selectedData={selectedData}
-                    hoveredData={hoverPointData}
-                    xScale={xScale}
-                    yScale={yScale}
-                    xValueAccessor={xValueAccessor}
-                    yValueAccessor={yValueAccessor}
-                    includeSun={includeSun}
-                  />
-                );
-              })}
-            {data && !multiple && (
-              <Points
-                data={data}
-                selectedData={selectedData}
-                hoveredData={hoverPointData}
-                xScale={xScale}
-                yScale={yScale}
-                xValueAccessor={xValueAccessor}
-                yValueAccessor={yValueAccessor}
-                includeSun={includeSun}
-              />
-            )}
+                  return (
+                    <Points
+                      key={key}
+                      pointClasses={selection.className}
+                      data={selection.data}
+                      selectedData={selectedData}
+                      hoveredData={hoverPointData}
+                      xScale={xScale}
+                      yScale={yScale}
+                      xValueAccessor={xValueAccessor}
+                      yValueAccessor={yValueAccessor}
+                      includeSun={includeSun}
+                    />
+                  );
+                })}
+              {data && !multiple && (
+                <Points
+                  data={data}
+                  selectedData={selectedData}
+                  hoveredData={hoverPointData}
+                  xScale={xScale}
+                  yScale={yScale}
+                  xValueAccessor={xValueAccessor}
+                  yValueAccessor={yValueAccessor}
+                  includeSun={includeSun}
+                />
+              )}
+            </g>
             {useLasso && (
               <Lasso
                 active={showLasso}
@@ -515,6 +541,22 @@ class ScatterPlot extends React.PureComponent {
                 dragEndCallback={this.onEraserDragEnd}
               />
             )}
+            <XAxis
+              label={xAxisLabel}
+              height={height}
+              width={width}
+              padding={padding}
+              offsetTop={offsetTop}
+              offsetRight={offsetRight}
+              scale={xScale}
+            />
+            <YAxis
+              label={yAxisLabel}
+              height={height}
+              padding={padding}
+              offsetTop={offsetTop}
+              scale={yScale}
+            />
           </svg>
         </div>
       </React.Fragment>

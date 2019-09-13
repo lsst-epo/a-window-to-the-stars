@@ -1,10 +1,16 @@
 .region {
+  // opacity: 0;
   opacity: 0.5;
   fill: $basePrimary;
   stroke: $basePrimary;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 40;
+  transition: opacity $timing $durationSuperSlow;
+
+  // &.complete {
+  //   opacity: 0.5;
+  // }
 
   &.ms {
     fill: $basePrimary;
