@@ -1,6 +1,6 @@
 {
   "name": "a-window-to-the-stars",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LSST Educational Investigation",
   "main": "index.js",
   "homepage": "https://lsst-epo.github.io/window-to-the-stars/",
