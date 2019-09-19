@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import includes from 'lodash/includes';
 import Point from './Point.jsx';
 
 class Points extends React.PureComponent {
-  // checkId(data, id) {
-  //   if (!data) return false;
-  //   let selected = false;
-  //   let i = 0;
+  checkId(data, id) {
+    if (!data) return false;
+    let selected = false;
+    let i = 0;
 
-  //   while (i < data.length) {
-  //     if (id === data[i].source_id) {
-  //       selected = true;
-  //       i = data.length;
-  //     }
+    while (i < data.length) {
+      if (id === data[i].source_id) {
+        selected = true;
+        i = data.length;
+      }
 
-  //     i += 1;
-  //   }
-  //   return selected;
-  // }
+      i += 1;
+    }
+    return selected;
+  }
 
   render() {
     const {
@@ -36,7 +35,7 @@ class Points extends React.PureComponent {
         {data.map((d, i) => {
           const { source_id: id } = d;
           const key = `point-${id}-${i}`;
-          const selected = includes(selectedData, d);
+          const selected = this.checkId(selectedData, id);
 
           return (
             <Point
