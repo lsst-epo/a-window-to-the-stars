@@ -451,7 +451,7 @@ class Sections extends React.PureComponent {
               path="/12"
               render={() => (
                 <React.Fragment>
-                  {this.visitedFarther(visitedPages, 9) ? (
+                  {this.visitedFarther(visitedPages, 12) ? (
                     <CombinedHRD
                       id="12"
                       scrollable={0}
