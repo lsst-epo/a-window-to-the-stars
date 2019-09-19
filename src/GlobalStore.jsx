@@ -22,8 +22,8 @@ class GlobalStore {
       // astroDefinedRegions: [],
     };
 
-    // const existingState = this.emptyState;
-    const existingState = ls('hrd') || this.emptyState;
+    const existingState = this.emptyState;
+    // const existingState = ls('hrd') || this.emptyState;
 
     setGlobal(existingState);
   }
