@@ -23,7 +23,8 @@ function ExploringMainSequenceCopy() {
         The main sequence forms a slightly s-shaped diagonal band across the
         plot. Answer the following questions to determine the approximate
         position of the main sequence stars on this H-R Diagram. As you answer
-        questions this region will be added to the H-R Diagram.
+        questions this region will be added to the H-R Diagram. Scroll over the
+        H-R Diagram to zoom in and make finer selections.
       </p>
     </React.Fragment>
   );

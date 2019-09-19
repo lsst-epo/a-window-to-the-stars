@@ -300,7 +300,7 @@ class Sections extends React.PureComponent {
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   clusterName={clusters.NGC2516.name}
-                  introduction="Use the H-R Diagram to complete the table of observations"
+                  introduction="Use the H-R Diagram to complete the table of observations. Scroll over the H-R Diagram to zoom in and make finer selections."
                   scrollable={0}
                   tableRowTitles={[
                     ['Main Sequence Range'],
@@ -377,7 +377,7 @@ class Sections extends React.PureComponent {
                   questionsRange={range(15, 19)}
                   questions={this.getQuestions(range(15, 19))}
                   answers={answers}
-                  introduction="Use the H-R Diagram to complete the table of observations"
+                  introduction="Use the H-R Diagram to complete the table of observations. Scroll over the H-R Diagram to zoom in and make finer selections."
                   tableRowTitles={[
                     ['Main Sequence Range'],
                     ['Total Giant Stars'],
@@ -398,6 +398,7 @@ class Sections extends React.PureComponent {
               render={() => (
                 <ComparingHRDObservations
                   id="11"
+                  next="/progress/11"
                   scrollable={0}
                   clusters={[
                     {
@@ -453,7 +454,6 @@ class Sections extends React.PureComponent {
                   {this.visitedFarther(visitedPages, 9) ? (
                     <CombinedHRD
                       id="12"
-                      next="/progress/12"
                       scrollable={0}
                       dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
                       scatterXDomain={clusters.NGC2516.hrd.domain.x}
@@ -467,7 +467,6 @@ class Sections extends React.PureComponent {
                   ) : (
                     <CombiningHRD
                       id="12"
-                      next="/progress/12"
                       scrollable={-1}
                       clusters={[
                         {

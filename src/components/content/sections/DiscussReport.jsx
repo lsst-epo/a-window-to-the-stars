@@ -47,11 +47,12 @@ class DiscussReport extends React.PureComponent {
           </p>
           <p>
             Use the dropdown above the graph to switch between your H-R Diagram
-            and the Stellar Property Histograms.{' '}
-            <span className="copy-secondary">
-              Note: The Sun <SunIcon className="sun-icon" /> has been added to
-              your H-R Diagram.
-            </span>
+            and the Stellar Property Histograms. Scroll over the H-R Diagram to
+            zoom in and make finer selections.
+          </p>
+          <p className="copy-secondary">
+            Note: The Sun <SunIcon className="sun-icon" /> has been added to
+            your H-R Diagram.
           </p>
           <hr className="divider-horizontal" />
           <StellarTable

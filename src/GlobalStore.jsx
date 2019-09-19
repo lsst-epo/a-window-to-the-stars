@@ -10,7 +10,7 @@ class GlobalStore {
       lastUpdated: Date.now().toString(),
       questions: null,
       answers: {},
-      totalNumPages: 18,
+      totalNumPages: 20,
       visitedPages: [],
       investigationProgress: 0,
       pageProgress: 0,
@@ -22,8 +22,8 @@ class GlobalStore {
       // astroDefinedRegions: [],
     };
 
-    // const existingState = this.emptyState;
-    const existingState = ls('hrd') || this.emptyState;
+    const existingState = this.emptyState;
+    // const existingState = ls('hrd') || this.emptyState;
 
     setGlobal(existingState);
   }

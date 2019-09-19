@@ -120,7 +120,7 @@
     "id": "14",
     "type": "prompt",
     "tool": "lasso",
-    "label": "Click and drag to trace around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.  Click and drag over points on the H-R Diagram to remove them from your selection.",
+    "label": "Click and drag to trace around the stars you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.  Click and drag over points on the H-R Diagram to remove them from your selection. The Main Sequence, Giant star, and White Dwarf star regions you defined in the previous section have been added to help you make your star cluster selection.",
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
@@ -171,7 +171,7 @@
     "id": "19",
     "type": "prompt",
     "tool": "lasso",
-    "label": "Click and drag to trace around the stars that you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.",
+    "label": "Click and drag to trace around the stars you think belong to the star cluster.  Those stars will be plotted on the H-R Diagram.  Click and drag over points on the H-R Diagram to remove them from your selection. The Main Sequence, Giant star, and White Dwarf star regions you defined in the previous section have been added to help you make your star cluster selection.",
     "placeholder": null,
     "answerAccessor": "data",
     "answerPre": "H-R Diagram created from user selected star cluster"
@@ -179,13 +179,13 @@
   "20": {
     "id": "20",
     "type": "textArea",
-    "label": "Think about what is different about the main sequences of your two clusters. Based on your observations, what color of main sequence star is not present in older clusters?",
+    "label": "Think about what you have learned about giant stars and white dwarf stars. Based on your observations, which star cluster do you think is older? Explain your answer.",
     "answerAccessor": "text"
   },
   "21": {
     "id": "21",
     "type": "textArea",
-    "label": "Think about what you have learned about giant stars and white dwarf stars. Based on your observations, which star cluster do you think is older? Explain your answer.",
+    "label": "Think about what is different about the main sequences of your two clusters. Based on your observations, what color of main sequence star is not present in older clusters?",
     "answerAccessor": "text"
   },
   "22": {
@@ -463,7 +463,7 @@
     "answerAccessor": "compound-select",
     "placeholder": "Select a color",
     "options": [
-      {"label": "white", "value": "white"},
+      {"label": "blue", "value": "blue"},
       {"label": "red", "value": "red"}
     ],
     "answerPre": "High mass main sequence stars are",
