@@ -151,7 +151,7 @@ class Sections extends React.PureComponent {
               path="/2"
               render={() => (
                 <ExploringStarClusters
-                  key="exploring-main-sequence"
+                  key="exploring-giants"
                   id="2"
                   questionsRange={range(7, 8)}
                   questions={this.getQuestions(range(7, 8))}
@@ -173,10 +173,7 @@ class Sections extends React.PureComponent {
                     ['~10000 K', { accessor: 'luminosity', ids: [5, 6] }],
                     ['', { accessor: 'luminosity', ids: 7 }],
                   ]}
-                  regionAnswers={[
-                    { type: 'ms', ids: [1, 3, 5, 6, 4, 2] },
-                    { type: 'g', ids: [7] },
-                  ]}
+                  regionAnswers={[{ type: 'g', ids: [7] }]}
                   regions={userDefinedRegions}
                   sectionTitle="Exploring H-R Diagrams of Star Clusters"
                 >
@@ -188,7 +185,7 @@ class Sections extends React.PureComponent {
               path="/3"
               render={() => (
                 <ExploringStarClusters
-                  key="exploring-main-sequence"
+                  key="exploring-white-dwarfs"
                   id="3"
                   next="/progress/3"
                   questionsRange={range(8, 10)}
@@ -215,11 +212,7 @@ class Sections extends React.PureComponent {
                     ['', { accessor: 'luminosity', ids: 8 }],
                     [{ accessor: 'temperature', ids: 9 }, ''],
                   ]}
-                  regionAnswers={[
-                    { type: 'ms', ids: [1, 3, 5, 6, 4, 2] },
-                    { type: 'wd', ids: [8, 9] },
-                    { type: 'g', ids: [7] },
-                  ]}
+                  regionAnswers={[{ type: 'wd', ids: [8, 9] }]}
                   regions={userDefinedRegions}
                 >
                   <ExploringWhiteDwarfsCopy />
