@@ -40,7 +40,8 @@ class EstimatingTempLumExtension extends React.PureComponent {
             and to reveal properties of stars. In this section you will consider
             what can be learned from using the H-R Diagram to categorize groups
             of stars by their temperatures and luminosities, and to use those
-            properties to infer additional information about the stars.
+            properties to infer additional information about the stars. Scroll
+            over the H-R Diagram to zoom in and make finer selections.
           </p>
           <span className="copy-secondary">
             Note: The Sun <SunIcon className="sun-icon" /> has been added to
