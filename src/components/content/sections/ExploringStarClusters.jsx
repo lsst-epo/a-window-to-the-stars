@@ -36,50 +36,15 @@ class ExploringStarClusters extends React.PureComponent {
       tableRowTitles,
       tableHeaders,
       regions,
+      children,
+      sectionTitle,
     } = this.props;
 
     return (
       <Section {...this.props}>
         <section>
-          <h2 className="section-title">
-            Exploring H-R Diagrams of Star Clusters
-          </h2>
-          <p>
-            An H-R Diagram is a plot that displays temperature and luminosity
-            information about stars. Luminosity (Y axis) is a measure of the
-            total energy output from a star per unit of time. It’s commonly
-            expressed as Solar luminosity, which is the ratio of a star’s energy
-            output compared to the energy output of the Sun. For example, a star
-            with a solar luminosity of 10 is giving off ten times more energy
-            than the Sun. The temperature (X axis) is commonly measured in
-            Kelvin.
-          </p>
-          <p>
-            Notice that most data points occupy a region stretching diagonally
-            from the upper left to the lower right of the plot. This region is
-            called the main sequence. Stars in the main sequence are fusing
-            hydrogen. The fusion pressure force is balanced against the force of
-            gravity, which keeps the star in a stable state for most of its
-            lifetime.
-          </p>
-          <p>
-            There are also groups of points above the main sequence representing
-            giant stars, and beneath the main sequence representing white dwarf
-            stars. Giant stars are stars in the late stages of their lifetimes.
-            They are powered by more than one type of nuclear fusion reaction.
-            White dwarfs are stellar remnants that are no longer powered by
-            fusion. White dwarfs are commonly referred to as dead stars.
-          </p>
-          <p>
-            These three areas (giant stars, main sequence, and white dwarfs)
-            will always appear on an H-R Diagram, even if you import the data
-            from thousands of stars.
-          </p>
-          <p>
-            The main sequence forms a slightly s-shaped diagonal band across the
-            plot. To determine the approximate position of the main sequence
-            stars on this H-R Diagram, complete the following:
-          </p>
+          <h2 className="section-title">{sectionTitle}</h2>
+          {children}
           <hr className="divider-horizontal" />
           {questions && (
             <QAs
@@ -137,6 +102,8 @@ ExploringStarClusters.propTypes = {
   regionAmswers: PropTypes.array,
   regionAnswers: PropTypes.array,
   regions: PropTypes.array,
+  children: PropTypes.node,
+  sectionTitle: PropTypes.string,
 };
 
 export default WithAnswerHandlers(
