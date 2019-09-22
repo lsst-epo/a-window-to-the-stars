@@ -1,10 +1,12 @@
 import React from 'react';
 import reactn from 'reactn';
 import PropTypes from 'prop-types';
+import filter from 'lodash/filter';
+import includes from 'lodash/includes';
 import { getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithQuestions } from '../containers/WithQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
@@ -12,6 +14,12 @@ import ObservationsTable from '../../charts/shared/ObservationsTable';
 
 @reactn
 class ExploringStarClusters extends React.PureComponent {
+  // componentDidMount() {
+  //   const { regionAnswers } = this.props;
+
+  //   this.dispatch.updateUserDefinedRegions(regionAnswers);
+  // }
+
   componentDidUpdate(prevProps) {
     const { answers: prevAnswers } = prevProps;
     const { answers, regionAnswers } = this.props;
@@ -35,10 +43,19 @@ class ExploringStarClusters extends React.PureComponent {
       tableCells,
       tableRowTitles,
       tableHeaders,
+      regionAnswers,
       regions,
       children,
       sectionTitle,
     } = this.props;
+
+    const types = regionAnswers.map(region => {
+      return region.type;
+    });
+
+    const filteredRegions = filter(regions, region => {
+      return includes(types, region.type);
+    });
 
     return (
       <Section {...this.props}>
@@ -78,7 +95,7 @@ class ExploringStarClusters extends React.PureComponent {
             yDomain={scatterYDomain}
             dataSelectionCallback={answerHandler}
             showColorLegend
-            regions={regions}
+            regions={filteredRegions}
           />
         </div>
       </Section>
@@ -106,6 +123,6 @@ ExploringStarClusters.propTypes = {
   sectionTitle: PropTypes.string,
 };
 
-export default WithAnswerHandlers(
-  WithActiveQuestions(WithData(ExploringStarClusters, 'is_member'))
+export default WithQuestions(
+  WithAnswerHandlers(WithData(ExploringStarClusters, 'is_member'))
 );

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { capitalize, getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithQuestions } from '../containers/WithQuestions';
 import { WithGraphToggler } from '../containers/WithGraphToggler';
 import Section from './Section';
 import StellarUnit from '../../charts/shared/StellarUnit';
@@ -12,7 +12,7 @@ import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
 import QAs from '../../qas';
-import StellarTable from '../../charts/shared/StellarTable';
+import ObservationsTable from '../../charts/shared/ObservationsTable';
 import SunIcon from '../../site/icons/Sun';
 
 @reactn
@@ -37,9 +37,9 @@ class StellarProperty extends React.Component {
       setActive,
       advanceActive,
       activeId,
-      tableAnswerIds,
-      tableHeaders,
+      tableCells,
       tableRowTitles,
+      tableHeaders,
       graphSelectHandler,
       activeGraph,
       children,
@@ -75,11 +75,11 @@ class StellarProperty extends React.Component {
               setActive={setActive}
             />
           )}
-          <StellarTable
+          <ObservationsTable
             answers={answers}
-            answerIds={tableAnswerIds}
-            colTitles={tableHeaders}
+            cells={tableCells}
             rowTitles={tableRowTitles}
+            colTitles={tableHeaders}
           />
         </section>
         <div className="container-flex direction-column">
@@ -110,7 +110,7 @@ class StellarProperty extends React.Component {
                 xAxisLabel="Temperature (K)"
                 yAxisLabel="Solar Luminosity"
                 dataSelectionCallback={answerHandler}
-                tooltipAccessors={['radius']}
+                tooltipAccessors={[histogramAccessor]}
                 includeSun
                 regions={regions}
               />
@@ -124,7 +124,7 @@ class StellarProperty extends React.Component {
                 domain={histogramDomain}
                 xAxisLabel={this.getHistogramAxisLabel(histogramAccessor)}
                 dataSelectionCallback={answerHandler}
-                tooltipAccessors={['radius']}
+                tooltipAccessors={[histogramAccessor]}
               />
             )}
           </div>
@@ -147,7 +147,7 @@ StellarProperty.propTypes = {
   scatterYDomain: PropTypes.array,
   histogramAccessor: PropTypes.string,
   histogramDomain: PropTypes.array,
-  tableAnswerIds: PropTypes.array,
+  tableCells: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
   activeGraph: PropTypes.number,
@@ -157,7 +157,5 @@ StellarProperty.propTypes = {
 };
 
 export default WithGraphToggler(
-  WithAnswerHandlers(
-    WithActiveQuestions(WithData(StellarProperty, 'is_member'))
-  )
+  WithQuestions(WithAnswerHandlers(WithData(StellarProperty, 'is_member')))
 );

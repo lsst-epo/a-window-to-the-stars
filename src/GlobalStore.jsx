@@ -2,12 +2,12 @@ import { addCallback, addReducer, setGlobal } from 'reactn';
 import ls from 'local-storage';
 import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
+import findIndex from 'lodash/findIndex';
 import sortBy from 'lodash/sortBy';
 
 class GlobalStore {
   constructor() {
     this.emptyState = {
-      lastUpdated: Date.now().toString(),
       questions: null,
       answers: {},
       totalNumPages: 20,
@@ -39,7 +39,6 @@ class GlobalStore {
     addReducer('empty', prevGlobal => {
       const global = {
         ...prevGlobal,
-        lastUpdated: Date.now().toString(),
         answers: {},
         activeId: null,
         activeGraphData: null,
@@ -81,8 +80,8 @@ class GlobalStore {
     addReducer(
       'updateUserDefinedRegions',
       (prevGlobal, dispatch, regionAnswers) => {
-        const { answers } = prevGlobal;
-        const userDefinedRegions = [];
+        const { answers, userDefinedRegions: prevRegions } = prevGlobal;
+        const userDefinedRegions = [].concat(prevRegions);
 
         regionAnswers.forEach(region => {
           const { type, ids } = region;
@@ -97,7 +96,16 @@ class GlobalStore {
           // if (newRegion.points.length === ids.length) {
           //   newRegion.type = `${type} complete`;
           // }
-          userDefinedRegions.push(newRegion);
+
+          const existingRegionIndex = findIndex(userDefinedRegions, r => {
+            return r.type === newRegion.type;
+          });
+
+          if (existingRegionIndex >= 0) {
+            userDefinedRegions[existingRegionIndex] = newRegion;
+          } else {
+            userDefinedRegions.push(newRegion);
+          }
         });
 
         return {

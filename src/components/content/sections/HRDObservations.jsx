@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { getAnswerData } from '../../../lib/utilities.js';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithQuestions } from '../containers/WithQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
@@ -100,6 +100,6 @@ HRDObservations.propTypes = {
   regions: PropTypes.array,
 };
 
-export default WithAnswerHandlers(
-  WithActiveQuestions(WithData(HRDObservations, 'is_member'))
+export default WithQuestions(
+  WithAnswerHandlers(WithData(HRDObservations, 'is_member'))
 );

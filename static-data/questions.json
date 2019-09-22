@@ -690,5 +690,60 @@
     "type": "textArea",
     "label": "Are you certain that you have included all the cluster stars and eliminated all the ones that are not in the cluster? Explain.",
     "answerAccessor": "text"
+  },
+  "77": {
+    "id": "77",
+    "type": "select",
+    "label": "Is the Sun at the midpoint?",
+    "answerAccessor": "select",
+    "placeholder": "Select yes or no",
+    "options": [
+      {"label": "yes", "value": "Yes"},
+      {"label": "no", "value": "No"}
+    ]
+  },
+  "78": {
+    "id": "78",
+    "type": "select",
+    "label": "Is the Sun at the midpoint?",
+    "answerAccessor": "select",
+    "placeholder": "Select yes or no",
+    "options": [
+      {"label": "yes", "value": "Yes"},
+      {"label": "no", "value": "No"}
+    ]
+  },
+  "79": {
+    "id": "79",
+    "type": "select",
+    "label": "Is the Sun at the midpoint?",
+    "answerAccessor": "select",
+    "placeholder": "Select yes or no",
+    "options": [
+      {"label": "yes", "value": "Yes"},
+      {"label": "no", "value": "No"}
+    ]
+  },
+  "80": {
+    "id": "80",
+    "type": "select",
+    "label": "Is the Sun at the midpoint?",
+    "answerAccessor": "select",
+    "placeholder": "Select yes or no",
+    "options": [
+      {"label": "yes", "value": "Yes"},
+      {"label": "no", "value": "No"}
+    ]
+  },
+  "81": {
+    "id": "81",
+    "type": "select",
+    "label": "Is the Sun at the midpoint?",
+    "answerAccessor": "select",
+    "placeholder": "Select yes or no",
+    "options": [
+      {"label": "yes", "value": "Yes"},
+      {"label": "no", "value": "No"}
+    ]
   }
 }

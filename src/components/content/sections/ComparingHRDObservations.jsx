@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithQuestions } from '../containers/WithQuestions';
 import { WithGraphToggler } from '../containers/WithGraphToggler';
 import API from '../../site/API';
 import Section from './Section';
@@ -147,5 +147,5 @@ ComparingHRDObservations.propTypes = {
 };
 
 export default WithGraphToggler(
-  WithAnswerHandlers(WithActiveQuestions(ComparingHRDObservations))
+  WithQuestions(WithAnswerHandlers(ComparingHRDObservations))
 );
