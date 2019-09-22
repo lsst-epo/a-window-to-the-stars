@@ -84,6 +84,16 @@ export const getSunValue = function(accessor) {
   return data;
 };
 
+export const getSunAnswer = function(accessor) {
+  const data = getSunValue();
+
+  if (accessor) {
+    return { content: data[accessor], data };
+  }
+
+  return { content: data, data };
+};
+
 export const getValue = function(accessor, data) {
   if (accessor === 'luminosity') {
     return formatValue(data, 2);

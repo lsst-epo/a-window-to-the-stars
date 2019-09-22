@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithQuestions } from '../containers/WithQuestions';
 import { WithGraphToggler } from '../containers/WithGraphToggler';
 import Section from './Section';
 import Select from '../../site/forms/Select';
 import ScatterPlot from '../../scatter-plot';
 import Histogram from '../../histogram';
 import QAs from '../../qas';
-import StellarTable from '../../charts/shared/StellarTable';
+import ObservationsTable from '../../charts/shared/ObservationsTable';
 import SunIcon from '../../site/icons/Sun';
 
 @reactn
@@ -28,9 +28,9 @@ class DiscussReport extends React.PureComponent {
       setActive,
       advanceActive,
       activeId,
-      tableHeaders,
+      tableCells,
       tableRowTitles,
-      tableAnswerIds,
+      tableHeaders,
       regions,
     } = this.props;
 
@@ -55,11 +55,11 @@ class DiscussReport extends React.PureComponent {
             your H-R Diagram.
           </p>
           <hr className="divider-horizontal" />
-          <StellarTable
+          <ObservationsTable
             answers={answers}
-            answerIds={tableAnswerIds}
-            colTitles={tableHeaders}
+            cells={tableCells}
             rowTitles={tableRowTitles}
+            colTitles={tableHeaders}
           />
           {questions && (
             <QAs
@@ -158,7 +158,7 @@ DiscussReport.propTypes = {
   setActive: PropTypes.func,
   advanceActive: PropTypes.func,
   questions: PropTypes.array,
-  tableAnswerIds: PropTypes.array,
+  tableCells: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
   answerHandler: PropTypes.func,
@@ -173,5 +173,5 @@ DiscussReport.propTypes = {
 };
 
 export default WithGraphToggler(
-  WithAnswerHandlers(WithActiveQuestions(WithData(DiscussReport, 'is_member')))
+  WithQuestions(WithAnswerHandlers(WithData(DiscussReport, 'is_member')))
 );

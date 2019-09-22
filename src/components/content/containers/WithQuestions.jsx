@@ -2,12 +2,13 @@ import React from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 
-export const WithActiveQuestions = ComposedComponent => {
+export const WithQuestions = ComposedComponent => {
   class WrappedComponent extends React.PureComponent {
     constructor(props) {
       super(props);
 
       this.state = {
+        questions: null,
         activeId: null,
       };
     }
@@ -15,8 +16,29 @@ export const WithActiveQuestions = ComposedComponent => {
     componentDidMount() {
       const { questionsRange } = this.props;
 
+      this.setQuestions(this.getQuestions(questionsRange));
       this.setActiveQuestion(this.getActiveId(questionsRange));
     }
+
+    getQuestions = questionsRange => {
+      const { questions } = this.global;
+
+      if (!isEmpty(questions)) {
+        console.log('got em', questions);
+        return questionsRange.map(questionId => {
+          return questions[questionId.toString()];
+        });
+      }
+      console.log('empty', questions);
+      return null;
+    };
+
+    setQuestions = questions => {
+      this.setState(prevState => ({
+        ...prevState,
+        questions,
+      }));
+    };
 
     getActiveId = questionsRange => {
       const { answers } = this.global;
@@ -51,12 +73,14 @@ export const WithActiveQuestions = ComposedComponent => {
     };
 
     render() {
-      const { activeId } = this.state;
+      const { questions, activeId: activeIdState } = this.state;
+      const { activeId: activeIdProp } = this.state;
 
       return (
         <ComposedComponent
           {...this.props}
-          activeId={activeId}
+          questions={questions}
+          activeId={activeIdProp || activeIdState}
           getActive={this.getActiveId}
           setActive={this.setActiveQuestion}
           advanceActive={this.advanceActiveQuestion}
@@ -72,4 +96,4 @@ export const WithActiveQuestions = ComposedComponent => {
   return WrappedComponent;
 };
 
-export default WithActiveQuestions;
+export default WithQuestions;

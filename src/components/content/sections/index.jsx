@@ -3,6 +3,7 @@ import reactn from 'reactn';
 import { Switch, Route } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
+import { getSunAnswer } from '../../../lib/utilities';
 import API from '../../site/API';
 
 import NoMatch from '../../site/NoMatch';
@@ -44,6 +45,7 @@ class Sections extends React.PureComponent {
         API.get('static-data/questions.json'),
         API.get('static-data/clusters.json'),
       ]).then(res => {
+        console.log(res[0].data);
         this.setGlobal(prevGlobal => ({
           ...prevGlobal,
           questions: res[0].data,
@@ -56,18 +58,6 @@ class Sections extends React.PureComponent {
   onFinish = () => {
     this.dispatch.empty();
   };
-
-  getQuestions(questionsRange) {
-    const { questions } = this.global;
-
-    if (!isEmpty(questions)) {
-      return questionsRange.map(questionId => {
-        return questions[questionId.toString()];
-      });
-    }
-
-    return null;
-  }
 
   visitedFarther(visitedPages, targetPage) {
     let i = visitedPages.length;
@@ -122,7 +112,6 @@ class Sections extends React.PureComponent {
                   id="1"
                   previous="/"
                   questionsRange={range(1, 7)}
-                  questions={this.getQuestions(range(1, 7))}
                   answers={answers}
                   scrollable={0}
                   dataPath={clusters.NGC2168.path}
@@ -135,9 +124,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={['Region', 'Temperature', 'Luminosity']}
                   tableCells={[
-                    ['~3000 K', { accessor: 'luminosity', ids: [1, 2] }],
-                    ['~6000 K', { accessor: 'luminosity', ids: [3, 4] }],
-                    ['~10000 K', { accessor: 'luminosity', ids: [5, 6] }],
+                    ['~3000 K', { accessor: 'luminosity', data: [1, 2] }],
+                    ['~6000 K', { accessor: 'luminosity', data: [3, 4] }],
+                    ['~10000 K', { accessor: 'luminosity', data: [5, 6] }],
                   ]}
                   regionAnswers={[{ type: 'ms', ids: [1, 3, 5, 6, 4, 2] }]}
                   regions={userDefinedRegions}
@@ -154,7 +143,6 @@ class Sections extends React.PureComponent {
                   key="exploring-giants"
                   id="2"
                   questionsRange={range(7, 8)}
-                  questions={this.getQuestions(range(7, 8))}
                   answers={answers}
                   scrollable={0}
                   dataPath={clusters.NGC2168.path}
@@ -168,10 +156,10 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={['Region', 'Temperature', 'Luminosity']}
                   tableCells={[
-                    ['~3000 K', { accessor: 'luminosity', ids: [1, 2] }],
-                    ['~6000 K', { accessor: 'luminosity', ids: [3, 4] }],
-                    ['~10000 K', { accessor: 'luminosity', ids: [5, 6] }],
-                    ['', { accessor: 'luminosity', ids: 7 }],
+                    ['~3000 K', { accessor: 'luminosity', data: [1, 2] }],
+                    ['~6000 K', { accessor: 'luminosity', data: [3, 4] }],
+                    ['~10000 K', { accessor: 'luminosity', data: [5, 6] }],
+                    ['', { accessor: 'luminosity', data: 7 }],
                   ]}
                   regionAnswers={[{ type: 'g', ids: [7] }]}
                   regions={userDefinedRegions}
@@ -189,7 +177,6 @@ class Sections extends React.PureComponent {
                   id="3"
                   next="/progress/3"
                   questionsRange={range(8, 10)}
-                  questions={this.getQuestions(range(8, 10))}
                   answers={answers}
                   scrollable={0}
                   dataPath={clusters.NGC2168.path}
@@ -205,12 +192,12 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={['Region', 'Temperature', 'Luminosity']}
                   tableCells={[
-                    ['~3000 K', { accessor: 'luminosity', ids: [1, 2] }],
-                    ['~6000 K', { accessor: 'luminosity', ids: [3, 4] }],
-                    ['~10000 K', { accessor: 'luminosity', ids: [5, 6] }],
-                    ['', { accessor: 'luminosity', ids: 7 }],
-                    ['', { accessor: 'luminosity', ids: 8 }],
-                    [{ accessor: 'temperature', ids: 9 }, ''],
+                    ['~3000 K', { accessor: 'luminosity', data: [1, 2] }],
+                    ['~6000 K', { accessor: 'luminosity', data: [3, 4] }],
+                    ['~10000 K', { accessor: 'luminosity', data: [5, 6] }],
+                    ['', { accessor: 'luminosity', data: 7 }],
+                    ['', { accessor: 'luminosity', data: 8 }],
+                    [{ accessor: 'temperature', data: 9 }, ''],
                   ]}
                   regionAnswers={[{ type: 'wd', ids: [8, 9] }]}
                   regions={userDefinedRegions}
@@ -242,7 +229,6 @@ class Sections extends React.PureComponent {
                   id="5"
                   activeId={14}
                   questionsRange={[14]}
-                  questions={this.getQuestions([14])}
                   answer={answers[14]}
                   scrollable={0}
                   dataPath={clusters.NGC2516.path}
@@ -287,7 +273,6 @@ class Sections extends React.PureComponent {
                   key={`${clusters.NGC2516.name}-observations`}
                   id="7"
                   questionsRange={range(10, 14)}
-                  questions={this.getQuestions(range(10, 14))}
                   answers={answers}
                   dataPath={clusters.NGC2516.path}
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
@@ -302,9 +287,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={[clusters.NGC2516.name, 'Values']}
                   tableCells={[
-                    [{ accessor: 'temperature', ids: [10, 11] }],
-                    [{ accessor: 'count', ids: 12 }],
-                    [{ accessor: 'count', ids: 13 }],
+                    [{ accessor: 'temperature', data: [10, 11] }],
+                    [{ accessor: 'count', data: 12 }],
+                    [{ accessor: 'count', data: 13 }],
                   ]}
                   regions={userDefinedRegions}
                 />
@@ -319,7 +304,6 @@ class Sections extends React.PureComponent {
                   activeId={19}
                   answer={answers[19]}
                   questionsRange={[19]}
-                  questions={this.getQuestions([19])}
                   scrollable={0}
                   dataPath={clusters.NGC2682.path}
                   scatterXDomain={clusters.NGC2682.starSelector.domain.x}
@@ -368,7 +352,6 @@ class Sections extends React.PureComponent {
                   scatterYDomain={clusters.NGC2682.hrd.domain.y}
                   clusterName={clusters.NGC2682.name}
                   questionsRange={range(15, 19)}
-                  questions={this.getQuestions(range(15, 19))}
                   answers={answers}
                   introduction="Use the H-R Diagram to complete the table of observations. Scroll over the H-R Diagram to zoom in and make finer selections."
                   tableRowTitles={[
@@ -378,9 +361,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={[clusters.NGC2682.name, 'Values']}
                   tableCells={[
-                    [{ accessor: 'temperature', ids: [15, 16] }],
-                    [{ accessor: 'count', ids: 17 }],
-                    [{ accessor: 'count', ids: 18 }],
+                    [{ accessor: 'temperature', data: [15, 16] }],
+                    [{ accessor: 'count', data: 17 }],
+                    [{ accessor: 'count', data: 18 }],
                   ]}
                   regions={userDefinedRegions}
                 />
@@ -421,20 +404,19 @@ class Sections extends React.PureComponent {
                   ]}
                   tableCells={[
                     [
-                      { accessor: 'temperature', ids: [10, 11] },
-                      { accessor: 'temperature', ids: [15, 16] },
+                      { accessor: 'temperature', data: [10, 11] },
+                      { accessor: 'temperature', data: [15, 16] },
                     ],
                     [
-                      { accessor: 'count', ids: 12 },
-                      { accessor: 'count', ids: 17 },
+                      { accessor: 'count', data: 12 },
+                      { accessor: 'count', data: 17 },
                     ],
                     [
-                      { accessor: 'count', ids: 13 },
-                      { accessor: 'count', ids: 18 },
+                      { accessor: 'count', data: 13 },
+                      { accessor: 'count', data: 18 },
                     ],
                   ]}
                   questionsRange={range(20, 24)}
-                  questions={this.getQuestions(range(20, 23))}
                   answers={answers}
                   regions={userDefinedRegions}
                 />
@@ -495,17 +477,26 @@ class Sections extends React.PureComponent {
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
-                  questionsRange={range(24, 28)}
-                  questions={this.getQuestions(range(24, 28))}
+                  questionsRange={range(24, 28).concat(77)}
                   tableRowTitles={[['Temperature']]}
                   tableHeaders={[
                     'Property',
-                    'Minimum',
-                    'Maximum',
+                    'Range',
                     'Midpoint',
                     'Sun',
+                    'Is the Sun at the midpoint?',
                   ]}
-                  tableAnswerIds={[range(24, 27)]}
+                  tableCells={[
+                    [
+                      { accessor: 'temperature', ids: [24, 25] },
+                      { accessor: 'temperature', id: 26 },
+                      {
+                        accessor: 'temperature',
+                        data: getSunAnswer('temperature'),
+                      },
+                      { accessor: 'temperature', id: 77 },
+                    ],
+                  ]}
                   sectionTitle="Comparing Star Temperature"
                   regions={userDefinedRegions}
                 />
@@ -523,17 +514,26 @@ class Sections extends React.PureComponent {
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
-                  questionsRange={range(28, 32)}
-                  questions={this.getQuestions(range(28, 32))}
+                  questionsRange={range(28, 32).concat(78)}
                   tableRowTitles={[['Luminosity']]}
                   tableHeaders={[
                     'Property',
-                    'Minimum',
-                    'Maximum',
+                    'Range',
                     'Midpoint',
                     'Sun',
+                    'Is the Sun at the midpoint?',
                   ]}
-                  tableAnswerIds={[range(28, 31)]}
+                  tableCells={[
+                    [
+                      { accessor: 'luminosity', ids: [24, 25] },
+                      { accessor: 'luminosity', id: 26 },
+                      {
+                        accessor: 'luminosity',
+                        data: getSunAnswer('luminosity'),
+                      },
+                      { accessor: 'luminosity', id: 78 },
+                    ],
+                  ]}
                   sectionTitle="Comparing Star Luminosity"
                   regions={userDefinedRegions}
                 />
@@ -550,16 +550,34 @@ class Sections extends React.PureComponent {
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
                   questionsRange={range(53, 69)}
-                  questions={this.getQuestions(range(53, 69))}
                   tableRowTitles={[['Temperature'], ['Luminosity']]}
                   tableHeaders={[
                     'Property',
-                    'Minimum',
-                    'Maximum',
+                    'Range',
                     'Midpoint',
                     'Sun',
+                    'Is the Sun at the midpoint?',
                   ]}
-                  tableAnswerIds={[range(24, 27), range(28, 31)]}
+                  tableCells={[
+                    [
+                      { accessor: 'temperature', ids: [24, 25] },
+                      { accessor: 'temperature', id: 26 },
+                      {
+                        accessor: 'temperature',
+                        data: getSunAnswer('temperature'),
+                      },
+                      { accessor: 'temperature', id: 77 },
+                    ],
+                    [
+                      { accessor: 'luminosity', ids: [28, 29] },
+                      { accessor: 'luminosity', id: 30 },
+                      {
+                        accessor: 'luminosity',
+                        data: getSunAnswer('luminosity'),
+                      },
+                      { accessor: 'luminosity', id: 78 },
+                    ],
+                  ]}
                   regions={userDefinedRegions}
                 />
               )}
@@ -575,19 +593,28 @@ class Sections extends React.PureComponent {
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
-                  questionsRange={range(49, 53).concat(range(32, 36))}
-                  questions={this.getQuestions(
-                    range(49, 53).concat(range(32, 36))
-                  )}
+                  questionsRange={range(49, 53)
+                    .concat(range(32, 36))
+                    .concat(79)}
                   tableRowTitles={[['Mass']]}
                   tableHeaders={[
                     'Property',
-                    'Minimum',
-                    'Maximum',
+                    'Range',
                     'Midpoint',
                     'Sun',
+                    'Is the Sun at the midpoint?',
                   ]}
-                  tableAnswerIds={[range(32, 35)]}
+                  tableCells={[
+                    [
+                      { accessor: 'mass', ids: [32, 33] },
+                      { accessor: 'mass', id: 34 },
+                      {
+                        accessor: 'mass',
+                        data: getSunAnswer('mass'),
+                      },
+                      { accessor: 'mass', id: 79 },
+                    ],
+                  ]}
                   sectionTitle="Estimating Stellar Masses"
                   regions={userDefinedRegions}
                 >
@@ -606,17 +633,26 @@ class Sections extends React.PureComponent {
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
-                  questionsRange={range(42, 49)}
-                  questions={this.getQuestions(range(42, 49))}
+                  questionsRange={range(42, 49).concat(80)}
                   tableRowTitles={[['Lifetime']]}
                   tableHeaders={[
                     'Property',
-                    'Minimum',
-                    'Maximum',
+                    'Range',
                     'Midpoint',
                     'Sun',
+                    'Is the Sun at the midpoint?',
                   ]}
-                  tableAnswerIds={[range(43, 46)]}
+                  tableCells={[
+                    [
+                      { accessor: 'lifetime', ids: [43, 44] },
+                      { accessor: 'lifetime', id: 45 },
+                      {
+                        accessor: 'lifetime',
+                        data: getSunAnswer('lifetime'),
+                      },
+                      { accessor: 'lifetime', id: 80 },
+                    ],
+                  ]}
                   sectionTitle="Estimating Stellar Lifetimes"
                   regions={userDefinedRegions}
                 >
@@ -636,17 +672,26 @@ class Sections extends React.PureComponent {
                   scatterXDomain={clusters.NGC2516.hrd.domain.x}
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
-                  questionsRange={range(36, 42)}
-                  questions={this.getQuestions(range(36, 42))}
+                  questionsRange={range(36, 42).concat(81)}
                   tableRowTitles={[['Radius']]}
                   tableHeaders={[
                     'Property',
-                    'Minimum',
-                    'Maximum',
+                    'Range',
                     'Midpoint',
                     'Sun',
+                    'Is the Sun at the midpoint?',
                   ]}
-                  tableAnswerIds={[range(36, 39)]}
+                  tableCells={[
+                    [
+                      { accessor: 'radius', ids: [36, 37] },
+                      { accessor: 'radius', id: 38 },
+                      {
+                        accessor: 'radius',
+                        data: getSunAnswer('radius'),
+                      },
+                      { accessor: 'radius', id: 81 },
+                    ],
+                  ]}
                   sectionTitle="Estimating Stellar Radii"
                   regions={userDefinedRegions}
                 >
@@ -664,7 +709,6 @@ class Sections extends React.PureComponent {
                   scatterYDomain={clusters.NGC2516.hrd.domain.y}
                   dataPath={[clusters.NGC2516.path, clusters.NGC2682.path]}
                   questionsRange={range(69, 76)}
-                  questions={this.getQuestions(range(69, 76))}
                   tableRowTitles={[
                     ['Temperature'],
                     ['Luminosity'],
@@ -674,17 +718,57 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={[
                     'Property',
-                    'Minimum',
-                    'Maximum',
+                    'Range',
                     'Midpoint',
                     'Sun',
+                    'Is the Sun at the midpoint?',
                   ]}
-                  tableAnswerIds={[
-                    range(24, 27),
-                    range(28, 31),
-                    range(32, 35),
-                    range(43, 46),
-                    range(36, 39),
+                  tableCells={[
+                    [
+                      { accessor: 'temperature', ids: [24, 25] },
+                      { accessor: 'temperature', id: 26 },
+                      {
+                        accessor: 'temperature',
+                        data: getSunAnswer('temperature'),
+                      },
+                      { accessor: 'temperature', id: 77 },
+                    ],
+                    [
+                      { accessor: 'luminosity', ids: [28, 29] },
+                      { accessor: 'luminosity', id: 30 },
+                      {
+                        accessor: 'luminosity',
+                        data: getSunAnswer('luminosity'),
+                      },
+                      { accessor: 'luminosity', id: 78 },
+                    ],
+                    [
+                      { accessor: 'mass', ids: [32, 33] },
+                      { accessor: 'mass', id: 34 },
+                      {
+                        accessor: 'mass',
+                        data: getSunAnswer('mass'),
+                      },
+                      { accessor: 'mass', id: 79 },
+                    ],
+                    [
+                      { accessor: 'lifetime', ids: [43, 44] },
+                      { accessor: 'lifetime', id: 45 },
+                      {
+                        accessor: 'lifetime',
+                        data: getSunAnswer('lifetime'),
+                      },
+                      { accessor: 'lifetime', id: 80 },
+                    ],
+                    [
+                      { accessor: 'radius', ids: [36, 37] },
+                      { accessor: 'radius', id: 38 },
+                      {
+                        accessor: 'radius',
+                        data: getSunAnswer('radius'),
+                      },
+                      { accessor: 'radius', id: 81 },
+                    ],
                   ]}
                   regions={userDefinedRegions}
                 />

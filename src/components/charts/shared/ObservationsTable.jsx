@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isArray from 'lodash/isArray';
 import Table from '../../site/forms/Table';
 import ObservationsTableCell from './ObservationsTableCell';
 
@@ -12,19 +11,21 @@ class ObservationsTable extends React.PureComponent {
       const row = rows[j];
 
       cells[j].forEach(cell => {
-        const { accessor, ids } = cell;
+        const { accessor, id, ids, data } = cell;
 
-        if (isArray(ids) && accessor) {
+        if (ids && accessor) {
           row.push(
             <ObservationsTableCell
               answerRange={[answers[ids[0]], answers[ids[1]]]}
               accessor={accessor}
             />
           );
-        } else if (ids && accessor) {
+        } else if (id && accessor) {
           row.push(
-            <ObservationsTableCell answer={answers[ids]} accessor={accessor} />
+            <ObservationsTableCell answer={answers[id]} accessor={accessor} />
           );
+        } else if (data && accessor) {
+          row.push(<ObservationsTableCell answer={data} accessor={accessor} />);
         } else {
           row.push(cell);
         }

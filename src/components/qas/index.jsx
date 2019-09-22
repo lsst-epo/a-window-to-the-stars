@@ -16,27 +16,6 @@ class QAs extends React.PureComponent {
     }
   };
 
-  // getCompoundQs(questions, i) {
-  //   const question = questions[i];
-  //   const { ids } = question;
-  //   const qs = [question];
-  //   let nextCompoundIndex = i + 1;
-  //   let isCompound = true;
-
-  //   while (isCompound) {
-  //     const nextQ = questions[nextCompoundIndex];
-
-  //     if (nextQ.type === 'compound-select' && includes(ids, nextQ.id)) {
-  //       qs.push(nextQ);
-  //       nextCompoundIndex += 1;
-  //     } else {
-  //       isCompound = false;
-  //     }
-  //   }
-
-  //   return qs;
-  // }
-
   render() {
     const {
       questions,

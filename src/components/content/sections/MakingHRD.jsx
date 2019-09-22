@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { WithData } from '../containers/WithData';
+import { WithQuestions } from '../containers/WithQuestions';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
@@ -106,4 +107,4 @@ MakingHRD.propTypes = {
   regions: PropTypes.array,
 };
 
-export default WithAnswerHandlers(WithData(MakingHRD));
+export default WithQuestions(WithAnswerHandlers(WithData(MakingHRD)));

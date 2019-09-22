@@ -1,29 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isArray from 'lodash/isArray';
+import { getMean } from '../../../lib/utilities';
 import StellarValue from './StellarValue';
 import StellarValueRange from './StellarValueRange';
 
 class ObservationsTableCell extends React.PureComponent {
-  rangeChecker(answerRange) {
-    if (!answerRange) return false;
+  rangifier(answerRange) {
+    if (answerRange.length > 2) return false;
     if (!answerRange[0] || !answerRange[1]) return false;
-    if (answerRange[0].data[0] && answerRange[1].data[0]) return true;
+    if (!answerRange[0].data || !answerRange[1].data) return false;
+    if (answerRange[0].data[0] || answerRange[1].data[0]) {
+      return [answerRange[0].data[0], answerRange[1].data[0]];
+    }
 
     return false;
   }
 
   getCellValue(answer, answerRange, accessor) {
-    if (answer) {
-      return <StellarValue value={answer.content} type={accessor} />;
+    if (answer && !answerRange) {
+      const value = isArray(answer.content)
+        ? getMean(answer.content, accessor)
+        : answer.content;
+
+      return <StellarValue value={value} type={accessor} />;
     }
 
-    if (this.rangeChecker(answerRange)) {
-      return (
-        <StellarValueRange
-          data={[answerRange[0].data[0], answerRange[1].data[0]]}
-          type={accessor}
-        />
-      );
+    if (!answer && answerRange) {
+      const range = this.rangifier(answerRange);
+
+      return range ? <StellarValueRange data={range} type={accessor} /> : '';
     }
 
     return '';

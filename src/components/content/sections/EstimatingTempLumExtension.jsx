@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { getAnswerData } from '../../../lib/utilities';
 import { WithData } from '../containers/WithData';
 import { WithAnswerHandlers } from '../containers/WithAnswerHandlers';
-import { WithActiveQuestions } from '../containers/WithActiveQuestions';
+import { WithQuestions } from '../containers/WithQuestions';
 import Section from './Section';
 import ScatterPlot from '../../scatter-plot';
 import QAs from '../../qas';
-import StellarTable from '../../charts/shared/StellarTable';
+import ObservationsTable from '../../charts/shared/ObservationsTable';
 import SunIcon from '../../site/icons/Sun';
 
 @reactn
@@ -23,9 +23,9 @@ class EstimatingTempLumExtension extends React.PureComponent {
       setActive,
       advanceActive,
       activeId,
-      tableAnswerIds,
-      tableHeaders,
+      tableCells,
       tableRowTitles,
+      tableHeaders,
       regions,
     } = this.props;
     const { answers } = this.global;
@@ -48,11 +48,11 @@ class EstimatingTempLumExtension extends React.PureComponent {
             your H-R Diagram.
           </span>
           <hr className="divider-horizontal" />
-          <StellarTable
+          <ObservationsTable
             answers={answers}
-            answerIds={tableAnswerIds}
-            colTitles={tableHeaders}
+            cells={tableCells}
             rowTitles={tableRowTitles}
+            colTitles={tableHeaders}
           />
           {questions && (
             <QAs
@@ -99,12 +99,12 @@ EstimatingTempLumExtension.propTypes = {
   histogramAccessor: PropTypes.string,
   histogramDomain: PropTypes.array,
   histogramAxisLabel: PropTypes.string,
-  tableAnswerIds: PropTypes.array,
+  tableCells: PropTypes.array,
   tableHeaders: PropTypes.array,
   tableRowTitles: PropTypes.array,
   regions: PropTypes.array,
 };
 
-export default WithAnswerHandlers(
-  WithActiveQuestions(WithData(EstimatingTempLumExtension, 'is_member'))
+export default WithQuestions(
+  WithAnswerHandlers(WithData(EstimatingTempLumExtension, 'is_member'))
 );
