@@ -1,6 +1,7 @@
 import React from 'reactn';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
 
 export const WithQuestions = ComposedComponent => {
   class WrappedComponent extends React.PureComponent {
@@ -24,12 +25,16 @@ export const WithQuestions = ComposedComponent => {
       const { questions } = this.global;
 
       if (!isEmpty(questions)) {
-        console.log('got em', questions);
-        return questionsRange.map(questionId => {
-          return questions[questionId.toString()];
-        });
+        return filter(
+          questionsRange.map(questionId => {
+            return questions[questionId.toString()];
+          }),
+          q => {
+            return !!q;
+          }
+        );
       }
-      console.log('empty', questions);
+
       return null;
     };
 
