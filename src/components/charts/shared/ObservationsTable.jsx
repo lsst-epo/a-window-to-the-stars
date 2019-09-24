@@ -4,6 +4,29 @@ import Table from '../../site/forms/Table';
 import ObservationsTableCell from './ObservationsTableCell';
 
 class ObservationsTable extends React.PureComponent {
+  getCell(answers, cell) {
+    const { accessor, id, ids, data } = cell;
+
+    if (ids && accessor) {
+      return (
+        <ObservationsTableCell
+          answerRange={[answers[ids[0]], answers[ids[1]]]}
+          accessor={accessor}
+        />
+      );
+    }
+
+    if (id && accessor) {
+      return <ObservationsTableCell answer={answers[id]} accessor={accessor} />;
+    }
+
+    if (data && accessor) {
+      return <ObservationsTableCell answer={data} accessor={accessor} />;
+    }
+
+    return cell;
+  }
+
   getRows(answers, colTitles, rowTitles, cells) {
     const rows = [].concat(rowTitles);
 
@@ -11,24 +34,7 @@ class ObservationsTable extends React.PureComponent {
       const row = rows[j];
 
       cells[j].forEach(cell => {
-        const { accessor, id, ids, data } = cell;
-
-        if (ids && accessor) {
-          row.push(
-            <ObservationsTableCell
-              answerRange={[answers[ids[0]], answers[ids[1]]]}
-              accessor={accessor}
-            />
-          );
-        } else if (id && accessor) {
-          row.push(
-            <ObservationsTableCell answer={answers[id]} accessor={accessor} />
-          );
-        } else if (data && accessor) {
-          row.push(<ObservationsTableCell answer={data} accessor={accessor} />);
-        } else {
-          row.push(cell);
-        }
+        row.push(this.getCell(answers, cell));
       });
     }
 

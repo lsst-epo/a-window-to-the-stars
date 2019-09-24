@@ -123,9 +123,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={['Region', 'Temperature', 'Luminosity']}
                   tableCells={[
-                    ['~3000 K', { accessor: 'luminosity', data: [1, 2] }],
-                    ['~6000 K', { accessor: 'luminosity', data: [3, 4] }],
-                    ['~10000 K', { accessor: 'luminosity', data: [5, 6] }],
+                    ['~3000 K', { accessor: 'luminosity', ids: [1, 2] }],
+                    ['~6000 K', { accessor: 'luminosity', ids: [3, 4] }],
+                    ['~10000 K', { accessor: 'luminosity', ids: [5, 6] }],
                   ]}
                   regionAnswers={[{ type: 'ms', ids: [1, 3, 5, 6, 4, 2] }]}
                   regions={userDefinedRegions}
@@ -155,12 +155,18 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={['Region', 'Temperature', 'Luminosity']}
                   tableCells={[
-                    ['~3000 K', { accessor: 'luminosity', data: [1, 2] }],
-                    ['~6000 K', { accessor: 'luminosity', data: [3, 4] }],
-                    ['~10000 K', { accessor: 'luminosity', data: [5, 6] }],
-                    ['', { accessor: 'luminosity', data: 7 }],
+                    ['~3000 K', { accessor: 'luminosity', ids: [1, 2] }],
+                    ['~6000 K', { accessor: 'luminosity', ids: [3, 4] }],
+                    ['~10000 K', { accessor: 'luminosity', ids: [5, 6] }],
+                    [
+                      { accessor: 'temperature', id: 7 },
+                      { accessor: 'luminosity', id: 7 },
+                    ],
                   ]}
-                  regionAnswers={[{ type: 'g', ids: [7] }]}
+                  regionAnswers={[
+                    { type: 'ms', ids: [1, 3, 5, 6, 4, 2] },
+                    { type: 'g', ids: [7] },
+                  ]}
                   regions={userDefinedRegions}
                   sectionTitle="Exploring H-R Diagrams of Star Clusters"
                 >
@@ -191,14 +197,27 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={['Region', 'Temperature', 'Luminosity']}
                   tableCells={[
-                    ['~3000 K', { accessor: 'luminosity', data: [1, 2] }],
-                    ['~6000 K', { accessor: 'luminosity', data: [3, 4] }],
-                    ['~10000 K', { accessor: 'luminosity', data: [5, 6] }],
-                    ['', { accessor: 'luminosity', data: 7 }],
-                    ['', { accessor: 'luminosity', data: 8 }],
-                    [{ accessor: 'temperature', data: 9 }, ''],
+                    ['~3000 K', { accessor: 'luminosity', ids: [1, 2] }],
+                    ['~6000 K', { accessor: 'luminosity', ids: [3, 4] }],
+                    ['~10000 K', { accessor: 'luminosity', ids: [5, 6] }],
+                    [
+                      { accessor: 'temperature', id: 7 },
+                      { accessor: 'luminosity', id: 7 },
+                    ],
+                    [
+                      { accessor: 'temperature', id: 8 },
+                      { accessor: 'luminosity', id: 8 },
+                    ],
+                    [
+                      { accessor: 'temperature', id: 9 },
+                      { accessor: 'luminosity', id: 9 },
+                    ],
                   ]}
-                  regionAnswers={[{ type: 'wd', ids: [8, 9] }]}
+                  regionAnswers={[
+                    { type: 'ms', ids: [1, 3, 5, 6, 4, 2] },
+                    { type: 'g', ids: [7] },
+                    { type: 'wd', ids: [8, 9] },
+                  ]}
                   regions={userDefinedRegions}
                 >
                   <ExploringWhiteDwarfsCopy />
@@ -286,9 +305,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={[clusters.NGC2516.name, 'Values']}
                   tableCells={[
-                    [{ accessor: 'temperature', data: [10, 11] }],
-                    [{ accessor: 'count', data: 12 }],
-                    [{ accessor: 'count', data: 13 }],
+                    [{ accessor: 'temperature', ids: [10, 11] }],
+                    [{ accessor: 'count', id: 12 }],
+                    [{ accessor: 'count', id: 13 }],
                   ]}
                   regions={userDefinedRegions}
                 />
@@ -360,9 +379,9 @@ class Sections extends React.PureComponent {
                   ]}
                   tableHeaders={[clusters.NGC2682.name, 'Values']}
                   tableCells={[
-                    [{ accessor: 'temperature', data: [15, 16] }],
-                    [{ accessor: 'count', data: 17 }],
-                    [{ accessor: 'count', data: 18 }],
+                    [{ accessor: 'temperature', ids: [15, 16] }],
+                    [{ accessor: 'count', id: 17 }],
+                    [{ accessor: 'count', id: 18 }],
                   ]}
                   regions={userDefinedRegions}
                 />
@@ -403,16 +422,16 @@ class Sections extends React.PureComponent {
                   ]}
                   tableCells={[
                     [
-                      { accessor: 'temperature', data: [10, 11] },
-                      { accessor: 'temperature', data: [15, 16] },
+                      { accessor: 'temperature', ids: [10, 11] },
+                      { accessor: 'temperature', ids: [15, 16] },
                     ],
                     [
-                      { accessor: 'count', data: 12 },
-                      { accessor: 'count', data: 17 },
+                      { accessor: 'count', id: 12 },
+                      { accessor: 'count', id: 17 },
                     ],
                     [
-                      { accessor: 'count', data: 13 },
-                      { accessor: 'count', data: 18 },
+                      { accessor: 'count', id: 13 },
+                      { accessor: 'count', id: 18 },
                     ],
                   ]}
                   questionsRange={range(20, 24)}
@@ -524,8 +543,8 @@ class Sections extends React.PureComponent {
                   ]}
                   tableCells={[
                     [
-                      { accessor: 'luminosity', ids: [24, 25] },
-                      { accessor: 'luminosity', id: 26 },
+                      { accessor: 'luminosity', ids: [28, 29] },
+                      { accessor: 'luminosity', id: 30 },
                       {
                         accessor: 'luminosity',
                         data: getSunAnswer('luminosity'),

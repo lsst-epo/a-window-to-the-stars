@@ -14,12 +14,6 @@ import ObservationsTable from '../../charts/shared/ObservationsTable';
 
 @reactn
 class ExploringStarClusters extends React.PureComponent {
-  // componentDidMount() {
-  //   const { regionAnswers } = this.props;
-
-  //   this.dispatch.updateUserDefinedRegions(regionAnswers);
-  // }
-
   componentDidUpdate(prevProps) {
     const { answers: prevAnswers } = prevProps;
     const { answers, regionAnswers } = this.props;

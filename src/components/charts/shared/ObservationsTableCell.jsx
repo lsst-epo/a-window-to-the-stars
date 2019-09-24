@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
 import { getMean } from '../../../lib/utilities';
 import StellarValue from './StellarValue';
 import StellarValueRange from './StellarValueRange';
@@ -19,9 +20,15 @@ class ObservationsTableCell extends React.PureComponent {
 
   getCellValue(answer, answerRange, accessor) {
     if (answer && !answerRange) {
-      const value = isArray(answer.content)
-        ? getMean(answer.content, accessor)
-        : answer.content;
+      let value = answer.data;
+
+      if (accessor === 'count') {
+        value = answer.content;
+      } else if (isArray(value)) {
+        value = getMean(value, accessor);
+      } else if (isPlainObject(value)) {
+        value = value[accessor];
+      }
 
       return <StellarValue value={value} type={accessor} />;
     }
