@@ -4,16 +4,13 @@
 
 .svg-chart {
   display: block;
+  width: 100%;
   min-width: $break30;
-  min-height: $break30;
-  max-height: calc(95vh - #{$siteHeaderHeight} - (#{$minPadding} * 2) - 100px);
+  max-width: calc(95vh - #{$siteHeaderHeight} - (#{$minPadding} * 2));
+  height: 100%;
   visibility: hidden;
   opacity: 0;
   transition: opacity $timing $durationSuperSlow;
-
-  @include respond($break80) {
-    max-height: none;
-  }
 
   &.loaded {
     visibility: visible;
