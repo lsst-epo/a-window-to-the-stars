@@ -133,13 +133,13 @@ class Histogram extends React.PureComponent {
         .thresholds(d3ThresholdScott)(data);
     }
 
-    if (valueAccessor === 'radius') {
-      return d3Histogram()
-        .value(d => {
-          return d[valueAccessor]; // eslint-disable-line dot-notation
-        })
-        .thresholds(15)(data);
-    }
+    // if (valueAccessor === 'radius') {
+    //   return d3Histogram()
+    //     .value(d => {
+    //       return d[valueAccessor]; // eslint-disable-line dot-notation
+    //     })
+    //     .thresholds(10)(data);
+    // }
 
     if (domain) {
       return d3Histogram()
@@ -260,7 +260,7 @@ class Histogram extends React.PureComponent {
   // add event listeners to Histogram and Bars
   addEventListeners() {
     const $histogram = d3Select(this.svgEl.current);
-    const $bars = d3Select(this.svgEl.current).selectAll('.data-bar');
+    const $bars = d3Select(this.svgEl.current).selectAll('.data-bar-data');
 
     $histogram.on('click', () => {
       // remove styles and selections when click on non-bar
@@ -283,7 +283,7 @@ class Histogram extends React.PureComponent {
     const $histogram = d3Select(this.svgEl.current);
 
     $histogram
-      .selectAll('.data-bar')
+      .selectAll('.data-bar-data')
       .data(data)
       .transition()
       .end()
@@ -369,6 +369,8 @@ class Histogram extends React.PureComponent {
                 offsetTop={offsetTop}
                 xScale={xScale}
                 yScale={yScale}
+                graphHeight={height}
+                padding={padding}
               />
               {meanData && valueAccessor && (
                 <MeanBar
