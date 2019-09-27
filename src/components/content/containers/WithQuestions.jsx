@@ -79,7 +79,7 @@ export const WithQuestions = ComposedComponent => {
 
     render() {
       const { questions, activeId: activeIdState } = this.state;
-      const { activeId: activeIdProp } = this.state;
+      const { activeId: activeIdProp } = this.props;
 
       return (
         <ComposedComponent
@@ -95,6 +95,7 @@ export const WithQuestions = ComposedComponent => {
   }
 
   WrappedComponent.propTypes = {
+    activeId: PropTypes.number,
     questionsRange: PropTypes.array,
   };
 
