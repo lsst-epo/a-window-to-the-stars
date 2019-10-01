@@ -30,7 +30,8 @@ class YAxis extends React.PureComponent {
               return base;
             })
             .append('tspan')
-            .attr('baseline-shift', 'super')
+            .attr('dy', '-1%')
+            .classed('sup-text', true)
             .text(function renderTickExp() {
               return exponent === 0 ? '' : exponent;
             });
@@ -67,7 +68,7 @@ class YAxis extends React.PureComponent {
           style={{ textAnchor: 'middle' }}
         >
           {label}
-          <tspan baselineShift="sub">&#x2299;</tspan>
+          <tspan className="sub-text">&#x2299;</tspan>
         </text>
       </React.Fragment>
     );
