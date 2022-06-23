@@ -120,7 +120,7 @@
     "jest": "24.8.0",
     "jest-enzyme": "7.0.2",
     "jest-fetch-mock": "2.1.2",
-    "jsdom": "15.1.0",
+    "jsdom": "16.5.0",
     "koa-connect": "2.0.1",
     "lint-staged": "8.1.7",
     "mini-css-extract-plugin": "0.6.0",
